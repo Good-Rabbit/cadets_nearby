@@ -1,3 +1,3 @@
 # cadets_nearby
 
-An open source project for finding nearby cadets in Bangladesh.
+An open source flutter project for finding nearby cadets in Bangladesh.
