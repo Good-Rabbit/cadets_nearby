@@ -108,6 +108,16 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   ];
 
   @override
+  void dispose() {
+    fullNameTextController.dispose();
+    cNumberTextController.dispose();
+    cNameTextController.dispose();
+    intakeTextController.dispose();
+    phoneTextController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
@@ -249,7 +259,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       ),
                     ),
                   ),
-
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                     child: DropdownButtonFormField(
@@ -377,33 +386,22 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                    child: FormField<bool>(
-                      builder: (state) {
-                        return CheckboxListTile(
-                            value: locationAccess,
-                            title: Text('Show my location data'),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0)),
-                            activeColor: Colors.black,
-                            onChanged: (value) {
-                              getLocationPermission();
-                              state.didChange(true);
-                              setState(() {
-                                locationAccess = value!;
-                              });
-                            });
-                      },
-                      validator: (value) {
-                        if (!locationAccess) {
-                          return 'You need to give location access';
-                        }
-                        return null;
-                      },
-                    ),
+                    child: CheckboxListTile(
+                        value: locationAccess,
+                        title: Text(
+                          'Make my location data public',
+                          maxLines: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0)),
+                        activeColor: Colors.black,
+                        onChanged: (value) {
+                          getLocationPermission();
+                          setState(() {
+                            locationAccess = value!;
+                          });
+                        }),
                   ),
-
-                  // TODO checkbox for user consent
-
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Row(
@@ -413,7 +411,21 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         ElevatedButton.icon(
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              // Add user address
+                              String cName = cNameTextController.text;
+                              String first = cName[0];
+                              first = first.toUpperCase();
+                              cName = first + cName.substring(1);
+
+                              String fullName = '';
+                              var parts =
+                                  fullNameTextController.text.split(' ');
+                              for (var each in parts) {
+                                print(each);
+                                first = each[0];
+                                first = first.toUpperCase();
+                                fullName += first + each.substring(1) + ' ';
+                              }
+
                               try {
                                 await FirebaseAuth.instance.currentUser!
                                     .updateDisplayName(
@@ -423,10 +435,10 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                     .doc(FirebaseAuth.instance.currentUser!.uid)
                                     .set(
                                   {
-                                    'fullname': fullNameTextController.text,
+                                    'fullname': fullName,
                                     'intake': intakeTextController.text,
                                     'college': college,
-                                    'cname': cNameTextController.text,
+                                    'cname': cName,
                                     'cnumber': cNumberTextController.text,
                                     'phone': phoneTextController.text,
                                     'email': FirebaseAuth

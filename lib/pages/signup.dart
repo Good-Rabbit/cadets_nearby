@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:readiew/data/appData.dart';
 
 class SignupMainPage extends StatefulWidget {
@@ -11,9 +12,10 @@ class SignupMainPage extends StatefulWidget {
 }
 
 class _SignupMainPageState extends State<SignupMainPage> {
-  TextEditingController? emailTextController;
-  TextEditingController? passwordTextController;
-  TextEditingController? confirmTextController;
+
+  TextEditingController emailTextController = TextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
+  TextEditingController confirmTextController = TextEditingController();
 
   bool passwordVisibility = false;
   bool emailInUse = false;
@@ -27,12 +29,11 @@ class _SignupMainPageState extends State<SignupMainPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  void initState() {
-    super.initState();
-    emailTextController = TextEditingController();
-    passwordTextController = TextEditingController();
-    confirmTextController = TextEditingController();
-    passwordVisibility = false;
+  void dispose() {
+    emailTextController.dispose();
+    passwordTextController.dispose();
+    confirmTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -220,7 +221,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             ),
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
-                              if (val != passwordTextController!.text) {
+                              if (val != passwordTextController.text) {
                                 return 'Passwords do not match';
                               }
                               return null;
@@ -271,9 +272,9 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                     try {
                                       await FirebaseAuth.instance
                                           .createUserWithEmailAndPassword(
-                                            email: emailTextController!.text,
+                                            email: emailTextController.text,
                                             password:
-                                                passwordTextController!.text,
+                                                passwordTextController.text,
                                           )
                                           .then(
                                             (value) =>
@@ -336,7 +337,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                       height: 40,
                       child: ElevatedButton(
                         onPressed: () {
-                          //TODO: GOOGLE SIGN IN
+                          signInWithGoogle();
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -373,6 +374,29 @@ class _SignupMainPageState extends State<SignupMainPage> {
         ),
       ),
     );
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount googleUser = (await GoogleSignIn().signIn())!;
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .then((value) {
+      Navigator.of(context).pop();
+      return value;
+    });
   }
 
   checkChanged() {

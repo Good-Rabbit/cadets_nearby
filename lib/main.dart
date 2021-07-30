@@ -5,7 +5,7 @@ import 'package:readiew/pages/homeSetter.dart';
 import 'package:readiew/pages/init.dart';
 import 'package:readiew/pages/login.dart';
 import 'package:readiew/pages/phone.dart';
-import 'package:readiew/pages/signupMain.dart';
+import 'package:readiew/pages/signup.dart';
 
 void main() {
   runApp(MyApp());
