@@ -281,6 +281,15 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Padding(
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    child: TextButton(
+                      child: Text('Forgot password?'),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/reset');
+                      },
+                    ),
+                  ),
+                  Padding(
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Container(
                       width: 220,

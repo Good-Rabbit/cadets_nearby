@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 String appName = 'Cadets Nearby';
 
 ThemeData lightTheme = ThemeData(
-  primarySwatch: Colors.green,
+  primarySwatch: Colors.deepOrange,
   primaryColor: Colors.deepOrange,
-  accentColor: Colors.blueAccent,
+  accentColor: Colors.orange,
   backgroundColor: Colors.yellow[200],
   textTheme: TextTheme(
     bodyText1: TextStyle(

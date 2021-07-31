@@ -4,9 +4,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location/location.dart';
 import 'package:readiew/pages/home.dart';
 import 'package:readiew/pages/login.dart';
+import 'package:readiew/services/user.dart';
 
 class HomeSetterPage extends StatefulWidget {
   HomeSetterPage({Key? key}) : super(key: key);
+  static AppUser? mainUser;
+  static setMainUser(User? user) async {
+    var u = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .get();
+    HomeSetterPage.mainUser = AppUser(
+      cName: u.data()!['cname'],
+      cNumber: int.parse(u.data()!['cnumber']),
+      fullName: u.data()!['fullname'],
+      college: u.data()!['college'],
+      email: u.data()!['email'],
+      intake: int.parse(u.data()!['intake']),
+      lat: u.data()!['lat'],
+      long: u.data()!['long'],
+      pAlways: u.data()!['palways'],
+      pLocation: u.data()!['plocation'],
+      pMaps: u.data()!['pmaps'],
+      pPhone: u.data()!['pphone'],
+      phone: u.data()!['phone'],
+    );
+  }
 
   @override
   _HomeSetterPageState createState() => _HomeSetterPageState();
@@ -22,6 +45,9 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
   @override
   void initState() {
     user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      HomeSetterPage.setMainUser(user!);
+    }
     FirebaseAuth.instance.authStateChanges().listen(
       (user) {
         if (mounted) {
@@ -29,6 +55,11 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
             setState(
               () {
                 this.user = user;
+                if (user != null) {
+                  HomeSetterPage.setMainUser(user);
+                } else {
+                  HomeSetterPage.mainUser = null;
+                }
               },
             );
           }
@@ -85,10 +116,14 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   TextEditingController cNameTextController = TextEditingController();
   TextEditingController intakeTextController = TextEditingController();
   TextEditingController phoneTextController = TextEditingController();
+  TextEditingController emailTextController = TextEditingController();
 
   bool locationAccess = false;
   bool alwaysAccess = false;
   bool phoneAccess = false;
+  bool useRegularEmail = false;
+
+  bool inProgress = false;
 
   String college = 'Pick your college';
 
@@ -114,6 +149,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     cNameTextController.dispose();
     intakeTextController.dispose();
     phoneTextController.dispose();
+    emailTextController.dispose();
     super.dispose();
   }
 
@@ -344,6 +380,67 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       child: Column(
                         children: [
                           TextFormField(
+                            controller: emailTextController,
+                            obscureText: false,
+                            enabled: !useRegularEmail,
+                            cursorColor: Colors.grey[800],
+                            decoration: InputDecoration(
+                              hintText: 'Contact E-mail*',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                              ),
+                              prefixIcon: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(
+                                    Icons.alternate_email,
+                                  )),
+                            ),
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return 'Contact e-mail is required';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                    child: CheckboxListTile(
+                        value: useRegularEmail,
+                        title: Text(
+                          'Use account e-mail',
+                          maxLines: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0)),
+                        activeColor: Colors.black,
+                        onChanged: (value) {
+                          setState(() {
+                            if (value!) {
+                              emailTextController.text =
+                                  FirebaseAuth.instance.currentUser!.email!;
+                            } else {
+                              emailTextController.text = '';
+                            }
+                            useRegularEmail = value;
+                          });
+                        }),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: Container(
+                      width: 500,
+                      child: Column(
+                        children: [
+                          TextFormField(
                             controller: phoneTextController,
                             obscureText: false,
                             cursorColor: Colors.grey[800],
@@ -409,53 +506,64 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton.icon(
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              String cName = cNameTextController.text;
-                              String first = cName[0];
-                              first = first.toUpperCase();
-                              cName = first + cName.substring(1);
+                          onPressed: inProgress
+                              ? null
+                              : () async {
+                                  setState(() {
+                                    inProgress = true;
+                                  });
+                                  if (formKey.currentState!.validate()) {
+                                    String cName = cNameTextController.text;
+                                    String first = cName[0];
+                                    first = first.toUpperCase();
+                                    cName = first + cName.substring(1);
 
-                              String fullName = '';
-                              var parts =
-                                  fullNameTextController.text.split(' ');
-                              for (var each in parts) {
-                                print(each);
-                                first = each[0];
-                                first = first.toUpperCase();
-                                fullName += first + each.substring(1) + ' ';
-                              }
+                                    String fullName = '';
+                                    var parts =
+                                        fullNameTextController.text.split(' ');
+                                    for (var each in parts) {
+                                      first = each[0];
+                                      first = first.toUpperCase();
+                                      fullName +=
+                                          first + each.substring(1) + ' ';
+                                    }
 
-                              try {
-                                await FirebaseAuth.instance.currentUser!
-                                    .updateDisplayName(
-                                        fullNameTextController.text);
-                                await FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                                    .set(
-                                  {
-                                    'fullname': fullName,
-                                    'intake': intakeTextController.text,
-                                    'college': college,
-                                    'cname': cName,
-                                    'cnumber': cNumberTextController.text,
-                                    'phone': phoneTextController.text,
-                                    'email': FirebaseAuth
-                                        .instance.currentUser!.email,
-                                    'pphone': phoneAccess,
-                                    'plocation': locationAccess,
-                                    'palways': alwaysAccess,
-                                    'pmap': false,
-                                    'premium': false,
-                                  },
-                                );
-                                widget.loggedInNotifier();
-                              } catch (e) {
-                                print(e);
-                              }
-                            }
-                          },
+                                    try {
+                                      await FirebaseAuth.instance.currentUser!
+                                          .updateDisplayName(
+                                              fullNameTextController.text);
+                                      await FirebaseFirestore.instance
+                                          .collection('users')
+                                          .doc(FirebaseAuth
+                                              .instance.currentUser!.uid)
+                                          .set(
+                                        {
+                                          'fullname': fullName,
+                                          'intake': intakeTextController.text,
+                                          'college': college,
+                                          'cname': cName,
+                                          'cnumber': cNumberTextController.text,
+                                          'phone': phoneTextController.text,
+                                          'email': FirebaseAuth
+                                              .instance.currentUser!.email,
+                                          'pphone': phoneAccess,
+                                          'plocation': locationAccess,
+                                          'palways': alwaysAccess,
+                                          'pmap': false,
+                                          'premium': false,
+                                          'photourl': FirebaseAuth
+                                              .instance.currentUser!.photoURL,
+                                        },
+                                      );
+                                      widget.loggedInNotifier();
+                                      setState(() {
+                                        inProgress = false;
+                                      });
+                                    } catch (e) {
+                                      print(e);
+                                    }
+                                  }
+                                },
                           label: Text('Continue'),
                           icon: Icon(
                             Icons.arrow_right_alt_rounded,

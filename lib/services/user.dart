@@ -28,4 +28,8 @@ class AppUser {
     this.pMaps,
     this.pPhone,
   });
+
+  bool equals(AppUser user) {
+    return ((user.college == this.college) && (user.cNumber == this.cNumber));
+  }
 }

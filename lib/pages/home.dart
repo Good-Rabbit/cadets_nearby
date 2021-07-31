@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:readiew/pages/homeSetter.dart';
 import 'dart:math';
 
 import 'package:readiew/services/user.dart';
@@ -21,6 +22,26 @@ class _RealHomeState extends State<RealHome> {
   bool rejected = false;
   bool updateFlag = false;
   LocationData? locationData;
+
+  double latMax = 0;
+  double latMin = 0;
+
+  double longMax = 0;
+  double longMin = 0;
+
+  calculateMinMax() {
+    latMax = (HomeSetterPage.mainUser!.lat ?? 0) + 0.1;
+    latMin = (HomeSetterPage.mainUser!.lat ?? 0) - 0.1;
+    longMax = (HomeSetterPage.mainUser!.long ?? 0) + 0.1;
+    longMin = (HomeSetterPage.mainUser!.long ?? 0) - 0.1;
+    // print(latMin.toString() +
+    //     ' ' +
+    //     latMax.toString() +
+    //     ' ' +
+    //     longMin.toString() +
+    //     ' ' +
+    //     longMax.toString());
+  }
 
   getLocation() async {
     print('Getting location...');
@@ -64,6 +85,8 @@ class _RealHomeState extends State<RealHome> {
       }
 
       locationData = await location.getLocation();
+      //Calculate minimum and maximum for other distances
+      calculateMinMax();
       await uploadLocation(locationData!);
       updateFlag = true;
       setState(() {});
@@ -109,6 +132,9 @@ class _RealHomeState extends State<RealHome> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Cadets Nearby'),
+      ),
       body: SafeArea(
         child: Container(
           child: ListView(
@@ -142,91 +168,104 @@ class _RealHomeState extends State<RealHome> {
                   future: FirebaseFirestore.instance
                       .collection('users')
                       .where('plocation', isEqualTo: true)
+                      .where('long',
+                          isLessThan: longMax, isGreaterThan: longMin)
                       .get(),
                   builder: (context, snapshots) {
                     // TODO (( unimportant )) show NOONE NEAR for nothing found
                     if (snapshots.hasData) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: snapshots.data!.docs.map(
-                          (u) {
-                            // Make a user object
-                            AppUser e = AppUser(
-                              cName: u.data()['cname'],
-                              cNumber: int.parse(u.data()['cnumber']),
-                              fullName: u.data()['fullname'],
-                              college: u.data()['college'],
-                              email: u.data()['email'],
-                              intake: int.parse(u.data()['intake']),
-                              lat: u.data()['lat'],
-                              long: u.data()['long'],
-                              pAlways: u.data()['palways'],
-                              pLocation: u.data()['plocation'],
-                              pMaps: u.data()['pmaps'],
-                              pPhone: u.data()['pphone'],
-                              phone: u.data()['phone'],
-                            );
+                        children: snapshots.data!.docs.length == 0
+                            ? [Text('No one nearby')]
+                            : snapshots.data!.docs.map(
+                                (u) {
+                                  // Make a user object
+                                  AppUser e = AppUser(
+                                    cName: u.data()['cname'],
+                                    cNumber: int.parse(u.data()['cnumber']),
+                                    fullName: u.data()['fullname'],
+                                    college: u.data()['college'],
+                                    email: u.data()['email'],
+                                    intake: int.parse(u.data()['intake']),
+                                    lat: u.data()['lat'],
+                                    long: u.data()['long'],
+                                    pAlways: u.data()['palways'],
+                                    pLocation: u.data()['plocation'],
+                                    pMaps: u.data()['pmaps'],
+                                    pPhone: u.data()['pphone'],
+                                    phone: u.data()['phone'],
+                                  );
 
-                            if (e.email ==
-                                FirebaseAuth.instance.currentUser!.email) {
-                              return SizedBox();
-                            }
-                            // Get distance in metres
-                            var distanceD = calculateDistance(
-                                    locationData!.latitude,
-                                    locationData!.longitude,
-                                    e.lat,
-                                    e.long) *
-                                1000;
-                            double distance = 0;
-                            int distanceInt = 0;
-                            bool isKm = false;
+                                  if (e.equals(HomeSetterPage.mainUser!) &&
+                                      snapshots.data!.docs.length == 1) {
+                                    return Text('No one nearby');
+                                  } else if (e
+                                      .equals(HomeSetterPage.mainUser!)) {
+                                    return SizedBox();
+                                  } else if ((e.lat ?? 0) > latMax ||
+                                      (e.lat ?? 0) < latMin) {
+                                    return SizedBox();
+                                  }
+                                  // Get distance in metres
+                                  var distanceD = calculateDistance(
+                                          locationData!.latitude,
+                                          locationData!.longitude,
+                                          e.lat,
+                                          e.long) *
+                                      1000;
+                                  double distance = 0;
+                                  int distanceInt = 0;
+                                  bool isKm = false;
 
-                            if (distanceD < 10) {
-                              distanceInt = distanceD.toInt();
-                            } else {
-                              distance = distanceD.roundToDouble() -
-                                  distanceD.roundToDouble() % 10;
-                              if (distance > 1000) {
-                                distance /= 1000;
-                                distance =
-                                    double.parse(distance.toStringAsFixed(2));
-                                isKm = true;
-                              }
-                              if (!isKm) {
-                                distanceInt = distance.round();
-                              }
-                            }
+                                  if (distanceD < 10) {
+                                    distanceInt = distanceD.toInt();
+                                  } else {
+                                    distance = distanceD.roundToDouble() -
+                                        distanceD.roundToDouble() % 10;
+                                    if (distance > 1000) {
+                                      distance /= 1000;
+                                      distance = double.parse(
+                                          distance.toStringAsFixed(2));
+                                      isKm = true;
+                                    }
+                                    if (!isKm) {
+                                      distanceInt = distance.round();
+                                    }
+                                  }
 
-                            return Container(
-                              margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'Name: ' + e.fullName,
+                                  return Container(
+                                    margin: EdgeInsets.fromLTRB(
+                                        10.0, 5.0, 10.0, 5.0),
+                                    child: Card(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'Name: ' + e.fullName,
+                                            ),
+                                            Text(
+                                              'Latitude: ' + e.lat.toString(),
+                                            ),
+                                            Text(
+                                              'Longtitude: ' +
+                                                  e.long.toString(),
+                                            ),
+                                            Text(
+                                              (isKm
+                                                      ? distance.toString()
+                                                      : distanceInt
+                                                          .toString()) +
+                                                  (isKm ? 'km' : 'm'),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      Text(
-                                        'Latitude: ' + e.lat.toString(),
-                                      ),
-                                      Text(
-                                        'Longtitude: ' + e.long.toString(),
-                                      ),
-                                      Text(
-                                        (isKm
-                                                ? distance.toString()
-                                                : distanceInt.toString()) +
-                                            (isKm ? 'km' : 'm'),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ).toList(),
+                                    ),
+                                  );
+                                },
+                              ).toList(),
                       );
                     }
                     return SizedBox();
