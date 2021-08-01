@@ -5,6 +5,7 @@ class AppUser {
   String cName;
   int cNumber;
   String email;
+  String? photoUrl;
   String? phone;
   double? lat;
   double? long;
@@ -20,6 +21,7 @@ class AppUser {
     required this.college,
     required this.email,
     required this.intake,
+    this.photoUrl,
     this.lat,
     this.long,
     this.phone,

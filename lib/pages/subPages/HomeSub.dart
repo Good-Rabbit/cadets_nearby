@@ -14,7 +14,8 @@ class HomeSubPage extends StatefulWidget {
   _HomeSubPageState createState() => _HomeSubPageState();
 }
 
-class _HomeSubPageState extends State<HomeSubPage> {
+class _HomeSubPageState extends State<HomeSubPage>
+    with AutomaticKeepAliveClientMixin {
   bool locationEnabled = false;
   bool permissionGranted = false;
   bool rejected = false;
@@ -122,6 +123,7 @@ class _HomeSubPageState extends State<HomeSubPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     if (!rejected && !updateFlag) {
       getLocation();
     }
@@ -131,26 +133,41 @@ class _HomeSubPageState extends State<HomeSubPage> {
     return Container(
       child: ListView(
         children: [
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: 20.0,
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: CircleAvatar(
+                  radius: 40.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.network(
+                      HomeSetterPage.mainUser!.photoUrl!,
+                      width: 80,
+                      height: 80,
+                    ),
+                  ),
+                ),
               ),
-              Text(
-                'Raw Data',
-                style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+              Column(
+                children: [
+                  Text(locationData == null
+                      ? 'Loading'
+                      : 'Latitude: ' + locationData!.latitude.toString()),
+                  Text(locationData == null
+                      ? 'Loading'
+                      : 'Longtitude: ' + locationData!.longitude.toString()),
+                ],
               ),
-              Text(locationData == null
-                  ? 'Loading'
-                  : 'Latitude: ' + locationData!.latitude.toString()),
-              Text(locationData == null
-                  ? 'Loading'
-                  : 'Longtitude: ' + locationData!.longitude.toString()),
-              ElevatedButton(
-                child: Text('Sign Out'),
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                },
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: ElevatedButton(
+                  child: Text('Sign Out'),
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                  },
+                ),
               ),
             ],
           ),
@@ -262,4 +279,7 @@ class _HomeSubPageState extends State<HomeSubPage> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

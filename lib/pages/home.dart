@@ -11,24 +11,13 @@ class RealHome extends StatefulWidget {
 }
 
 class _RealHomeState extends State<RealHome> {
-  int selectedIndex = 0;
-  pageSetter(int index) {
-    switch (index) {
-      case 0:
-        return HomeSubPage();
-      case 1:
-        return ColoredBox(color: Colors.green);
-      case 2:
-        return ColoredBox(color: Colors.red);
-      default:
-        return HomeSubPage();
-    }
-  }
+  var pageViewController = PageController(initialPage: 0);
+  static int index = 0;
+  var navKey = GlobalKey();
 
   setSelectedIndex(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+    _RealHomeState.index = index;
+    pageViewController.jumpToPage(index);
   }
 
   @override
@@ -36,8 +25,24 @@ class _RealHomeState extends State<RealHome> {
     return Scaffold(
       body: Stack(
         children: [
-          pageSetter(selectedIndex),
-          CustomBottomNavigationBar(setIndex: setSelectedIndex),
+          PageView(
+            controller: pageViewController,
+            onPageChanged: (index) {
+              print('changed');
+              _RealHomeState.index = index;
+              navKey.currentState!.setState(() {});
+            },
+            children: [
+              HomeSubPage(),
+              Container(child: ColoredBox(color: Colors.green)),
+              Container(child: ColoredBox(color: Colors.blue)),
+            ],
+          ),
+          // pageSetter(selectedIndex),
+          CustomBottomNavigationBar(
+            setIndex: setSelectedIndex,
+            key: navKey,
+          ),
         ],
       ),
     );
@@ -101,6 +106,20 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    switch (_RealHomeState.index) {
+      case 0:
+        pages = [true, false, false];
+        break;
+      case 1:
+        pages = [false, true, false];
+        break;
+      case 2:
+        pages = [false, false, true];
+        break;
+      default:
+        pages = [true, false, false];
+        break;
+    }
     return Stack(
       children: [
         Positioned(

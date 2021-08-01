@@ -27,6 +27,7 @@ class HomeSetterPage extends StatefulWidget {
       pLocation: u.data()!['plocation'],
       pMaps: u.data()!['pmaps'],
       pPhone: u.data()!['pphone'],
+      photoUrl: u.data()!['photourl'],
       phone: u.data()!['phone'],
     );
   }
@@ -416,7 +417,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                     child: CheckboxListTile(
                         value: useRegularEmail,
                         title: Text(
-                          'Use account e-mail',
+                          'Use login e-mail',
                           maxLines: 2,
                         ),
                         shape: RoundedRectangleBorder(
