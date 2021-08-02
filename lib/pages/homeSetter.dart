@@ -507,6 +507,28 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton.icon(
+                          onPressed: () {
+                            //TODO Incomplete Cancel Account 
+                            FirebaseAuth.instance.currentUser!.delete();
+                          },
+                          label: Text('Cancel'),
+                          icon: Icon(
+                            Icons.arrow_right_alt_rounded,
+                            size: 20,
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.red),
+                            textStyle: MaterialStateProperty.all(
+                              TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                              ),
+                            ),
+                            elevation: MaterialStateProperty.all(0),
+                          ),
+                        ),
+                        ElevatedButton.icon(
                           onPressed: inProgress
                               ? null
                               : () async {
@@ -552,8 +574,9 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                           'palways': alwaysAccess,
                                           'pmap': false,
                                           'premium': false,
-                                          'photourl': FirebaseAuth
-                                              .instance.currentUser!.photoURL,
+                                          'photourl': FirebaseAuth.instance
+                                                  .currentUser!.photoURL ??
+                                              '',
                                         },
                                       );
                                       widget.loggedInNotifier();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:readiew/pages/subPages/HomeSub.dart';
+import 'package:readiew/pages/subPages/homeSub.dart';
 
 class RealHome extends StatefulWidget {
   const RealHome({
@@ -23,6 +23,7 @@ class _RealHomeState extends State<RealHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Stack(
         children: [
           PageView(

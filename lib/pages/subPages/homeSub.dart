@@ -142,23 +142,40 @@ class _HomeSubPageState extends State<HomeSubPage>
                   radius: 40.0,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: Image.network(
-                      HomeSetterPage.mainUser!.photoUrl!,
-                      width: 80,
-                      height: 80,
-                    ),
+                    child: HomeSetterPage.mainUser!.photoUrl! == ''
+                        ? Image.asset('assets/images/user.png')
+                        : Image.network(
+                            HomeSetterPage.mainUser!.photoUrl!,
+                            width: 80,
+                            height: 80,
+                          ),
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  Text(locationData == null
-                      ? 'Loading'
-                      : 'Latitude: ' + locationData!.latitude.toString()),
-                  Text(locationData == null
-                      ? 'Loading'
-                      : 'Longtitude: ' + locationData!.longitude.toString()),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          HomeSetterPage.mainUser!.cName + ' ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25.0,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 9, 0, 0),
+                          child:
+                              Text(HomeSetterPage.mainUser!.cNumber.toString()),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -167,6 +184,13 @@ class _HomeSubPageState extends State<HomeSubPage>
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
                   },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -179,7 +203,6 @@ class _HomeSubPageState extends State<HomeSubPage>
                   .where('long', isLessThan: longMax, isGreaterThan: longMin)
                   .get(),
               builder: (context, snapshots) {
-                // TODO (( unimportant )) show NOONE NEAR for nothing found
                 if (snapshots.hasData) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -197,6 +220,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 intake: int.parse(u.data()['intake']),
                                 lat: u.data()['lat'],
                                 long: u.data()['long'],
+                                photoUrl: u.data()['photourl'],
                                 pAlways: u.data()['palways'],
                                 pLocation: u.data()['plocation'],
                                 pMaps: u.data()['pmaps'],
@@ -206,7 +230,8 @@ class _HomeSubPageState extends State<HomeSubPage>
 
                               if (e.equals(HomeSetterPage.mainUser!) &&
                                   snapshots.data!.docs.length == 1) {
-                                return Text('No one nearby');
+                                print('here');
+                                return Center(child: Text('No one nearby'));
                               } else if (e.equals(HomeSetterPage.mainUser!)) {
                                 return SizedBox();
                               } else if ((e.lat ?? 0) > latMax ||
@@ -246,22 +271,46 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 child: Card(
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
-                                    child: Column(
+                                    child: Row(
                                       children: [
-                                        Text(
-                                          'Name: ' + e.fullName,
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: CircleAvatar(
+                                            radius: 40.0,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              child: e.photoUrl! == ''
+                                                  ? Image.asset(
+                                                      'assets/images/user.png')
+                                                  : Image.network(
+                                                      e.photoUrl!,
+                                                      width: 80,
+                                                      height: 80,
+                                                    ),
+                                            ),
+                                          ),
                                         ),
-                                        Text(
-                                          'Latitude: ' + e.lat.toString(),
-                                        ),
-                                        Text(
-                                          'Longtitude: ' + e.long.toString(),
-                                        ),
-                                        Text(
-                                          (isKm
-                                                  ? distance.toString()
-                                                  : distanceInt.toString()) +
-                                              (isKm ? 'km' : 'm'),
+                                        Column(
+                                          children: [
+                                            Text(
+                                              'Name: ' + e.fullName,
+                                            ),
+                                            Text(
+                                              'Latitude: ' + e.lat.toString(),
+                                            ),
+                                            Text(
+                                              'Longtitude: ' +
+                                                  e.long.toString(),
+                                            ),
+                                            Text(
+                                              (isKm
+                                                      ? distance.toString()
+                                                      : distanceInt
+                                                          .toString()) +
+                                                  (isKm ? 'km' : 'm'),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

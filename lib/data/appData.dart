@@ -34,10 +34,11 @@ ThemeData lightTheme = ThemeData(
     ),
   ),
   buttonTheme: ButtonThemeData(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
     height: 40.0,
   ),
   cardTheme: CardTheme(
-    elevation: 15.0,
+    elevation: 0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),
     ),

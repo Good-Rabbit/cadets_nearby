@@ -207,6 +207,11 @@ class _LoginPageState extends State<LoginPage> {
                             size: 20,
                           ),
                           style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
                             backgroundColor: MaterialStateProperty.all(
                                 Theme.of(context).accentColor),
                             textStyle: MaterialStateProperty.all(
@@ -266,8 +271,11 @@ class _LoginPageState extends State<LoginPage> {
                             size: 20,
                           ),
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Theme.of(context).primaryColor),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
                             textStyle: MaterialStateProperty.all(
                               TextStyle(
                                 fontFamily: 'Poppins',

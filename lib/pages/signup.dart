@@ -12,7 +12,6 @@ class SignupMainPage extends StatefulWidget {
 }
 
 class _SignupMainPageState extends State<SignupMainPage> {
-
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
   TextEditingController confirmTextController = TextEditingController();
@@ -247,6 +246,11 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             size: 20,
                           ),
                           style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
                             backgroundColor: MaterialStateProperty.all(
                                 Theme.of(context).accentColor),
                             textStyle: MaterialStateProperty.all(
@@ -316,8 +320,11 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             size: 20,
                           ),
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Theme.of(context).primaryColor),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
                             textStyle: MaterialStateProperty.all(
                               TextStyle(
                                 fontFamily: 'Poppins',
