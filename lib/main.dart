@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:readiew/data/appData.dart';
+import 'package:readiew/pages/cancel.dart';
 import 'package:readiew/pages/homeSetter.dart';
 import 'package:readiew/pages/init.dart';
 import 'package:readiew/pages/login.dart';
@@ -9,6 +11,9 @@ import 'package:readiew/pages/reset.dart';
 import 'package:readiew/pages/signup.dart';
 
 void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark));
   runApp(MyApp());
 }
 
@@ -18,7 +23,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   bool _initialized = false;
   bool _error = false;
 
@@ -43,16 +47,17 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Readiew',
       theme: lightTheme,
       routes: {
         '/': (context) => _initialized ? HomeSetterPage() : InitPage(),
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignupMainPage(),
-        '/phoneSetup' : (context) => PhonePage(),
-        '/reset' : (context) => ResetPage(),
+        '/phoneSetup': (context) => PhonePage(),
+        '/reset': (context) => ResetPage(),
+        '/cancel': (context) => CancelVerificationPage(),
       },
     );
   }

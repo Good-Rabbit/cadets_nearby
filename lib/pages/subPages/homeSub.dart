@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:readiew/pages/homeSetter.dart';
+import 'package:readiew/pages/uiElements/nearbyCard.dart';
 import 'package:readiew/services/user.dart';
 
 class HomeSubPage extends StatefulWidget {
@@ -97,6 +99,7 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   uploadLocation(LocationData locationData) {
     print('Uploading location...');
+    String timeStamp = DateTime.now().toString();
     try {
       FirebaseFirestore.instance
           .collection('users')
@@ -104,6 +107,7 @@ class _HomeSubPageState extends State<HomeSubPage>
           .update({
         'lat': locationData.latitude,
         'long': locationData.longitude,
+        'lastonline': timeStamp,
       });
       print('Location uploaded...');
     } catch (e) {
@@ -156,22 +160,18 @@ class _HomeSubPageState extends State<HomeSubPage>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          HomeSetterPage.mainUser!.cName + ' ',
+                          HomeSetterPage.mainUser!.cName,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25.0,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 9, 0, 0),
-                          child:
-                              Text(HomeSetterPage.mainUser!.cNumber.toString()),
-                        ),
+                        Text(HomeSetterPage.mainUser!.cNumber.toString()),
                       ],
                     ),
                   ],
@@ -199,7 +199,6 @@ class _HomeSubPageState extends State<HomeSubPage>
             FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
               future: FirebaseFirestore.instance
                   .collection('users')
-                  .where('plocation', isEqualTo: true)
                   .where('long', isLessThan: longMax, isGreaterThan: longMin)
                   .get(),
               builder: (context, snapshots) {
@@ -220,12 +219,16 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 intake: int.parse(u.data()['intake']),
                                 lat: u.data()['lat'],
                                 long: u.data()['long'],
+                                timeStamp: u.data()['lastonline'] == null
+                                    ? null
+                                    : DateTime.parse(u.data()['lastonline']),
                                 photoUrl: u.data()['photourl'],
                                 pAlways: u.data()['palways'],
                                 pLocation: u.data()['plocation'],
                                 pMaps: u.data()['pmaps'],
                                 pPhone: u.data()['pphone'],
                                 phone: u.data()['phone'],
+                                premium: u.data()['premium'],
                               );
 
                               if (e.equals(HomeSetterPage.mainUser!) &&
@@ -268,54 +271,11 @@ class _HomeSubPageState extends State<HomeSubPage>
                               return Container(
                                 margin:
                                     EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                                child: Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: CircleAvatar(
-                                            radius: 40.0,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              child: e.photoUrl! == ''
-                                                  ? Image.asset(
-                                                      'assets/images/user.png')
-                                                  : Image.network(
-                                                      e.photoUrl!,
-                                                      width: 80,
-                                                      height: 80,
-                                                    ),
-                                            ),
-                                          ),
-                                        ),
-                                        Column(
-                                          children: [
-                                            Text(
-                                              'Name: ' + e.fullName,
-                                            ),
-                                            Text(
-                                              'Latitude: ' + e.lat.toString(),
-                                            ),
-                                            Text(
-                                              'Longtitude: ' +
-                                                  e.long.toString(),
-                                            ),
-                                            Text(
-                                              (isKm
-                                                      ? distance.toString()
-                                                      : distanceInt
-                                                          .toString()) +
-                                                  (isKm ? 'km' : 'm'),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                child: NearbyCard(
+                                    e: e,
+                                    isKm: isKm,
+                                    distance: distance,
+                                    distanceInt: distanceInt),
                               );
                             },
                           ).toList(),

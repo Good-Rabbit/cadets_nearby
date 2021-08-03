@@ -29,6 +29,8 @@ class HomeSetterPage extends StatefulWidget {
       pPhone: u.data()!['pphone'],
       photoUrl: u.data()!['photourl'],
       phone: u.data()!['phone'],
+      timeStamp: DateTime.parse(u.data()!['lastonline']),
+      premium: u.data()!['premium'],
     );
   }
 
@@ -119,7 +121,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   TextEditingController phoneTextController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
 
-  bool locationAccess = false;
+  bool locationAccess = true;
   bool alwaysAccess = false;
   bool phoneAccess = false;
   bool useRegularEmail = false;
@@ -166,7 +168,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
               Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
+                    padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
                     child: Text(
                       'Complete Account',
                       style: TextStyle(
@@ -352,7 +354,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             style: TextStyle(
                               fontFamily: 'Poppins',
                             ),
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.datetime,
                             validator: (val) {
                               if (val!.isEmpty) {
                                 return 'Intake year is required';
@@ -460,6 +462,12 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               fontFamily: 'Poppins',
                             ),
                             keyboardType: TextInputType.phone,
+                            onChanged: (value) {
+                              if (phoneTextController.text == '') {
+                                phoneAccess = false;
+                              }
+                              setState(() {});
+                            },
                             validator: (val) {
                               return null;
                             },
@@ -476,18 +484,20 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)),
                         activeColor: Colors.black,
-                        onChanged: (value) {
-                          setState(() {
-                            phoneAccess = value!;
-                          });
-                        }),
+                        onChanged: phoneTextController.text == ''
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  phoneAccess = value!;
+                                });
+                              }),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                     child: CheckboxListTile(
-                        value: locationAccess,
+                        value: !locationAccess,
                         title: Text(
-                          'Make my location data public',
+                          'Hide my exact location (Still show me in nearby result)',
                           maxLines: 2,
                         ),
                         shape: RoundedRectangleBorder(
@@ -496,29 +506,33 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         onChanged: (value) {
                           getLocationPermission();
                           setState(() {
-                            locationAccess = value!;
+                            locationAccess = !value!;
                           });
                         }),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    padding: EdgeInsets.fromLTRB(30, 20, 30, 40),
                     child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton.icon(
                           onPressed: () {
-                            //TODO Incomplete Cancel Account 
-                            FirebaseAuth.instance.currentUser!.delete();
+                            //TODO Incomplete Cancel Account
+                            Navigator.of(context).pushNamed('/cancel');
                           },
                           label: Text('Cancel'),
                           icon: Icon(
-                            Icons.arrow_right_alt_rounded,
+                            Icons.arrow_left_rounded,
                             size: 20,
                           ),
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Colors.red),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.red),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
                             textStyle: MaterialStateProperty.all(
                               TextStyle(
                                 fontFamily: 'Poppins',
@@ -553,8 +567,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
 
                                     try {
                                       await FirebaseAuth.instance.currentUser!
-                                          .updateDisplayName(
-                                              fullNameTextController.text);
+                                          .updateDisplayName(fullName);
                                       await FirebaseFirestore.instance
                                           .collection('users')
                                           .doc(FirebaseAuth
@@ -579,6 +592,26 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                               '',
                                         },
                                       );
+                                      HomeSetterPage.mainUser = AppUser(
+                                        cName: cName,
+                                        cNumber: int.parse(
+                                            cNumberTextController.text),
+                                        fullName: fullName,
+                                        college: college,
+                                        email: FirebaseAuth
+                                            .instance.currentUser!.email!,
+                                        intake: int.parse(
+                                            intakeTextController.text),
+                                        pAlways: alwaysAccess,
+                                        pLocation: locationAccess,
+                                        pMaps: false,
+                                        pPhone: phoneAccess,
+                                        photoUrl: FirebaseAuth.instance
+                                                .currentUser!.photoURL ??
+                                            '',
+                                        phone: phoneTextController.text,
+                                        premium: false,
+                                      );
                                       widget.loggedInNotifier();
                                       setState(() {
                                         inProgress = false;
@@ -596,6 +629,11 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                                 Theme.of(context).primaryColor),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                            ),
                             textStyle: MaterialStateProperty.all(
                               TextStyle(
                                 fontFamily: 'Poppins',

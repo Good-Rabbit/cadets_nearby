@@ -9,10 +9,12 @@ class AppUser {
   String? phone;
   double? lat;
   double? long;
+  DateTime? timeStamp;
   bool? pPhone;
   bool? pLocation;
   bool? pAlways;
   bool? pMaps;
+  bool premium;
 
   AppUser({
     required this.cName,
@@ -21,12 +23,14 @@ class AppUser {
     required this.college,
     required this.email,
     required this.intake,
+    required this.premium,
     this.photoUrl,
     this.lat,
     this.long,
     this.phone,
     this.pAlways,
     this.pLocation,
+    this.timeStamp,
     this.pMaps,
     this.pPhone,
   });
