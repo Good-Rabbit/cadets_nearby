@@ -5,16 +5,16 @@ class AppUser {
   String cName;
   int cNumber;
   String email;
+  bool pLocation;
+  bool premium;
+  bool pPhone;
   String? photoUrl;
   String? phone;
   double? lat;
   double? long;
   DateTime? timeStamp;
-  bool? pPhone;
-  bool? pLocation;
   bool? pAlways;
   bool? pMaps;
-  bool premium;
 
   AppUser({
     required this.cName,
@@ -24,15 +24,15 @@ class AppUser {
     required this.email,
     required this.intake,
     required this.premium,
+    required this.pLocation,
+    required this.pPhone,
     this.photoUrl,
     this.lat,
     this.long,
     this.phone,
     this.pAlways,
-    this.pLocation,
     this.timeStamp,
     this.pMaps,
-    this.pPhone,
   });
 
   bool equals(AppUser user) {

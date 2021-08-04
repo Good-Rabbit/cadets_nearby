@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:readiew/pages/homeSetter.dart';
 
 class ResetPage extends StatefulWidget {
   const ResetPage({Key? key}) : super(key: key);
@@ -111,7 +112,7 @@ class _ResetPageState extends State<ResetPage> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    FirebaseAuth.instance
+                    HomeSetterPage.auth
                         .sendPasswordResetEmail(email: emailTextController.text)
                         .then((value) {
                       ScaffoldMessenger.of(context).showSnackBar(

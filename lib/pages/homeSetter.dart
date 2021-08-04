@@ -8,12 +8,11 @@ import 'package:readiew/services/user.dart';
 
 class HomeSetterPage extends StatefulWidget {
   HomeSetterPage({Key? key}) : super(key: key);
+  static FirebaseAuth auth = FirebaseAuth.instance;
+  static FirebaseFirestore store = FirebaseFirestore.instance;
   static AppUser? mainUser;
   static setMainUser(User? user) async {
-    var u = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .get();
+    var u = await HomeSetterPage.store.collection('users').doc(user!.uid).get();
     HomeSetterPage.mainUser = AppUser(
       cName: u.data()!['cname'],
       cNumber: int.parse(u.data()!['cnumber']),
@@ -47,11 +46,11 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
 
   @override
   void initState() {
-    user = FirebaseAuth.instance.currentUser;
+    user = HomeSetterPage.auth.currentUser;
     if (user != null) {
       HomeSetterPage.setMainUser(user!);
     }
-    FirebaseAuth.instance.authStateChanges().listen(
+    HomeSetterPage.auth.authStateChanges().listen(
       (user) {
         if (mounted) {
           if (this.user != user) {
@@ -75,9 +74,9 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
   @override
   Widget build(BuildContext context) {
     if (user != null) {
+      if (HomeSetterPage.mainUser == null) HomeSetterPage.setMainUser(user);
       return FutureBuilder(
-        future:
-            FirebaseFirestore.instance.collection('users').doc(user!.uid).get(),
+        future: HomeSetterPage.store.collection('users').doc(user!.uid).get(),
         builder: (context,
             AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
@@ -429,7 +428,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           setState(() {
                             if (value!) {
                               emailTextController.text =
-                                  FirebaseAuth.instance.currentUser!.email!;
+                                  HomeSetterPage.auth.currentUser!.email!;
                             } else {
                               emailTextController.text = '';
                             }
@@ -566,9 +565,9 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                     }
 
                                     try {
-                                      await FirebaseAuth.instance.currentUser!
+                                      await HomeSetterPage.auth.currentUser!
                                           .updateDisplayName(fullName);
-                                      await FirebaseFirestore.instance
+                                      await HomeSetterPage.store
                                           .collection('users')
                                           .doc(FirebaseAuth
                                               .instance.currentUser!.uid)
@@ -587,8 +586,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                           'palways': alwaysAccess,
                                           'pmap': false,
                                           'premium': false,
-                                          'photourl': FirebaseAuth.instance
-                                                  .currentUser!.photoURL ??
+                                          'photourl': HomeSetterPage
+                                                  .auth.currentUser!.photoURL ??
                                               '',
                                         },
                                       );
@@ -606,8 +605,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                         pLocation: locationAccess,
                                         pMaps: false,
                                         pPhone: phoneAccess,
-                                        photoUrl: FirebaseAuth.instance
-                                                .currentUser!.photoURL ??
+                                        photoUrl: HomeSetterPage
+                                                .auth.currentUser!.photoURL ??
                                             '',
                                         phone: phoneTextController.text,
                                         premium: false,

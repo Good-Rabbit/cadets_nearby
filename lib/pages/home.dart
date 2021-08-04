@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:readiew/pages/subPages/accountSub.dart';
 import 'package:readiew/pages/subPages/homeSub.dart';
 
 class RealHome extends StatefulWidget {
@@ -36,7 +37,7 @@ class _RealHomeState extends State<RealHome> {
             children: [
               HomeSubPage(),
               Container(child: ColoredBox(color: Colors.green)),
-              Container(child: ColoredBox(color: Colors.blue)),
+              AccountSubPage(),
             ],
           ),
           // pageSetter(selectedIndex),
@@ -94,11 +95,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       },
       child: CircleAvatar(
         radius: 30,
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).primaryColor,
         child: CircleAvatar(
           radius: 20,
           backgroundColor:
-              active ? Colors.white.withOpacity(0.5) : Colors.white,
+              active ? Colors.white : Colors.white.withOpacity(0.5),
           child: Icon(icon),
         ),
       ),
@@ -135,8 +136,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Theme.of(context).accentColor,
                     Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColorDark,
                   ],
                 ),
               ),
@@ -159,6 +160,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         ),
         Positioned(
           bottom: 10,
+          left: 4,
           width: MediaQuery.of(context).size.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

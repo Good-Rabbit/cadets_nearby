@@ -101,9 +101,9 @@ class _HomeSubPageState extends State<HomeSubPage>
     print('Uploading location...');
     String timeStamp = DateTime.now().toString();
     try {
-      FirebaseFirestore.instance
+      HomeSetterPage.store
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .doc(HomeSetterPage.auth.currentUser!.uid)
           .update({
         'lat': locationData.latitude,
         'long': locationData.longitude,
@@ -171,7 +171,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                             fontSize: 25.0,
                           ),
                         ),
-                        Text(HomeSetterPage.mainUser!.cNumber.toString()),
+                        Text(' ' + HomeSetterPage.mainUser!.cNumber.toString()),
                       ],
                     ),
                   ],
@@ -182,7 +182,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                 child: ElevatedButton(
                   child: Text('Sign Out'),
                   onPressed: () {
-                    FirebaseAuth.instance.signOut();
+                    HomeSetterPage.auth.signOut();
                   },
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all(
@@ -197,7 +197,7 @@ class _HomeSubPageState extends State<HomeSubPage>
           ),
           if (locationData != null)
             FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              future: FirebaseFirestore.instance
+              future: HomeSetterPage.store
                   .collection('users')
                   .where('long', isLessThan: longMax, isGreaterThan: longMin)
                   .get(),
@@ -284,6 +284,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                 return SizedBox();
               },
             ),
+          SizedBox(
+            height: 100.0,
+          ),
         ],
       ),
     );

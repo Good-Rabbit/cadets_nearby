@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readiew/data/appData.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:readiew/pages/homeSetter.dart';
 
 class CancelVerificationPage extends StatefulWidget {
   CancelVerificationPage({Key? key}) : super(key: key);
@@ -175,7 +176,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                       password: passwordTextController.text,
                                     );
                                     try {
-                                      await FirebaseAuth.instance.currentUser!
+                                      await HomeSetterPage.auth.currentUser!
                                           .reauthenticateWithCredential(
                                               credential);
                                     } on FirebaseAuthException catch (e) {
@@ -188,7 +189,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                       });
                                       return;
                                     }
-                                    FirebaseAuth.instance.currentUser!
+                                    HomeSetterPage.auth.currentUser!
                                         .delete()
                                         .then((value) {
                                       ScaffoldMessenger.of(context)

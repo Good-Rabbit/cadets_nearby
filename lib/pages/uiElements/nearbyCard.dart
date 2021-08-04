@@ -57,12 +57,12 @@ class NearbyCard extends StatelessWidget {
                     Text(
                       'Name: ' + e.fullName,
                     ),
-                    if (e.pLocation!)
+                    if (e.pLocation)
                       Text(
                         (isKm ? distance.toString() : distanceInt.toString()) +
                             (isKm ? 'km' : 'm'),
                       ),
-                    if (!e.pLocation!)
+                    if (!e.pLocation)
                       Icon(
                         Icons.visibility_off_rounded,
                         size: 17,

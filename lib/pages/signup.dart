@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:readiew/data/appData.dart';
+import 'package:readiew/pages/homeSetter.dart';
 
 class SignupMainPage extends StatefulWidget {
   SignupMainPage({Key? key}) : super(key: key);
@@ -274,16 +275,16 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                       inProgress = true;
                                     });
                                     try {
-                                      await FirebaseAuth.instance
+                                      await HomeSetterPage.auth
                                           .createUserWithEmailAndPassword(
-                                            email: emailTextController.text,
-                                            password:
-                                                passwordTextController.text,
-                                          )
-                                          .then(
-                                            (value) =>
-                                                Navigator.of(context).pop(),
-                                          );
+                                        email: emailTextController.text,
+                                        password: passwordTextController.text,
+                                      )
+                                          .then((value) {
+                                        HomeSetterPage.auth.currentUser!
+                                            .sendEmailVerification();
+                                        Navigator.of(context).pop();
+                                      });
                                     } on FirebaseAuthException catch (e) {
                                       print(e);
                                       switch (e.code) {
@@ -398,7 +399,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance
+    return await HomeSetterPage.auth
         .signInWithCredential(credential)
         .then((value) {
       Navigator.of(context).pop();

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:readiew/pages/homeSetter.dart';
 
 class PhonePage extends StatefulWidget {
   @override
@@ -71,8 +72,7 @@ class _PhonePageState extends State<PhonePage> {
                               fontFamily: 'Poppins',
                             ),
                             prefixIcon: Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
                                 Icons.person,
                               ),
@@ -135,7 +135,7 @@ class _PhonePageState extends State<PhonePage> {
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 try {
-                                  FirebaseAuth.instance
+                                  HomeSetterPage.auth
                                       .signInWithEmailAndPassword(
                                           email: emailTextController.text,
                                           password:

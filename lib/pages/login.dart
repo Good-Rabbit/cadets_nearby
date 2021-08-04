@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readiew/data/appData.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:readiew/pages/homeSetter.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -235,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                                       inProgress = true;
                                     });
                                     try {
-                                      await FirebaseAuth.instance
+                                      await HomeSetterPage.auth
                                           .signInWithEmailAndPassword(
                                         email: emailTextController.text,
                                         password: passwordTextController.text,
@@ -358,7 +359,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return await HomeSetterPage.auth.signInWithCredential(credential);
   }
 
   checkChanged() {
