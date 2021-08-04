@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:readiew/pages/homeSetter.dart';
+import 'package:readiew/pages/uiElements/loading.dart';
 import 'package:readiew/pages/uiElements/nearbyCard.dart';
 import 'package:readiew/services/user.dart';
 
@@ -199,7 +200,8 @@ class _HomeSubPageState extends State<HomeSubPage>
             FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
               future: HomeSetterPage.store
                   .collection('users')
-                  .where('long', isLessThan: longMax, isGreaterThan: longMin)
+                  //TODO Uncomment later
+                  // .where('long', isLessThan: longMax, isGreaterThan: longMin)
                   .get(),
               builder: (context, snapshots) {
                 if (snapshots.hasData) {
@@ -229,18 +231,20 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 pPhone: u.data()['pphone'],
                                 phone: u.data()['phone'],
                                 premium: u.data()['premium'],
+                                verified: u.data()['verified'],
                               );
 
                               if (e.equals(HomeSetterPage.mainUser!) &&
                                   snapshots.data!.docs.length == 1) {
-                                print('here');
                                 return Center(child: Text('No one nearby'));
                               } else if (e.equals(HomeSetterPage.mainUser!)) {
                                 return SizedBox();
-                              } else if ((e.lat ?? 0) > latMax ||
-                                  (e.lat ?? 0) < latMin) {
-                                return SizedBox();
                               }
+                              //TODO Uncomment later
+                              // else if (!((e.lat ?? 0) < latMax &&
+                              //     (e.lat ?? 0) > latMin)) {
+                              //   return SizedBox();
+                              // }
                               // Get distance in metres
                               var distanceD = calculateDistance(
                                       locationData!.latitude,
@@ -281,7 +285,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                           ).toList(),
                   );
                 }
-                return SizedBox();
+                return Loading();
               },
             ),
           SizedBox(

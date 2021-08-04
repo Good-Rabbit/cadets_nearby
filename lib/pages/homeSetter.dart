@@ -30,6 +30,7 @@ class HomeSetterPage extends StatefulWidget {
       phone: u.data()!['phone'],
       timeStamp: DateTime.parse(u.data()!['lastonline']),
       premium: u.data()!['premium'],
+      verified: u.data()!['verified'],
     );
   }
 
@@ -586,6 +587,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                           'palways': alwaysAccess,
                                           'pmap': false,
                                           'premium': false,
+                                          'verified': false,
                                           'photourl': HomeSetterPage
                                                   .auth.currentUser!.photoURL ??
                                               '',
@@ -610,6 +612,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             '',
                                         phone: phoneTextController.text,
                                         premium: false,
+                                        verified: false,
                                       );
                                       widget.loggedInNotifier();
                                       setState(() {

@@ -54,8 +54,25 @@ class NearbyCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Text(
-                      'Name: ' + e.fullName,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name: ' + e.fullName,
+                        ),
+                        if (e.premium)
+                          Icon(
+                            Icons.star,
+                            size: 20,
+                            color: Theme.of(context).accentColor,
+                          ),
+                        if (e.verified)
+                          Icon(
+                            Icons.verified,
+                            size: 20,
+                            color: Colors.green,
+                          )
+                      ],
                     ),
                     if (e.pLocation)
                       Text(

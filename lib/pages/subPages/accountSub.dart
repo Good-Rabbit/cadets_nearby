@@ -77,6 +77,15 @@ class _AccountSubPageState extends State<AccountSubPage>
                       color: Colors.red,
                     ),
                   ),
+                if (HomeSetterPage.mainUser!.premium)
+                  Icon(Icons.star,
+                      size: 25, color: Theme.of(context).accentColor),
+                if (HomeSetterPage.mainUser!.verified)
+                  Icon(
+                    Icons.verified,
+                    size: 25,
+                    color: Colors.green,
+                  )
               ],
             ),
           ),
