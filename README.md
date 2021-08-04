@@ -1,8 +1,12 @@
-[![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/Naereen/badges/)
-
+[![](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)]()
+[![](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)]()
 # Cadets Nearby
 
 An open source flutter project for finding nearby cadets in Bangladesh.
+
+## Platforms
+[![](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)]()
+[![](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)]()
 
 ## Target
 
@@ -21,4 +25,6 @@ You can help test for bugs, or just check out progress by installing the testing
 
 If you are a developer and want to help the growth of this project, feel free to contribute.
 Any support is highly appreciated
+
+You can also buy me a coffee ☕ 
 
