@@ -16,6 +16,7 @@ You can create an issue for bugs or feature requests.
 I will try my best to implement those.
 
 You can help test for bugs, or just check out progress by installing the testing android apps from the releases section.
+
 If you are a developer and want to help the growth of this project, feel free to contribute.
 Any support is highly appreciated
 
