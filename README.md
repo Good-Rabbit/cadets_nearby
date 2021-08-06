@@ -25,3 +25,6 @@ You can help test for bugs, or just check out progress by installing the testing
 
 If you are a developer and want to help the growth of this project, feel free to contribute.
 Any support is highly appreciated
+
+You can also buy me a coffee for the hard work
+Bkash: +8801798355165
