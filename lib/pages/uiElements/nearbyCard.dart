@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:readiew/services/user.dart';
 
 class NearbyCard extends StatelessWidget {
@@ -24,6 +25,8 @@ class NearbyCard extends StatelessWidget {
             e.timeStamp!.month.toString() +
             '/' +
             e.timeStamp!.year.toString());
+    print(e.premium);
+    print(e.celeb);
     return InkWell(
       onTap: () {},
       borderRadius: BorderRadius.circular(20),
@@ -62,16 +65,18 @@ class NearbyCard extends StatelessWidget {
                         ),
                         if (e.premium)
                           Icon(
-                            Icons.star,
+                            MdiIcons.crown,
                             size: 20,
                             color: Theme.of(context).accentColor,
                           ),
-                        if (e.verified)
+                        if (e.celeb)
+                          Icon(Icons.star, size: 20, color: Colors.lightBlue),
+                        if (!e.verified)
                           Icon(
-                            Icons.verified,
-                            size: 20,
-                            color: Colors.green,
-                          )
+                            Icons.dangerous,
+                            size: 15,
+                            color: Colors.redAccent,
+                          ),
                       ],
                     ),
                     if (e.pLocation)

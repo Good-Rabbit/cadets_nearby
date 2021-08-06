@@ -208,7 +208,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: snapshots.data!.docs.length == 0
-                        ? [Text('No one nearby')]
+                        ? [noOneNearby()]
                         : snapshots.data!.docs.map(
                             (u) {
                               // Make a user object
@@ -232,14 +232,16 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 phone: u.data()['phone'],
                                 premium: u.data()['premium'],
                                 verified: u.data()['verified'],
+                                celeb: u.data()['celeb'],
                               );
 
                               if (e.equals(HomeSetterPage.mainUser!) &&
                                   snapshots.data!.docs.length == 1) {
-                                return Center(child: Text('No one nearby'));
+                                return noOneNearby();
                               } else if (e.equals(HomeSetterPage.mainUser!)) {
                                 return SizedBox();
                               }
+                              print(e);
                               //TODO Uncomment later
                               // else if (!((e.lat ?? 0) < latMax &&
                               //     (e.lat ?? 0) > latMin)) {
@@ -292,6 +294,29 @@ class _HomeSubPageState extends State<HomeSubPage>
             height: 100.0,
           ),
         ],
+      ),
+    );
+  }
+
+  Container noOneNearby() {
+    return Container(
+      margin: EdgeInsets.fromLTRB(0, 100, 0, 0),
+      child: Center(
+        child: Column(
+          children: [
+            Icon(
+              Icons.no_accounts,
+              size: 70.0,
+            ),
+            Text(
+              "No one nearby",
+              style: TextStyle(
+                fontSize: 25,
+                fontFamily: 'Poppins',
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

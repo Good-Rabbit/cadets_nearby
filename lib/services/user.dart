@@ -9,6 +9,7 @@ class AppUser {
   bool premium;
   bool pPhone;
   bool verified;
+  bool celeb;
   String? photoUrl;
   String? phone;
   double? lat;
@@ -28,6 +29,7 @@ class AppUser {
     required this.pLocation,
     required this.pPhone,
     required this.verified,
+    required this.celeb,
     this.photoUrl,
     this.lat,
     this.long,
