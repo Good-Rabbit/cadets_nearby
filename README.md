@@ -25,7 +25,8 @@ Testing the pre-release versions for bugs will also be helpful, or just check ou
 If you are a developer and want to help the growth of this project, feel free to contribute.
 Any support is highly appreciated
 
-You can also buy me a coffee for the hard work
+You can also buy me a coffee for the hard work.
+
 Bkash: +8801798355165
 
 ## Conclusion
