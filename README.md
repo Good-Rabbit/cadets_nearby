@@ -20,11 +20,14 @@ Hope this project will help us lead a better life.
 
 You can create an issue for bugs or feature requests.
 I will try my best to implement those.
-
-You can help test for bugs, or just check out progress by installing the testing android apps from the releases section.
+Testing the pre-release versions for bugs will also be helpful, or just check out progress by installing the test version of the android app from the releases section.
 
 If you are a developer and want to help the growth of this project, feel free to contribute.
 Any support is highly appreciated
 
 You can also buy me a coffee for the hard work
 Bkash: +8801798355165
+
+## Conclusion
+
+Don't let those 6 years be the last of our brotherhood.
