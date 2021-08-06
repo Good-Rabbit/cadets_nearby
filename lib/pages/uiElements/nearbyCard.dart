@@ -38,7 +38,7 @@ class NearbyCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: CircleAvatar(
-                  radius: 40.0,
+                  radius: 25.0,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: e.photoUrl! == ''
