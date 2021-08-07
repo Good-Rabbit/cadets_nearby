@@ -241,7 +241,6 @@ class _HomeSubPageState extends State<HomeSubPage>
                               } else if (e.equals(HomeSetterPage.mainUser!)) {
                                 return SizedBox();
                               }
-                              print(e);
                               //TODO Uncomment later
                               // else if (!((e.lat ?? 0) < latMax &&
                               //     (e.lat ?? 0) > latMin)) {

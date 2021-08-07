@@ -6,7 +6,7 @@ ThemeData lightTheme = ThemeData(
   primarySwatch: Colors.deepOrange,
   primaryColor: Colors.deepOrange,
   accentColor: Colors.orange,
-  backgroundColor: Colors.yellow[200],
+  backgroundColor: Colors.orange[200],
   textTheme: TextTheme(
     bodyText1: TextStyle(
       fontFamily: 'Poppins',
@@ -39,6 +39,7 @@ ThemeData lightTheme = ThemeData(
   ),
   cardTheme: CardTheme(
     elevation: 0,
+    color: Colors.orange[50],
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),
     ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:readiew/pages/homeSetter.dart';
 import 'package:readiew/services/user.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class AccountSubPage extends StatefulWidget {
   AccountSubPage({Key? key}) : super(key: key);
@@ -124,30 +123,40 @@ class _AccountSubPageState extends State<AccountSubPage>
                           fontWeight: FontWeight.bold, fontSize: 20.0),
                     ),
                     if (!HomeSetterPage.auth.currentUser!.emailVerified)
-                      Text(
-                        ' - Verify e-mail',
-                        style: TextStyle(
-                          color: Colors.red,
+                      TextButton(
+                        onPressed: () {
+                          HomeSetterPage.auth.currentUser!
+                              .sendEmailVerification();
+                        },
+                        child: Text(
+                          ' - Verify e-mail ',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
                         ),
                       ),
-                    if (HomeSetterPage.mainUser!.premium)
-                      Icon(MdiIcons.crown,
-                          size: 25, color: Theme.of(context).accentColor),
                     if (HomeSetterPage.mainUser!.celeb)
                       Icon(
-                        Icons.star,
-                        size: 25,
-                        color: Colors.lightBlue,
+                        Icons.verified,
+                        size: 20,
+                        color: Colors.green,
                       ),
                     if (!HomeSetterPage.mainUser!.verified)
                       Icon(
-                        Icons.dangerous,
+                        Icons.warning,
                         size: 20,
                         color: Colors.redAccent,
-                      )
+                      ),
                   ],
                 ),
               ),
+              if (HomeSetterPage.mainUser!.premium)
+                Center(
+                  child: Text(
+                    'Premium User',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
               Center(
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -601,7 +610,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                               fullName += first + each.substring(1) + ' ';
                             }
                             fullName = fullName.trim();
-                            print(fullName);
                             try {
                               await HomeSetterPage.auth.currentUser!
                                   .updateDisplayName('Saim Ul Islam');

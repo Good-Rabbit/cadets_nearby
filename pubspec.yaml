@@ -1,6 +1,6 @@
 name: readiew
 description: A new Flutter project.
-version: 0.0.14+1
+version: 0.0.16+1
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -25,6 +25,7 @@ dependencies:
   google_sign_in: ^5.0.7
   flutter_spinkit: ^5.0.0
   material_design_icons_flutter: ^5.0.5955-rc.1
+  bottom_navy_bar: ^6.0.0
 
 
 dev_dependencies:

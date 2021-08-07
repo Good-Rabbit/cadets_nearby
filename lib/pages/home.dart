@@ -1,3 +1,4 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:readiew/pages/subPages/accountSub.dart';
 import 'package:readiew/pages/subPages/homeSub.dart';
@@ -12,256 +13,74 @@ class RealHome extends StatefulWidget {
 }
 
 class _RealHomeState extends State<RealHome> {
-  var pageViewController = PageController(initialPage: 0);
-  static int index = 0;
-  var navKey = GlobalKey();
+  var pageController = PageController(initialPage: 0);
+  int selectedIndex = 0;
 
   setSelectedIndex(int index) {
-    _RealHomeState.index = index;
-    pageViewController.jumpToPage(index);
+    selectedIndex = index;
+    pageController.animateToPage(index,
+        duration: Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: Stack(
-        children: [
-          PageView(
-            controller: pageViewController,
-            onPageChanged: (index) {
-              print('changed');
-              _RealHomeState.index = index;
-              navKey.currentState!.setState(() {});
-            },
-            children: [
-              HomeSubPage(),
-              Container(child: ColoredBox(color: Colors.green)),
-              AccountSubPage(),
-            ],
-          ),
-          // pageSetter(selectedIndex),
-          CustomBottomNavigationBar(
-            setIndex: setSelectedIndex,
-            key: navKey,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CustomBottomNavigationBar extends StatefulWidget {
-  CustomBottomNavigationBar({
-    Key? key,
-    required this.setIndex,
-  }) : super(key: key);
-
-  final Function setIndex;
-
-  @override
-  _CustomBottomNavigationBarState createState() =>
-      _CustomBottomNavigationBarState();
-}
-
-class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  var pages = [true, false, false];
-
-  setSelected(int index) {
-    setState(() {
-      widget.setIndex(index);
-      switch (index) {
-        case 0:
-          pages = [true, false, false];
-          break;
-        case 1:
-          pages = [false, true, false];
-          break;
-        case 2:
-          pages = [false, false, true];
-          break;
-        default:
-          pages = [true, false, false];
-          break;
-      }
-    });
-  }
-
-  buildNavItem(IconData icon, bool active, int selected) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(30.0),
-      onTap: () {
-        setSelected(selected);
-      },
-      child: CircleAvatar(
-        radius: 30,
-        backgroundColor: Theme.of(context).primaryColor,
-        child: CircleAvatar(
-          radius: 20,
-          backgroundColor:
-              active ? Colors.white : Colors.white.withOpacity(0.5),
-          child: Icon(icon),
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: PageView(
+          controller: pageController,
+          onPageChanged: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+          children: [
+            HomeSubPage(),
+            Container(
+                child: ColoredBox(
+              color: Colors.greenAccent,
+              child: Center(child: Text('TODO')),
+            )),
+            Container(
+                child: ColoredBox(
+              color: Colors.orangeAccent,
+              child: Center(child: Text('TODO')),
+            )),
+            AccountSubPage(),
+          ],
         ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    switch (_RealHomeState.index) {
-      case 0:
-        pages = [true, false, false];
-        break;
-      case 1:
-        pages = [false, true, false];
-        break;
-      case 2:
-        pages = [false, false, true];
-        break;
-      default:
-        pages = [true, false, false];
-        break;
-    }
-    return Stack(
-      children: [
-        Positioned(
-          bottom: 0,
-          child: ClipPath(
-            clipper: NavBarClipper(),
-            child: Container(
-              height: 60,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Theme.of(context).primaryColor,
-                    Theme.of(context).primaryColorDark,
-                  ],
-                ),
-              ),
+        bottomNavigationBar: BottomNavyBar(
+          selectedIndex: selectedIndex,
+          backgroundColor: Colors.orange[100],
+          showElevation: true, // use this to remove appBar's elevation
+          onItemSelected: (index) => setState(() {
+            setSelectedIndex(index);
+          }),
+          items: [
+            BottomNavyBarItem(
+              icon: Icon(Icons.home),
+              title: Text('Home'),
+              activeColor: Colors.redAccent,
+              inactiveColor: Theme.of(context).accentColor,
             ),
-          ),
-        ),
-        Positioned(
-          bottom: 45,
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              buildNavItem(Icons.home, pages[0], 0),
-              SizedBox(),
-              buildNavItem(Icons.search, pages[1], 1),
-              SizedBox(),
-              buildNavItem(Icons.account_circle, pages[2], 2),
-            ],
-          ),
-        ),
-        Positioned(
-          bottom: 10,
-          left: 4,
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                'Home',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(
-                width: 1,
-              ),
-              Text(
-                'Search',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(
-                width: 1,
-              ),
-              Text(
-                'Account',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.8),
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class NavBarClipper extends CustomClipper<Path> {
-  @override
-  getClip(Size size) {
-    Path path = Path();
-    var sw = size.width;
-    var sh = size.height;
-    path.cubicTo(
-      sw / 12,
-      0,
-      sw / 12,
-      2 * sh / 5,
-      2 * sw / 12,
-      2 * sh / 5,
-    );
-    path.cubicTo(
-      3 * sw / 12,
-      2 * sh / 5,
-      3 * sw / 12,
-      0,
-      4 * sw / 12,
-      0,
-    );
-    path.cubicTo(
-      5 * sw / 12,
-      0,
-      5 * sw / 12,
-      2 * sh / 5,
-      6 * sw / 12,
-      2 * sh / 5,
-    );
-    path.cubicTo(
-      7 * sw / 12,
-      2 * sh / 5,
-      7 * sw / 12,
-      0,
-      8 * sw / 12,
-      0,
-    );
-    path.cubicTo(
-      9 * sw / 12,
-      0,
-      9 * sw / 12,
-      2 * sh / 5,
-      10 * sw / 12,
-      2 * sh / 5,
-    );
-    path.cubicTo(
-      11 * sw / 12,
-      2 * sh / 5,
-      11 * sw / 12,
-      0,
-      sw,
-      0,
-    );
-    path.lineTo(sw, sh);
-    path.lineTo(0, sh);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(covariant CustomClipper oldClipper) {
-    return false;
+            BottomNavyBarItem(
+              icon: Icon(Icons.search),
+              title: Text('Search'),
+              activeColor: Colors.green,
+              inactiveColor: Theme.of(context).accentColor,
+            ),
+            BottomNavyBarItem(
+              icon: Icon(Icons.settings),
+              title: Text('Settings'),
+              activeColor: Colors.purpleAccent,
+              inactiveColor: Theme.of(context).accentColor,
+            ),
+            BottomNavyBarItem(
+              icon: Icon(Icons.manage_accounts),
+              title: Text('Account'),
+              activeColor: Colors.blue,
+              inactiveColor: Theme.of(context).accentColor,
+            ),
+          ],
+        ));
   }
 }
