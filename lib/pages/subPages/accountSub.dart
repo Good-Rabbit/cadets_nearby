@@ -129,28 +129,28 @@ class _AccountSubPageState extends State<AccountSubPage>
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20.0),
                       ),
-                      if (!HomeSetterPage.auth.currentUser!.emailVerified)
-                        GestureDetector(
-                          onTap: disabled
-                              ? null
-                              : () {
-                                  HomeSetterPage.auth.currentUser!
-                                      .sendEmailVerification()
-                                      .then((value) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text('E-mail sent')));
-                                    setState(() {
-                                      disabled = true;
-                                    });
-                                  });
-                                },
-                          child: Text(
-                            ' - Verify e-mail ',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
+                      // if (!HomeSetterPage.auth.currentUser!.emailVerified)
+                      //   GestureDetector(
+                      //     onTap: disabled
+                      //         ? null
+                      //         : () {
+                      //             HomeSetterPage.auth.currentUser!
+                      //                 .sendEmailVerification()
+                      //                 .then((value) {
+                      //               ScaffoldMessenger.of(context).showSnackBar(
+                      //                   SnackBar(content: Text('E-mail sent')));
+                      //               setState(() {
+                      //                 disabled = true;
+                      //               });
+                      //             });
+                      //           },
+                      //     child: Text(
+                      //       ' - Verify e-mail ',
+                      //       style: TextStyle(
+                      //         color: Colors.red,
+                      //       ),
+                      //     ),
+                      //   ),
                       if (!HomeSetterPage.mainUser!.verified)
                         Icon(
                           Icons.info_rounded,
@@ -712,6 +712,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                       HomeSetterPage.auth.signOut();
                     },
                     style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(0),
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),

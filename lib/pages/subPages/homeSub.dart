@@ -193,31 +193,31 @@ class _HomeSubPageState extends State<HomeSubPage>
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                if (!HomeSetterPage
-                                    .auth.currentUser!.emailVerified)
-                                  GestureDetector(
-                                    onTap: disabled
-                                        ? null
-                                        : () {
-                                            HomeSetterPage.auth.currentUser!
-                                                .sendEmailVerification()
-                                                .then((value) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                      content:
-                                                          Text('E-mail sent')));
-                                              setState(() {
-                                                disabled = true;
-                                              });
-                                            });
-                                          },
-                                    child: Text(
-                                      ' - Verify e-mail ',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                  ),
+                                // if (!HomeSetterPage
+                                //     .auth.currentUser!.emailVerified)
+                                //   GestureDetector(
+                                //     onTap: disabled
+                                //         ? null
+                                //         : () {
+                                //             HomeSetterPage.auth.currentUser!
+                                //                 .sendEmailVerification()
+                                //                 .then((value) {
+                                //               ScaffoldMessenger.of(context)
+                                //                   .showSnackBar(SnackBar(
+                                //                       content:
+                                //                           Text('E-mail sent')));
+                                //               setState(() {
+                                //                 disabled = true;
+                                //               });
+                                //             });
+                                //           },
+                                //     child: Text(
+                                //       ' - Verify e-mail ',
+                                //       style: TextStyle(
+                                //         color: Colors.red,
+                                //       ),
+                                //     ),
+                                //   ),
                                 if (!HomeSetterPage.mainUser!.verified)
                                   Icon(
                                     Icons.info_rounded,
@@ -243,6 +243,62 @@ class _HomeSubPageState extends State<HomeSubPage>
                   ),
                 ),
               ),
+            ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          builder: (context) {
+                            return GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () => Navigator.of(context).pop(),
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: DraggableScrollableSheet(
+                                  initialChildSize: 0.7,
+                                  maxChildSize: 0.9,
+                                  minChildSize: 0.5,
+                                  builder: (_, controller) => Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(15.0),
+                                      ),
+                                    ),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        15, 10, 10, 10),
+                                    child: ListView(
+                                      controller: controller,
+                                      children: [
+                                        Text('By Distance - TODO'),
+                                        Text('By College - TODO'),
+                                        Text('By Intake - TODO'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                    },
+                    icon: Icon(Icons.filter_alt),
+                    style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(0),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      foregroundColor:
+                          MaterialStateProperty.all(Colors.deepOrange),
+                    ),
+                    label: Text('Filter'),
+                  ),
+                ),
+              ],
             ),
             if (locationData != null)
               FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
