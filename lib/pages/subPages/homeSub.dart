@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:readiew/pages/homeSetter.dart';
@@ -11,7 +9,9 @@ import 'package:readiew/pages/uiElements/nearbyCard.dart';
 import 'package:readiew/services/user.dart';
 
 class HomeSubPage extends StatefulWidget {
-  HomeSubPage({Key? key}) : super(key: key);
+  HomeSubPage({Key? key, required this.setSelectedIndex}) : super(key: key);
+
+  final Function setSelectedIndex;
 
   @override
   _HomeSubPageState createState() => _HomeSubPageState();
@@ -23,6 +23,7 @@ class _HomeSubPageState extends State<HomeSubPage>
   bool permissionGranted = false;
   bool rejected = false;
   bool updateFlag = false;
+  bool disabled = false;
   LocationData? locationData;
 
   double latMax = 0;
@@ -30,6 +31,8 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   double longMax = 0;
   double longMin = 0;
+
+  String? quote;
 
   calculateMinMax() {
     latMax = (HomeSetterPage.mainUser!.lat ?? 0) + 0.1;
@@ -126,173 +129,219 @@ class _HomeSubPageState extends State<HomeSubPage>
     return 12742 * asin(sqrt(a));
   }
 
+  getQuote() async {
+    print('here');
+    var doc = await HomeSetterPage.store.collection('quotes').doc('1').get();
+    quote = doc.data()!['quote'] ?? 'Demo Quote For Now';
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if (quote == null) {
+      getQuote();
+    }
     if (!rejected && !updateFlag) {
       getLocation();
     }
     if (updateFlag) {
       updateFlag = false;
     }
-    return Container(
-      child: ListView(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: CircleAvatar(
-                  radius: 25.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: HomeSetterPage.mainUser!.photoUrl! == ''
-                        ? Image.asset('assets/images/user.png')
-                        : Image.network(
-                            HomeSetterPage.mainUser!.photoUrl!,
-                            width: 80,
-                            height: 80,
-                          ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          HomeSetterPage.mainUser!.cName,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25.0,
+    return RefreshIndicator(
+      onRefresh: () async {
+        setState(() {});
+        return null;
+      },
+      child: Container(
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: GestureDetector(
+                onTap: () {
+                  widget.setSelectedIndex(4);
+                },
+                child: Card(
+                  color: Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                        child: CircleAvatar(
+                          radius: 20.0,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: HomeSetterPage.mainUser!.photoUrl! == ''
+                                ? Image.asset('assets/images/user.png')
+                                : Image.network(
+                                    HomeSetterPage.mainUser!.photoUrl!,
+                                  ),
                           ),
                         ),
-                        Text(' ' + HomeSetterPage.mainUser!.cNumber.toString()),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: ElevatedButton(
-                  child: Text('Sign Out'),
-                  onPressed: () {
-                    HomeSetterPage.auth.signOut();
-                  },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
                       ),
-                    ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  HomeSetterPage.mainUser!.cName,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                if (!HomeSetterPage
+                                    .auth.currentUser!.emailVerified)
+                                  GestureDetector(
+                                    onTap: disabled
+                                        ? null
+                                        : () {
+                                            HomeSetterPage.auth.currentUser!
+                                                .sendEmailVerification()
+                                                .then((value) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(SnackBar(
+                                                      content:
+                                                          Text('E-mail sent')));
+                                              setState(() {
+                                                disabled = true;
+                                              });
+                                            });
+                                          },
+                                    child: Text(
+                                      ' - Verify e-mail ',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                if (!HomeSetterPage.mainUser!.verified)
+                                  Icon(
+                                    Icons.info_rounded,
+                                    size: 15,
+                                    color: Colors.redAccent,
+                                  ),
+                                if (HomeSetterPage.mainUser!.celeb)
+                                  Icon(
+                                    Icons.verified,
+                                    size: 15,
+                                    color: Colors.green,
+                                  ),
+                              ],
+                            ),
+                            Text(
+                              quote ?? '',
+                              style: TextStyle(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
-          if (locationData != null)
-            FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              future: HomeSetterPage.store
-                  .collection('users')
-                  //TODO Uncomment later
-                  // .where('long', isLessThan: longMax, isGreaterThan: longMin)
-                  .get(),
-              builder: (context, snapshots) {
-                if (snapshots.hasData) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: snapshots.data!.docs.length == 0
-                        ? [noOneNearby()]
-                        : snapshots.data!.docs.map(
-                            (u) {
-                              // Make a user object
-                              AppUser e = AppUser(
-                                cName: u.data()['cname'],
-                                cNumber: int.parse(u.data()['cnumber']),
-                                fullName: u.data()['fullname'],
-                                college: u.data()['college'],
-                                email: u.data()['email'],
-                                intake: int.parse(u.data()['intake']),
-                                lat: u.data()['lat'],
-                                long: u.data()['long'],
-                                timeStamp: u.data()['lastonline'] == null
-                                    ? null
-                                    : DateTime.parse(u.data()['lastonline']),
-                                photoUrl: u.data()['photourl'],
-                                pAlways: u.data()['palways'],
-                                pLocation: u.data()['plocation'],
-                                pMaps: u.data()['pmaps'],
-                                pPhone: u.data()['pphone'],
-                                phone: u.data()['phone'],
-                                premium: u.data()['premium'],
-                                verified: u.data()['verified'],
-                                celeb: u.data()['celeb'],
-                              );
-
-                              if (e.equals(HomeSetterPage.mainUser!) &&
-                                  snapshots.data!.docs.length == 1) {
-                                return noOneNearby();
-                              } else if (e.equals(HomeSetterPage.mainUser!)) {
-                                return SizedBox();
-                              }
-                              //TODO Uncomment later
-                              // else if (!((e.lat ?? 0) < latMax &&
-                              //     (e.lat ?? 0) > latMin)) {
-                              //   return SizedBox();
-                              // }
-                              // Get distance in metres
-                              var distanceD = calculateDistance(
-                                      locationData!.latitude,
-                                      locationData!.longitude,
-                                      e.lat,
-                                      e.long) *
-                                  1000;
-                              double distance = 0;
-                              int distanceInt = 0;
-                              bool isKm = false;
-
-                              if (distanceD < 10) {
-                                distanceInt = distanceD.toInt();
-                              } else {
-                                distance = distanceD.roundToDouble() -
-                                    distanceD.roundToDouble() % 10;
-                                if (distance > 1000) {
-                                  distance /= 1000;
-                                  distance =
-                                      double.parse(distance.toStringAsFixed(2));
-                                  isKm = true;
-                                }
-                                if (!isKm) {
-                                  distanceInt = distance.round();
-                                }
-                              }
-
-                              return Container(
-                                margin:
-                                    EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                                child: NearbyCard(
-                                    e: e,
-                                    isKm: isKm,
-                                    distance: distance,
-                                    distanceInt: distanceInt),
-                              );
-                            },
-                          ).toList(),
-                  );
-                }
-                return Loading();
-              },
             ),
-          SizedBox(
-            height: 100.0,
-          ),
-        ],
+            if (locationData != null)
+              FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                future: HomeSetterPage.store
+                    .collection('users')
+                    //TODO Uncomment later
+                    // .where('long', isLessThan: longMax, isGreaterThan: longMin)
+                    .get(),
+                builder: (context, snapshots) {
+                  if (snapshots.hasData) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: snapshots.data!.docs.length == 0
+                          ? [noOneNearby()]
+                          : snapshots.data!.docs.map(
+                              (u) {
+                                // Make a user object
+                                AppUser e = AppUser(
+                                  cName: u.data()['cname'],
+                                  cNumber: int.parse(u.data()['cnumber']),
+                                  fullName: u.data()['fullname'],
+                                  college: u.data()['college'],
+                                  email: u.data()['email'],
+                                  intake: int.parse(u.data()['intake']),
+                                  lat: u.data()['lat'],
+                                  long: u.data()['long'],
+                                  timeStamp: u.data()['lastonline'] == null
+                                      ? null
+                                      : DateTime.parse(u.data()['lastonline']),
+                                  photoUrl: u.data()['photourl'],
+                                  pAlways: u.data()['palways'],
+                                  pLocation: u.data()['plocation'],
+                                  pMaps: u.data()['pmaps'],
+                                  pPhone: u.data()['pphone'],
+                                  phone: u.data()['phone'],
+                                  premium: u.data()['premium'],
+                                  verified: u.data()['verified'],
+                                  celeb: u.data()['celeb'],
+                                );
+
+                                if (e.equals(HomeSetterPage.mainUser!) &&
+                                    snapshots.data!.docs.length == 1) {
+                                  return noOneNearby();
+                                } else if (e.equals(HomeSetterPage.mainUser!)) {
+                                  return SizedBox();
+                                }
+                                //TODO Uncomment later
+                                // else if (!((e.lat ?? 0) < latMax &&
+                                //     (e.lat ?? 0) > latMin)) {
+                                //   return SizedBox();
+                                // }
+                                // Get distance in metres
+                                var distanceD = calculateDistance(
+                                        locationData!.latitude,
+                                        locationData!.longitude,
+                                        e.lat,
+                                        e.long) *
+                                    1000;
+                                double distance = 0;
+                                int distanceInt = 0;
+                                bool isKm = false;
+
+                                if (distanceD < 10) {
+                                  distanceInt = distanceD.toInt();
+                                } else {
+                                  distance = distanceD.roundToDouble() -
+                                      distanceD.roundToDouble() % 10;
+                                  if (distance > 1000) {
+                                    distance /= 1000;
+                                    distance = double.parse(
+                                        distance.toStringAsFixed(2));
+                                    isKm = true;
+                                  }
+                                  if (!isKm) {
+                                    distanceInt = distance.round();
+                                  }
+                                }
+
+                                return Container(
+                                  margin:
+                                      EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                                  child: NearbyCard(
+                                      e: e,
+                                      isKm: isKm,
+                                      distance: distance,
+                                      distanceInt: distanceInt),
+                                );
+                              },
+                            ).toList(),
+                    );
+                  }
+                  return Loading();
+                },
+              ),
+            SizedBox(
+              height: 100.0,
+            ),
+          ],
+        ),
       ),
     );
   }

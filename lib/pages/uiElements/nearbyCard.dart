@@ -63,22 +63,22 @@ class NearbyCard extends StatelessWidget {
                         if (e.celeb)
                           Icon(
                             Icons.verified,
-                            size: 20,
+                            size: 15,
                             color: Colors.green,
                           ),
                         if (!e.verified)
                           Icon(
-                            Icons.warning,
+                            Icons.info_rounded,
                             size: 15,
                             color: Colors.redAccent,
                           ),
                       ],
                     ),
                     if (e.premium)
-                      Text(
-                        'Premium User',
-                        style: TextStyle(color: Colors.grey),
-                      ),
+                      Text('Premium User',
+                          style: TextStyle(
+                            color: Colors.deepOrange,
+                          )),
                     if (e.pLocation)
                       Text(
                         (isKm ? distance.toString() : distanceInt.toString()) +

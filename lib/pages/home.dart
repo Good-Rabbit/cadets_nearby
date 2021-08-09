@@ -2,6 +2,8 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:readiew/pages/subPages/accountSub.dart';
 import 'package:readiew/pages/subPages/homeSub.dart';
+import 'package:readiew/pages/subPages/messageSub.dart';
+import 'package:readiew/pages/subPages/notificationSub.dart';
 
 class RealHome extends StatefulWidget {
   const RealHome({
@@ -34,24 +36,17 @@ class _RealHomeState extends State<RealHome> {
             });
           },
           children: [
-            HomeSubPage(),
-            Container(
-                child: ColoredBox(
-              color: Colors.greenAccent,
-              child: Center(child: Text('TODO')),
-            )),
-            Container(
-                child: ColoredBox(
-              color: Colors.orangeAccent,
-              child: Center(child: Text('TODO')),
-            )),
+            HomeSubPage(
+              setSelectedIndex: setSelectedIndex,
+            ),
+            MessageSubPage(),
+            NotificationSubPage(),
             AccountSubPage(),
           ],
         ),
         bottomNavigationBar: BottomNavyBar(
           selectedIndex: selectedIndex,
           backgroundColor: Colors.orange[100],
-          showElevation: true, // use this to remove appBar's elevation
           onItemSelected: (index) => setState(() {
             setSelectedIndex(index);
           }),
@@ -59,25 +54,29 @@ class _RealHomeState extends State<RealHome> {
             BottomNavyBarItem(
               icon: Icon(Icons.home),
               title: Text('Home'),
+              textAlign: TextAlign.center,
               activeColor: Colors.redAccent,
               inactiveColor: Theme.of(context).accentColor,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.search),
-              title: Text('Search'),
-              activeColor: Colors.green,
+              icon: Icon(Icons.message),
+              title: Text('Messages'),
+              textAlign: TextAlign.center,
+              activeColor: Colors.brown,
               inactiveColor: Theme.of(context).accentColor,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Settings'),
+              icon: Icon(Icons.notifications),
+              title: Text('Notifications'),
+              textAlign: TextAlign.center,
               activeColor: Colors.purpleAccent,
               inactiveColor: Theme.of(context).accentColor,
             ),
             BottomNavyBarItem(
               icon: Icon(Icons.manage_accounts),
               title: Text('Account'),
-              activeColor: Colors.blue,
+              textAlign: TextAlign.center,
+              activeColor: Colors.teal,
               inactiveColor: Theme.of(context).accentColor,
             ),
           ],
