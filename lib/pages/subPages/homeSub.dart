@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:readiew/pages/homeSetter.dart';
+import 'package:readiew/pages/uiElements/filterRange.dart';
 import 'package:readiew/pages/uiElements/loading.dart';
 import 'package:readiew/pages/uiElements/nearbyCard.dart';
 import 'package:readiew/services/user.dart';
@@ -24,6 +25,11 @@ class _HomeSubPageState extends State<HomeSubPage>
   bool rejected = false;
   bool updateFlag = false;
   bool disabled = false;
+  bool loadingComplete = false;
+
+  List<AppUser> savedUsers = [];
+  List<double> mmList = [];
+
   LocationData? locationData;
 
   double latMax = 0;
@@ -33,6 +39,10 @@ class _HomeSubPageState extends State<HomeSubPage>
   double longMin = 0;
 
   String? quote;
+
+  RangeValues range = RangeValues(0, 10);
+  double min = 0;
+  double max = 10;
 
   calculateMinMax() {
     latMax = (HomeSetterPage.mainUser!.lat ?? 0) + 0.1;
@@ -94,6 +104,7 @@ class _HomeSubPageState extends State<HomeSubPage>
       calculateMinMax();
       await uploadLocation(locationData!);
       updateFlag = true;
+      loadingComplete = true;
       setState(() {});
       print(locationData);
     } catch (e) {
@@ -147,6 +158,8 @@ class _HomeSubPageState extends State<HomeSubPage>
     if (updateFlag) {
       updateFlag = false;
     }
+
+    int counter = 0;
     return RefreshIndicator(
       onRefresh: () async {
         setState(() {});
@@ -249,44 +262,56 @@ class _HomeSubPageState extends State<HomeSubPage>
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                   child: ElevatedButton.icon(
-                    onPressed: () {
-                      showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (context) {
-                            return GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () => Navigator.of(context).pop(),
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: DraggableScrollableSheet(
-                                  initialChildSize: 0.7,
-                                  maxChildSize: 0.9,
-                                  minChildSize: 0.5,
-                                  builder: (_, controller) => Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(15.0),
+                    onPressed: !loadingComplete
+                        ? null
+                        : () {
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) {
+                                  return GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: () => Navigator.of(context).pop(),
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: DraggableScrollableSheet(
+                                        initialChildSize: 0.7,
+                                        maxChildSize: 0.9,
+                                        minChildSize: 0.5,
+                                        builder: (_, controller) => Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(15.0),
+                                            ),
+                                          ),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              15, 10, 10, 10),
+                                          child: ListView(
+                                            controller: controller,
+                                            children: [
+                                              Text('By Distance - TODO'),
+                                              FilterRange(
+                                                range: range,
+                                                min: min,
+                                                max: max,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    range = value;
+                                                  });
+                                                },
+                                              ),
+                                              Text('By College - TODO'),
+                                              Text('By Intake - TODO'),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                    padding: const EdgeInsets.fromLTRB(
-                                        15, 10, 10, 10),
-                                    child: ListView(
-                                      controller: controller,
-                                      children: [
-                                        Text('By Distance - TODO'),
-                                        Text('By College - TODO'),
-                                        Text('By Intake - TODO'),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          });
-                    },
+                                  );
+                                });
+                          },
                     icon: Icon(Icons.filter_alt),
                     style: ButtonStyle(
                       elevation: MaterialStateProperty.all(0),
@@ -300,7 +325,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                 ),
               ],
             ),
-            if (locationData != null)
+            if (locationData != null && savedUsers.isEmpty)
               FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 future: HomeSetterPage.store
                     .collection('users')
@@ -309,12 +334,15 @@ class _HomeSubPageState extends State<HomeSubPage>
                     .get(),
                 builder: (context, snapshots) {
                   if (snapshots.hasData) {
+                    //TODO find min and max
+
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: snapshots.data!.docs.length == 0
                           ? [noOneNearby()]
                           : snapshots.data!.docs.map(
                               (u) {
+                                counter++;
                                 // Make a user object
                                 AppUser e = AppUser(
                                   cName: u.data()['cname'],
@@ -352,11 +380,17 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 // }
                                 // Get distance in metres
                                 var distanceD = calculateDistance(
-                                        locationData!.latitude,
-                                        locationData!.longitude,
-                                        e.lat,
-                                        e.long) *
-                                    1000;
+                                    locationData!.latitude,
+                                    locationData!.longitude,
+                                    e.lat,
+                                    e.long);
+                                mmList.add(distanceD);
+                                if (counter ==
+                                    (snapshots.data!.docs.length - 1)) {
+                                  min = mmList.first;
+                                  max = mmList.last;
+                                }
+                                distanceD *= 1000;
                                 double distance = 0;
                                 int distanceInt = 0;
                                 bool isKm = false;
@@ -393,6 +427,58 @@ class _HomeSubPageState extends State<HomeSubPage>
                   return Loading();
                 },
               ),
+            if (locationData != null && savedUsers.isNotEmpty)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: savedUsers.map((e) {
+                  if (e.equals(HomeSetterPage.mainUser!) &&
+                      savedUsers.length == 1) {
+                    return noOneNearby();
+                  } else if (e.equals(HomeSetterPage.mainUser!)) {
+                    return SizedBox();
+                  }
+                  //TODO Uncomment later
+                  // else if (!((e.lat ?? 0) < latMax &&
+                  //     (e.lat ?? 0) > latMin)) {
+                  //   return SizedBox();
+                  // }
+                  // Get distance in metres
+                  var distanceD = calculateDistance(locationData!.latitude,
+                      locationData!.longitude, e.lat, e.long);
+                  if (distanceD > max || distanceD < min) {
+                    return SizedBox();
+                  }
+                  distanceD *= 1000;
+                  double distance = 0;
+                  int distanceInt = 0;
+                  bool isKm = false;
+
+                  if (distanceD < 10) {
+                    distanceInt = distanceD.toInt();
+                  } else {
+                    distance = distanceD.roundToDouble() -
+                        distanceD.roundToDouble() % 10;
+                    if (distance > 1000) {
+                      distance /= 1000;
+                      distance = double.parse(distance.toStringAsFixed(2));
+                      isKm = true;
+                    }
+                    if (!isKm) {
+                      distanceInt = distance.round();
+                    }
+                  }
+
+                  return Container(
+                    margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                    child: NearbyCard(
+                        e: e,
+                        isKm: isKm,
+                        distance: distance,
+                        distanceInt: distanceInt),
+                  );
+                }).toList(),
+              ),
+            if (locationData == null) Loading(),
             SizedBox(
               height: 100.0,
             ),

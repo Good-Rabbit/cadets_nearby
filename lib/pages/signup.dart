@@ -65,7 +65,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                     child: Text(
                       'at $appName',
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.grey[800],
                         fontFamily: 'Poppins',
                       ),
                     ),
