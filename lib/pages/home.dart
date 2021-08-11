@@ -1,9 +1,9 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:readiew/pages/subPages/accountSub.dart';
-import 'package:readiew/pages/subPages/homeSub.dart';
-import 'package:readiew/pages/subPages/messageSub.dart';
-import 'package:readiew/pages/subPages/notificationSub.dart';
+import 'package:cadets_nearby/pages/subPages/accountSub.dart';
+import 'package:cadets_nearby/pages/subPages/homeSub.dart';
+import 'package:cadets_nearby/pages/subPages/messageSub.dart';
+import 'package:cadets_nearby/pages/subPages/notificationSub.dart';
 
 class RealHome extends StatefulWidget {
   const RealHome({

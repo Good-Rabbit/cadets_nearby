@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:readiew/pages/homeSetter.dart';
-import 'package:readiew/services/user.dart';
+import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/services/user.dart';
 
 class AccountSubPage extends StatefulWidget {
   AccountSubPage({Key? key}) : super(key: key);

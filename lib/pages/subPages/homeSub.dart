@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
-import 'package:readiew/pages/homeSetter.dart';
-import 'package:readiew/pages/uiElements/filterRange.dart';
-import 'package:readiew/pages/uiElements/loading.dart';
-import 'package:readiew/pages/uiElements/nearbyCard.dart';
-import 'package:readiew/services/user.dart';
+import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/pages/uiElements/filterRange.dart';
+import 'package:cadets_nearby/pages/uiElements/loading.dart';
+import 'package:cadets_nearby/pages/uiElements/nearbyCard.dart';
+import 'package:cadets_nearby/services/user.dart';
 
 class HomeSubPage extends StatefulWidget {
   HomeSubPage({Key? key, required this.setSelectedIndex}) : super(key: key);
@@ -26,7 +26,8 @@ class _HomeSubPageState extends State<HomeSubPage>
   bool updateFlag = false;
   bool disabled = false;
   bool loadingComplete = false;
-  bool timeout = false;
+
+  bool locationTimeout = false;
 
   List<AppUser> savedUsers = [];
   List<double> mmList = [];
@@ -60,8 +61,8 @@ class _HomeSubPageState extends State<HomeSubPage>
   }
 
   getLocation() async {
-    if (!timeout) {
-      timeout = true;
+    if (!locationTimeout) {
+      locationTimeout = true;
       print('Getting location...');
 
       try {
@@ -114,7 +115,7 @@ class _HomeSubPageState extends State<HomeSubPage>
         print(e);
       }
       Future.delayed(Duration(minutes: 1)).then((value) {
-        timeout = false;
+        locationTimeout = false;
       });
     }
   }
@@ -151,6 +152,12 @@ class _HomeSubPageState extends State<HomeSubPage>
     print('here');
     var doc = await HomeSetterPage.store.collection('quotes').doc('1').get();
     quote = doc.data()!['quote'] ?? 'Demo Quote For Now';
+  }
+
+  clearSaved() async {
+    Future.delayed(Duration(minutes: 2)).then((value) {
+      savedUsers = [];
+    });
   }
 
   @override
@@ -340,6 +347,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                     // .where('long', isLessThan: longMax, isGreaterThan: longMin)
                     .get(),
                 builder: (context, snapshots) {
+                  print('Getting Users...');
                   if (snapshots.hasData) {
                     //TODO find min and max
 
@@ -373,10 +381,20 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   celeb: u.data()['celeb'],
                                 );
 
+                                Duration timeDiff;
+                                if (e.timeStamp == null) {
+                                  timeDiff = Duration(seconds: 0);
+                                } else {
+                                  timeDiff =
+                                      DateTime.now().difference(e.timeStamp!);
+                                }
+
                                 if (e.equals(HomeSetterPage.mainUser!) &&
                                     snapshots.data!.docs.length == 1) {
                                   return noOneNearby();
                                 } else if (e.equals(HomeSetterPage.mainUser!)) {
+                                  return SizedBox();
+                                } else if (timeDiff.inDays > 30) {
                                   return SizedBox();
                                 }
                                 //TODO Uncomment later
@@ -400,6 +418,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   max = mmList.last;
                                   range = RangeValues(
                                       min.floorToDouble(), max.ceilToDouble());
+                                  clearSaved();
                                 }
                                 distanceD *= 1000;
                                 double distance = 0;

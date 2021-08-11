@@ -1,14 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:readiew/data/appData.dart';
-import 'package:readiew/pages/cancel.dart';
-import 'package:readiew/pages/homeSetter.dart';
-import 'package:readiew/pages/init.dart';
-import 'package:readiew/pages/login.dart';
-import 'package:readiew/pages/phone.dart';
-import 'package:readiew/pages/reset.dart';
-import 'package:readiew/pages/signup.dart';
+import 'package:cadets_nearby/data/appData.dart';
+import 'package:cadets_nearby/pages/cancel.dart';
+import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/pages/init.dart';
+import 'package:cadets_nearby/pages/login.dart';
+import 'package:cadets_nearby/pages/phone.dart';
+import 'package:cadets_nearby/pages/reset.dart';
+import 'package:cadets_nearby/pages/signup.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Readiew',
+      title: 'cadets_nearby',
       theme: lightTheme,
       routes: {
         '/': (context) => _initialized ? HomeSetterPage() : InitPage(),

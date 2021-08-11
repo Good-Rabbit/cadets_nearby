@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location/location.dart';
-import 'package:readiew/pages/home.dart';
-import 'package:readiew/pages/login.dart';
-import 'package:readiew/services/user.dart';
+import 'package:cadets_nearby/pages/home.dart';
+import 'package:cadets_nearby/pages/login.dart';
+import 'package:cadets_nearby/services/user.dart';
 
 class HomeSetterPage extends StatefulWidget {
   HomeSetterPage({Key? key}) : super(key: key);

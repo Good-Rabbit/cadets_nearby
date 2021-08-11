@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:readiew/data/appData.dart';
-import 'package:readiew/pages/homeSetter.dart';
+import 'package:cadets_nearby/data/appData.dart';
+import 'package:cadets_nearby/pages/homeSetter.dart';
 
 class SignupMainPage extends StatefulWidget {
   SignupMainPage({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:readiew/services/user.dart';
+import 'package:cadets_nearby/services/user.dart';
 
 class NearbyCard extends StatelessWidget {
   const NearbyCard({
