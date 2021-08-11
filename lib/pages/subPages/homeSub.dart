@@ -26,6 +26,7 @@ class _HomeSubPageState extends State<HomeSubPage>
   bool updateFlag = false;
   bool disabled = false;
   bool loadingComplete = false;
+  bool timeout = false;
 
   List<AppUser> savedUsers = [];
   List<double> mmList = [];
@@ -59,56 +60,62 @@ class _HomeSubPageState extends State<HomeSubPage>
   }
 
   getLocation() async {
-    print('Getting location...');
+    if (!timeout) {
+      timeout = true;
+      print('Getting location...');
 
-    try {
-      Location location = new Location();
+      try {
+        Location location = new Location();
 
-      bool _serviceEnabled;
-      PermissionStatus _permissionGranted;
+        bool _serviceEnabled;
+        PermissionStatus _permissionGranted;
 
-      _serviceEnabled = await location.serviceEnabled();
-      locationEnabled = _serviceEnabled;
-      if (!_serviceEnabled) {
-        _serviceEnabled = await location.requestService();
+        _serviceEnabled = await location.serviceEnabled();
+        locationEnabled = _serviceEnabled;
         if (!_serviceEnabled) {
-          setState(() {
-            print('Location service not enabled...');
-            locationEnabled = false;
-            rejected = true;
-          });
-          return;
+          _serviceEnabled = await location.requestService();
+          if (!_serviceEnabled) {
+            setState(() {
+              print('Location service not enabled...');
+              locationEnabled = false;
+              rejected = true;
+            });
+            return;
+          }
+          print('Location service enabled...');
+          locationEnabled = true;
         }
-        print('Location service enabled...');
-        locationEnabled = true;
-      }
 
-      _permissionGranted = await location.hasPermission();
-      if (_permissionGranted == PermissionStatus.denied) {
-        _permissionGranted = await location.requestPermission();
-        if (!(_permissionGranted == PermissionStatus.granted ||
-            _permissionGranted == PermissionStatus.grantedLimited)) {
-          setState(() {
-            print('Location permission denied...');
-            permissionGranted = false;
-            rejected = true;
-          });
-          return;
+        _permissionGranted = await location.hasPermission();
+        if (_permissionGranted == PermissionStatus.denied) {
+          _permissionGranted = await location.requestPermission();
+          if (!(_permissionGranted == PermissionStatus.granted ||
+              _permissionGranted == PermissionStatus.grantedLimited)) {
+            setState(() {
+              print('Location permission denied...');
+              permissionGranted = false;
+              rejected = true;
+            });
+            return;
+          }
+          print('Location permission granted...');
+          permissionGranted = true;
         }
-        print('Location permission granted...');
-        permissionGranted = true;
-      }
 
-      locationData = await location.getLocation();
-      //Calculate minimum and maximum for other distances
-      calculateMinMax();
-      await uploadLocation(locationData!);
-      updateFlag = true;
-      loadingComplete = true;
-      setState(() {});
-      print(locationData);
-    } catch (e) {
-      print(e);
+        locationData = await location.getLocation();
+        //Calculate minimum and maximum for other distances
+        calculateMinMax();
+        await uploadLocation(locationData!);
+        updateFlag = true;
+        loadingComplete = true;
+        setState(() {});
+        print(locationData);
+      } catch (e) {
+        print(e);
+      }
+      Future.delayed(Duration(minutes: 1)).then((value) {
+        timeout = false;
+      });
     }
   }
 
@@ -294,8 +301,8 @@ class _HomeSubPageState extends State<HomeSubPage>
                                               Text('By Distance - TODO'),
                                               FilterRange(
                                                 range: range,
-                                                min: min,
-                                                max: max,
+                                                min: min.floorToDouble(),
+                                                max: max.ceilToDouble(),
                                                 onChanged: (value) {
                                                   setState(() {
                                                     range = value;
@@ -342,7 +349,6 @@ class _HomeSubPageState extends State<HomeSubPage>
                           ? [noOneNearby()]
                           : snapshots.data!.docs.map(
                               (u) {
-                                counter++;
                                 // Make a user object
                                 AppUser e = AppUser(
                                   cName: u.data()['cname'],
@@ -384,11 +390,16 @@ class _HomeSubPageState extends State<HomeSubPage>
                                     locationData!.longitude,
                                     e.lat,
                                     e.long);
+                                counter++;
                                 mmList.add(distanceD);
+                                savedUsers.add(e);
                                 if (counter ==
                                     (snapshots.data!.docs.length - 1)) {
+                                  mmList.sort();
                                   min = mmList.first;
                                   max = mmList.last;
+                                  range = RangeValues(
+                                      min.floorToDouble(), max.ceilToDouble());
                                 }
                                 distanceD *= 1000;
                                 double distance = 0;
@@ -445,7 +456,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                   // Get distance in metres
                   var distanceD = calculateDistance(locationData!.latitude,
                       locationData!.longitude, e.lat, e.long);
-                  if (distanceD > max || distanceD < min) {
+                  if (distanceD > range.end || distanceD < range.start) {
                     return SizedBox();
                   }
                   distanceD *= 1000;
