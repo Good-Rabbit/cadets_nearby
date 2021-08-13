@@ -295,7 +295,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                         minChildSize: 0.5,
                                         builder: (_, controller) => Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            color: Colors.orange[50],
                                             borderRadius: BorderRadius.vertical(
                                               top: Radius.circular(15.0),
                                             ),
@@ -305,7 +305,15 @@ class _HomeSubPageState extends State<HomeSubPage>
                                           child: ListView(
                                             controller: controller,
                                             children: [
-                                              Text('By Distance - TODO'),
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                'By Distance',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
                                               FilterRange(
                                                 range: range,
                                                 min: min.floorToDouble(),
@@ -349,8 +357,6 @@ class _HomeSubPageState extends State<HomeSubPage>
                 builder: (context, snapshots) {
                   print('Getting Users...');
                   if (snapshots.hasData) {
-                    //TODO find min and max
-
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: snapshots.data!.docs.length == 0

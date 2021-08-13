@@ -43,5 +43,10 @@
 	<false/>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Cadets nearby location use</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mailto</string>
+		<string>tel</string>
+	</array>
 </dict>
 </plist>
