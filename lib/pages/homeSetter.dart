@@ -535,7 +535,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         children: [
                           ElevatedButton.icon(
                             onPressed: () {
-                              //TODO Incomplete Cancel Account
                               Navigator.of(context).pushNamed('/cancel');
                             },
                             label: Text('Cancel'),

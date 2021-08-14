@@ -7,7 +7,6 @@ import 'package:cadets_nearby/pages/cancel.dart';
 import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:cadets_nearby/pages/init.dart';
 import 'package:cadets_nearby/pages/login.dart';
-import 'package:cadets_nearby/pages/phone.dart';
 import 'package:cadets_nearby/pages/reset.dart';
 import 'package:cadets_nearby/pages/signup.dart';
 
@@ -25,7 +24,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _initialized = false;
-  bool _error = false;
 
   void initializeFlutterFire() async {
     try {
@@ -34,9 +32,7 @@ class _MyAppState extends State<MyApp> {
         _initialized = true;
       });
     } catch (e) {
-      setState(() {
-        _error = true;
-      });
+      print(e);
     }
   }
 
@@ -56,7 +52,6 @@ class _MyAppState extends State<MyApp> {
         '/': (context) => _initialized ? HomeSetterPage() : InitPage(),
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignupMainPage(),
-        '/phoneSetup': (context) => PhonePage(),
         '/reset': (context) => ResetPage(),
         '/cancel': (context) => CancelVerificationPage(),
         '/message': (context) => UserMessagePage(),

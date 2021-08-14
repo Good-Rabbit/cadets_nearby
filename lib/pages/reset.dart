@@ -1,6 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cadets_nearby/pages/homeSetter.dart';
 
@@ -13,10 +10,6 @@ class ResetPage extends StatefulWidget {
 
 class _ResetPageState extends State<ResetPage> {
   final formKey = GlobalKey<FormState>();
-
-  // bool invalidEmail = false;
-  // bool userDisabled = false;
-  // bool userNotFound = false;
   TextEditingController emailTextController = TextEditingController();
 
   bool inProgress = false;
