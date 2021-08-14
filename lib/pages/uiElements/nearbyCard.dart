@@ -20,11 +20,11 @@ class NearbyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String lastUpdate = e.timeStamp == null
         ? 'never'
-        : (e.timeStamp!.day.toString() +
+        : (e.timeStamp.day.toString() +
             '/' +
-            e.timeStamp!.month.toString() +
+            e.timeStamp.month.toString() +
             '/' +
-            e.timeStamp!.year.toString());
+            e.timeStamp.year.toString());
     return InkWell(
       onTap: () {
         showModalBottomSheet(
@@ -71,10 +71,10 @@ class NearbyCard extends StatelessWidget {
                   radius: 25.0,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: e.photoUrl! == ''
+                    child: e.photoUrl == ''
                         ? Image.asset('assets/images/user.png')
                         : Image.network(
-                            e.photoUrl!,
+                            e.photoUrl,
                             width: 80,
                             height: 80,
                           ),

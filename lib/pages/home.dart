@@ -46,7 +46,7 @@ class _RealHomeState extends State<RealHome> {
         ),
         bottomNavigationBar: BottomNavyBar(
           selectedIndex: selectedIndex,
-          backgroundColor: Colors.orange[100],
+          backgroundColor: Theme.of(context).bottomAppBarColor,
           onItemSelected: (index) => setState(() {
             setSelectedIndex(index);
           }),

@@ -92,10 +92,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                         radius: 40.0,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: HomeSetterPage.mainUser!.photoUrl! == ''
+                          child: HomeSetterPage.mainUser!.photoUrl == ''
                               ? Image.asset('assets/images/user.png')
                               : Image.network(
-                                  HomeSetterPage.mainUser!.photoUrl!,
+                                  HomeSetterPage.mainUser!.photoUrl,
                                   width: 80,
                                   height: 80,
                                 ),
@@ -657,9 +657,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                                       HomeSetterPage.auth.currentUser!.email,
                                   'pphone': phoneAccess,
                                   'plocation': locationAccess,
-                                  // 'pmap': false,
                                 });
                                 HomeSetterPage.mainUser = AppUser(
+                                  id: HomeSetterPage.mainUser!.id,
                                   cName: cName,
                                   cNumber:
                                       int.parse(cNumberTextController.text),
@@ -675,9 +675,12 @@ class _AccountSubPageState extends State<AccountSubPage>
                                           .auth.currentUser!.photoURL ??
                                       '',
                                   phone: phoneTextController.text,
+                                  timeStamp: HomeSetterPage.mainUser!.timeStamp,
                                   premium: HomeSetterPage.mainUser!.premium,
                                   verified: HomeSetterPage.mainUser!.verified,
                                   celeb: HomeSetterPage.mainUser!.celeb,
+                                  bountyHead: HomeSetterPage.mainUser!.bountyHead,
+                                  bountyHunter: HomeSetterPage.mainUser!.bountyHunter,
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -739,7 +742,7 @@ class _AccountSubPageState extends State<AccountSubPage>
     cNameTextController.text = HomeSetterPage.mainUser!.cName;
     cNumberTextController.text = HomeSetterPage.mainUser!.cNumber.toString();
     intakeTextController.text = HomeSetterPage.mainUser!.intake.toString();
-    phoneTextController.text = HomeSetterPage.mainUser!.phone ?? '';
+    phoneTextController.text = HomeSetterPage.mainUser!.phone;
     emailTextController.text = HomeSetterPage.mainUser!.email;
     college = HomeSetterPage.mainUser!.college;
     useRegularEmail = HomeSetterPage.mainUser!.email ==

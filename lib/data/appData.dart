@@ -7,6 +7,7 @@ ThemeData lightTheme = ThemeData(
   primaryColor: Colors.deepOrange,
   accentColor: Colors.orange,
   backgroundColor: Colors.orange[200],
+  bottomAppBarColor: Colors.orange[100],
   textTheme: TextTheme(
     bodyText1: TextStyle(
       fontFamily: 'Poppins',

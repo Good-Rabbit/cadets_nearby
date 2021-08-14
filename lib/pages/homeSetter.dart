@@ -14,6 +14,7 @@ class HomeSetterPage extends StatefulWidget {
   static setMainUser(User? user) async {
     var u = await HomeSetterPage.store.collection('users').doc(user!.uid).get();
     HomeSetterPage.mainUser = AppUser(
+      id: HomeSetterPage.auth.currentUser!.uid,
       cName: u.data()!['cname'],
       cNumber: int.parse(u.data()!['cnumber']),
       fullName: u.data()!['fullname'],
@@ -32,6 +33,8 @@ class HomeSetterPage extends StatefulWidget {
       premium: u.data()!['premium'],
       verified: u.data()!['verified'],
       celeb: u.data()!['celeb'],
+      bountyHead: u.data()!['bountyhead'],
+      bountyHunter: u.data()!['bountyhunter'],
     );
   }
 
@@ -590,6 +593,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                                 .instance.currentUser!.uid)
                                             .set(
                                           {
+                                            'id': HomeSetterPage
+                                                .auth.currentUser!.uid,
                                             'fullname': fullName,
                                             'intake': intakeTextController.text,
                                             'college': college,
@@ -602,16 +607,21 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             'pphone': phoneAccess,
                                             'plocation': locationAccess,
                                             'palways': alwaysAccess,
-                                            'pmap': false,
+                                            'pmaps': false,
                                             'premium': false,
                                             'verified': false,
                                             'photourl': HomeSetterPage.auth
                                                     .currentUser!.photoURL ??
                                                 '',
                                             'celeb': false,
+                                            'bountycount': 0,
+                                            'bountyhead': true,
+                                            'bountyhunter': true,
                                           },
                                         );
                                         HomeSetterPage.mainUser = AppUser(
+                                          id: HomeSetterPage
+                                              .auth.currentUser!.uid,
                                           cName: cName,
                                           cNumber: int.parse(
                                               cNumberTextController.text),
@@ -631,7 +641,10 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                           phone: phoneTextController.text,
                                           premium: false,
                                           verified: false,
+                                          timeStamp: DateTime.now(),
                                           celeb: false,
+                                          bountyHead: true,
+                                          bountyHunter: true,
                                         );
                                         widget.loggedInNotifier();
                                       } catch (e) {

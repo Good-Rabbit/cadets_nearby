@@ -16,7 +16,7 @@ class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String emailAddress = 'mailto:' + e.email;
-    String phoneNumber = 'tel:' + (e.phone ?? '');
+    String phoneNumber = 'tel:' + e.phone;
     return Column(
       children: [
         Container(
@@ -25,10 +25,10 @@ class UserProfile extends StatelessWidget {
             radius: 40.0,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: e.photoUrl! == ''
+              child: e.photoUrl == ''
                   ? Image.asset('assets/images/user.png')
                   : Image.network(
-                      e.photoUrl!,
+                      e.photoUrl,
                     ),
             ),
           ),
@@ -86,7 +86,9 @@ class UserProfile extends StatelessWidget {
           height: 10.0,
         ),
         ElevatedButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed('/message',arguments: e);
+          },
           icon: Icon(Icons.message),
           label: Text('Message - TODO'),
         ),
@@ -97,14 +99,14 @@ class UserProfile extends StatelessWidget {
           icon: Icon(Icons.alternate_email),
           label: Text(e.email),
         ),
-        if (!e.pPhone || e.phone == null) Text('Phone number is private'),
-        if (e.pPhone && e.phone != null)
+        if (!e.pPhone) Text('Phone number is private'),
+        if (e.pPhone)
           TextButton.icon(
             onPressed: () {
               launchURL(phoneNumber);
             },
             icon: Icon(Icons.phone),
-            label: Text(e.phone!),
+            label: Text(e.phone),
           ),
       ],
     );

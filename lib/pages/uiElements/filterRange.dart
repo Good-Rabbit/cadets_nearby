@@ -39,15 +39,25 @@ class _FilterRangeState extends State<FilterRange> {
           min: widget.min,
           max: widget.max,
           divisions: 10,
-          labels: RangeLabels('${range.start.ceil()}', '${range.end.ceil()}'),
+          labels: RangeLabels('${range.start.floor()}', '${range.end.ceil()}'),
         ),
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Min: ' + range.start.ceil().toString()),
-              Text('Max: ' + range.end.ceil().toString()),
+              Text(
+                'Min: ' + range.start.ceil().toString(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Max: ' + range.end.ceil().toString(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
         ),

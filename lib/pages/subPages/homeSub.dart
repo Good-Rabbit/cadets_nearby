@@ -47,10 +47,10 @@ class _HomeSubPageState extends State<HomeSubPage>
   double max = 10;
 
   calculateMinMax() {
-    latMax = (HomeSetterPage.mainUser!.lat ?? 0) + 0.1;
-    latMin = (HomeSetterPage.mainUser!.lat ?? 0) - 0.1;
-    longMax = (HomeSetterPage.mainUser!.long ?? 0) + 0.1;
-    longMin = (HomeSetterPage.mainUser!.long ?? 0) - 0.1;
+    latMax = (HomeSetterPage.mainUser!.lat) + 0.1;
+    latMin = (HomeSetterPage.mainUser!.lat) - 0.1;
+    longMax = (HomeSetterPage.mainUser!.long) + 0.1;
+    longMin = (HomeSetterPage.mainUser!.long) - 0.1;
     // print(latMin.toString() +
     //     ' ' +
     //     latMax.toString() +
@@ -199,10 +199,10 @@ class _HomeSubPageState extends State<HomeSubPage>
                           radius: 20.0,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
-                            child: HomeSetterPage.mainUser!.photoUrl! == ''
+                            child: HomeSetterPage.mainUser!.photoUrl == ''
                                 ? Image.asset('assets/images/user.png')
                                 : Image.network(
-                                    HomeSetterPage.mainUser!.photoUrl!,
+                                    HomeSetterPage.mainUser!.photoUrl,
                                   ),
                           ),
                         ),
@@ -312,6 +312,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                                 'By Distance',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
                                                 ),
                                               ),
                                               FilterRange(
@@ -365,6 +366,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                               (u) {
                                 // Make a user object
                                 AppUser e = AppUser(
+                                  id: u.data()['id'],
                                   cName: u.data()['cname'],
                                   cNumber: int.parse(u.data()['cnumber']),
                                   fullName: u.data()['fullname'],
@@ -373,9 +375,8 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   intake: int.parse(u.data()['intake']),
                                   lat: u.data()['lat'],
                                   long: u.data()['long'],
-                                  timeStamp: u.data()['lastonline'] == null
-                                      ? null
-                                      : DateTime.parse(u.data()['lastonline']),
+                                  timeStamp:
+                                      DateTime.parse(u.data()['lastonline']),
                                   photoUrl: u.data()['photourl'],
                                   pAlways: u.data()['palways'],
                                   pLocation: u.data()['plocation'],
@@ -385,15 +386,13 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   premium: u.data()['premium'],
                                   verified: u.data()['verified'],
                                   celeb: u.data()['celeb'],
+                                  bountyHead: u.data()['bountyhead'],
+                                  bountyHunter: u.data()['bountyhunter'],
                                 );
 
                                 Duration timeDiff;
-                                if (e.timeStamp == null) {
-                                  timeDiff = Duration(seconds: 0);
-                                } else {
-                                  timeDiff =
-                                      DateTime.now().difference(e.timeStamp!);
-                                }
+                                timeDiff =
+                                    DateTime.now().difference(e.timeStamp);
 
                                 if (e.equals(HomeSetterPage.mainUser!) &&
                                     snapshots.data!.docs.length == 1) {
@@ -526,23 +525,22 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   Container noOneNearby() {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 100, 0, 0),
-      child: Center(
-        child: Column(
-          children: [
-            Icon(
-              Icons.no_accounts,
-              size: 70.0,
+      height: MediaQuery.of(context).size.height * 2 / 3,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.no_accounts,
+            size: 70.0,
+          ),
+          Text(
+            "No one nearby",
+            style: TextStyle(
+              fontSize: 25,
+              fontFamily: 'Poppins',
             ),
-            Text(
-              "No one nearby",
-              style: TextStyle(
-                fontSize: 25,
-                fontFamily: 'Poppins',
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

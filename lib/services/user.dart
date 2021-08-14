@@ -1,4 +1,5 @@
 class AppUser {
+  String id;
   String fullName;
   int intake;
   String college;
@@ -10,13 +11,15 @@ class AppUser {
   bool pPhone;
   bool verified;
   bool celeb;
-  String? photoUrl;
-  String? phone;
-  double? lat;
-  double? long;
-  DateTime? timeStamp;
-  bool? pAlways;
-  bool? pMaps;
+  bool bountyHead;
+  bool bountyHunter;
+  String photoUrl;
+  String phone;
+  double lat;
+  double long;
+  DateTime timeStamp;
+  bool pAlways;
+  bool pMaps;
 
   AppUser({
     required this.cName,
@@ -30,16 +33,18 @@ class AppUser {
     required this.pPhone,
     required this.verified,
     required this.celeb,
-    this.photoUrl,
-    this.lat,
-    this.long,
-    this.phone,
-    this.pAlways,
-    this.timeStamp,
-    this.pMaps,
+    required this.bountyHead,
+    required this.bountyHunter,
+    required this.id,
+    required this.timeStamp,
+    this.photoUrl:'',
+    this.lat:0,
+    this.long:0,
+    this.phone:'',
+    this.pAlways:false,
+    this.pMaps:false,
   });
 
-  bool equals(AppUser user) {
-    return ((user.college == this.college) && (user.cNumber == this.cNumber));
-  }
+  bool equals(AppUser user) => (user.id == this.id);
+  bool notEquals(AppUser user) => (user.id != this.id);
 }
