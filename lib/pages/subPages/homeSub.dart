@@ -538,12 +538,14 @@ class _HomeSubPageState extends State<HomeSubPage>
           Icon(
             Icons.no_accounts,
             size: 70.0,
+            color: Theme.of(context).primaryColor,
           ),
           Text(
             "No one nearby",
             style: TextStyle(
               fontSize: 25,
               fontFamily: 'Poppins',
+              color: Theme.of(context).primaryColor,
             ),
           ),
         ],

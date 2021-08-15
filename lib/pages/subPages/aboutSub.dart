@@ -12,9 +12,24 @@ class _AboutSubPageState extends State<AboutSubPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Center(
-      child: Container(
-        child: Text('About Page'),
+    return SafeArea(
+      child: Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+            Container(
+              margin: EdgeInsets.all(15),
+              child: Text(
+                'Cadets Nearby is a system by the cadets, for the cadets. With this, you can easily find cadets who are nearby. Making it very convenient for you to find and communicate with each other.',
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

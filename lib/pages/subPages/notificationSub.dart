@@ -13,8 +13,23 @@ class _NotificationSubPageState extends State<NotificationSubPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Center(
-      child: Container(
-        child: Text('Notification Page'),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.notifications_off,
+            size: 70,
+            color: Theme.of(context).primaryColor,
+          ),
+          Text(
+            'No Notifications',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ],
       ),
     );
   }
