@@ -416,7 +416,16 @@ class _HomeSubPageState extends State<HomeSubPage>
                                     e.long);
                                 counter++;
                                 max = distanceD > max ? distanceD : max;
-                                savedUsers.add(e);
+                                bool contains = false;
+                                for (var user in savedUsers) {
+                                  if (user.id == e.id) {
+                                    contains = true;
+                                    break;
+                                  }
+                                }
+                                if (!contains) {
+                                  savedUsers.add(e);
+                                }
                                 if (counter ==
                                     (snapshots.data!.docs.length - 1)) {
                                   range = RangeValues(min, max.ceilToDouble());
