@@ -526,6 +526,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                                             Icons.facebook,
                                           )),
                                     ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (fbTextController.text !=
+                                            HomeSetterPage.mainUser!.fbUrl)
+                                          hasChanged = true;
+                                      });
+                                    },
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       color: editingEnabled
@@ -577,6 +584,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                                             FontAwesomeIcons.instagram,
                                           )),
                                     ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        if (instaTextController.text !=
+                                            HomeSetterPage.mainUser!.instaUrl)
+                                          hasChanged = true;
+                                      });
+                                    },
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       color: editingEnabled

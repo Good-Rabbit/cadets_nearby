@@ -185,7 +185,7 @@ class _HomeSubPageState extends State<HomeSubPage>
               padding: const EdgeInsets.all(20.0),
               child: GestureDetector(
                 onTap: () {
-                  widget.setSelectedIndex(4);
+                  widget.setSelectedIndex(3);
                 },
                 child: Card(
                   color: Colors.transparent,
