@@ -1,11 +1,18 @@
 class AppUser {
+  int cNumber;
+  int intake;
+  double lat;
+  double long;
   String id;
   String fullName;
-  int intake;
   String college;
   String cName;
-  int cNumber;
   String email;
+  String photoUrl;
+  String phone;
+  String fbUrl;
+  String instaUrl;
+  DateTime timeStamp;
   bool pLocation;
   bool premium;
   bool pPhone;
@@ -13,11 +20,6 @@ class AppUser {
   bool celeb;
   bool bountyHead;
   bool bountyHunter;
-  String photoUrl;
-  String phone;
-  double lat;
-  double long;
-  DateTime timeStamp;
   bool pAlways;
   bool pMaps;
 
@@ -37,12 +39,14 @@ class AppUser {
     required this.bountyHunter,
     required this.id,
     required this.timeStamp,
-    this.photoUrl:'',
-    this.lat:0,
-    this.long:0,
-    this.phone:'',
-    this.pAlways:false,
-    this.pMaps:false,
+    required this.fbUrl,
+    required this.instaUrl,
+    this.photoUrl: '',
+    this.lat: 0,
+    this.long: 0,
+    this.phone: '',
+    this.pAlways: false,
+    this.pMaps: false,
   });
 
   bool equals(AppUser user) => (user.id == this.id);

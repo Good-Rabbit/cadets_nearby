@@ -2,7 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:cadets_nearby/pages/subPages/accountSub.dart';
 import 'package:cadets_nearby/pages/subPages/homeSub.dart';
-import 'package:cadets_nearby/pages/subPages/messageSub.dart';
+import 'package:cadets_nearby/pages/subPages/aboutSub.dart';
 import 'package:cadets_nearby/pages/subPages/notificationSub.dart';
 
 class RealHome extends StatefulWidget {
@@ -39,9 +39,9 @@ class _RealHomeState extends State<RealHome> {
             HomeSubPage(
               setSelectedIndex: setSelectedIndex,
             ),
-            MessageSubPage(),
             NotificationSubPage(),
             AccountSubPage(),
+            AboutSubPage(),
           ],
         ),
         bottomNavigationBar: BottomNavyBar(
@@ -59,22 +59,22 @@ class _RealHomeState extends State<RealHome> {
               inactiveColor: Theme.of(context).accentColor,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.message),
-              title: Text('Messages'),
+              icon: Icon(Icons.notifications),
+              title: Text('Notifications'),
               textAlign: TextAlign.center,
               activeColor: Colors.brown,
               inactiveColor: Theme.of(context).accentColor,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.notifications),
-              title: Text('Notifications'),
+              icon: Icon(Icons.manage_accounts),
+              title: Text('Account'),
               textAlign: TextAlign.center,
               activeColor: Colors.purpleAccent,
               inactiveColor: Theme.of(context).accentColor,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.manage_accounts),
-              title: Text('Account'),
+              icon: Icon(Icons.info),
+              title: Text('About'),
               textAlign: TextAlign.center,
               activeColor: Colors.teal,
               inactiveColor: Theme.of(context).accentColor,

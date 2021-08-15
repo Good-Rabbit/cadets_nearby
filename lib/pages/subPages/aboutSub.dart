@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class MessageSubPage extends StatefulWidget {
-  MessageSubPage({Key? key}) : super(key: key);
+class AboutSubPage extends StatefulWidget {
+  AboutSubPage({Key? key}) : super(key: key);
 
   @override
-  _MessageSubPageState createState() => _MessageSubPageState();
+  _AboutSubPageState createState() => _AboutSubPageState();
 }
 
-class _MessageSubPageState extends State<MessageSubPage>
+class _AboutSubPageState extends State<AboutSubPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Center(
       child: Container(
-        child: Text('Messages Page'),
+        child: Text('About Page'),
       ),
     );
   }

@@ -56,7 +56,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                     child: Text(
                       'to delete your account',
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.grey[800],
                         fontFamily: 'Poppins',
                       ),
                     ),

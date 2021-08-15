@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:cadets_nearby/services/user.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AccountSubPage extends StatefulWidget {
   AccountSubPage({Key? key}) : super(key: key);
@@ -19,6 +20,8 @@ class _AccountSubPageState extends State<AccountSubPage>
   TextEditingController intakeTextController = TextEditingController();
   TextEditingController phoneTextController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
+  TextEditingController fbTextController = TextEditingController();
+  TextEditingController instaTextController = TextEditingController();
 
   bool locationAccess = true;
   bool phoneAccess = false;
@@ -53,6 +56,8 @@ class _AccountSubPageState extends State<AccountSubPage>
     intakeTextController.dispose();
     phoneTextController.dispose();
     emailTextController.dispose();
+    fbTextController.dispose();
+    instaTextController.dispose();
     super.dispose();
   }
 
@@ -129,28 +134,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20.0),
                       ),
-                      // if (!HomeSetterPage.auth.currentUser!.emailVerified)
-                      //   GestureDetector(
-                      //     onTap: disabled
-                      //         ? null
-                      //         : () {
-                      //             HomeSetterPage.auth.currentUser!
-                      //                 .sendEmailVerification()
-                      //                 .then((value) {
-                      //               ScaffoldMessenger.of(context).showSnackBar(
-                      //                   SnackBar(content: Text('E-mail sent')));
-                      //               setState(() {
-                      //                 disabled = true;
-                      //               });
-                      //             });
-                      //           },
-                      //     child: Text(
-                      //       ' - Verify e-mail ',
-                      //       style: TextStyle(
-                      //         color: Colors.red,
-                      //       ),
-                      //     ),
-                      //   ),
                       if (!HomeSetterPage.mainUser!.verified)
                         Icon(
                           Icons.info_rounded,
@@ -204,7 +187,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           children: [
                             TextFormField(
                               controller: fullNameTextController,
-                              obscureText: false,
                               enabled: editingEnabled,
                               cursorColor: Colors.grey[800],
                               decoration: InputDecoration(
@@ -250,7 +232,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           children: [
                             TextFormField(
                               controller: cNameTextController,
-                              obscureText: false,
                               enabled: editingEnabled,
                               cursorColor: Colors.grey[800],
                               decoration: InputDecoration(
@@ -296,7 +277,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           children: [
                             TextFormField(
                               controller: cNumberTextController,
-                              obscureText: false,
                               enabled: editingEnabled,
                               cursorColor: Colors.grey[800],
                               decoration: InputDecoration(
@@ -379,7 +359,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           children: [
                             TextFormField(
                               controller: intakeTextController,
-                              obscureText: false,
                               enabled: editingEnabled,
                               cursorColor: Colors.grey[800],
                               decoration: InputDecoration(
@@ -435,7 +414,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           children: [
                             TextFormField(
                               controller: emailTextController,
-                              obscureText: false,
                               enabled: !useRegularEmail && editingEnabled,
                               cursorColor: Colors.grey[800],
                               decoration: InputDecoration(
@@ -512,6 +490,108 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   });
                                 }),
                     ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
+                          child: Text(
+                            'https://fb.com/',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(2.0, 10.0, 10.0, 0.0),
+                            child: Container(
+                              width: 500,
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    controller: fbTextController,
+                                    enabled: editingEnabled,
+                                    cursorColor: Colors.grey[800],
+                                    decoration: InputDecoration(
+                                      hintText: 'username',
+                                      hintStyle: TextStyle(
+                                        fontFamily: 'Poppins',
+                                      ),
+                                      prefixIcon: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              10.0, 0, 0, 0),
+                                          child: Icon(
+                                            Icons.facebook,
+                                          )),
+                                    ),
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      color: editingEnabled
+                                          ? Colors.black
+                                          : Colors.grey,
+                                    ),
+                                    keyboardType: TextInputType.name,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
+                          child: Text(
+                            'https://instagr.am/',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(2.0, 10.0, 10.0, 0.0),
+                            child: Container(
+                              width: 500,
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    controller: instaTextController,
+                                    enabled: editingEnabled,
+                                    cursorColor: Colors.grey[800],
+                                    decoration: InputDecoration(
+                                      hintText: 'username',
+                                      hintStyle: TextStyle(
+                                        fontFamily: 'Poppins',
+                                      ),
+                                      prefixIcon: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              10.0, 0, 0, 0),
+                                          child: Icon(
+                                            FontAwesomeIcons.instagram,
+                                          )),
+                                    ),
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      color: editingEnabled
+                                          ? Colors.black
+                                          : Colors.grey,
+                                    ),
+                                    keyboardType: TextInputType.name,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: Container(
@@ -520,7 +600,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           children: [
                             TextFormField(
                               controller: phoneTextController,
-                              obscureText: false,
                               enabled: editingEnabled,
                               cursorColor: Colors.grey[800],
                               decoration: InputDecoration(
@@ -657,6 +736,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                                       HomeSetterPage.auth.currentUser!.email,
                                   'pphone': phoneAccess,
                                   'plocation': locationAccess,
+                                  'fburl': fbTextController.text,
+                                  'instaurl': instaTextController.text,
                                 });
                                 HomeSetterPage.mainUser = AppUser(
                                   id: HomeSetterPage.mainUser!.id,
@@ -675,12 +756,16 @@ class _AccountSubPageState extends State<AccountSubPage>
                                           .auth.currentUser!.photoURL ??
                                       '',
                                   phone: phoneTextController.text,
+                                  fbUrl: fbTextController.text,
+                                  instaUrl: instaTextController.text,
                                   timeStamp: HomeSetterPage.mainUser!.timeStamp,
                                   premium: HomeSetterPage.mainUser!.premium,
                                   verified: HomeSetterPage.mainUser!.verified,
                                   celeb: HomeSetterPage.mainUser!.celeb,
-                                  bountyHead: HomeSetterPage.mainUser!.bountyHead,
-                                  bountyHunter: HomeSetterPage.mainUser!.bountyHunter,
+                                  bountyHead:
+                                      HomeSetterPage.mainUser!.bountyHead,
+                                  bountyHunter:
+                                      HomeSetterPage.mainUser!.bountyHunter,
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -744,6 +829,8 @@ class _AccountSubPageState extends State<AccountSubPage>
     intakeTextController.text = HomeSetterPage.mainUser!.intake.toString();
     phoneTextController.text = HomeSetterPage.mainUser!.phone;
     emailTextController.text = HomeSetterPage.mainUser!.email;
+    fbTextController.text = HomeSetterPage.mainUser!.fbUrl;
+    instaTextController.text = HomeSetterPage.mainUser!.instaUrl;
     college = HomeSetterPage.mainUser!.college;
     useRegularEmail = HomeSetterPage.mainUser!.email ==
         HomeSetterPage.auth.currentUser!.email;

@@ -30,7 +30,6 @@ class _HomeSubPageState extends State<HomeSubPage>
   bool locationTimeout = false;
 
   List<AppUser> savedUsers = [];
-  List<double> mmList = [];
 
   LocationData? locationData;
 
@@ -155,7 +154,7 @@ class _HomeSubPageState extends State<HomeSubPage>
   }
 
   clearSaved() async {
-    Future.delayed(Duration(minutes: 2)).then((value) {
+    Future.delayed(Duration(minutes: 1)).then((value) {
       savedUsers = [];
     });
   }
@@ -385,6 +384,8 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   phone: u.data()['phone'],
                                   premium: u.data()['premium'],
                                   verified: u.data()['verified'],
+                                  fbUrl: u.data()['fburl'],
+                                  instaUrl: u.data()['instaurl'],
                                   celeb: u.data()['celeb'],
                                   bountyHead: u.data()['bountyhead'],
                                   bountyHunter: u.data()['bountyhunter'],
@@ -414,15 +415,11 @@ class _HomeSubPageState extends State<HomeSubPage>
                                     e.lat,
                                     e.long);
                                 counter++;
-                                mmList.add(distanceD);
+                                max = distanceD > max ? distanceD : max;
                                 savedUsers.add(e);
                                 if (counter ==
                                     (snapshots.data!.docs.length - 1)) {
-                                  mmList.sort();
-                                  min = mmList.first;
-                                  max = mmList.last;
-                                  range = RangeValues(
-                                      min.floorToDouble(), max.ceilToDouble());
+                                  range = RangeValues(min, max.ceilToDouble());
                                   clearSaved();
                                 }
                                 distanceD *= 1000;
