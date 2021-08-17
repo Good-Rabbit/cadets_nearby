@@ -20,13 +20,13 @@ class HomeSubPage extends StatefulWidget {
 
 class _HomeSubPageState extends State<HomeSubPage>
     with AutomaticKeepAliveClientMixin {
+  bool warningGiven = false;
   bool locationEnabled = false;
   bool permissionGranted = false;
   bool rejected = false;
   bool updateFlag = false;
   bool disabled = false;
   bool loadingComplete = false;
-
   bool locationTimeout = false;
 
   List<AppUser> savedUsers = [];
@@ -171,6 +171,14 @@ class _HomeSubPageState extends State<HomeSubPage>
     if (updateFlag) {
       updateFlag = false;
     }
+
+    // TODO enable verification
+    // if (!HomeSetterPage.mainUser!.verified && !warningGiven) {
+    //   warningGiven = true;
+    //   Future.delayed(Duration(seconds: 5)).then((value) {
+    //     Navigator.of(context).pushNamed('/verify');
+    //   });
+    // }
 
     int counter = 0;
     return RefreshIndicator(

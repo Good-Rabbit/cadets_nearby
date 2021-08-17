@@ -165,34 +165,29 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                     padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                     child: Container(
                       width: 500,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: cNumberTextController,
-                            cursorColor: Colors.grey[800],
-                            decoration: InputDecoration(
-                              hintText: 'Cadet Number*',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
-                              prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(Icons.book),
-                              ),
-                            ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
-                            keyboardType: TextInputType.number,
-                            validator: (val) {
-                              if (val!.isEmpty) {
-                                return 'Cadet Number is required';
-                              }
-                              return null;
-                            },
+                      child: TextFormField(
+                        controller: cNumberTextController,
+                        cursorColor: Colors.grey[800],
+                        decoration: InputDecoration(
+                          hintText: 'Cadet Number*',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Poppins',
                           ),
-                        ],
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.book),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                        keyboardType: TextInputType.number,
+                        validator: (val) {
+                          if (val!.isEmpty) {
+                            return 'Cadet Number is required';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ),
@@ -235,34 +230,29 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                     padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                     child: Container(
                       width: 500,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: intakeTextController,
-                            cursorColor: Colors.grey[800],
-                            decoration: InputDecoration(
-                              hintText: 'Intake Year*',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
-                              prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(Icons.date_range),
-                              ),
-                            ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
-                            keyboardType: TextInputType.datetime,
-                            validator: (val) {
-                              if (val!.trim().isEmpty) {
-                                return 'Intake year is required';
-                              }
-                              return null;
-                            },
+                      child: TextFormField(
+                        controller: intakeTextController,
+                        cursorColor: Colors.grey[800],
+                        decoration: InputDecoration(
+                          hintText: 'Intake Year*',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Poppins',
                           ),
-                        ],
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.date_range),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                        keyboardType: TextInputType.datetime,
+                        validator: (val) {
+                          if (val!.trim().isEmpty) {
+                            return 'Intake year is required';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ),
@@ -270,28 +260,23 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                     padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                     child: Container(
                       width: 500,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: profTextController,
-                            cursorColor: Colors.grey[800],
-                            decoration: InputDecoration(
-                              hintText: 'Profession',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
-                              prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(Icons.work),
-                              ),
-                            ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
-                            keyboardType: TextInputType.text,
+                      child: TextFormField(
+                        controller: profTextController,
+                        cursorColor: Colors.grey[800],
+                        decoration: InputDecoration(
+                          hintText: 'Profession',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Poppins',
                           ),
-                        ],
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.work),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                        keyboardType: TextInputType.text,
                       ),
                     ),
                   ),
@@ -299,28 +284,23 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                     padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                     child: Container(
                       width: 500,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: placeTextController,
-                            cursorColor: Colors.grey[800],
-                            decoration: InputDecoration(
-                              hintText: 'Workplace',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
-                              prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(Icons.location_city),
-                              ),
-                            ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
-                            keyboardType: TextInputType.text,
+                      child: TextFormField(
+                        controller: placeTextController,
+                        cursorColor: Colors.grey[800],
+                        decoration: InputDecoration(
+                          hintText: 'Workplace',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Poppins',
                           ),
-                        ],
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.location_city),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                        keyboardType: TextInputType.text,
                       ),
                     ),
                   ),
@@ -338,46 +318,41 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                     padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                     child: Container(
                       width: 500,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: emailTextController,
-                            enabled: !useRegularEmail,
-                            cursorColor: Colors.grey[800],
-                            decoration: InputDecoration(
-                              hintText: 'Contact E-mail*',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
-                              prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                  child: Icon(
-                                    Icons.alternate_email,
-                                  )),
-                            ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (val) {
-                              if (val!.trim().isEmpty) {
-                                return 'Contact e-mail is required';
-                              }
-                              if (!val.contains('@') ||
-                                  !val.contains('.') ||
-                                  val.endsWith('@') ||
-                                  val.endsWith('.')) {
-                                return 'Please provide a valid E-mail';
-                              }
-                              var temp = val;
-                              List a = temp.split('@');
-                              if (a.length > 2)
-                                return 'Please provide a valid E-mail';
-                              return null;
-                            },
+                      child: TextFormField(
+                        controller: emailTextController,
+                        enabled: !useRegularEmail,
+                        cursorColor: Colors.grey[800],
+                        decoration: InputDecoration(
+                          hintText: 'Contact E-mail*',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Poppins',
                           ),
-                        ],
+                          prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(
+                                Icons.alternate_email,
+                              )),
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (val) {
+                          if (val!.trim().isEmpty) {
+                            return 'Contact e-mail is required';
+                          }
+                          if (!val.contains('@') ||
+                              !val.contains('.') ||
+                              val.endsWith('@') ||
+                              val.endsWith('.')) {
+                            return 'Please provide a valid E-mail';
+                          }
+                          var temp = val;
+                          List a = temp.split('@');
+                          if (a.length > 2)
+                            return 'Please provide a valid E-mail';
+                          return null;
+                        },
                       ),
                     ),
                   ),
@@ -407,135 +382,104 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           }),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
-                        child: Text(
-                          'https://fb.com/',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: Container(
+                      width: 500,
+                      child: TextFormField(
+                        controller: fbTextController,
+                        cursorColor: Colors.grey[800],
+                        decoration: InputDecoration(
+                          hintText: 'username e.g. "rashid.hr"',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Poppins',
                           ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(2.0, 10.0, 10.0, 0.0),
-                          child: Container(
-                            width: 500,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  controller: fbTextController,
-                                  cursorColor: Colors.grey[800],
-                                  decoration: InputDecoration(
-                                    hintText: 'username',
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'Poppins',
-                                    ),
-                                    prefixIcon: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10.0, 0, 0, 0),
-                                        child: Icon(
-                                          Icons.facebook,
-                                        )),
-                                  ),
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ],
+                          prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(
+                                FontAwesomeIcons.facebook,
+                                color: Colors.blue,
+                              )),
+                          prefix: Text(
+                            '/',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
-                        child: Text(
-                          'https://instagr.am/',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                          ),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
                         ),
+                        keyboardType: TextInputType.name,
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(2.0, 10.0, 10.0, 0.0),
-                          child: Container(
-                            width: 500,
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  controller: instaTextController,
-                                  cursorColor: Colors.grey[800],
-                                  decoration: InputDecoration(
-                                    hintText: 'username',
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'Poppins',
-                                    ),
-                                    prefixIcon: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10.0, 0, 0, 0),
-                                        child: Icon(
-                                          FontAwesomeIcons.instagram,
-                                        )),
-                                  ),
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                  ),
-                                  keyboardType: TextInputType.name,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                     child: Container(
                       width: 500,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: phoneTextController,
-                            cursorColor: Colors.grey[800],
-                            decoration: InputDecoration(
-                              hintText: 'Phone',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
-                              prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(Icons.phone),
-                              ),
-                            ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
-                            keyboardType: TextInputType.phone,
-                            onChanged: (value) {
-                              if (phoneTextController.text == '') {
-                                phoneAccess = false;
-                              }
-                              setState(() {});
-                            },
-                            validator: (val) {
-                              return null;
-                            },
+                      child: TextFormField(
+                        controller: instaTextController,
+                        cursorColor: Colors.grey[800],
+                        decoration: InputDecoration(
+                          hintText: 'username e.g. "harun.xt"',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Poppins',
                           ),
-                        ],
+                          prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(
+                                FontAwesomeIcons.instagram,
+                                color: Colors.deepOrange,
+                              )),
+                          prefix: Text(
+                            '/',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.deepOrange,
+                            ),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                        keyboardType: TextInputType.name,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: Container(
+                      width: 500,
+                      child: TextFormField(
+                        controller: phoneTextController,
+                        cursorColor: Colors.grey[800],
+                        decoration: InputDecoration(
+                          hintText: 'Phone',
+                          hintStyle: TextStyle(
+                            fontFamily: 'Poppins',
+                          ),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.phone),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                        ),
+                        keyboardType: TextInputType.phone,
+                        onChanged: (value) {
+                          if (phoneTextController.text == '') {
+                            phoneAccess = false;
+                          }
+                          setState(() {});
+                        },
+                        validator: (val) {
+                          return null;
+                        },
                       ),
                     ),
                   ),
@@ -672,8 +616,10 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             'bountycount': 0,
                                             'bountyhead': true,
                                             'bountyhunter': true,
-                                            'profession': profTextController.text,
-                                            'workplace': placeTextController.text,
+                                            'profession':
+                                                profTextController.text,
+                                            'workplace':
+                                                placeTextController.text,
                                           },
                                         );
                                         HomeSetterPage.mainUser = AppUser(
@@ -704,7 +650,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                           fbUrl: fbTextController.text,
                                           instaUrl: instaTextController.text,
                                           bountyHunter: true,
-                                          workplace:placeTextController.text,
+                                          workplace: placeTextController.text,
                                           profession: profTextController.text,
                                         );
                                         widget.loggedInNotifier();

@@ -223,216 +223,38 @@ class _AccountSubPageState extends State<AccountSubPage>
                       padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
                       child: Container(
                         width: 500,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: fullNameTextController,
-                              enabled: editingEnabled,
-                              cursorColor: Colors.grey[800],
-                              decoration: InputDecoration(
-                                hintText: 'Full Name*',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                ),
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                  child: Icon(Icons.account_box_rounded),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color:
-                                    editingEnabled ? Colors.black : Colors.grey,
-                              ),
-                              keyboardType: TextInputType.name,
-                              onChanged: (value) {
-                                setState(() {
-                                  if (fullNameTextController.text !=
-                                      HomeSetterPage.mainUser!.fullName)
-                                    hasChanged = true;
-                                });
-                              },
-                              validator: (val) {
-                                if (val!.trim().isEmpty) {
-                                  return 'Full name is required';
-                                }
-                                return null;
-                              },
+                        child: TextFormField(
+                          controller: fullNameTextController,
+                          enabled: editingEnabled,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'Full Name*',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
-                        width: 500,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: cNameTextController,
-                              enabled: editingEnabled,
-                              cursorColor: Colors.grey[800],
-                              decoration: InputDecoration(
-                                hintText: 'Cadet Name* -e.g. Rashid',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                ),
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                  child: Icon(Icons.perm_identity_rounded),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color:
-                                    editingEnabled ? Colors.black : Colors.grey,
-                              ),
-                              keyboardType: TextInputType.name,
-                              onChanged: (value) {
-                                setState(() {
-                                  if (cNameTextController.text !=
-                                      HomeSetterPage.mainUser!.cName)
-                                    hasChanged = true;
-                                });
-                              },
-                              validator: (val) {
-                                if (val!.trim().isEmpty) {
-                                  return 'Cadet name is required';
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
-                        width: 500,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: cNumberTextController,
-                              enabled: editingEnabled,
-                              cursorColor: Colors.grey[800],
-                              decoration: InputDecoration(
-                                hintText: 'Cadet Number*',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                ),
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                  child: Icon(Icons.book),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color:
-                                    editingEnabled ? Colors.black : Colors.grey,
-                              ),
-                              keyboardType: TextInputType.number,
-                              onChanged: (value) {
-                                setState(() {
-                                  if (cNumberTextController.text !=
-                                      HomeSetterPage.mainUser!.cNumber
-                                          .toString()) hasChanged = true;
-                                });
-                              },
-                              validator: (val) {
-                                if (val!.isEmpty) {
-                                  return 'Cadet Number is required';
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: DropdownButtonFormField(
-                        decoration: InputDecoration(
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                            child: Icon(
-                              Icons.house,
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(Icons.account_box_rounded),
                             ),
                           ),
-                        ),
-                        value: college,
-                        isDense: true,
-                        onChanged: !editingEnabled
-                            ? null
-                            : (value) {
-                                setState(() {
-                                  college = value! as String;
-                                  if (college !=
-                                      HomeSetterPage.mainUser!.college)
-                                    hasChanged = true;
-                                });
-                              },
-                        items: colleges.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        validator: (value) {
-                          if (college == 'Pick your college') {
-                            return 'Please pick your college';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
-                        width: 500,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: intakeTextController,
-                              enabled: editingEnabled,
-                              cursorColor: Colors.grey[800],
-                              decoration: InputDecoration(
-                                hintText: 'Intake Year*',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                ),
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                  child: Icon(Icons.date_range),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color:
-                                    editingEnabled ? Colors.black : Colors.grey,
-                              ),
-                              keyboardType: TextInputType.datetime,
-                              onChanged: (value) {
-                                setState(() {
-                                  if (intakeTextController.text !=
-                                      HomeSetterPage.mainUser!.intake
-                                          .toString()) hasChanged = true;
-                                });
-                              },
-                              validator: (val) {
-                                if (val!.trim().isEmpty) {
-                                  return 'Intake year is required';
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
+                          keyboardType: TextInputType.name,
+                          onChanged: (value) {
+                            setState(() {
+                              if (fullNameTextController.text !=
+                                  HomeSetterPage.mainUser!.fullName)
+                                hasChanged = true;
+                            });
+                          },
+                          validator: (val) {
+                            if (val!.trim().isEmpty) {
+                              return 'Full name is required';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ),
@@ -440,38 +262,38 @@ class _AccountSubPageState extends State<AccountSubPage>
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: Container(
                         width: 500,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: profTextController,
-                              enabled: editingEnabled,
-                              cursorColor: Colors.grey[800],
-                              decoration: InputDecoration(
-                                hintText: 'Profession',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                ),
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                  child: Icon(Icons.work),
-                                ),
-                              ),
-                              onChanged: (value) {
-                                setState(() {
-                                  if (profTextController.text !=
-                                      HomeSetterPage.mainUser!.profession
-                                          .toString()) hasChanged = true;
-                                });
-                              },
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color:
-                                    editingEnabled ? Colors.black : Colors.grey,
-                              ),
-                              keyboardType: TextInputType.text,
+                        child: TextFormField(
+                          controller: cNameTextController,
+                          enabled: editingEnabled,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'Cadet Name* -e.g. Rashid',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
                             ),
-                          ],
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(Icons.perm_identity_rounded),
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
+                          keyboardType: TextInputType.name,
+                          onChanged: (value) {
+                            setState(() {
+                              if (cNameTextController.text !=
+                                  HomeSetterPage.mainUser!.cName)
+                                hasChanged = true;
+                            });
+                          },
+                          validator: (val) {
+                            if (val!.trim().isEmpty) {
+                              return 'Cadet name is required';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ),
@@ -479,38 +301,183 @@ class _AccountSubPageState extends State<AccountSubPage>
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: Container(
                         width: 500,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: placeTextController,
-                              enabled: editingEnabled,
-                              cursorColor: Colors.grey[800],
-                              decoration: InputDecoration(
-                                hintText: 'Workplace',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                ),
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                  child: Icon(Icons.location_city),
-                                ),
-                              ),
-                              onChanged: (value) {
-                                setState(() {
-                                  if (placeTextController.text !=
-                                      HomeSetterPage.mainUser!.workplace
-                                          .toString()) hasChanged = true;
-                                });
-                              },
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color:
-                                    editingEnabled ? Colors.black : Colors.grey,
-                              ),
-                              keyboardType: TextInputType.text,
+                        child: TextFormField(
+                          controller: cNumberTextController,
+                          enabled: editingEnabled,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'Cadet Number*',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
                             ),
-                          ],
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(Icons.book),
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            setState(() {
+                              if (cNumberTextController.text !=
+                                  HomeSetterPage.mainUser!.cNumber.toString())
+                                hasChanged = true;
+                            });
+                          },
+                          validator: (val) {
+                            if (val!.isEmpty) {
+                              return 'Cadet Number is required';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Container(
+                        width: 500,
+                        child: DropdownButtonFormField(
+                          decoration: InputDecoration(
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(
+                                Icons.house,
+                              ),
+                            ),
+                          ),
+                          value: college,
+                          isDense: true,
+                          onChanged: !editingEnabled
+                              ? null
+                              : (value) {
+                                  setState(() {
+                                    college = value! as String;
+                                    if (college !=
+                                        HomeSetterPage.mainUser!.college)
+                                      hasChanged = true;
+                                  });
+                                },
+                          items: colleges.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          validator: (value) {
+                            if (college == 'Pick your college') {
+                              return 'Please pick your college';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Container(
+                        width: 500,
+                        child: TextFormField(
+                          controller: intakeTextController,
+                          enabled: editingEnabled,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'Intake Year*',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                            ),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(Icons.date_range),
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
+                          keyboardType: TextInputType.datetime,
+                          onChanged: (value) {
+                            setState(() {
+                              if (intakeTextController.text !=
+                                  HomeSetterPage.mainUser!.intake.toString())
+                                hasChanged = true;
+                            });
+                          },
+                          validator: (val) {
+                            if (val!.trim().isEmpty) {
+                              return 'Intake year is required';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Container(
+                        width: 500,
+                        child: TextFormField(
+                          controller: profTextController,
+                          enabled: editingEnabled,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'Profession',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                            ),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(Icons.work),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              if (profTextController.text !=
+                                  HomeSetterPage.mainUser!.profession
+                                      .toString()) hasChanged = true;
+                            });
+                          },
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
+                          keyboardType: TextInputType.text,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Container(
+                        width: 500,
+                        child: TextFormField(
+                          controller: placeTextController,
+                          enabled: editingEnabled,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'Workplace',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                            ),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(Icons.location_city),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              if (placeTextController.text !=
+                                  HomeSetterPage.mainUser!.workplace.toString())
+                                hasChanged = true;
+                            });
+                          },
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
+                          keyboardType: TextInputType.text,
                         ),
                       ),
                     ),
@@ -528,59 +495,55 @@ class _AccountSubPageState extends State<AccountSubPage>
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: Container(
                         width: 500,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: emailTextController,
-                              enabled: !useRegularEmail && editingEnabled,
-                              cursorColor: Colors.grey[800],
-                              decoration: InputDecoration(
-                                hintText: 'Contact E-mail*',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                ),
-                                prefixIcon: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        10.0, 0, 0, 0),
-                                    child: Icon(
-                                      Icons.alternate_email,
-                                    )),
-                              ),
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color:
-                                    editingEnabled ? Colors.black : Colors.grey,
-                              ),
-                              keyboardType: TextInputType.emailAddress,
-                              onChanged: (value) {
-                                setState(() {
-                                  if (emailTextController.text !=
-                                      HomeSetterPage.mainUser!.email)
-                                    hasChanged = true;
-                                });
-                              },
-                              validator: (val) {
-                                if (val!.trim().isEmpty) {
-                                  return 'Contact e-mail is required';
-                                }
-                                if (!val.contains('@') ||
-                                    !val.contains('.') ||
-                                    val.endsWith('@') ||
-                                    val.endsWith('.')) {
-                                  return 'Please provide a valid E-mail';
-                                }
-                                var temp = val;
-                                List a = temp.split('@');
-                                if (a.length > 2)
-                                  return 'Please provide a valid E-mail';
-                                return null;
-                              },
+                        child: TextFormField(
+                          controller: emailTextController,
+                          enabled: !useRegularEmail && editingEnabled,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'Contact E-mail*',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
                             ),
-                          ],
+                            prefixIcon: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Icon(
+                                  Icons.alternate_email,
+                                )),
+                          ),
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          onChanged: (value) {
+                            setState(() {
+                              if (emailTextController.text !=
+                                  HomeSetterPage.mainUser!.email)
+                                hasChanged = true;
+                            });
+                          },
+                          validator: (val) {
+                            if (val!.trim().isEmpty) {
+                              return 'Contact e-mail is required';
+                            }
+                            if (!val.contains('@') ||
+                                !val.contains('.') ||
+                                val.endsWith('@') ||
+                                val.endsWith('.')) {
+                              return 'Please provide a valid E-mail';
+                            }
+                            var temp = val;
+                            List a = temp.split('@');
+                            if (a.length > 2)
+                              return 'Please provide a valid E-mail';
+                            return null;
+                          },
                         ),
                       ),
                     ),
-                    Padding(
+                    Container(
+                      width: 500,
                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                       child: CheckboxListTile(
                           value: useRegularEmail,
@@ -608,169 +571,142 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   });
                                 }),
                     ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
-                          child: Text(
-                            'https://fb.com/',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(2.0, 10.0, 10.0, 0.0),
-                            child: Container(
-                              width: 500,
-                              child: Column(
-                                children: [
-                                  TextFormField(
-                                    controller: fbTextController,
-                                    enabled: editingEnabled,
-                                    cursorColor: Colors.grey[800],
-                                    decoration: InputDecoration(
-                                      hintText: 'username',
-                                      hintStyle: TextStyle(
-                                        fontFamily: 'Poppins',
-                                      ),
-                                      prefixIcon: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              10.0, 0, 0, 0),
-                                          child: Icon(
-                                            Icons.facebook,
-                                          )),
-                                    ),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (fbTextController.text !=
-                                            HomeSetterPage.mainUser!.fbUrl)
-                                          hasChanged = true;
-                                      });
-                                    },
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: editingEnabled
-                                          ? Colors.black
-                                          : Colors.grey,
-                                    ),
-                                    keyboardType: TextInputType.name,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 10, 0, 0),
-                          child: Text(
-                            'https://instagr.am/',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(2.0, 10.0, 10.0, 0.0),
-                            child: Container(
-                              width: 500,
-                              child: Column(
-                                children: [
-                                  TextFormField(
-                                    controller: instaTextController,
-                                    enabled: editingEnabled,
-                                    cursorColor: Colors.grey[800],
-                                    decoration: InputDecoration(
-                                      hintText: 'username',
-                                      hintStyle: TextStyle(
-                                        fontFamily: 'Poppins',
-                                      ),
-                                      prefixIcon: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              10.0, 0, 0, 0),
-                                          child: Icon(
-                                            FontAwesomeIcons.instagram,
-                                          )),
-                                    ),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        if (instaTextController.text !=
-                                            HomeSetterPage.mainUser!.instaUrl)
-                                          hasChanged = true;
-                                      });
-                                    },
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: editingEnabled
-                                          ? Colors.black
-                                          : Colors.grey,
-                                    ),
-                                    keyboardType: TextInputType.name,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
                       child: Container(
                         width: 500,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: phoneTextController,
-                              enabled: editingEnabled,
-                              cursorColor: Colors.grey[800],
-                              decoration: InputDecoration(
-                                hintText: 'Phone',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                ),
-                                prefixIcon: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                  child: Icon(Icons.phone),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color:
-                                    editingEnabled ? Colors.black : Colors.grey,
-                              ),
-                              keyboardType: TextInputType.phone,
-                              onChanged: (value) {
-                                if (phoneTextController.text == '') {
-                                  phoneAccess = false;
-                                }
-                                setState(() {
-                                  if (phoneTextController.text !=
-                                      HomeSetterPage.mainUser!.phone)
-                                    hasChanged = true;
-                                });
-                              },
-                              validator: (val) {
-                                return null;
-                              },
+                        child: TextFormField(
+                          controller: fbTextController,
+                          enabled: editingEnabled,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'username e.g. "rashid.hr"',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
                             ),
-                          ],
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(
+                                FontAwesomeIcons.facebook,
+                                color:
+                                    !editingEnabled ? Colors.grey : Colors.blue,
+                              ),
+                            ),
+                            prefix: Text(
+                              '/',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color:
+                                    !editingEnabled ? Colors.grey : Colors.blue,
+                              ),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              if (instaTextController.text !=
+                                  HomeSetterPage.mainUser!.instaUrl)
+                                hasChanged = true;
+                            });
+                          },
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
+                          keyboardType: TextInputType.name,
                         ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      child: Container(
+                        width: 500,
+                        child: TextFormField(
+                          controller: instaTextController,
+                          enabled: editingEnabled,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'username e.g. "harun.xt"',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                            ),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(
+                                FontAwesomeIcons.instagram,
+                                color: !editingEnabled
+                                    ? Colors.grey
+                                    : Colors.deepOrange,
+                              ),
+                            ),
+                            prefix: Text(
+                              '/',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: !editingEnabled
+                                    ? Colors.grey
+                                    : Colors.deepOrange,
+                              ),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              if (instaTextController.text !=
+                                  HomeSetterPage.mainUser!.instaUrl)
+                                hasChanged = true;
+                            });
+                          },
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
+                          keyboardType: TextInputType.name,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Container(
+                        width: 500,
+                        child: TextFormField(
+                          controller: phoneTextController,
+                          enabled: editingEnabled,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'Phone',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Poppins',
+                            ),
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(Icons.phone),
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
+                          keyboardType: TextInputType.phone,
+                          onChanged: (value) {
+                            if (phoneTextController.text == '') {
+                              phoneAccess = false;
+                            }
+                            setState(() {
+                              if (phoneTextController.text !=
+                                  HomeSetterPage.mainUser!.phone)
+                                hasChanged = true;
+                            });
+                          },
+                          validator: (val) {
+                            return null;
+                          },
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      width: 500,
                       child: CheckboxListTile(
                           value: phoneAccess,
                           title: Text('Make phone number public'),
@@ -789,7 +725,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   });
                                 }),
                     ),
-                    Padding(
+                    Container(
+                      width: 500,
                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                       child: CheckboxListTile(
                           value: !locationAccess,
@@ -814,6 +751,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                   ],
                 ),
                 Container(
+                  width: 500,
                   margin: EdgeInsets.fromLTRB(100, 20, 100, 0),
                   child: ElevatedButton.icon(
                     style: ButtonStyle(
@@ -929,6 +867,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                   ),
                 ),
                 Container(
+                  width: 500,
                   margin: EdgeInsets.fromLTRB(100, 15, 100, 15),
                   child: ElevatedButton(
                     child: Text('Sign Out'),
