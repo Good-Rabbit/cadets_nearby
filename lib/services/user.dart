@@ -12,6 +12,8 @@ class AppUser {
   String phone;
   String fbUrl;
   String instaUrl;
+  String workplace;
+  String profession;
   DateTime timeStamp;
   bool pLocation;
   bool premium;
@@ -41,6 +43,8 @@ class AppUser {
     required this.timeStamp,
     required this.fbUrl,
     required this.instaUrl,
+    required this.workplace,
+    required this.profession,
     this.photoUrl: '',
     this.lat: 0,
     this.long: 0,

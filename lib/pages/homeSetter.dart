@@ -37,6 +37,8 @@ class HomeSetterPage extends StatefulWidget {
       celeb: u.data()!['celeb'],
       bountyHead: u.data()!['bountyhead'],
       bountyHunter: u.data()!['bountyhunter'],
+      workplace: u.data()!['workplace'],
+      profession: u.data()!['profession'],
     );
   }
 
@@ -81,7 +83,6 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
   @override
   Widget build(BuildContext context) {
     if (user != null) {
-      if (HomeSetterPage.mainUser == null) HomeSetterPage.setMainUser(user);
       return FutureBuilder(
         future: HomeSetterPage.store.collection('users').doc(user!.uid).get(),
         builder: (context,
@@ -93,6 +94,9 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
                   loggedInNotifier: loggedInNotifier,
                 );
               } else {
+                if (HomeSetterPage.mainUser == null)
+                  HomeSetterPage.setMainUser(user);
+
                 // Display home
                 return RealHome();
               }

@@ -67,6 +67,18 @@ class UserProfile extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  Text(
+                    'Profession:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    'At:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -103,15 +115,17 @@ class UserProfile extends StatelessWidget {
                       color: Colors.deepOrange,
                     ),
                   ),
-                Container(
-                  child: Text(
-                    e.cNumber.toString(),
-                  ),
+                Text(
+                  e.cNumber.toString(),
                 ),
-                Container(
-                  child: Text(
-                    e.college + ' (' + e.intake.toString() + ') ',
-                  ),
+                Text(
+                  e.college + ' (' + e.intake.toString() + ') ',
+                ),
+                Text(
+                  e.profession,
+                ),
+                Text(
+                  e.workplace,
                 ),
               ],
             ),
@@ -131,10 +145,16 @@ class UserProfile extends StatelessWidget {
                 icon: Icon(Icons.facebook),
                 label: Text('Facebook'),
                 style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(0),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
                   backgroundColor: MaterialStateProperty.all(Colors.blue[600]),
                 ),
               ),
-            if (e.instaUrl != '')
+            if (e.instaUrl != '' && e.fbUrl != '')
               SizedBox(
                 width: 20,
               ),
@@ -146,6 +166,12 @@ class UserProfile extends StatelessWidget {
                 icon: Icon(FontAwesomeIcons.instagram),
                 label: Text('Instagram'),
                 style: ButtonStyle(
+                  elevation: MaterialStateProperty.all(0),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
                   backgroundColor: MaterialStateProperty.all(Colors.red),
                 ),
               ),

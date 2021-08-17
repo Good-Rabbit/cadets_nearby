@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutSubPage extends StatefulWidget {
   AboutSubPage({Key? key}) : super(key: key);
@@ -9,6 +11,9 @@ class AboutSubPage extends StatefulWidget {
 
 class _AboutSubPageState extends State<AboutSubPage>
     with AutomaticKeepAliveClientMixin {
+  void launchURL(url) async =>
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -26,6 +31,38 @@ class _AboutSubPageState extends State<AboutSubPage>
                 style: TextStyle(
                   fontSize: 15,
                 ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(15),
+              child: Text(
+                'Want to ckeck out what we are doing behind the scene?',
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Visit our ',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      launchURL('https://github.com/Saim20/cadets_nearby');
+                    },
+                    icon: Icon(
+                      FontAwesomeIcons.github,
+                    ),
+                    label: Text('Github page'),
+                  ),
+                ],
               ),
             ),
           ],

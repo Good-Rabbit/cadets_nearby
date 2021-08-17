@@ -25,6 +25,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController fbTextController = TextEditingController();
   TextEditingController instaTextController = TextEditingController();
+  TextEditingController profTextController = TextEditingController();
+  TextEditingController placeTextController = TextEditingController();
 
   bool locationAccess = true;
   bool alwaysAccess = false;
@@ -60,6 +62,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     emailTextController.dispose();
     fbTextController.dispose();
     instaTextController.dispose();
+    profTextController.dispose();
+    placeTextController.dispose();
     super.dispose();
   }
 
@@ -257,6 +261,64 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               }
                               return null;
                             },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: Container(
+                      width: 500,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: profTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: InputDecoration(
+                              hintText: 'Profession',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                              ),
+                              prefixIcon: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Icon(Icons.work),
+                              ),
+                            ),
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                            ),
+                            keyboardType: TextInputType.text,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: Container(
+                      width: 500,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: placeTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: InputDecoration(
+                              hintText: 'Workplace',
+                              hintStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                              ),
+                              prefixIcon: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Icon(Icons.location_city),
+                              ),
+                            ),
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                            ),
+                            keyboardType: TextInputType.text,
                           ),
                         ],
                       ),
@@ -610,6 +672,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             'bountycount': 0,
                                             'bountyhead': true,
                                             'bountyhunter': true,
+                                            'profession': profTextController.text,
+                                            'workplace': placeTextController.text,
                                           },
                                         );
                                         HomeSetterPage.mainUser = AppUser(
@@ -640,6 +704,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                           fbUrl: fbTextController.text,
                                           instaUrl: instaTextController.text,
                                           bountyHunter: true,
+                                          workplace:placeTextController.text,
+                                          profession: profTextController.text,
                                         );
                                         widget.loggedInNotifier();
                                       } catch (e) {

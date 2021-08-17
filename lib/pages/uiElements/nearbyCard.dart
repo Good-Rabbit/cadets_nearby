@@ -7,14 +7,14 @@ class NearbyCard extends StatelessWidget {
     Key? key,
     required this.e,
     required this.isKm,
-    required this.distance,
-    required this.distanceInt,
+    required this.distanceKm,
+    required this.distanceM,
   }) : super(key: key);
 
   final AppUser e;
   final bool isKm;
-  final double distance;
-  final int distanceInt;
+  final double distanceKm;
+  final int distanceM;
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class NearbyCard extends StatelessWidget {
                       ),
                     if (e.pLocation)
                       Text(
-                        (isKm ? distance.toString() : distanceInt.toString()) +
+                        (isKm ? distanceKm.toString() : distanceM.toString()) +
                             (isKm ? 'km' : 'm'),
                       ),
                     if (!e.pLocation)

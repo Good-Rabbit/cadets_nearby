@@ -22,6 +22,8 @@ class _AccountSubPageState extends State<AccountSubPage>
   TextEditingController emailTextController = TextEditingController();
   TextEditingController fbTextController = TextEditingController();
   TextEditingController instaTextController = TextEditingController();
+  TextEditingController profTextController = TextEditingController();
+  TextEditingController placeTextController = TextEditingController();
 
   bool locationAccess = true;
   bool phoneAccess = false;
@@ -47,6 +49,7 @@ class _AccountSubPageState extends State<AccountSubPage>
   ];
 
   bool disabled = false;
+  bool once = false;
 
   @override
   void dispose() {
@@ -58,6 +61,8 @@ class _AccountSubPageState extends State<AccountSubPage>
     emailTextController.dispose();
     fbTextController.dispose();
     instaTextController.dispose();
+    profTextController.dispose();
+    placeTextController.dispose();
     super.dispose();
   }
 
@@ -145,6 +150,41 @@ class _AccountSubPageState extends State<AccountSubPage>
                           Icons.verified,
                           size: 20,
                           color: Colors.green,
+                        ),
+                      if (!HomeSetterPage.auth.currentUser!.emailVerified)
+                        InkWell(
+                          onTap: () {
+                            if (!disabled) {
+                              if (!once) {
+                                once = true;
+                              }
+                              HomeSetterPage.auth.currentUser!
+                                  .sendEmailVerification()
+                                  .then((value) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('E-mail sent')));
+                                setState(() {
+                                  disabled = true;
+                                });
+                                Future.delayed(Duration(minutes: 1))
+                                    .then((value) {
+                                  setState(() {
+                                    disabled = false;
+                                  });
+                                });
+                              });
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Wait 1 minutes before trying again')));
+                            }
+                          },
+                          child: Text(
+                            once ? ' - Resend e-mail ' : ' - Verify e-mail ',
+                            style: TextStyle(
+                              color: disabled ? Colors.grey[800] : Colors.red,
+                            ),
+                          ),
                         ),
                     ],
                   ),
@@ -391,6 +431,84 @@ class _AccountSubPageState extends State<AccountSubPage>
                                 }
                                 return null;
                               },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Container(
+                        width: 500,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: profTextController,
+                              enabled: editingEnabled,
+                              cursorColor: Colors.grey[800],
+                              decoration: InputDecoration(
+                                hintText: 'Profession',
+                                hintStyle: TextStyle(
+                                  fontFamily: 'Poppins',
+                                ),
+                                prefixIcon: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(Icons.work),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  if (profTextController.text !=
+                                      HomeSetterPage.mainUser!.profession
+                                          .toString()) hasChanged = true;
+                                });
+                              },
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color:
+                                    editingEnabled ? Colors.black : Colors.grey,
+                              ),
+                              keyboardType: TextInputType.text,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Container(
+                        width: 500,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: placeTextController,
+                              enabled: editingEnabled,
+                              cursorColor: Colors.grey[800],
+                              decoration: InputDecoration(
+                                hintText: 'Workplace',
+                                hintStyle: TextStyle(
+                                  fontFamily: 'Poppins',
+                                ),
+                                prefixIcon: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(Icons.location_city),
+                                ),
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  if (placeTextController.text !=
+                                      HomeSetterPage.mainUser!.workplace
+                                          .toString()) hasChanged = true;
+                                });
+                              },
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color:
+                                    editingEnabled ? Colors.black : Colors.grey,
+                              ),
+                              keyboardType: TextInputType.text,
                             ),
                           ],
                         ),
@@ -659,7 +777,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
                           activeColor: Colors.black,
-                          onChanged: (HomeSetterPage.mainUser!.phone == '' ||
+                          onChanged: (phoneTextController.text == '' ||
                                   !editingEnabled)
                               ? null
                               : (value) {
@@ -752,6 +870,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   'plocation': locationAccess,
                                   'fburl': fbTextController.text,
                                   'instaurl': instaTextController.text,
+                                  'workplace': placeTextController.text,
+                                  'profession': profTextController.text,
                                 });
                                 HomeSetterPage.mainUser = AppUser(
                                   id: HomeSetterPage.mainUser!.id,
@@ -780,6 +900,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                                       HomeSetterPage.mainUser!.bountyHead,
                                   bountyHunter:
                                       HomeSetterPage.mainUser!.bountyHunter,
+                                  workplace: placeTextController.text,
+                                  profession: profTextController.text,
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -845,6 +967,8 @@ class _AccountSubPageState extends State<AccountSubPage>
     emailTextController.text = HomeSetterPage.mainUser!.email;
     fbTextController.text = HomeSetterPage.mainUser!.fbUrl;
     instaTextController.text = HomeSetterPage.mainUser!.instaUrl;
+    profTextController.text = HomeSetterPage.mainUser!.profession;
+    placeTextController.text = HomeSetterPage.mainUser!.workplace;
     college = HomeSetterPage.mainUser!.college;
     useRegularEmail = HomeSetterPage.mainUser!.email ==
         HomeSetterPage.auth.currentUser!.email;

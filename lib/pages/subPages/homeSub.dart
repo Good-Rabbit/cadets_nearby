@@ -41,9 +41,9 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   String? quote;
 
-  RangeValues range = RangeValues(0, 10);
   double min = 0;
-  double max = 10;
+  double max = 120;
+  RangeValues range = RangeValues(0, 120);
 
   calculateMinMax() {
     latMax = (HomeSetterPage.mainUser!.lat) + 0.1;
@@ -104,7 +104,7 @@ class _HomeSubPageState extends State<HomeSubPage>
 
         locationData = await location.getLocation();
         //Calculate minimum and maximum for other distances
-        calculateMinMax();
+        await calculateMinMax();
         await uploadLocation(locationData!);
         updateFlag = true;
         loadingComplete = true;
@@ -185,9 +185,10 @@ class _HomeSubPageState extends State<HomeSubPage>
               padding: const EdgeInsets.all(20.0),
               child: GestureDetector(
                 onTap: () {
-                  widget.setSelectedIndex(3);
+                  widget.setSelectedIndex(2);
                 },
                 child: Card(
+                  elevation: 0,
                   color: Colors.transparent,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -216,34 +217,10 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 Text(
                                   HomeSetterPage.mainUser!.cName,
                                   style: TextStyle(
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                // if (!HomeSetterPage
-                                //     .auth.currentUser!.emailVerified)
-                                //   GestureDetector(
-                                //     onTap: disabled
-                                //         ? null
-                                //         : () {
-                                //             HomeSetterPage.auth.currentUser!
-                                //                 .sendEmailVerification()
-                                //                 .then((value) {
-                                //               ScaffoldMessenger.of(context)
-                                //                   .showSnackBar(SnackBar(
-                                //                       content:
-                                //                           Text('E-mail sent')));
-                                //               setState(() {
-                                //                 disabled = true;
-                                //               });
-                                //             });
-                                //           },
-                                //     child: Text(
-                                //       ' - Verify e-mail ',
-                                //       style: TextStyle(
-                                //         color: Colors.red,
-                                //       ),
-                                //     ),
-                                //   ),
                                 if (!HomeSetterPage.mainUser!.verified)
                                   Icon(
                                     Icons.info_rounded,
@@ -260,7 +237,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                             ),
                             Text(
                               quote ?? '',
-                              style: TextStyle(),
+                              style: TextStyle(
+                                fontSize: 13,
+                              ),
                             ),
                           ],
                         ),
@@ -351,7 +330,7 @@ class _HomeSubPageState extends State<HomeSubPage>
               FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 future: HomeSetterPage.store
                     .collection('users')
-                    //TODO Uncomment later
+                    //TODO uncomment
                     // .where('long', isLessThan: longMax, isGreaterThan: longMin)
                     .get(),
                 builder: (context, snapshots) {
@@ -389,6 +368,8 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   celeb: u.data()['celeb'],
                                   bountyHead: u.data()['bountyhead'],
                                   bountyHunter: u.data()['bountyhunter'],
+                                  workplace: u.data()['workplace'],
+                                  profession: u.data()['profession'],
                                 );
 
                                 Duration timeDiff;
@@ -403,19 +384,14 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 } else if (timeDiff.inDays > 30) {
                                   return SizedBox();
                                 }
-                                //TODO Uncomment later
-                                // else if (!((e.lat ?? 0) < latMax &&
-                                //     (e.lat ?? 0) > latMin)) {
-                                //   return SizedBox();
-                                // }
-                                // Get distance in metres
+
+                                //Distance in km
                                 var distanceD = calculateDistance(
                                     locationData!.latitude,
                                     locationData!.longitude,
                                     e.lat,
                                     e.long);
                                 counter++;
-                                max = distanceD > max ? distanceD : max;
                                 bool contains = false;
                                 for (var user in savedUsers) {
                                   if (user.id == e.id) {
@@ -428,29 +404,35 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 }
                                 if (counter ==
                                     (snapshots.data!.docs.length - 1)) {
-                                  range = RangeValues(min, max.ceilToDouble());
                                   clearSaved();
                                 }
+
+                                // Range Check
+                                if (distanceD > range.end ||
+                                    distanceD < range.start) {
+                                  return SizedBox();
+                                }
+
+                                //This is kinda fuzzy, I'll optimize it later
+                                // ------------
+                                //Distance in meter
                                 distanceD *= 1000;
-                                double distance = 0;
-                                int distanceInt = 0;
+                                //Distance in meter rounded to tens
+                                double distanceKm = distanceD.roundToDouble() -
+                                    distanceD.roundToDouble() % 10;
+                                distanceKm /= 1000;
+                                distanceKm =
+                                    double.parse(distanceKm.toStringAsFixed(2));
+                                int distanceM = distanceD.toInt();
                                 bool isKm = false;
 
-                                if (distanceD < 10) {
-                                  distanceInt = distanceD.toInt();
-                                } else {
-                                  distance = distanceD.roundToDouble() -
-                                      distanceD.roundToDouble() % 10;
-                                  if (distance > 1000) {
-                                    distance /= 1000;
-                                    distance = double.parse(
-                                        distance.toStringAsFixed(2));
-                                    isKm = true;
-                                  }
-                                  if (!isKm) {
-                                    distanceInt = distance.round();
-                                  }
+                                if (distanceM >= 10) {
+                                  distanceM = distanceM - distanceM % 10;
                                 }
+                                if (distanceM > 1000) {
+                                  isKm = true;
+                                }
+                                // -------------
 
                                 return Container(
                                   margin:
@@ -458,8 +440,8 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   child: NearbyCard(
                                       e: e,
                                       isKm: isKm,
-                                      distance: distance,
-                                      distanceInt: distanceInt),
+                                      distanceKm: distanceKm,
+                                      distanceM: distanceM),
                                 );
                               },
                             ).toList(),
@@ -478,44 +460,42 @@ class _HomeSubPageState extends State<HomeSubPage>
                   } else if (e.equals(HomeSetterPage.mainUser!)) {
                     return SizedBox();
                   }
-                  //TODO Uncomment later
-                  // else if (!((e.lat ?? 0) < latMax &&
-                  //     (e.lat ?? 0) > latMin)) {
-                  //   return SizedBox();
-                  // }
                   // Get distance in metres
                   var distanceD = calculateDistance(locationData!.latitude,
                       locationData!.longitude, e.lat, e.long);
+
+                  // Range Check
                   if (distanceD > range.end || distanceD < range.start) {
                     return SizedBox();
                   }
+
+                  //This is kinda fuzzy, I'll optimize it later
+                  // ------------
+                  //Distance in meter
                   distanceD *= 1000;
-                  double distance = 0;
-                  int distanceInt = 0;
+                  //Distance in meter rounded to tens
+                  double distanceKm = distanceD.roundToDouble() -
+                      distanceD.roundToDouble() % 10;
+                  distanceKm /= 1000;
+                  distanceKm = double.parse(distanceKm.toStringAsFixed(2));
+                  int distanceM = distanceD.toInt();
                   bool isKm = false;
 
-                  if (distanceD < 10) {
-                    distanceInt = distanceD.toInt();
-                  } else {
-                    distance = distanceD.roundToDouble() -
-                        distanceD.roundToDouble() % 10;
-                    if (distance > 1000) {
-                      distance /= 1000;
-                      distance = double.parse(distance.toStringAsFixed(2));
-                      isKm = true;
-                    }
-                    if (!isKm) {
-                      distanceInt = distance.round();
-                    }
+                  if (distanceM >= 10) {
+                    distanceM = distanceM - distanceM % 10;
                   }
+                  if (distanceM > 1000) {
+                    isKm = true;
+                  }
+                  // -------------
 
                   return Container(
                     margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
                     child: NearbyCard(
                         e: e,
                         isKm: isKm,
-                        distance: distance,
-                        distanceInt: distanceInt),
+                        distanceKm: distanceKm,
+                        distanceM: distanceM),
                   );
                 }).toList(),
               ),
