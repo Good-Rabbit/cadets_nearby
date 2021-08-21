@@ -144,18 +144,6 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                                 Theme.of(context).accentColor),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            textStyle: MaterialStateProperty.all(
-                              TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                              ),
-                            ),
-                            elevation: MaterialStateProperty.all(0),
                           ),
                         ),
                         ElevatedButton.icon(
@@ -207,20 +195,6 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                           icon: Icon(
                             Icons.delete,
                             size: 20,
-                          ),
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            textStyle: MaterialStateProperty.all(
-                              TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                              ),
-                            ),
-                            elevation: MaterialStateProperty.all(0),
                           ),
                         ),
                       ],

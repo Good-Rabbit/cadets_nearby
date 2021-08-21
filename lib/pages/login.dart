@@ -208,20 +208,8 @@ class _LoginPageState extends State<LoginPage> {
                             size: 20,
                           ),
                           style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
                             backgroundColor: MaterialStateProperty.all(
                                 Theme.of(context).accentColor),
-                            textStyle: MaterialStateProperty.all(
-                              TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                              ),
-                            ),
-                            elevation: MaterialStateProperty.all(0),
                           ),
                         ),
                         SizedBox(
@@ -271,20 +259,6 @@ class _LoginPageState extends State<LoginPage> {
                             Icons.login,
                             size: 20,
                           ),
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            textStyle: MaterialStateProperty.all(
-                              TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                              ),
-                            ),
-                            elevation: MaterialStateProperty.all(0),
-                          ),
                         )
                       ],
                     ),
@@ -323,14 +297,6 @@ class _LoginPageState extends State<LoginPage> {
                         style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(Color(0xFF1F1F1F)),
-                          textStyle: MaterialStateProperty.all(
-                            GoogleFonts.getFont(
-                              'Roboto',
-                              color: Colors.white,
-                              fontSize: 17,
-                            ),
-                          ),
-                          elevation: MaterialStateProperty.all(0),
                         ),
                       ),
                     ),

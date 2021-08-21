@@ -102,13 +102,36 @@ class _AccountSubPageState extends State<AccountSubPage>
                         radius: 40.0,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: HomeSetterPage.mainUser!.photoUrl == ''
-                              ? Image.asset('assets/images/user.png')
-                              : Image.network(
-                                  HomeSetterPage.mainUser!.photoUrl,
+                          child: Stack(
+                            children: [
+                              HomeSetterPage.mainUser!.photoUrl == ''
+                                  ? Image.asset(
+                                      'assets/images/user.png',
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.network(
+                                      HomeSetterPage.mainUser!.photoUrl,
+                                      width: 80,
+                                      height: 80,
+                                      fit: BoxFit.cover,
+                                    ),
+                              if (editingEnabled)
+                                Container(
+                                  color: Colors.black.withOpacity(0.65),
                                   width: 80,
                                   height: 80,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pushNamed('/dpchange');
+                                    },
+                                    icon: Icon(
+                                      Icons.edit,
+                                    ),
+                                  ),
                                 ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -754,20 +777,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                   width: 500,
                   margin: EdgeInsets.fromLTRB(100, 20, 100, 0),
                   child: ElevatedButton.icon(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      textStyle: MaterialStateProperty.all(
-                        TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                        ),
-                      ),
-                      elevation: MaterialStateProperty.all(0),
-                    ),
                     onPressed: !(editingEnabled && hasChanged && !inProgress)
                         ? null
                         : () async {
@@ -874,14 +883,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                     onPressed: () {
                       HomeSetterPage.auth.signOut();
                     },
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(0),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                    ),
                   ),
                 ),
                 SizedBox(

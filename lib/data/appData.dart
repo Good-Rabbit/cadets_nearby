@@ -8,35 +8,22 @@ ThemeData lightTheme = ThemeData(
   accentColor: Colors.orange,
   backgroundColor: Colors.orange[200],
   bottomAppBarColor: Colors.orange[100],
-  textTheme: TextTheme(
-    bodyText1: TextStyle(
-      fontFamily: 'Poppins',
+  textTheme: Typography.blackHelsinki,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+      ),
+      textStyle: MaterialStateProperty.all(
+        TextStyle(
+          fontFamily: 'Poppins',
+          color: Colors.white,
+        ),
+      ),
+      elevation: MaterialStateProperty.all(0),
     ),
-    bodyText2: TextStyle(
-      fontFamily: 'Poppins',
-    ),
-    headline1: TextStyle(
-      fontFamily: 'Poppins',
-    ),
-    headline2: TextStyle(
-      fontFamily: 'Poppins',
-    ),
-    headline3: TextStyle(
-      fontFamily: 'Poppins',
-    ),
-    headline4: TextStyle(
-      fontFamily: 'Poppins',
-    ),
-    headline5: TextStyle(
-      fontFamily: 'Poppins',
-    ),
-    headline6: TextStyle(
-      fontFamily: 'Poppins',
-    ),
-  ),
-  buttonTheme: ButtonThemeData(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-    height: 40.0,
   ),
   cardTheme: CardTheme(
     elevation: 0,

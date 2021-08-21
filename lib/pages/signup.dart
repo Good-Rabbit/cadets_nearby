@@ -247,20 +247,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             size: 20,
                           ),
                           style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
                             backgroundColor: MaterialStateProperty.all(
                                 Theme.of(context).accentColor),
-                            textStyle: MaterialStateProperty.all(
-                              TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                              ),
-                            ),
-                            elevation: MaterialStateProperty.all(0),
                           ),
                         ),
                         SizedBox(
@@ -320,20 +308,6 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             Icons.how_to_reg,
                             size: 20,
                           ),
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            textStyle: MaterialStateProperty.all(
-                              TextStyle(
-                                fontFamily: 'Poppins',
-                                color: Colors.white,
-                              ),
-                            ),
-                            elevation: MaterialStateProperty.all(0),
-                          ),
                         ),
                       ],
                     ),
@@ -370,7 +344,6 @@ class _SignupMainPageState extends State<SignupMainPage> {
                               fontSize: 17,
                             ),
                           ),
-                          elevation: MaterialStateProperty.all(0),
                         ),
                       ),
                     ),

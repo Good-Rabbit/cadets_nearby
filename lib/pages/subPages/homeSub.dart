@@ -208,9 +208,15 @@ class _HomeSubPageState extends State<HomeSubPage>
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
                             child: HomeSetterPage.mainUser!.photoUrl == ''
-                                ? Image.asset('assets/images/user.png')
+                                ? Image.asset(
+                                    'assets/images/user.png',
+                                    fit: BoxFit.cover,
+                                  )
                                 : Image.network(
                                     HomeSetterPage.mainUser!.photoUrl,
+                                    fit: BoxFit.cover,
+                                    width: 40,
+                                    height: 40,
                                   ),
                           ),
                         ),
@@ -323,7 +329,6 @@ class _HomeSubPageState extends State<HomeSubPage>
                           },
                     icon: Icon(Icons.filter_alt),
                     style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(0),
                       backgroundColor:
                           MaterialStateProperty.all(Colors.transparent),
                       foregroundColor:

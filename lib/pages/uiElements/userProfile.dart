@@ -34,6 +34,9 @@ class UserProfile extends StatelessWidget {
                       ? Image.asset('assets/images/user.png')
                       : Image.network(
                           e.photoUrl,
+                          fit: BoxFit.cover,
+                          width: 80,
+                          height: 80,
                         ),
                 ),
               ),
@@ -145,12 +148,6 @@ class UserProfile extends StatelessWidget {
                 icon: Icon(Icons.facebook),
                 label: Text('Facebook'),
                 style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(0),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
                   backgroundColor: MaterialStateProperty.all(Colors.blue[600]),
                 ),
               ),
@@ -166,12 +163,6 @@ class UserProfile extends StatelessWidget {
                 icon: Icon(FontAwesomeIcons.instagram),
                 label: Text('Instagram'),
                 style: ButtonStyle(
-                  elevation: MaterialStateProperty.all(0),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
                   backgroundColor: MaterialStateProperty.all(Colors.red),
                 ),
               ),

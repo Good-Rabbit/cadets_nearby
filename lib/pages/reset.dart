@@ -121,13 +121,6 @@ class _ResetPageState extends State<ResetPage> {
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
                         Theme.of(context).primaryColor),
-                    textStyle: MaterialStateProperty.all(
-                      TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                      ),
-                    ),
-                    elevation: MaterialStateProperty.all(0),
                   ),
                 )
               ],

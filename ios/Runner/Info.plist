@@ -48,5 +48,9 @@
 		<string>mailto</string>
 		<string>tel</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Cadets nearby picture uploading from gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Cadets nearby picture uploading from camera</string>
 </dict>
 </plist>

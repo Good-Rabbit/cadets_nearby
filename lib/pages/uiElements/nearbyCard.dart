@@ -73,8 +73,9 @@ class NearbyCard extends StatelessWidget {
                         ? Image.asset('assets/images/user.png')
                         : Image.network(
                             e.photoUrl,
-                            width: 80,
-                            height: 80,
+                            fit: BoxFit.cover,
+                            width: 50,
+                            height: 50,
                           ),
                   ),
                 ),

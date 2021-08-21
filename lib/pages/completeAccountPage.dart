@@ -542,18 +542,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(Colors.red),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                              ),
-                              textStyle: MaterialStateProperty.all(
-                                TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                ),
-                              ),
-                              elevation: MaterialStateProperty.all(0),
                             ),
                           ),
                           ElevatedButton.icon(
@@ -666,22 +654,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             icon: Icon(
                               Icons.arrow_right_alt_rounded,
                               size: 20,
-                            ),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  Theme.of(context).primaryColor),
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0),
-                                ),
-                              ),
-                              textStyle: MaterialStateProperty.all(
-                                TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                ),
-                              ),
-                              elevation: MaterialStateProperty.all(0),
                             ),
                           )
                         ],
