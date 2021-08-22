@@ -33,11 +33,54 @@ class _DpPageState extends State<DpPage> {
   }
 
   uploadImage() async {
-    Uri uri = Uri.parse(siteAddress + '/upload.php');
+    Uri uri = Uri.parse(siteAddress + '/uploadDp.php');
     http.post(
       uri,
       body: {
         'image': stringImage,
+        'name': filename,
+      },
+    ).then((value) {
+      //Delete previous if manual
+      if (HomeSetterPage.mainUser!.manualDp) {
+        Uri uri = Uri.parse(siteAddress + '/deleteDp.php');
+        String delFilename = HomeSetterPage.mainUser!.photoUrl.split('/').last;
+        http.post(
+          uri,
+          body: {
+            'name': delFilename,
+          },
+        );
+      }
+      //Update locally
+      if (value.statusCode == 200) {
+        print(value.body);
+        HomeSetterPage.store
+            .collection('users')
+            .doc(HomeSetterPage.mainUser!.id)
+            .update({
+          'photourl': siteAddress + '/DPs/' + filename!,
+          'manualdp': true,
+        });
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Updated Successfully')));
+        HomeSetterPage.mainUser!.photoUrl = siteAddress + '/DPs/' + filename!;
+        HomeSetterPage.mainUser!.manualDp = true;
+        Navigator.of(context).pop();
+      } else {
+        print(value.body);
+      }
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  deleteImage() async {
+    Uri uri = Uri.parse(siteAddress + '/deleteDp.php');
+    filename = HomeSetterPage.mainUser!.photoUrl.split('/').last;
+    http.post(
+      uri,
+      body: {
         'name': filename,
       },
     ).then((value) {
@@ -47,9 +90,15 @@ class _DpPageState extends State<DpPage> {
         HomeSetterPage.store
             .collection('users')
             .doc(HomeSetterPage.mainUser!.id)
-            .update({'photourl': siteAddress + '/DPs/' + filename!});
+            .update({
+          'photourl': '',
+          'manualdp': false,
+        });
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Updated Successfully')));
+            .showSnackBar(SnackBar(content: Text('Deleted Successfully')));
+        HomeSetterPage.mainUser!.photoUrl = '';
+        HomeSetterPage.mainUser!.manualDp = false;
+        Navigator.of(context).pop();
       } else {
         print(value.body);
       }
@@ -97,10 +146,15 @@ class _DpPageState extends State<DpPage> {
                               File(image!.path),
                               fit: BoxFit.cover,
                             )
-                          : Image.network(
-                              HomeSetterPage.mainUser!.photoUrl,
-                              fit: BoxFit.cover,
-                            ),
+                          : (HomeSetterPage.mainUser!.photoUrl == ''
+                              ? Image.asset(
+                                  'assets/images/user.png',
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  HomeSetterPage.mainUser!.photoUrl,
+                                  fit: BoxFit.cover,
+                                )),
                     ),
                   ),
                   Padding(
@@ -146,13 +200,53 @@ class _DpPageState extends State<DpPage> {
                   SizedBox(
                     height: 30,
                   ),
-                  ElevatedButton(
-                    onPressed: image == null
-                        ? null
-                        : () async {
-                            uploadImage();
-                          },
-                    child: Text('Upload picture'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: !HomeSetterPage.mainUser!.manualDp
+                            ? null
+                            : () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('Are you sure?'),
+                                        content: Text(
+                                            'Your profile picture will be permanently deleted'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text('No'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              deleteImage();
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text('Yes'),
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              Theme.of(context).accentColor),
+                        ),
+                        child: Text('Delete picture'),
+                      ),
+                      ElevatedButton(
+                        onPressed: image == null
+                            ? null
+                            : () async {
+                                uploadImage();
+                              },
+                        child: Text('Upload picture'),
+                      ),
+                    ],
                   ),
                   ElevatedButton(
                     onPressed: () {

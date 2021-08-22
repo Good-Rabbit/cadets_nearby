@@ -383,6 +383,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   bountyHunter: u.data()['bountyhunter'],
                                   workplace: u.data()['workplace'],
                                   profession: u.data()['profession'],
+                                  manualDp:u.data()['manualdp'],
                                 );
 
                                 Duration timeDiff;

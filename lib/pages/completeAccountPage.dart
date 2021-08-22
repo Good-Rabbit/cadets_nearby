@@ -608,6 +608,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                                 profTextController.text,
                                             'workplace':
                                                 placeTextController.text,
+                                            'manualdp': false,
                                           },
                                         );
                                         HomeSetterPage.mainUser = AppUser(
@@ -640,6 +641,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                           bountyHunter: true,
                                           workplace: placeTextController.text,
                                           profession: profTextController.text,
+                                          manualDp: false,
                                         );
                                         widget.loggedInNotifier();
                                       } catch (e) {

@@ -39,6 +39,7 @@ class HomeSetterPage extends StatefulWidget {
       bountyHunter: u.data()!['bountyhunter'],
       workplace: u.data()!['workplace'],
       profession: u.data()!['profession'],
+      manualDp: u.data()!['manualdp'],
     );
   }
 

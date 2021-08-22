@@ -24,6 +24,7 @@ class AppUser {
   bool bountyHunter;
   bool pAlways;
   bool pMaps;
+  bool manualDp;
 
   AppUser({
     required this.cName,
@@ -45,6 +46,7 @@ class AppUser {
     required this.instaUrl,
     required this.workplace,
     required this.profession,
+    required this.manualDp,
     this.photoUrl: '',
     this.lat: 0,
     this.long: 0,

@@ -1,4 +1,4 @@
-import 'package:cadets_nearby/pages/dpChanger.dart';
+import 'package:cadets_nearby/pages/dpModifier.dart';
 import 'package:cadets_nearby/pages/verification.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

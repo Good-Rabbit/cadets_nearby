@@ -849,6 +849,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                       HomeSetterPage.mainUser!.bountyHunter,
                                   workplace: placeTextController.text,
                                   profession: profTextController.text,
+                                  manualDp: HomeSetterPage.mainUser!.manualDp,
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
