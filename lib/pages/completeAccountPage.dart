@@ -596,7 +596,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             'palways': alwaysAccess,
                                             'pmaps': false,
                                             'premium': false,
-                                            'verified': false,
+                                            'verified': 'no',
                                             'photourl': HomeSetterPage.auth
                                                     .currentUser!.photoURL ??
                                                 '',
@@ -632,7 +632,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                               '',
                                           phone: phoneTextController.text,
                                           premium: false,
-                                          verified: false,
+                                          verified: 'no',
                                           timeStamp: DateTime.now(),
                                           celeb: false,
                                           bountyHead: true,

@@ -103,7 +103,7 @@ class UserProfile extends StatelessWidget {
                         size: 15,
                         color: Colors.green,
                       ),
-                    if (!e.verified)
+                    if (e.verified != 'yes')
                       Icon(
                         Icons.info_rounded,
                         size: 15,

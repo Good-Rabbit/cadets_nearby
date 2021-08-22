@@ -7,10 +7,12 @@ class FilterRange extends StatefulWidget {
     required this.max,
     required this.min,
     required this.onChanged,
+    this.divisions:5,
   }) : super(key: key);
   final RangeValues range;
   final double min;
   final double max;
+  final int divisions;
   final ValueChanged<RangeValues> onChanged;
 
   @override
@@ -38,7 +40,7 @@ class _FilterRangeState extends State<FilterRange> {
           },
           min: widget.min,
           max: widget.max,
-          divisions: 10,
+          divisions: widget.divisions,
           labels: RangeLabels('${range.start.floor()}', '${range.end.ceil()}'),
         ),
         Padding(

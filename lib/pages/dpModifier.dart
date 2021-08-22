@@ -23,7 +23,12 @@ class _DpPageState extends State<DpPage> {
   getImage(source) async {
     image = await picker
         .pickImage(
-            source: source, maxHeight: 500, maxWidth: 500, imageQuality: 40)
+      source: source,
+      maxHeight: 500,
+      maxWidth: 500,
+      imageQuality: 40,
+      preferredCameraDevice: CameraDevice.front,
+    )
         .then((value) {
       filename = File(value!.path).path.split('/').last;
       stringImage = base64Encode(File(value.path).readAsBytesSync());

@@ -42,8 +42,9 @@ class _HomeSubPageState extends State<HomeSubPage>
   String? quote;
 
   double min = 0;
-  double max = 120;
-  RangeValues range = RangeValues(0, 120);
+  double max = 15;
+  int divisions = 3;
+  RangeValues range = RangeValues(0, 5);
 
   calculateMinMax() {
     latMax = (HomeSetterPage.mainUser!.lat) + 0.1;
@@ -173,12 +174,14 @@ class _HomeSubPageState extends State<HomeSubPage>
     }
 
     // TODO enable verification
-    // if (!HomeSetterPage.mainUser!.verified && !warningGiven) {
-    //   warningGiven = true;
-    //   Future.delayed(Duration(seconds: 5)).then((value) {
-    //     Navigator.of(context).pushNamed('/verify');
-    //   });
-    // }
+    if (!(HomeSetterPage.mainUser!.verified == 'yes' ||
+            HomeSetterPage.mainUser!.verified == 'waiting') &&
+        !warningGiven) {
+      warningGiven = true;
+      Future.delayed(Duration(seconds: 5)).then((value) {
+        Navigator.of(context).pushNamed('/verify');
+      });
+    }
 
     int counter = 0;
     return RefreshIndicator(
@@ -235,7 +238,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                if (!HomeSetterPage.mainUser!.verified)
+                                if (HomeSetterPage.mainUser!.verified != 'yes')
                                   Icon(
                                     Icons.info_rounded,
                                     size: 15,
@@ -309,6 +312,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                               ),
                                               FilterRange(
                                                 range: range,
+                                                divisions: divisions,
                                                 min: min.floorToDouble(),
                                                 max: max.ceilToDouble(),
                                                 onChanged: (value) {
@@ -383,7 +387,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   bountyHunter: u.data()['bountyhunter'],
                                   workplace: u.data()['workplace'],
                                   profession: u.data()['profession'],
-                                  manualDp:u.data()['manualdp'],
+                                  manualDp: u.data()['manualdp'],
                                 );
 
                                 Duration timeDiff;
@@ -525,7 +529,7 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   Container noOneNearby() {
     return Container(
-      height: MediaQuery.of(context).size.height * 2 / 3,
+      height: MediaQuery.of(context).size.height * 3 / 5,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

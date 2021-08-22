@@ -162,7 +162,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20.0),
                       ),
-                      if (!HomeSetterPage.mainUser!.verified)
+                      if (HomeSetterPage.mainUser!.verified != 'yes')
                         Icon(
                           Icons.info_rounded,
                           size: 20,

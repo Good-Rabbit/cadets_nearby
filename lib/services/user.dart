@@ -14,11 +14,11 @@ class AppUser {
   String instaUrl;
   String workplace;
   String profession;
+  String verified;
   DateTime timeStamp;
   bool pLocation;
   bool premium;
   bool pPhone;
-  bool verified;
   bool celeb;
   bool bountyHead;
   bool bountyHunter;
