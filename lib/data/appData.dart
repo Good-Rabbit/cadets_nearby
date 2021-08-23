@@ -4,10 +4,10 @@ String appName = 'Cadets Nearby';
 
 TextStyle textStyle = TextStyle(
       fontWeight: FontWeight.w300,
-      fontFamily: 'Poppins',
     );
 
 ThemeData lightTheme = ThemeData(
+  fontFamily: 'DMSans',
   primarySwatch: Colors.deepOrange,
   primaryColor: Colors.deepOrange,
   accentColor: Colors.orange,

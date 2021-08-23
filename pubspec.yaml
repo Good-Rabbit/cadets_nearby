@@ -35,8 +35,17 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+
   uses-material-design: true
+
   assets:
     - assets/images/
     - assets/videos/
     - assets/audios/
+    
+  fonts:
+    - family: DMSans
+      fonts:
+        - asset: fonts/DMSans-Regular.ttf
+        - asset: fonts/DMSans-Italic.ttf
+          style: italic
