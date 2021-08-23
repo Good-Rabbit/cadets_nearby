@@ -1,13 +1,13 @@
 import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:location/location.dart';
 import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:cadets_nearby/pages/uiElements/filterRange.dart';
 import 'package:cadets_nearby/pages/uiElements/loading.dart';
 import 'package:cadets_nearby/pages/uiElements/nearbyCard.dart';
 import 'package:cadets_nearby/services/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 
 class HomeSubPage extends StatefulWidget {
   HomeSubPage({Key? key, required this.setSelectedIndex}) : super(key: key);
@@ -27,7 +27,9 @@ class _HomeSubPageState extends State<HomeSubPage>
   bool updateFlag = false;
   bool disabled = false;
   bool loadingComplete = false;
+
   bool locationTimeout = false;
+  bool dataFetchTimeout = false;
 
   List<AppUser> savedUsers = [];
 
@@ -132,6 +134,8 @@ class _HomeSubPageState extends State<HomeSubPage>
         'long': locationData.longitude,
         'lastonline': timeStamp,
       });
+      HomeSetterPage.mainUser!.lat = locationData.latitude!;
+      HomeSetterPage.mainUser!.long = locationData.latitude!;
       print('Location uploaded...');
     } catch (e) {
       print('Uploading failed...');
@@ -154,9 +158,9 @@ class _HomeSubPageState extends State<HomeSubPage>
     quote = doc.data()!['quote'] ?? 'Demo Quote For Now';
   }
 
-  clearSaved() async {
+  clearTimeout() async {
     Future.delayed(Duration(minutes: 1)).then((value) {
-      savedUsers = [];
+      dataFetchTimeout = false;
     });
   }
 
@@ -343,7 +347,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                 ),
               ],
             ),
-            if (locationData != null && savedUsers.isEmpty)
+            if (locationData != null && !dataFetchTimeout)
               FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 future: HomeSetterPage.store
                     .collection('users')
@@ -351,14 +355,18 @@ class _HomeSubPageState extends State<HomeSubPage>
                     // .where('long', isLessThan: longMax, isGreaterThan: longMin)
                     .get(),
                 builder: (context, snapshots) {
+                  dataFetchTimeout = true;
                   print('Getting Users...');
                   if (snapshots.hasData) {
+                    int shown = 0;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: snapshots.data!.docs.length == 0
                           ? [noOneNearby()]
                           : snapshots.data!.docs.map(
                               (u) {
+                                counter++;
+                                bool dontShow = false;
                                 // Make a user object
                                 AppUser e = AppUser(
                                   id: u.data()['id'],
@@ -398,9 +406,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                                     snapshots.data!.docs.length == 1) {
                                   return noOneNearby();
                                 } else if (e.equals(HomeSetterPage.mainUser!)) {
-                                  return SizedBox();
+                                  dontShow = true;
                                 } else if (timeDiff.inDays > 30) {
-                                  return SizedBox();
+                                  dontShow = true;
                                 }
 
                                 //Distance in km
@@ -409,7 +417,25 @@ class _HomeSubPageState extends State<HomeSubPage>
                                     locationData!.longitude,
                                     e.lat,
                                     e.long);
-                                counter++;
+
+                                // Range Check
+                                if (distanceD > range.end ||
+                                    distanceD < range.start) {
+                                  dontShow = true;
+                                }
+
+                                if (!dontShow) shown++;
+
+                                if (counter == snapshots.data!.docs.length) {
+                                  clearTimeout();
+                                  if (shown == 0) {
+                                    return noOneNearby();
+                                  }
+                                }
+
+                                if (dontShow) {
+                                  return SizedBox();
+                                }
                                 bool contains = false;
                                 for (var user in savedUsers) {
                                   if (user.id == e.id) {
@@ -417,18 +443,8 @@ class _HomeSubPageState extends State<HomeSubPage>
                                     break;
                                   }
                                 }
-                                if (!contains) {
+                                if (!contains && !dontShow) {
                                   savedUsers.add(e);
-                                }
-                                if (counter ==
-                                    (snapshots.data!.docs.length - 1)) {
-                                  clearSaved();
-                                }
-
-                                // Range Check
-                                if (distanceD > range.end ||
-                                    distanceD < range.start) {
-                                  return SizedBox();
                                 }
 
                                 //This is kinda fuzzy, I'll optimize it later
@@ -451,7 +467,6 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   isKm = true;
                                 }
                                 // -------------
-
                                 return Container(
                                   margin:
                                       EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
@@ -468,7 +483,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                   return Loading();
                 },
               ),
-            if (locationData != null && savedUsers.isNotEmpty)
+            if (locationData != null && dataFetchTimeout)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: savedUsers.map((e) {

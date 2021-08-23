@@ -22,7 +22,7 @@ class _NotificationSubPageState extends State<NotificationSubPage>
             color: Theme.of(context).primaryColor,
           ),
           Text(
-            'No Notifications',
+            'No Notification',
             style: TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.bold,
