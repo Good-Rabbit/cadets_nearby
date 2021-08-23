@@ -44,21 +44,10 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
       if (value.statusCode == 200) {
         print(value.body);
         HomeSetterPage.store
-            .collection('verify')
-            .doc(HomeSetterPage.mainUser!.id)
-            .set({
-          'fullname': HomeSetterPage.mainUser!.fullName,
-          'cname': HomeSetterPage.mainUser!.cName,
-          'cnumber': HomeSetterPage.mainUser!.cNumber,
-          'college': HomeSetterPage.mainUser!.college,
-          'intake': HomeSetterPage.mainUser!.intake,
-          'photourl': siteAddress + '/VPs/' + filename!,
-          'manualdp': true,
-        });
-        HomeSetterPage.store
             .collection('users')
             .doc(HomeSetterPage.mainUser!.id)
             .update({
+          'verifyurl': siteAddress + '/VPs/' + filename!,
           'verified': 'waiting',
         });
         HomeSetterPage.mainUser!.verified = 'waiting';
