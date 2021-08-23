@@ -1,5 +1,5 @@
 import 'package:cadets_nearby/pages/dpModifier.dart';
-import 'package:cadets_nearby/pages/verification.dart';
+import 'package:cadets_nearby/pages/verifyCadet.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         '/signup': (context) => SignupMainPage(),
         '/reset': (context) => ResetPage(),
         '/cancel': (context) => CancelVerificationPage(),
-        '/verify': (context) => VerificationPage(),
+        '/verifycadet': (context) => CadetVerificationPage(),
         '/dpchange':(context)=> DpPage(),
       },
     );

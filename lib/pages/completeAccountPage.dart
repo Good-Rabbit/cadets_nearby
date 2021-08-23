@@ -83,9 +83,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                     child: Text(
                       'Complete Account',
                       style: TextStyle(
-                        fontFamily: 'Poppins',
                         fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -97,7 +95,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.grey[700],
-                        fontFamily: 'Poppins',
                       ),
                     ),
                   ),
@@ -110,17 +107,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
                           hintText: 'Full Name*',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                          ),
+                          hintStyle: TextStyle(),
                           prefixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.account_box_rounded),
                           ),
                         ),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
+                        style: TextStyle(),
                         keyboardType: TextInputType.name,
                         validator: (val) {
                           if (val!.trim().isEmpty) {
@@ -140,17 +133,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
                           hintText: 'Cadet Name* -e.g. Rashid',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                          ),
+                          hintStyle: TextStyle(),
                           prefixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.perm_identity_rounded),
                           ),
                         ),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
+                        style: TextStyle(),
                         keyboardType: TextInputType.name,
                         validator: (val) {
                           if (val!.trim().isEmpty) {
@@ -170,17 +159,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
                           hintText: 'Cadet Number*',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                          ),
+                          hintStyle: TextStyle(),
                           prefixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.book),
                           ),
                         ),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
+                        style: TextStyle(),
                         keyboardType: TextInputType.number,
                         validator: (val) {
                           if (val!.isEmpty) {
@@ -235,17 +220,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
                           hintText: 'Intake Year*',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                          ),
+                          hintStyle: TextStyle(),
                           prefixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.date_range),
                           ),
                         ),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
+                        style: TextStyle(),
                         keyboardType: TextInputType.datetime,
                         validator: (val) {
                           if (val!.trim().isEmpty) {
@@ -265,17 +246,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
                           hintText: 'Profession',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                          ),
+                          hintStyle: TextStyle(),
                           prefixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.work),
                           ),
                         ),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
+                        style: TextStyle(),
                         keyboardType: TextInputType.text,
                       ),
                     ),
@@ -289,17 +266,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
                           hintText: 'Workplace',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                          ),
+                          hintStyle: TextStyle(),
                           prefixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.location_city),
                           ),
                         ),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
+                        style: TextStyle(),
                         keyboardType: TextInputType.text,
                       ),
                     ),
@@ -309,7 +282,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                     child: Text(
                       'Contact Info',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
                         fontSize: 20.0,
                       ),
                     ),
@@ -324,18 +296,14 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
                           hintText: 'Contact E-mail*',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                          ),
+                          hintStyle: TextStyle(),
                           prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
                                 Icons.alternate_email,
                               )),
                         ),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
+                        style: TextStyle(),
                         keyboardType: TextInputType.emailAddress,
                         validator: (val) {
                           if (val!.trim().isEmpty) {
@@ -391,9 +359,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
                           hintText: 'username e.g. "rashid.hr"',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                          ),
+                          hintStyle: TextStyle(),
                           prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
@@ -404,14 +370,11 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             '/',
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
                               color: Colors.blue,
                             ),
                           ),
                         ),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
+                        style: TextStyle(),
                         keyboardType: TextInputType.name,
                       ),
                     ),
@@ -425,9 +388,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
                           hintText: 'username e.g. "harun.xt"',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                          ),
+                          hintStyle: TextStyle(),
                           prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
@@ -438,14 +399,11 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             '/',
                             style: TextStyle(
                               fontSize: 20,
-                              fontWeight: FontWeight.bold,
                               color: Colors.deepOrange,
                             ),
                           ),
                         ),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
+                        style: TextStyle(),
                         keyboardType: TextInputType.name,
                       ),
                     ),
@@ -459,17 +417,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
                           hintText: 'Phone',
-                          hintStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                          ),
+                          hintStyle: TextStyle(),
                           prefixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.phone),
                           ),
                         ),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                        ),
+                        style: TextStyle(),
                         keyboardType: TextInputType.phone,
                         onChanged: (value) {
                           if (phoneTextController.text == '') {

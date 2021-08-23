@@ -45,9 +45,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                     child: Text(
                       'Verify your password',
                       style: TextStyle(
-                        fontFamily: 'Poppins',
                         fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -57,7 +55,6 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                       'to delete your account',
                       style: TextStyle(
                         color: Colors.grey[800],
-                        fontFamily: 'Poppins',
                       ),
                     ),
                   ),
@@ -80,9 +77,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                             },
                             decoration: InputDecoration(
                               hintText: 'Password',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
+                              hintStyle: TextStyle(),
                               prefixIcon: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
@@ -104,9 +99,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                 ),
                               ),
                             ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            style: TextStyle(),
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (wrongPassword) {

@@ -26,9 +26,7 @@ class _ResetPageState extends State<ResetPage> {
             child: Text(
               'Reset password',
               style: TextStyle(
-                fontFamily: 'Poppins',
                 fontSize: 30.0,
-                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -39,7 +37,6 @@ class _ResetPageState extends State<ResetPage> {
               maxLines: 5,
               style: TextStyle(
                 color: Colors.grey,
-                fontFamily: 'Poppins',
               ),
             ),
           ),
@@ -63,9 +60,7 @@ class _ResetPageState extends State<ResetPage> {
                     // },
                     decoration: InputDecoration(
                       hintText: 'E-mail',
-                      hintStyle: TextStyle(
-                        fontFamily: 'Poppins',
-                      ),
+                      hintStyle: TextStyle(),
                       prefixIcon: Padding(
                         padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                         child: Icon(
@@ -73,9 +68,7 @@ class _ResetPageState extends State<ResetPage> {
                         ),
                       ),
                     ),
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                    ),
+                    style: TextStyle(),
                     keyboardType: TextInputType.emailAddress,
                     validator: (val) {
                       if (val!.isEmpty) {

@@ -178,14 +178,14 @@ class _HomeSubPageState extends State<HomeSubPage>
     }
 
     // TODO enable verification
-    if (!(HomeSetterPage.mainUser!.verified == 'yes' ||
-            HomeSetterPage.mainUser!.verified == 'waiting') &&
-        !warningGiven) {
-      warningGiven = true;
-      Future.delayed(Duration(seconds: 5)).then((value) {
-        Navigator.of(context).pushNamed('/verify');
-      });
-    }
+    // if (!(HomeSetterPage.mainUser!.verified == 'yes' ||
+    //         HomeSetterPage.mainUser!.verified == 'waiting') &&
+    //     !warningGiven) {
+    //   warningGiven = true;
+    //   Future.delayed(Duration(seconds: 5)).then((value) {
+    //     Navigator.of(context).pushNamed('/verifycadet');
+    //   });
+    // }
 
     int counter = 0;
     return RefreshIndicator(
@@ -238,8 +238,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 Text(
                                   HomeSetterPage.mainUser!.cName,
                                   style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
                                   ),
                                 ),
                                 if (HomeSetterPage.mainUser!.verified != 'yes')
@@ -259,7 +258,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                             Text(
                               quote ?? '',
                               style: TextStyle(
-                                fontSize: 13,
+                                fontSize: 15,
                               ),
                             ),
                           ],
@@ -310,7 +309,6 @@ class _HomeSubPageState extends State<HomeSubPage>
                                               Text(
                                                 'By Distance',
                                                 style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
                                                   fontSize: 20,
                                                 ),
                                               ),
@@ -557,7 +555,6 @@ class _HomeSubPageState extends State<HomeSubPage>
             "No one nearby",
             style: TextStyle(
               fontSize: 25,
-              fontFamily: 'Poppins',
               color: Theme.of(context).primaryColor,
             ),
           ),

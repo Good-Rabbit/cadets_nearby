@@ -2,13 +2,29 @@ import 'package:flutter/material.dart';
 
 String appName = 'Cadets Nearby';
 
+TextStyle textStyle = TextStyle(
+      fontWeight: FontWeight.w300,
+      fontFamily: 'Poppins',
+    );
+
 ThemeData lightTheme = ThemeData(
   primarySwatch: Colors.deepOrange,
   primaryColor: Colors.deepOrange,
   accentColor: Colors.orange,
   backgroundColor: Colors.orange[200],
   bottomAppBarColor: Colors.orange[100],
-  textTheme: Typography.blackHelsinki,
+  textTheme: TextTheme(
+    bodyText1: textStyle,
+    bodyText2: textStyle,
+    subtitle1: textStyle,
+    subtitle2: textStyle,
+    headline1: textStyle,
+    headline2: textStyle,
+    headline3: textStyle,
+    headline4: textStyle,
+    headline5: textStyle,
+    headline6: textStyle,
+  ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       shape: MaterialStateProperty.all(

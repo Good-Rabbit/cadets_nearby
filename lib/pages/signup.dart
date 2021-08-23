@@ -54,9 +54,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                     child: Text(
                       'Sign Up',
                       style: TextStyle(
-                        fontFamily: 'Poppins',
                         fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -66,7 +64,6 @@ class _SignupMainPageState extends State<SignupMainPage> {
                       'at $appName',
                       style: TextStyle(
                         color: Colors.grey[800],
-                        fontFamily: 'Poppins',
                       ),
                     ),
                   ),
@@ -82,9 +79,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             cursorColor: Colors.grey[800],
                             decoration: InputDecoration(
                               hintText: 'E-mail',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
+                              hintStyle: TextStyle(),
                               prefixIcon: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
@@ -93,9 +88,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                 ),
                               ),
                             ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            style: TextStyle(),
                             keyboardType: TextInputType.emailAddress,
                             onChanged: (val) {
                               if (invalidEmail || emailInUse) {
@@ -142,9 +135,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             },
                             decoration: InputDecoration(
                               hintText: 'Password',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
+                              hintStyle: TextStyle(),
                               prefixIcon: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
@@ -166,9 +157,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                 ),
                               ),
                             ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            style: TextStyle(),
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (weakPassword) {
@@ -192,9 +181,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             cursorColor: Colors.grey[800],
                             decoration: InputDecoration(
                               hintText: 'Confirm Password',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
+                              hintStyle: TextStyle(),
                               prefixIcon: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
@@ -216,9 +203,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                 ),
                               ),
                             ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            style: TextStyle(),
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (val != passwordTextController.text) {

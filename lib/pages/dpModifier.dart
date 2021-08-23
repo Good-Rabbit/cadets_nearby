@@ -131,7 +131,6 @@ class _DpPageState extends State<DpPage> {
                     'Change profile picture',
                     style: TextStyle(
                       fontSize: 25.0,
-                      fontWeight: FontWeight.w300,
                     ),
                   ),
                   SizedBox(
@@ -168,7 +167,6 @@ class _DpPageState extends State<DpPage> {
                       'Your profile picture is always visible to everyone. You cannot change that. But you can always delete your profile picture',
                       style: TextStyle(
                         fontSize: 15.0,
-                        fontWeight: FontWeight.w300,
                       ),
                     ),
                   ),

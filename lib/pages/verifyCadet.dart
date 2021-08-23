@@ -7,14 +7,14 @@ import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class VerificationPage extends StatefulWidget {
-  const VerificationPage({Key? key}) : super(key: key);
+class CadetVerificationPage extends StatefulWidget {
+  const CadetVerificationPage({Key? key}) : super(key: key);
 
   @override
-  _VerificationPageState createState() => _VerificationPageState();
+  _CadetVerificationPageState createState() => _CadetVerificationPageState();
 }
 
-class _VerificationPageState extends State<VerificationPage> {
+class _CadetVerificationPageState extends State<CadetVerificationPage> {
   final ImagePicker picker = ImagePicker();
 
   XFile? image;
@@ -94,7 +94,6 @@ class _VerificationPageState extends State<VerificationPage> {
                 'Document verification',
                 style: TextStyle(
                   fontSize: 20,
-                  fontWeight: FontWeight.w300,
                 ),
               ),
               Padding(
@@ -103,7 +102,6 @@ class _VerificationPageState extends State<VerificationPage> {
                   'Submit a document bearing proof that you are a present or an ex cadet. Please note that it might take some time to get verified, you can still use the app while waiting for verification.',
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),

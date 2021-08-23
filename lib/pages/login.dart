@@ -50,9 +50,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       'Welcome',
                       style: TextStyle(
-                        fontFamily: 'Poppins',
                         fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -62,7 +60,6 @@ class _LoginPageState extends State<LoginPage> {
                       'to $appName',
                       style: TextStyle(
                         color: Colors.grey[800],
-                        fontFamily: 'Poppins',
                       ),
                     ),
                   ),
@@ -89,9 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             decoration: InputDecoration(
                               hintText: 'E-mail',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
+                              hintStyle: TextStyle(),
                               prefixIcon: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
@@ -100,9 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            style: TextStyle(),
                             keyboardType: TextInputType.emailAddress,
                             validator: (val) {
                               if (val!.isEmpty) {
@@ -145,9 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             decoration: InputDecoration(
                               hintText: 'Password',
-                              hintStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                              ),
+                              hintStyle: TextStyle(),
                               prefixIcon: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
@@ -169,9 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            style: TextStyle(),
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (wrongPassword) {

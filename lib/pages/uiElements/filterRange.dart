@@ -7,7 +7,7 @@ class FilterRange extends StatefulWidget {
     required this.max,
     required this.min,
     required this.onChanged,
-    this.divisions:5,
+    this.divisions: 5,
   }) : super(key: key);
   final RangeValues range;
   final double min;
@@ -50,15 +50,11 @@ class _FilterRangeState extends State<FilterRange> {
             children: [
               Text(
                 'Min: ' + range.start.ceil().toString(),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(),
               ),
               Text(
                 'Max: ' + range.end.ceil().toString(),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(),
               ),
             ],
           ),

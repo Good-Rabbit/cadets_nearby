@@ -53,34 +53,24 @@ class UserProfile extends StatelessWidget {
                 children: [
                   Text(
                     'Name:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(),
                   ),
                   if (e.premium) Text(''),
                   Text(
                     'Cadet No:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(),
                   ),
                   Text(
                     'College:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(),
                   ),
                   Text(
                     'Profession:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(),
                   ),
                   Text(
                     'At:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(),
                   ),
                 ],
               ),

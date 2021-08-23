@@ -160,8 +160,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                     children: [
                       Text(
                         HomeSetterPage.mainUser!.fullName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20.0),
+                        style: TextStyle(fontSize: 20.0),
                       ),
                       if (HomeSetterPage.mainUser!.verified != 'yes')
                         Icon(
@@ -227,16 +226,14 @@ class _AccountSubPageState extends State<AccountSubPage>
                     children: [
                       Text(
                         HomeSetterPage.mainUser!.cName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 17.0),
+                        style: TextStyle(fontSize: 17.0),
                       ),
                       SizedBox(
                         width: 5,
                       ),
                       Text(
                         HomeSetterPage.mainUser!.cNumber.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15.0),
+                        style: TextStyle(fontSize: 15.0),
                       ),
                     ],
                   ),
@@ -251,38 +248,39 @@ class _AccountSubPageState extends State<AccountSubPage>
                         child: ElevatedButton.icon(
                           onPressed: () {
                             showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            backgroundColor: Colors.transparent,
-            builder: (context) {
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => Navigator.of(context).pop(),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: DraggableScrollableSheet(
-                    initialChildSize: 0.7,
-                    maxChildSize: 0.9,
-                    minChildSize: 0.5,
-                    builder: (_, controller) => Container(
-                      decoration: BoxDecoration(
-                        color: Colors.orange[50],
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(15.0),
-                        ),
-                      ),
-                      padding: const EdgeInsets.fromLTRB(15, 10, 10, 10),
-                      child: ListView(
-                        controller: controller,
-                        children: [
-                          VerificationSteps(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            });
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) {
+                                  return GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: () => Navigator.of(context).pop(),
+                                    child: GestureDetector(
+                                      onTap: () {},
+                                      child: DraggableScrollableSheet(
+                                        initialChildSize: 0.7,
+                                        maxChildSize: 0.9,
+                                        minChildSize: 0.5,
+                                        builder: (_, controller) => Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.orange[50],
+                                            borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(15.0),
+                                            ),
+                                          ),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              15, 10, 10, 10),
+                                          child: ListView(
+                                            controller: controller,
+                                            children: [
+                                              VerificationSteps(),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
                           },
                           icon: Icon(Icons.verified_user),
                           style: ButtonStyle(
@@ -302,16 +300,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'Full Name*',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.account_box_rounded),
                             ),
                           ),
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
                           keyboardType: TextInputType.name,
@@ -341,16 +336,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'Cadet Name* -e.g. Rashid',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.perm_identity_rounded),
                             ),
                           ),
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
                           keyboardType: TextInputType.name,
@@ -380,16 +372,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'Cadet Number*',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.book),
                             ),
                           ),
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
                           keyboardType: TextInputType.number,
@@ -459,16 +448,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'Intake Year*',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.date_range),
                             ),
                           ),
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
                           keyboardType: TextInputType.datetime,
@@ -498,9 +484,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'Profession',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.work),
@@ -514,7 +498,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                             });
                           },
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
                           keyboardType: TextInputType.text,
@@ -531,9 +514,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'Workplace',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.location_city),
@@ -547,7 +528,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                             });
                           },
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
                           keyboardType: TextInputType.text,
@@ -559,7 +539,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                       child: Text(
                         'Contact Info',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
                           fontSize: 20.0,
                         ),
                       ),
@@ -574,9 +553,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'Contact E-mail*',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
@@ -585,7 +562,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                                 )),
                           ),
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
                           keyboardType: TextInputType.emailAddress,
@@ -654,9 +630,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'username e.g. "rashid.hr"',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
@@ -669,7 +643,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                               '/',
                               style: TextStyle(
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold,
                                 color:
                                     !editingEnabled ? Colors.grey : Colors.blue,
                               ),
@@ -683,7 +656,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                             });
                           },
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
                           keyboardType: TextInputType.name,
@@ -700,9 +672,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'username e.g. "harun.xt"',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
@@ -716,7 +686,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                               '/',
                               style: TextStyle(
                                 fontSize: 20,
-                                fontWeight: FontWeight.bold,
                                 color: !editingEnabled
                                     ? Colors.grey
                                     : Colors.deepOrange,
@@ -731,7 +700,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                             });
                           },
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
                           keyboardType: TextInputType.name,
@@ -748,16 +716,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'Phone',
-                            hintStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                            ),
+                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.phone),
                             ),
                           ),
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
                           keyboardType: TextInputType.phone,
