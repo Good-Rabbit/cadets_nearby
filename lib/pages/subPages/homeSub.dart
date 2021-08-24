@@ -48,6 +48,8 @@ class _HomeSubPageState extends State<HomeSubPage>
   int divisions = 3;
   RangeValues range = RangeValues(0, 5);
 
+  int shown = 0;
+
   calculateMinMax() {
     latMax = (HomeSetterPage.mainUser!.lat) + 0.1;
     latMin = (HomeSetterPage.mainUser!.lat) - 0.1;
@@ -183,11 +185,12 @@ class _HomeSubPageState extends State<HomeSubPage>
     //     !warningGiven) {
     //   warningGiven = true;
     //   Future.delayed(Duration(seconds: 5)).then((value) {
-    //     Navigator.of(context).pushNamed('/verifycadet');
+    //     Navigator.of(context).pushNamed('/verification');
     //   });
     // }
 
     int counter = 0;
+
     return RefreshIndicator(
       onRefresh: () async {
         setState(() {});
@@ -356,7 +359,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                   dataFetchTimeout = true;
                   print('Getting Users...');
                   if (snapshots.hasData) {
-                    int shown = 0;
+                    shown = 0;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: snapshots.data!.docs.length == 0
@@ -389,11 +392,12 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   fbUrl: u.data()['fburl'],
                                   instaUrl: u.data()['instaurl'],
                                   celeb: u.data()['celeb'],
-                                  bountyHead: u.data()['bountyhead'],
-                                  bountyHunter: u.data()['bountyhunter'],
+                                  treatHead: u.data()['treathead'],
+                                  treatHunter: u.data()['treathunter'],
                                   workplace: u.data()['workplace'],
                                   profession: u.data()['profession'],
                                   manualDp: u.data()['manualdp'],
+                                  treatCount: u.data()['treatcount'],
                                 );
 
                                 Duration timeDiff;
@@ -484,51 +488,71 @@ class _HomeSubPageState extends State<HomeSubPage>
             if (locationData != null && dataFetchTimeout)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: savedUsers.map((e) {
-                  if (e.equals(HomeSetterPage.mainUser!) &&
-                      savedUsers.length == 1) {
-                    return noOneNearby();
-                  } else if (e.equals(HomeSetterPage.mainUser!)) {
-                    return SizedBox();
-                  }
-                  // Get distance in metres
-                  var distanceD = calculateDistance(locationData!.latitude,
-                      locationData!.longitude, e.lat, e.long);
+                children: savedUsers.length == 0
+                    ? [noOneNearby()]
+                    : savedUsers.map((e) {
+                        bool dontShow = false;
+                        counter++;
+                        if (e.equals(HomeSetterPage.mainUser!) &&
+                            savedUsers.length == 1) {
+                          return noOneNearby();
+                        } else if (e.equals(HomeSetterPage.mainUser!)) {
+                          dontShow = true;
+                        }
+                        // Get distance in metres
+                        var distanceD = calculateDistance(
+                            locationData!.latitude,
+                            locationData!.longitude,
+                            e.lat,
+                            e.long);
 
-                  // Range Check
-                  if (distanceD > range.end || distanceD < range.start) {
-                    return SizedBox();
-                  }
+                        // Range Check
+                        if (distanceD > range.end || distanceD < range.start) {
+                          dontShow = true;
+                        }
 
-                  //This is kinda fuzzy, I'll optimize it later
-                  // ------------
-                  //Distance in meter
-                  distanceD *= 1000;
-                  //Distance in meter rounded to tens
-                  double distanceKm = distanceD.roundToDouble() -
-                      distanceD.roundToDouble() % 10;
-                  distanceKm /= 1000;
-                  distanceKm = double.parse(distanceKm.toStringAsFixed(2));
-                  int distanceM = distanceD.toInt();
-                  bool isKm = false;
+                        if (!dontShow) shown++;
 
-                  if (distanceM >= 10) {
-                    distanceM = distanceM - distanceM % 10;
-                  }
-                  if (distanceM > 1000) {
-                    isKm = true;
-                  }
-                  // -------------
+                        if (counter == savedUsers.length) {
+                          if (shown == 0) {
+                            return noOneNearby();
+                          }
+                        }
 
-                  return Container(
-                    margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                    child: NearbyCard(
-                        e: e,
-                        isKm: isKm,
-                        distanceKm: distanceKm,
-                        distanceM: distanceM),
-                  );
-                }).toList(),
+                        if (dontShow) {
+                          return SizedBox();
+                        }
+
+                        //This is kinda fuzzy, I'll optimize it later
+                        // ------------
+                        //Distance in meter
+                        distanceD *= 1000;
+                        //Distance in meter rounded to tens
+                        double distanceKm = distanceD.roundToDouble() -
+                            distanceD.roundToDouble() % 10;
+                        distanceKm /= 1000;
+                        distanceKm =
+                            double.parse(distanceKm.toStringAsFixed(2));
+                        int distanceM = distanceD.toInt();
+                        bool isKm = false;
+
+                        if (distanceM >= 10) {
+                          distanceM = distanceM - distanceM % 10;
+                        }
+                        if (distanceM > 1000) {
+                          isKm = true;
+                        }
+                        // -------------
+
+                        return Container(
+                          margin: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                          child: NearbyCard(
+                              e: e,
+                              isKm: isKm,
+                              distanceKm: distanceKm,
+                              distanceM: distanceM),
+                        );
+                      }).toList(),
               ),
             if (locationData == null) Loading(),
             SizedBox(

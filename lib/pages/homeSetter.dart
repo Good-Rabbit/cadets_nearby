@@ -35,11 +35,12 @@ class HomeSetterPage extends StatefulWidget {
       instaUrl: u.data()!['instaurl'],
       verified: u.data()!['verified'],
       celeb: u.data()!['celeb'],
-      bountyHead: u.data()!['bountyhead'],
-      bountyHunter: u.data()!['bountyhunter'],
+      treatHead: u.data()!['treathead'],
+      treatHunter: u.data()!['treathunter'],
       workplace: u.data()!['workplace'],
       profession: u.data()!['profession'],
       manualDp: u.data()!['manualdp'],
+      treatCount: u.data()!['treatcount'],
     );
   }
 

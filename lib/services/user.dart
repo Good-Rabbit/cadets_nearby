@@ -1,6 +1,7 @@
 class AppUser {
   int cNumber;
   int intake;
+  int treatCount;
   double lat;
   double long;
   String id;
@@ -20,8 +21,8 @@ class AppUser {
   bool premium;
   bool pPhone;
   bool celeb;
-  bool bountyHead;
-  bool bountyHunter;
+  bool treatHead;
+  bool treatHunter;
   bool pAlways;
   bool pMaps;
   bool manualDp;
@@ -38,8 +39,8 @@ class AppUser {
     required this.pPhone,
     required this.verified,
     required this.celeb,
-    required this.bountyHead,
-    required this.bountyHunter,
+    required this.treatHead,
+    required this.treatHunter,
     required this.id,
     required this.timeStamp,
     required this.fbUrl,
@@ -47,6 +48,7 @@ class AppUser {
     required this.workplace,
     required this.profession,
     required this.manualDp,
+    required this.treatCount,
     this.photoUrl: '',
     this.lat: 0,
     this.long: 0,

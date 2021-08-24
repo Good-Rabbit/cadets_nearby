@@ -12,6 +12,9 @@ class VerificationSteps extends StatefulWidget {
 class _VerificationStepsState extends State<VerificationSteps> {
   bool emailV = false;
   bool cadetV = false;
+  bool emailFirst = false;
+  bool emailAlready = false;
+
   @override
   Widget build(BuildContext context) {
     emailV = HomeSetterPage.auth.currentUser!.emailVerified;
@@ -26,48 +29,71 @@ class _VerificationStepsState extends State<VerificationSteps> {
             style: TextStyle(fontSize: 20),
           ),
           SizedBox(height: 30),
-          InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed('/verifyemail');
+          ElevatedButton.icon(
+            onPressed: () {
+              if (!emailV)
+                Navigator.of(context).pushNamed('/verifyemail');
+              else
+                setState(() {
+                  emailAlready = true;
+                  Future.delayed(Duration(seconds: 2)).then((value) {
+                    setState(() {
+                      emailAlready = false;
+                    });
+                  });
+                });
             },
-            child: Row(
-              children: [
-                Icon(
-                  emailV ? FontAwesomeIcons.check : FontAwesomeIcons.times,
-                  color: emailV ? Colors.green : Colors.red,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(child: Text('Verify e-mail')),
-              ],
+            icon: Icon(
+              emailV ? FontAwesomeIcons.check : FontAwesomeIcons.times,
+              // color: emailV ? Colors.green : Colors.red,
+            ),
+            label: Expanded(child: Text('E-mail verification')),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.grey[700]),
             ),
           ),
-          SizedBox(height: 20),
-          InkWell(
-            onTap: () {
-              Navigator.of(context).pushNamed('/verifycadet');
+          if (emailAlready)
+            Text(
+              'E-mail already verified',
+              style: TextStyle(color: Colors.green),
+            ),
+          SizedBox(height: 10),
+          ElevatedButton.icon(
+            onPressed: () {
+              if (emailV)
+                Navigator.of(context).pushNamed('/verifycadet');
+              else {
+                setState(() {
+                  emailFirst = true;
+                  Future.delayed(Duration(seconds: 2)).then((value) {
+                    setState(() {
+                      emailFirst = false;
+                    });
+                  });
+                });
+              }
             },
-            child: Row(
-              children: [
-                Icon(
-                  cadetV ? FontAwesomeIcons.check : FontAwesomeIcons.times,
-                  color: cadetV ? Colors.green : Colors.red,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: Text(
-                    'Verify that you are a cadet(ex/present)' +
-                        (HomeSetterPage.mainUser!.verified == 'waiting'
-                            ? ' - Pending Verification'
-                            : ''),
-                  ),
-                ),
-              ],
+            icon: Icon(
+              cadetV ? FontAwesomeIcons.check : FontAwesomeIcons.times,
+              // color: cadetV ? Colors.green : Colors.red,
+            ),
+            label: Expanded(
+              child: Text(
+                'Cadet verification' +
+                    (HomeSetterPage.mainUser!.verified == 'waiting'
+                        ? ' - Waiting'
+                        : ''),
+              ),
+            ),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.grey[700]),
             ),
           ),
+          if (emailFirst)
+            Text(
+              'Please verify your e-mail first',
+              style: TextStyle(color: Colors.red),
+            ),
           SizedBox(height: 20),
         ],
       ),

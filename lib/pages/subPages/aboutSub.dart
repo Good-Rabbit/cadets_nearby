@@ -24,6 +24,11 @@ class _AboutSubPageState extends State<AboutSubPage>
             SizedBox(
               height: 50,
             ),
+            Icon(
+              Icons.info_outline_rounded,
+              size: 100,
+              color: Colors.red,
+            ),
             Container(
               margin: EdgeInsets.all(15),
               child: Text(

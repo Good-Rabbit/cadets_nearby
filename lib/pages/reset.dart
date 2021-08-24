@@ -36,7 +36,7 @@ class _ResetPageState extends State<ResetPage> {
               'An e-mail with the password reset link will be sent to you. Please follow the instructions given in the e-mail to reset your password',
               maxLines: 5,
               style: TextStyle(
-                color: Colors.grey,
+                color: Colors.grey[800],
               ),
             ),
           ),
@@ -96,25 +96,45 @@ class _ResetPageState extends State<ResetPage> {
                     },
                   ),
                 ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    HomeSetterPage.auth
-                        .sendPasswordResetEmail(email: emailTextController.text)
-                        .then((value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Reset E-mail sent'),
-                        ),
-                      );
-                      Navigator.pop(context);
-                    });
-                  },
-                  icon: Icon(Icons.login),
-                  label: Text('Send E-mail'),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Theme.of(context).primaryColor),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      label: Text('Cancel'),
+                      icon: Icon(
+                        Icons.arrow_left_rounded,
+                        size: 20,
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).accentColor),
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        HomeSetterPage.auth
+                            .sendPasswordResetEmail(
+                                email: emailTextController.text)
+                            .then((value) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Reset E-mail sent'),
+                            ),
+                          );
+                          Navigator.pop(context);
+                        });
+                      },
+                      icon: Icon(Icons.login),
+                      label: Text('Send E-mail'),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).primaryColor),
+                      ),
+                    ),
+                  ],
                 )
               ],
             ),

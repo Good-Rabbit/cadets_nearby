@@ -75,7 +75,7 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                 height: 30,
               ),
               Icon(
-                Icons.warning,
+                Icons.warning_rounded,
                 size: 100,
                 color: Colors.red,
               ),
@@ -148,7 +148,7 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                       },
                 child: Text('Upload'),
               ),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -178,7 +178,8 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                     ),
                   );
                 },
-                child: Text('Later'),
+                icon: Icon(Icons.arrow_left_rounded),
+                label: Text('Later'),
               ),
             ],
           ),

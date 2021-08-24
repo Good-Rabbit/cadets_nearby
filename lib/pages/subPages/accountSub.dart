@@ -49,9 +49,6 @@ class _AccountSubPageState extends State<AccountSubPage>
     'MCC',
   ];
 
-  bool disabled = false;
-  bool once = false;
-
   @override
   void dispose() {
     fullNameTextController.dispose();
@@ -173,41 +170,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           Icons.verified,
                           size: 20,
                           color: Colors.green,
-                        ),
-                      if (!HomeSetterPage.auth.currentUser!.emailVerified)
-                        InkWell(
-                          onTap: () {
-                            if (!disabled) {
-                              if (!once) {
-                                once = true;
-                              }
-                              HomeSetterPage.auth.currentUser!
-                                  .sendEmailVerification()
-                                  .then((value) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('E-mail sent')));
-                                setState(() {
-                                  disabled = true;
-                                });
-                                Future.delayed(Duration(minutes: 1))
-                                    .then((value) {
-                                  setState(() {
-                                    disabled = false;
-                                  });
-                                });
-                              });
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                      'Wait 1 minutes before trying again')));
-                            }
-                          },
-                          child: Text(
-                            once ? ' - Resend e-mail ' : ' - Verify e-mail ',
-                            style: TextStyle(
-                              color: disabled ? Colors.grey[800] : Colors.red,
-                            ),
-                          ),
                         ),
                     ],
                   ),
@@ -848,9 +810,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   pLocation: locationAccess,
                                   pMaps: HomeSetterPage.mainUser!.pMaps,
                                   pPhone: phoneAccess,
-                                  photoUrl: HomeSetterPage
-                                          .auth.currentUser!.photoURL ??
-                                      '',
+                                  photoUrl: HomeSetterPage.mainUser!.photoUrl,
                                   phone: phoneTextController.text,
                                   fbUrl: fbTextController.text,
                                   instaUrl: instaTextController.text,
@@ -858,13 +818,14 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   premium: HomeSetterPage.mainUser!.premium,
                                   verified: HomeSetterPage.mainUser!.verified,
                                   celeb: HomeSetterPage.mainUser!.celeb,
-                                  bountyHead:
-                                      HomeSetterPage.mainUser!.bountyHead,
-                                  bountyHunter:
-                                      HomeSetterPage.mainUser!.bountyHunter,
+                                  treatHead: HomeSetterPage.mainUser!.treatHead,
+                                  treatHunter:
+                                      HomeSetterPage.mainUser!.treatHunter,
                                   workplace: placeTextController.text,
                                   profession: profTextController.text,
                                   manualDp: HomeSetterPage.mainUser!.manualDp,
+                                  treatCount:
+                                      HomeSetterPage.mainUser!.treatCount,
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

@@ -52,28 +52,28 @@ class _RealHomeState extends State<RealHome> {
           }),
           items: [
             BottomNavyBarItem(
-              icon: Icon(Icons.home),
+              icon: Icon(Icons.home_rounded),
               title: Text('Home'),
               textAlign: TextAlign.center,
               activeColor: Colors.redAccent,
               inactiveColor: Theme.of(context).accentColor,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.notifications),
+              icon: Icon(Icons.notifications_rounded),
               title: Text('Notifications'),
               textAlign: TextAlign.center,
               activeColor: Colors.brown,
               inactiveColor: Theme.of(context).accentColor,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.manage_accounts),
+              icon: Icon(Icons.manage_accounts_rounded),
               title: Text('Account'),
               textAlign: TextAlign.center,
               activeColor: Colors.purpleAccent,
               inactiveColor: Theme.of(context).accentColor,
             ),
             BottomNavyBarItem(
-              icon: Icon(Icons.info),
+              icon: Icon(Icons.info_rounded),
               title: Text('About'),
               textAlign: TextAlign.center,
               activeColor: Colors.teal,

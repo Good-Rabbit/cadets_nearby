@@ -555,9 +555,9 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                                     .currentUser!.photoURL ??
                                                 '',
                                             'celeb': false,
-                                            'bountycount': 0,
-                                            'bountyhead': true,
-                                            'bountyhunter': true,
+                                            'treatcount': 0,
+                                            'treathead': true,
+                                            'treathunter': true,
                                             'profession':
                                                 profTextController.text,
                                             'workplace':
@@ -589,10 +589,11 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                           verified: 'no',
                                           timeStamp: DateTime.now(),
                                           celeb: false,
-                                          bountyHead: true,
+                                          treatHead: true,
                                           fbUrl: fbTextController.text,
                                           instaUrl: instaTextController.text,
-                                          bountyHunter: true,
+                                          treatHunter: true,
+                                          treatCount: 0,
                                           workplace: placeTextController.text,
                                           profession: profTextController.text,
                                           manualDp: false,
