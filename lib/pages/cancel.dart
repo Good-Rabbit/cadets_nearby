@@ -1,6 +1,7 @@
+import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class CancelVerificationPage extends StatefulWidget {
   CancelVerificationPage({Key? key}) : super(key: key);
@@ -191,6 +192,60 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        // Trigger the authentication flow
+                        final GoogleSignInAccount googleUser =
+                            (await GoogleSignIn().signIn())!;
+
+                        // Obtain the auth details from the request
+                        final GoogleSignInAuthentication googleAuth =
+                            await googleUser.authentication;
+
+                        // Create a new credential
+                        var credential = GoogleAuthProvider.credential(
+                          accessToken: googleAuth.accessToken,
+                          idToken: googleAuth.idToken,
+                        );
+                        try {
+                          await HomeSetterPage.auth.currentUser!
+                              .reauthenticateWithCredential(credential);
+                        } on FirebaseAuthException catch (_) {
+                        }
+                        HomeSetterPage.auth.currentUser!.delete().then((value) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Account has been deleted'),
+                            ),
+                          );
+                          Navigator.of(context).pop();
+                          setState(() {
+                            inProgress = false;
+                          });
+                          return;
+                        });
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(5.0),
+                            width: 25.0,
+                            height: 25.0,
+                            child: Image.asset('assets/images/google.png',
+                                fit: BoxFit.contain),
+                          ),
+                          Text('Signed in with Google?'),
+                        ],
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Color(0xFF1F1F1F)),
+                      ),
                     ),
                   ),
                   Padding(

@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cadets_nearby/data/appData.dart';
 import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignupMainPage extends StatefulWidget {
   SignupMainPage({Key? key}) : super(key: key);
@@ -322,13 +321,6 @@ class _SignupMainPageState extends State<SignupMainPage> {
                         style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(Color(0xFF1F1F1F)),
-                          textStyle: MaterialStateProperty.all(
-                            GoogleFonts.getFont(
-                              'Roboto',
-                              color: Colors.white,
-                              fontSize: 17,
-                            ),
-                          ),
                         ),
                       ),
                     ),
