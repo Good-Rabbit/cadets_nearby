@@ -2,6 +2,7 @@ import 'package:cadets_nearby/pages/uiElements/verificationSteps.dart';
 import 'package:flutter/material.dart';
 import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:cadets_nearby/services/user.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AccountSubPage extends StatefulWidget {
@@ -872,6 +873,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                   child: ElevatedButton(
                     child: Text('Sign Out'),
                     onPressed: () {
+GoogleSignIn googleSignIn = GoogleSignIn();
+googleSignIn.signOut();
                       HomeSetterPage.auth.signOut();
                     },
                   ),
