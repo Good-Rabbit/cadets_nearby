@@ -29,6 +29,10 @@ You can also buy me a coffee.
 
 Bkash: +8801798355165
 
-## Conclusion
+
 
 Don't let those 6 years be the last of our brotherhood.
+
+## License
+
+This project is licensed under GNU GPLv3.
