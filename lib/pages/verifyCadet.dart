@@ -74,10 +74,13 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
               SizedBox(
                 height: 30,
               ),
-              Icon(
-                Icons.warning_rounded,
-                size: 100,
-                color: Colors.red,
+              Hero(
+                tag: 'warningHero',
+                child: Icon(
+                  Icons.warning_rounded,
+                  size: 100,
+                  color: Colors.red,
+                ),
               ),
               Text(
                 'Document verification',

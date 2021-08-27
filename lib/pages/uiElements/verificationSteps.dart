@@ -22,8 +22,18 @@ class _VerificationStepsState extends State<VerificationSteps> {
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Hero(
+            tag: 'warningHero',
+            child: Icon(
+              Icons.warning_rounded,
+              size: 100,
+              color: Colors.red,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
           Text(
             'Get Verified',
             style: TextStyle(fontSize: 20),
@@ -49,7 +59,7 @@ class _VerificationStepsState extends State<VerificationSteps> {
             ),
             label: Expanded(child: Text('E-mail verification')),
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.grey[700]),
+              backgroundColor: MaterialStateProperty.all(Colors.grey[800]),
             ),
           ),
           if (emailAlready)
@@ -86,7 +96,7 @@ class _VerificationStepsState extends State<VerificationSteps> {
               ),
             ),
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.grey[700]),
+              backgroundColor: MaterialStateProperty.all(Colors.grey[800]),
             ),
           ),
           if (emailFirst)
@@ -95,6 +105,16 @@ class _VerificationStepsState extends State<VerificationSteps> {
               style: TextStyle(color: Colors.red),
             ),
           SizedBox(height: 20),
+          ElevatedButton.icon(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            label: Text('Cancel'),
+            icon: Icon(
+              Icons.arrow_left_rounded,
+              size: 20,
+            ),
+          ),
         ],
       ),
     );

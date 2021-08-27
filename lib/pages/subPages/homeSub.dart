@@ -180,14 +180,13 @@ class _HomeSubPageState extends State<HomeSubPage>
     }
 
     // TODO enable verification
-    // if (!(HomeSetterPage.mainUser!.verified == 'yes' ||
-    //         HomeSetterPage.mainUser!.verified == 'waiting') &&
-    //     !warningGiven) {
-    //   warningGiven = true;
-    //   Future.delayed(Duration(seconds: 5)).then((value) {
-    //     Navigator.of(context).pushNamed('/verification');
-    //   });
-    // }
+    if (HomeSetterPage.mainUser!.verified == 'no' && !warningGiven) {
+      warningGiven = true;
+      Future.delayed(Duration(seconds: 5)).then((value) {
+        print('Reminding verification...');
+        Navigator.of(context).pushNamed('/verification');
+      });
+    }
 
     int counter = 0;
 

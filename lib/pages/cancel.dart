@@ -214,9 +214,10 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                         try {
                           await HomeSetterPage.auth.currentUser!
                               .reauthenticateWithCredential(credential);
-                        } on FirebaseAuthException catch (_) {
-                        }
+                        } on FirebaseAuthException catch (_) {}
                         HomeSetterPage.auth.currentUser!.delete().then((value) {
+                          var googleSignIn = GoogleSignIn();
+                          googleSignIn.signOut();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Account has been deleted'),

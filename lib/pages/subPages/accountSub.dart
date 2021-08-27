@@ -1,4 +1,5 @@
 import 'package:cadets_nearby/pages/uiElements/verificationSteps.dart';
+import 'package:cadets_nearby/pages/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:cadets_nearby/services/user.dart';
@@ -873,8 +874,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                   child: ElevatedButton(
                     child: Text('Sign Out'),
                     onPressed: () {
-GoogleSignIn googleSignIn = GoogleSignIn();
-googleSignIn.signOut();
+                      GoogleSignIn googleSignIn = GoogleSignIn();
+                      googleSignIn.signOut();
                       HomeSetterPage.auth.signOut();
                     },
                   ),
