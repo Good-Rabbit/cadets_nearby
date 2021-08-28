@@ -26,60 +26,69 @@ class _RealHomeState extends State<RealHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: PageView(
-          controller: pageController,
-          onPageChanged: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          children: [
-            HomeSubPage(
-              setSelectedIndex: setSelectedIndex,
-            ),
-            NotificationSubPage(),
-            AccountSubPage(),
-            AboutSubPage(),
-          ],
-        ),
-        bottomNavigationBar: BottomNavyBar(
-          selectedIndex: selectedIndex,
-          backgroundColor: Theme.of(context).bottomAppBarColor,
-          onItemSelected: (index) => setState(() {
-            setSelectedIndex(index);
-          }),
-          items: [
-            BottomNavyBarItem(
-              icon: Icon(Icons.home_rounded),
-              title: Text('Home'),
-              textAlign: TextAlign.center,
-              activeColor: Colors.redAccent,
-              inactiveColor: Theme.of(context).accentColor,
-            ),
-            BottomNavyBarItem(
-              icon: Icon(Icons.notifications_rounded),
-              title: Text('Notifications'),
-              textAlign: TextAlign.center,
-              activeColor: Colors.brown,
-              inactiveColor: Theme.of(context).accentColor,
-            ),
-            BottomNavyBarItem(
-              icon: Icon(Icons.manage_accounts_rounded),
-              title: Text('Account'),
-              textAlign: TextAlign.center,
-              activeColor: Colors.purpleAccent,
-              inactiveColor: Theme.of(context).accentColor,
-            ),
-            BottomNavyBarItem(
-              icon: Icon(Icons.info_rounded),
-              title: Text('About'),
-              textAlign: TextAlign.center,
-              activeColor: Colors.teal,
-              inactiveColor: Theme.of(context).accentColor,
-            ),
-          ],
-        ));
+    return WillPopScope(
+      onWillPop: () async {
+        if (selectedIndex != 0) {
+          setSelectedIndex(0);
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+          backgroundColor: Theme.of(context).backgroundColor,
+          body: PageView(
+            controller: pageController,
+            onPageChanged: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
+            children: [
+              HomeSubPage(
+                setSelectedIndex: setSelectedIndex,
+              ),
+              NotificationSubPage(),
+              AccountSubPage(),
+              AboutSubPage(),
+            ],
+          ),
+          bottomNavigationBar: BottomNavyBar(
+            selectedIndex: selectedIndex,
+            backgroundColor: Theme.of(context).bottomAppBarColor,
+            onItemSelected: (index) => setState(() {
+              setSelectedIndex(index);
+            }),
+            items: [
+              BottomNavyBarItem(
+                icon: Icon(Icons.home_rounded),
+                title: Text('Home'),
+                textAlign: TextAlign.center,
+                activeColor: Colors.redAccent,
+                inactiveColor: Theme.of(context).accentColor,
+              ),
+              BottomNavyBarItem(
+                icon: Icon(Icons.notifications_rounded),
+                title: Text('Notifications'),
+                textAlign: TextAlign.center,
+                activeColor: Colors.brown,
+                inactiveColor: Theme.of(context).accentColor,
+              ),
+              BottomNavyBarItem(
+                icon: Icon(Icons.manage_accounts_rounded),
+                title: Text('Account'),
+                textAlign: TextAlign.center,
+                activeColor: Colors.purpleAccent,
+                inactiveColor: Theme.of(context).accentColor,
+              ),
+              BottomNavyBarItem(
+                icon: Icon(Icons.info_rounded),
+                title: Text('About'),
+                textAlign: TextAlign.center,
+                activeColor: Colors.teal,
+                inactiveColor: Theme.of(context).accentColor,
+              ),
+            ],
+          )),
+    );
   }
 }
