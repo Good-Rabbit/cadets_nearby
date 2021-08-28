@@ -1,10 +1,14 @@
 import 'package:cadets_nearby/pages/completeAccountPage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/login.dart';
 import 'package:cadets_nearby/services/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import '../main.dart';
 
 class HomeSetterPage extends StatefulWidget {
   HomeSetterPage({Key? key}) : super(key: key);
@@ -79,6 +83,48 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
         }
       },
     );
+
+    FirebaseMessaging.onMessage.listen((message) {
+      print('Cloud message received(foreground)...');
+      RemoteNotification notification = message.notification!;
+      AndroidNotification android = message.notification!.android!;
+      flutterNotificationPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            android.channelId ?? channel.id,
+            channel.name,
+            channel.description,
+            color: Theme.of(context).primaryColor,
+            playSound: true,
+            icon: '@mipmap/ic_launcher',
+          ),
+        ),
+      );
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print('On message opened app was published...');
+      RemoteNotification notification = message.notification!;
+      AndroidNotification android = message.notification!.android!;
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(notification.title!),
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(notification.body!),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    });
     super.initState();
   }
 

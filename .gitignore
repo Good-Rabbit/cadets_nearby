@@ -48,3 +48,4 @@ app.*.map.json
 # Private app data
 /android/app/google-services.json
 /lib/data/data.dart
+/lib/pages/test.dart
