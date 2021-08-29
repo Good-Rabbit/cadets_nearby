@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
@@ -85,30 +86,40 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
       },
     );
 
-    FirebaseMessaging.onMessage.listen((message) {
+    FirebaseMessaging.onMessage.listen((message) async {
       print('Cloud message received(foreground)...');
       RemoteNotification notification = message.notification!;
       AndroidNotification android = message.notification!.android!;
-      flutterNotificationPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            android.channelId ?? channel.id,
-            channel.name,
-            channel.description,
-            color: Theme.of(context).primaryColor,
-            playSound: true,
-            icon: '@mipmap/ic_launcher',
+      try {
+        await flutterNotificationPlugin.show(
+          0,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              android.channelId ?? channel.id,
+              channel.name,
+              channel.description,
+              importance: Importance.max,
+              priority: Priority.high,
+              playSound: true,
+            ),
           ),
-        ),
-      );
+        );
+      } catch (e) {
+        print(e);
+      }
+
+      updateNotifications(notification);
     });
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) async {
       print('On message opened app was published...');
       RemoteNotification notification = message.notification!;
       // AndroidNotification android = message.notification!.android!;
+
+      markRead(notification);
+
       showDialog(
         context: context,
         builder: (context) {
@@ -127,6 +138,21 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
       );
     });
     super.initState();
+  }
+
+  Future<void> updateNotifications(RemoteNotification notification) async {
+    notifications
+        .add(notification.title! + '~' + notification.body! + '~' + 'u');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('notifications', notifications);
+  }
+
+  Future<void> markRead(RemoteNotification notification) async {
+    String nf = notification.title! + '~' + notification.body! + '~' + 'u';
+    String nr = notification.title! + '~' + notification.body! + '~' + 'r';
+    notifications[notifications.indexOf(nf)] = nr;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('notifications', notifications);
   }
 
   @override
@@ -172,7 +198,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
     }
   }
 
-  verifyEmail(){
+  verifyEmail() {
     Future.delayed(Duration(milliseconds: 0))
         .then((value) => Navigator.of(context).pushNamed('/verifyemail'));
   }

@@ -185,6 +185,12 @@ class _HomeSubPageState extends State<HomeSubPage>
     }
 
     int counter = 0;
+    Color accuracyColor = Colors.white;
+    if (locationData != null) {
+      accuracyColor = (locationData!.accuracy! <= 20
+          ? Colors.green
+          : (locationData!.accuracy! <= 50 ? Colors.orange : Colors.red));
+    }
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -268,6 +274,7 @@ class _HomeSubPageState extends State<HomeSubPage>
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -341,6 +348,26 @@ class _HomeSubPageState extends State<HomeSubPage>
                     label: Text('Filter'),
                   ),
                 ),
+                if (locationData != null)
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                    child: Card(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Accuracy ',
+                            ),
+                            Icon(
+                              Icons.circle,
+                              color: accuracyColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
             if (locationData != null && !dataFetchTimeout)
