@@ -9,6 +9,7 @@ import 'package:cadets_nearby/pages/signup.dart';
 import 'package:cadets_nearby/pages/verification.dart';
 import 'package:cadets_nearby/pages/verifyCadet.dart';
 import 'package:cadets_nearby/pages/verifyEmail.dart';
+import 'package:cadets_nearby/services/localNotificationService.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -17,38 +18,39 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel',
-  'High Importance Notifications',
-  'This channel is used for important notifications',
+  'important_notifications',
+  'Important notifications',
+  'Important notifications show up in this channel',
   importance: Importance.max,
   playSound: true,
 );
-
-final FlutterLocalNotificationsPlugin flutterNotificationPlugin =
-    FlutterLocalNotificationsPlugin();
 
 List<String> notifications = [];
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print('New background message : ${message.messageId}');
-  notifications
-      .add(message.notification!.title! + '~' + message.notification!.body! + '~' + 'u');
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setStringList('notifications', notifications);
+  notifications = prefs.getStringList('notifications') ?? [];
+  notifications.add(message.notification!.title! +
+      '~' +
+      message.notification!.body! +
+      '~' +
+      'u');
+  prefs.setStringList('bgnotifications', notifications);
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LocalNotificationService.initialize();
   await Firebase.initializeApp();
-
 
   try {
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   } catch (e) {
     print(e);
   }
-  await flutterNotificationPlugin
+  await LocalNotificationService.notificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()!
       .createNotificationChannel(channel);
@@ -58,8 +60,7 @@ Future<void> main() async {
     sound: true,
   );
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  notifications =  prefs.getStringList('notifications') ?? [];
+  await getNotifications();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -68,31 +69,21 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
+Future<void> getNotifications() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  notifications = prefs.getStringList('notifications') ?? [];
+  // var bgNotifications = prefs.getStringList('bgnotifications') ?? [];
+  // bgNotifications.map((e) {
+  //   notifications.add(e);
+  // });
+}
+
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  // bool _initialized = false;
-
-  // void initializeFlutterFire() async {
-  //   try {
-  //     await Firebase.initializeApp();
-  //     setState(() {
-  //       _initialized = true;
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  @override
-  void initState() {
-    // initializeFlutterFire();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

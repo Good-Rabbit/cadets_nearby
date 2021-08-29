@@ -1,6 +1,7 @@
 import 'package:cadets_nearby/pages/completeAccountPage.dart';
 import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/login.dart';
+import 'package:cadets_nearby/services/localNotificationService.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -89,26 +90,9 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
     FirebaseMessaging.onMessage.listen((message) async {
       print('Cloud message received(foreground)...');
       RemoteNotification notification = message.notification!;
-      AndroidNotification android = message.notification!.android!;
-      try {
-        await flutterNotificationPlugin.show(
-          0,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              android.channelId ?? channel.id,
-              channel.name,
-              channel.description,
-              importance: Importance.max,
-              priority: Priority.high,
-              playSound: true,
-            ),
-          ),
-        );
-      } catch (e) {
-        print(e);
-      }
+      // AndroidNotification android = message.notification!.android!;
+
+      LocalNotificationService.display(message);
 
       updateNotifications(notification);
     });

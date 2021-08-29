@@ -52,24 +52,24 @@ class _NotificationSubPageState extends State<NotificationSubPage>
                                   notification[2] == 'u'
                                       ? Icons.notifications_active
                                       : Icons.notifications,
-                                  color:notification[2] == 'u'
+                                  color: notification[2] == 'u'
                                       ? Theme.of(context).primaryColor
                                       : Colors.brown,
                                 ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    notification[0],
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                    child: Text(notification[1]),
-                                  ),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      notification[0],
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    Text(
+                                      notification[1],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
