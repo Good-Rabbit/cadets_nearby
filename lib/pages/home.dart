@@ -1,4 +1,5 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:flutter/material.dart';
 import 'package:cadets_nearby/pages/subPages/accountSub.dart';
 import 'package:cadets_nearby/pages/subPages/homeSub.dart';
@@ -36,22 +37,24 @@ class _RealHomeState extends State<RealHome> {
       },
       child: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
-          body: PageView(
-            controller: pageController,
-            onPageChanged: (index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            },
-            children: [
-              HomeSubPage(
-                setSelectedIndex: setSelectedIndex,
-              ),
-              NotificationSubPage(),
-              AccountSubPage(),
-              AboutSubPage(),
-            ],
-          ),
+          body: !HomeSetterPage.auth.currentUser!.emailVerified
+              ? Container()
+              : PageView(
+                  controller: pageController,
+                  onPageChanged: (index) {
+                    setState(() {
+                      selectedIndex = index;
+                    });
+                  },
+                  children: [
+                    HomeSubPage(
+                      setSelectedIndex: setSelectedIndex,
+                    ),
+                    NotificationSubPage(),
+                    AccountSubPage(),
+                    AboutSubPage(),
+                  ],
+                ),
           bottomNavigationBar: BottomNavyBar(
             selectedIndex: selectedIndex,
             backgroundColor: Theme.of(context).bottomAppBarColor,

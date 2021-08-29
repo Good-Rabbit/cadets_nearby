@@ -114,7 +114,6 @@ class _DpPageState extends State<DpPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(image == null);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(

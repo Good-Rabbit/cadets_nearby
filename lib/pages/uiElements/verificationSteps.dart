@@ -41,21 +41,17 @@ class _VerificationStepsState extends State<VerificationSteps> {
           SizedBox(height: 30),
           ElevatedButton.icon(
             onPressed: () {
-              if (!emailV)
-                Navigator.of(context).pushNamed('/verifyemail');
-              else
-                setState(() {
-                  emailAlready = true;
-                  Future.delayed(Duration(seconds: 2)).then((value) {
-                    setState(() {
-                      emailAlready = false;
-                    });
+              setState(() {
+                emailAlready = true;
+                Future.delayed(Duration(seconds: 2)).then((value) {
+                  setState(() {
+                    emailAlready = false;
                   });
                 });
+              });
             },
             icon: Icon(
               emailV ? FontAwesomeIcons.check : FontAwesomeIcons.times,
-              // color: emailV ? Colors.green : Colors.red,
             ),
             label: Expanded(child: Text('E-mail verification')),
             style: ButtonStyle(

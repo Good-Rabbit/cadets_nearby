@@ -531,7 +531,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                         fullName = fullName.trim();
 
                                         try {
-                                          await HomeSetterPage.auth.currentUser!
+                                          await FirebaseAuth
+                                              .instance.currentUser!
                                               .updateDisplayName(fullName);
                                           await HomeSetterPage.store
                                               .collection('users')
@@ -572,6 +573,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                               'workplace':
                                                   placeTextController.text,
                                               'manualdp': false,
+                                              'sector': 0,
                                             },
                                           );
                                           HomeSetterPage.mainUser = AppUser(
@@ -606,6 +608,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             workplace: placeTextController.text,
                                             profession: profTextController.text,
                                             manualDp: false,
+                                            sector: 0,
                                           );
                                           widget.loggedInNotifier();
                                         } catch (e) {

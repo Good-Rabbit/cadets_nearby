@@ -2,6 +2,7 @@ class AppUser {
   int cNumber;
   int intake;
   int treatCount;
+  int sector;
   double lat;
   double long;
   String id;
@@ -49,6 +50,7 @@ class AppUser {
     required this.profession,
     required this.manualDp,
     required this.treatCount,
+    required this.sector,
     this.photoUrl: '',
     this.lat: 0,
     this.long: 0,

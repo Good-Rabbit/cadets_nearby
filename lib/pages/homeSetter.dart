@@ -12,8 +12,8 @@ import '../main.dart';
 
 class HomeSetterPage extends StatefulWidget {
   HomeSetterPage({Key? key}) : super(key: key);
-  static FirebaseAuth auth = FirebaseAuth.instance;
   static FirebaseFirestore store = FirebaseFirestore.instance;
+  static FirebaseAuth auth = FirebaseAuth.instance;
   static AppUser? mainUser;
   static setMainUser(User? user) async {
     var u = await HomeSetterPage.store.collection('users').doc(user!.uid).get();
@@ -45,6 +45,7 @@ class HomeSetterPage extends StatefulWidget {
       profession: u.data()!['profession'],
       manualDp: u.data()!['manualdp'],
       treatCount: u.data()!['treatcount'],
+      sector: u.data()!['sector'],
     );
   }
 
@@ -107,7 +108,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       print('On message opened app was published...');
       RemoteNotification notification = message.notification!;
-      AndroidNotification android = message.notification!.android!;
+      // AndroidNotification android = message.notification!.android!;
       showDialog(
         context: context,
         builder: (context) {
@@ -138,6 +139,12 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData) {
               if (snapshot.data!.data() == null) {
+                if (!HomeSetterPage.auth.currentUser!.emailVerified) {
+                  verifyEmail();
+                  return Scaffold(
+                    backgroundColor: Theme.of(context).backgroundColor,
+                  );
+                }
                 return CompleteAccountPage(
                   loggedInNotifier: loggedInNotifier,
                 );
@@ -145,6 +152,12 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
                 if (HomeSetterPage.mainUser == null)
                   HomeSetterPage.setMainUser(user);
 
+                if (!HomeSetterPage.auth.currentUser!.emailVerified) {
+                  verifyEmail();
+                  return Scaffold(
+                    backgroundColor: Theme.of(context).backgroundColor,
+                  );
+                }
                 // Display home
                 return RealHome();
               }
@@ -157,5 +170,10 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
       // return RealHome();
       return LoginPage();
     }
+  }
+
+  verifyEmail(){
+    Future.delayed(Duration(milliseconds: 0))
+        .then((value) => Navigator.of(context).pushNamed('/verifyemail'));
   }
 }

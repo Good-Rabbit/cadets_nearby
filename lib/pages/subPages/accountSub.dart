@@ -260,11 +260,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   ? Colors.red
                                   : Colors.green),
                         ),
-                        label: Text(
-                            (!HomeSetterPage.auth.currentUser!.emailVerified ||
-                                    HomeSetterPage.mainUser!.verified != 'yes')
-                                ? 'Verification'
-                                : 'Verified'),
+                        label: Text((!HomeSetterPage.auth.currentUser!.emailVerified ||
+                                HomeSetterPage.mainUser!.verified != 'yes')
+                            ? 'Verification'
+                            : 'Verified'),
                       ),
                     ),
                     Padding(
@@ -803,8 +802,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   'cname': cName,
                                   'cnumber': cNumberTextController.text,
                                   'phone': phoneTextController.text,
-                                  'email':
-                                      HomeSetterPage.auth.currentUser!.email,
+                                  'email': HomeSetterPage.auth.currentUser!.email,
                                   'pphone': phoneAccess,
                                   'plocation': locationAccess,
                                   'fburl': fbTextController.text,
@@ -841,6 +839,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   manualDp: HomeSetterPage.mainUser!.manualDp,
                                   treatCount:
                                       HomeSetterPage.mainUser!.treatCount,
+                                  sector: HomeSetterPage.mainUser!.sector,
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

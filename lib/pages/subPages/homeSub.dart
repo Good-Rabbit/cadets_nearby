@@ -55,13 +55,6 @@ class _HomeSubPageState extends State<HomeSubPage>
     latMin = (HomeSetterPage.mainUser!.lat) - 0.1;
     longMax = (HomeSetterPage.mainUser!.long) + 0.1;
     longMin = (HomeSetterPage.mainUser!.long) - 0.1;
-    // print(latMin.toString() +
-    //     ' ' +
-    //     latMax.toString() +
-    //     ' ' +
-    //     longMin.toString() +
-    //     ' ' +
-    //     longMax.toString());
   }
 
   getLocation() async {
@@ -126,6 +119,8 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   uploadLocation(LocationData locationData) {
     print('Uploading location...');
+    int sector = 0;
+    sector = ((locationData.latitude! - 20.56666) / (0.1)).ceil();
     String timeStamp = DateTime.now().toString();
     try {
       HomeSetterPage.store
@@ -134,6 +129,7 @@ class _HomeSubPageState extends State<HomeSubPage>
           .update({
         'lat': locationData.latitude,
         'long': locationData.longitude,
+        'sector': sector,
         'lastonline': timeStamp,
       });
       HomeSetterPage.mainUser!.lat = locationData.latitude!;
@@ -352,8 +348,12 @@ class _HomeSubPageState extends State<HomeSubPage>
                 future: HomeSetterPage.store
                     .collection('users')
                     //TODO uncomment
-                    // .where('long', isLessThan: longMax, isGreaterThan: longMin)
-                    .get(),
+                    .where('lat', isLessThan: latMax, isGreaterThan: latMin)
+                    .where('sector', whereIn: [
+                  HomeSetterPage.mainUser!.sector + 1,
+                  HomeSetterPage.mainUser!.sector,
+                  HomeSetterPage.mainUser!.sector - 1,
+                ]).get(),
                 builder: (context, snapshots) {
                   dataFetchTimeout = true;
                   print('Getting Users...');
@@ -397,6 +397,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   profession: u.data()['profession'],
                                   manualDp: u.data()['manualdp'],
                                   treatCount: u.data()['treatcount'],
+                                  sector: u.data()['sector'],
                                 );
 
                                 Duration timeDiff;
