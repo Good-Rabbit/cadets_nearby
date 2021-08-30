@@ -69,7 +69,11 @@ class UserProfile extends StatelessWidget {
                     style: TextStyle(),
                   ),
                   Text(
-                    'At:',
+                    'Designation:',
+                    style: TextStyle(),
+                  ),
+                  Text(
+                    'District:',
                     style: TextStyle(),
                   ),
                 ],
@@ -115,10 +119,13 @@ class UserProfile extends StatelessWidget {
                   e.college + ' (' + e.intake.toString() + ') ',
                 ),
                 Text(
-                  e.profession,
+                  e.profession != '' ? e.profession : '-',
                 ),
                 Text(
-                  e.workplace,
+                  e.designation != '' ? e.designation : '-',
+                ),
+                Text(
+                  e.district,
                 ),
               ],
             ),

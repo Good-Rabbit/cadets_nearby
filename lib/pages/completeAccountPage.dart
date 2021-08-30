@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:location/location.dart';
+import 'package:cadets_nearby/data/appData.dart';
 
 class CompleteAccountPage extends StatefulWidget {
   CompleteAccountPage({required this.loggedInNotifier});
@@ -25,8 +26,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController fbTextController = TextEditingController();
   TextEditingController instaTextController = TextEditingController();
-  TextEditingController profTextController = TextEditingController();
-  TextEditingController placeTextController = TextEditingController();
+  TextEditingController designationTextController = TextEditingController();
 
   bool locationAccess = true;
   bool alwaysAccess = false;
@@ -36,21 +36,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   bool inProgress = false;
 
   String college = 'Pick your college*';
-
-  List<String> colleges = [
-    'Pick your college*',
-    'MGCC',
-    'JGCC',
-    'FGCC',
-    'SCC',
-    'CCC',
-    'PCC',
-    'RCC',
-    'JCC',
-    'FCC',
-    'CCR',
-    'MCC',
-  ];
+  String profession = 'Student';
+  String district = 'Dhaka';
 
   @override
   void dispose() {
@@ -62,8 +49,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     emailTextController.dispose();
     fbTextController.dispose();
     instaTextController.dispose();
-    profTextController.dispose();
-    placeTextController.dispose();
+    designationTextController.dispose();
     super.dispose();
   }
 
@@ -246,19 +232,29 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: Container(
                         width: 500,
-                        child: TextFormField(
-                          controller: profTextController,
-                          cursorColor: Colors.grey[800],
+                        child: DropdownButtonFormField(
+                          hint: Text('Profession'),
                           decoration: InputDecoration(
-                            hintText: 'Profession',
-                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(Icons.work),
+                              child: Icon(
+                                Icons.work,
+                              ),
                             ),
                           ),
-                          style: TextStyle(),
-                          keyboardType: TextInputType.text,
+                          value: profession,
+                          isDense: true,
+                          onChanged: (value) {
+                            setState(() {
+                              college = value! as String;
+                            });
+                          },
+                          items: professions.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         ),
                       ),
                     ),
@@ -267,18 +263,46 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       child: Container(
                         width: 500,
                         child: TextFormField(
-                          controller: placeTextController,
+                          controller: designationTextController,
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
-                            hintText: 'Workplace',
-                            hintStyle: TextStyle(),
+                            hintText: 'Designation at institue',
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.location_city),
                             ),
                           ),
-                          style: TextStyle(),
                           keyboardType: TextInputType.text,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Container(
+                        width: 500,
+                        child: DropdownButtonFormField(
+                          hint: Text('Work district'),
+                          decoration: InputDecoration(
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(
+                                Icons.location_pin,
+                              ),
+                            ),
+                          ),
+                          value: district,
+                          isDense: true,
+                          onChanged: (value) {
+                            setState(() {
+                              college = value! as String;
+                            });
+                          },
+                          items: districts.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         ),
                       ),
                     ),
@@ -569,9 +593,11 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                               'treathead': true,
                                               'treathunter': true,
                                               'profession':
-                                                  profTextController.text,
-                                              'workplace':
-                                                  placeTextController.text,
+                                                  profession,
+                                              'designation':
+                                                  designationTextController
+                                                      .text,
+                                              'district': district,
                                               'manualdp': false,
                                               'sector': 0,
                                             },
@@ -605,8 +631,10 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             instaUrl: instaTextController.text,
                                             treatHunter: true,
                                             treatCount: 0,
-                                            workplace: placeTextController.text,
-                                            profession: profTextController.text,
+                                            designation:
+                                                designationTextController.text,
+                                            profession: profession,
+                                            district:district,
                                             manualDp: false,
                                             sector: 0,
                                           );

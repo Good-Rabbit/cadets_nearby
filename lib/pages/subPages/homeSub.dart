@@ -4,6 +4,7 @@ import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:cadets_nearby/pages/uiElements/filterRange.dart';
 import 'package:cadets_nearby/pages/uiElements/loading.dart';
 import 'package:cadets_nearby/pages/uiElements/nearbyCard.dart';
+import 'package:cadets_nearby/services/notification.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:location/location.dart';
 class HomeSubPage extends StatefulWidget {
   HomeSubPage({Key? key, required this.setSelectedIndex}) : super(key: key);
 
+  static List<Noti> nots = [];
   final Function setSelectedIndex;
 
   @override
@@ -27,6 +29,8 @@ class _HomeSubPageState extends State<HomeSubPage>
   bool updateFlag = false;
   bool disabled = false;
   bool loadingComplete = false;
+
+  bool newNotification = false;
 
   bool locationTimeout = false;
   bool dataFetchTimeout = false;
@@ -49,6 +53,17 @@ class _HomeSubPageState extends State<HomeSubPage>
   RangeValues range = RangeValues(0, 5);
 
   int shown = 0;
+
+  checkNewNotification() {
+    for (var not in HomeSubPage.nots) {
+      if (!not.isRead) {
+        setState(() {
+          newNotification = true;
+        });
+        break;
+      }
+    }
+  }
 
   calculateMinMax() {
     latMax = (HomeSetterPage.mainUser!.lat) + 0.1;
@@ -184,6 +199,8 @@ class _HomeSubPageState extends State<HomeSubPage>
       });
     }
 
+    if (!newNotification) checkNewNotification();
+
     int counter = 0;
     Color accuracyColor = Colors.white;
     if (locationData != null) {
@@ -200,76 +217,85 @@ class _HomeSubPageState extends State<HomeSubPage>
       child: Container(
         child: ListView(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: GestureDetector(
-                onTap: () {
-                  widget.setSelectedIndex(2);
-                },
-                child: Card(
-                  elevation: 0,
-                  color: Colors.transparent,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: HomeSetterPage.mainUser!.photoUrl == ''
-                                ? Image.asset(
-                                    'assets/images/user.png',
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.network(
-                                    HomeSetterPage.mainUser!.photoUrl,
-                                    fit: BoxFit.cover,
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  HomeSetterPage.mainUser!.cName,
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                  ),
+            GestureDetector(
+              onTap: () {
+                widget.setSelectedIndex(2);
+              },
+              child: Card(
+                elevation: 0,
+                color: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                      child: CircleAvatar(
+                        radius: 20.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: HomeSetterPage.mainUser!.photoUrl == ''
+                              ? Image.asset(
+                                  'assets/images/user.png',
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.network(
+                                  HomeSetterPage.mainUser!.photoUrl,
+                                  fit: BoxFit.cover,
+                                  width: 40,
+                                  height: 40,
                                 ),
-                                if (HomeSetterPage.mainUser!.verified != 'yes')
-                                  Icon(
-                                    Icons.info_rounded,
-                                    size: 15,
-                                    color: Colors.redAccent,
-                                  ),
-                                if (HomeSetterPage.mainUser!.celeb)
-                                  Icon(
-                                    Icons.verified,
-                                    size: 15,
-                                    color: Colors.green,
-                                  ),
-                              ],
-                            ),
-                            Text(
-                              quote ?? '',
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                HomeSetterPage.mainUser!.cName,
+                                style: TextStyle(
+                                  fontSize: 17,
+                                ),
+                              ),
+                              if (HomeSetterPage.mainUser!.verified != 'yes')
+                                Icon(
+                                  Icons.info_rounded,
+                                  size: 15,
+                                  color: Colors.redAccent,
+                                ),
+                              if (HomeSetterPage.mainUser!.celeb)
+                                Icon(
+                                  Icons.verified,
+                                  size: 15,
+                                  color: Colors.green,
+                                ),
+                            ],
+                          ),
+                          Text(
+                            quote ?? '',
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 15, 15, 15),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/notifications');
+                        },
+                        icon: Icon(newNotification
+                            ? Icons.notifications_active
+                            : Icons.notifications_rounded),
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -420,11 +446,12 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   celeb: u.data()['celeb'],
                                   treatHead: u.data()['treathead'],
                                   treatHunter: u.data()['treathunter'],
-                                  workplace: u.data()['workplace'],
+                                  designation: u.data()['designation'],
                                   profession: u.data()['profession'],
                                   manualDp: u.data()['manualdp'],
                                   treatCount: u.data()['treatcount'],
                                   sector: u.data()['sector'],
+                                  district: u.data()['district'],
                                 );
 
                                 Duration timeDiff;

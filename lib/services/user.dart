@@ -14,8 +14,9 @@ class AppUser {
   String phone;
   String fbUrl;
   String instaUrl;
-  String workplace;
+  String designation;
   String profession;
+  String district;
   String verified;
   DateTime timeStamp;
   bool pLocation;
@@ -46,11 +47,12 @@ class AppUser {
     required this.timeStamp,
     required this.fbUrl,
     required this.instaUrl,
-    required this.workplace,
+    required this.designation,
     required this.profession,
     required this.manualDp,
     required this.treatCount,
     required this.sector,
+    required this.district,
     this.photoUrl: '',
     this.lat: 0,
     this.long: 0,

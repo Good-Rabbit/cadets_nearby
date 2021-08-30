@@ -4,6 +4,7 @@ import 'package:cadets_nearby/pages/dpModifier.dart';
 import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:cadets_nearby/pages/init.dart';
 import 'package:cadets_nearby/pages/login.dart';
+import 'package:cadets_nearby/pages/notifications.dart';
 import 'package:cadets_nearby/pages/reset.dart';
 import 'package:cadets_nearby/pages/signup.dart';
 import 'package:cadets_nearby/pages/verification.dart';
@@ -103,6 +104,7 @@ class _MyAppState extends State<MyApp> {
         '/verifyemail': (context) => EmailVerificationPage(),
         '/verification': (context) => VerificationPage(),
         '/dpchange': (context) => DpPage(),
+        '/notifications':(context) => NotificationPage(),
       },
     );
   }

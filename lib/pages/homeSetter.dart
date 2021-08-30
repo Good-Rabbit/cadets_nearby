@@ -1,8 +1,10 @@
 import 'package:cadets_nearby/pages/completeAccountPage.dart';
 import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/login.dart';
+import 'package:cadets_nearby/pages/subPages/homeSub.dart';
 import 'package:cadets_nearby/pages/uiElements/loading.dart';
 import 'package:cadets_nearby/services/localNotificationService.dart';
+import 'package:cadets_nearby/services/notification.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,11 +45,12 @@ class HomeSetterPage extends StatefulWidget {
       celeb: u.data()!['celeb'],
       treatHead: u.data()!['treathead'],
       treatHunter: u.data()!['treathunter'],
-      workplace: u.data()!['workplace'],
+      designation: u.data()!['designation'],
       profession: u.data()!['profession'],
       manualDp: u.data()!['manualdp'],
       treatCount: u.data()!['treatcount'],
       sector: u.data()!['sector'],
+      district: u.data()!['district'],
     );
   }
 
@@ -152,6 +155,13 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
         'u' +
         '~' +
         timeStamp.toString());
+    HomeSubPage.nots = notifications.map((e) {
+      return Noti(notificationString: e);
+    }).toList();
+
+    HomeSubPage.nots.sort((a, b) {
+      return b.timeStamp.compareTo(a.timeStamp);
+    });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notifications', notifications);
   }
@@ -168,6 +178,13 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     notifications = prefs.getStringList('notifications') ?? [];
     notifications[notifications.indexOf(nf)] = nr;
+    HomeSubPage.nots = notifications.map((e) {
+      return Noti(notificationString: e);
+    }).toList();
+
+    HomeSubPage.nots.sort((a, b) {
+      return b.timeStamp.compareTo(a.timeStamp);
+    });
     prefs.setStringList('notifications', notifications);
   }
 

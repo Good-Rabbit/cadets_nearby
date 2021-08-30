@@ -1,10 +1,11 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/pages/subPages/contactSub.dart';
 import 'package:flutter/material.dart';
 import 'package:cadets_nearby/pages/subPages/accountSub.dart';
 import 'package:cadets_nearby/pages/subPages/homeSub.dart';
 import 'package:cadets_nearby/pages/subPages/aboutSub.dart';
-import 'package:cadets_nearby/pages/subPages/notificationSub.dart';
+import 'package:cadets_nearby/pages/notifications.dart';
 
 class RealHome extends StatefulWidget {
   const RealHome({
@@ -50,7 +51,8 @@ class _RealHomeState extends State<RealHome> {
                     HomeSubPage(
                       setSelectedIndex: setSelectedIndex,
                     ),
-                    NotificationSubPage(),
+                    // NotificationSubPage(),
+                    ContactSubPage(),
                     AccountSubPage(),
                     AboutSubPage(),
                   ],
@@ -70,8 +72,8 @@ class _RealHomeState extends State<RealHome> {
                 inactiveColor: Theme.of(context).accentColor,
               ),
               BottomNavyBarItem(
-                icon: Icon(Icons.notifications_rounded),
-                title: Text('Notifications'),
+                icon: Icon(Icons.contacts_rounded),
+                title: Text('Contacts'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.brown,
                 inactiveColor: Theme.of(context).accentColor,

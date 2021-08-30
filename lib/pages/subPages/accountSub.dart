@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cadets_nearby/data/appData.dart';
 
 class AccountSubPage extends StatefulWidget {
   AccountSubPage({Key? key}) : super(key: key);
@@ -25,8 +26,7 @@ class _AccountSubPageState extends State<AccountSubPage>
   TextEditingController emailTextController = TextEditingController();
   TextEditingController fbTextController = TextEditingController();
   TextEditingController instaTextController = TextEditingController();
-  TextEditingController profTextController = TextEditingController();
-  TextEditingController placeTextController = TextEditingController();
+  TextEditingController designationTextController = TextEditingController();
 
   bool locationAccess = true;
   bool phoneAccess = false;
@@ -34,22 +34,9 @@ class _AccountSubPageState extends State<AccountSubPage>
 
   bool inProgress = false;
 
-  String college = 'Pick your college';
-
-  List<String> colleges = [
-    'Pick your college',
-    'MGCC',
-    'JGCC',
-    'FGCC',
-    'SCC',
-    'CCC',
-    'PCC',
-    'RCC',
-    'JCC',
-    'FCC',
-    'CCR',
-    'MCC',
-  ];
+  String college = 'Pick your college*';
+  String profession = 'Doctor';
+  String district = 'Dhaka';
 
   @override
   void dispose() {
@@ -61,8 +48,7 @@ class _AccountSubPageState extends State<AccountSubPage>
     emailTextController.dispose();
     fbTextController.dispose();
     instaTextController.dispose();
-    profTextController.dispose();
-    placeTextController.dispose();
+    designationTextController.dispose();
     super.dispose();
   }
 
@@ -456,25 +442,49 @@ class _AccountSubPageState extends State<AccountSubPage>
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: Container(
                         width: 500,
-                        child: TextFormField(
-                          controller: profTextController,
-                          enabled: editingEnabled,
-                          cursorColor: Colors.grey[800],
+                        child: DropdownButtonFormField(
+                          hint: Text('Profession'),
                           decoration: InputDecoration(
-                            hintText: 'Profession',
-                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(Icons.work),
+                              child: Icon(
+                                Icons.work,
+                              ),
                             ),
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              if (profTextController.text !=
-                                  HomeSetterPage.mainUser!.profession
-                                      .toString()) hasChanged = true;
-                            });
-                          },
+                          value: profession,
+                          isDense: true,
+                          onChanged: !editingEnabled
+                              ? null
+                              : (value) {
+                                  setState(() {
+                                    college = value! as String;
+                                  });
+                                },
+                          items: professions.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                      child: Container(
+                        width: 500,
+                        child: TextFormField(
+                          enabled: editingEnabled,
+                          controller: designationTextController,
+                          cursorColor: Colors.grey[800],
+                          decoration: InputDecoration(
+                            hintText: 'Designation at institude',
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(Icons.location_city),
+                            ),
+                          ),
                           style: TextStyle(
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
@@ -486,29 +496,31 @@ class _AccountSubPageState extends State<AccountSubPage>
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: Container(
                         width: 500,
-                        child: TextFormField(
-                          controller: placeTextController,
-                          enabled: editingEnabled,
-                          cursorColor: Colors.grey[800],
+                        child: DropdownButtonFormField(
+                          hint: Text('Work district'),
                           decoration: InputDecoration(
-                            hintText: 'Workplace',
-                            hintStyle: TextStyle(),
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(Icons.location_city),
+                              child: Icon(
+                                Icons.location_pin,
+                              ),
                             ),
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              if (placeTextController.text !=
-                                  HomeSetterPage.mainUser!.workplace.toString())
-                                hasChanged = true;
-                            });
-                          },
-                          style: TextStyle(
-                            color: editingEnabled ? Colors.black : Colors.grey,
-                          ),
-                          keyboardType: TextInputType.text,
+                          value: district,
+                          isDense: true,
+                          onChanged: !editingEnabled
+                              ? null
+                              : (value) {
+                                  setState(() {
+                                    college = value! as String;
+                                  });
+                                },
+                          items: districts.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         ),
                       ),
                     ),
@@ -810,8 +822,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   'plocation': locationAccess,
                                   'fburl': fbTextController.text,
                                   'instaurl': instaTextController.text,
-                                  'workplace': placeTextController.text,
-                                  'profession': profTextController.text,
+                                  'designation': designationTextController.text,
+                                  'profession': profession,
+                                  'district': district,
                                 });
                                 HomeSetterPage.mainUser = AppUser(
                                   id: HomeSetterPage.mainUser!.id,
@@ -837,12 +850,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   treatHead: HomeSetterPage.mainUser!.treatHead,
                                   treatHunter:
                                       HomeSetterPage.mainUser!.treatHunter,
-                                  workplace: placeTextController.text,
-                                  profession: profTextController.text,
+                                  designation: designationTextController.text,
+                                  profession: profession,
                                   manualDp: HomeSetterPage.mainUser!.manualDp,
                                   treatCount:
                                       HomeSetterPage.mainUser!.treatCount,
                                   sector: HomeSetterPage.mainUser!.sector,
+                                  district: district,
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -906,8 +920,8 @@ class _AccountSubPageState extends State<AccountSubPage>
     emailTextController.text = HomeSetterPage.mainUser!.email;
     fbTextController.text = HomeSetterPage.mainUser!.fbUrl;
     instaTextController.text = HomeSetterPage.mainUser!.instaUrl;
-    profTextController.text = HomeSetterPage.mainUser!.profession;
-    placeTextController.text = HomeSetterPage.mainUser!.workplace;
+    profession = HomeSetterPage.mainUser!.profession;
+    designationTextController.text = HomeSetterPage.mainUser!.designation;
     college = HomeSetterPage.mainUser!.college;
     useRegularEmail = HomeSetterPage.mainUser!.email ==
         HomeSetterPage.auth.currentUser!.email;
