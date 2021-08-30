@@ -187,9 +187,9 @@ class _HomeSubPageState extends State<HomeSubPage>
     int counter = 0;
     Color accuracyColor = Colors.white;
     if (locationData != null) {
-      accuracyColor = (locationData!.accuracy! <= 20
+      accuracyColor = (locationData!.accuracy! <= 40
           ? Colors.green
-          : (locationData!.accuracy! <= 50 ? Colors.orange : Colors.red));
+          : (locationData!.accuracy! <= 100 ? Colors.orange : Colors.red));
     }
 
     return RefreshIndicator(

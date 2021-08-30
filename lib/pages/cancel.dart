@@ -2,6 +2,7 @@ import 'package:cadets_nearby/pages/homeSetter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CancelVerificationPage extends StatefulWidget {
   CancelVerificationPage({Key? key}) : super(key: key);
@@ -170,7 +171,10 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                     }
                                     HomeSetterPage.auth.currentUser!
                                         .delete()
-                                        .then((value) {
+                                        .then((value) async {
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.clear();
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
@@ -215,9 +219,14 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                           await HomeSetterPage.auth.currentUser!
                               .reauthenticateWithCredential(credential);
                         } on FirebaseAuthException catch (_) {}
-                        HomeSetterPage.auth.currentUser!.delete().then((value) {
+                        HomeSetterPage.auth.currentUser!
+                            .delete()
+                            .then((value) async {
                           var googleSignIn = GoogleSignIn();
                           googleSignIn.signOut();
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.clear();
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text('Account has been deleted'),

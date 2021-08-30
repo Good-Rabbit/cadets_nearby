@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cadets_nearby/main.dart';
+import 'package:cadets_nearby/services/notification.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NotificationSubPage extends StatefulWidget {
@@ -13,15 +14,42 @@ class _NotificationSubPageState extends State<NotificationSubPage>
     with AutomaticKeepAliveClientMixin {
   Future<void> markRead(String notification) async {
     List<String> nrl = notification.split('~');
-    String nr = nrl[0] + '~' + nrl[1] + '~' + 'r';
+    String nr = '${nrl[0]}~${nrl[1]}~r~${nrl[3]}';
     notifications[notifications.indexOf(notification)] = nr;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notifications', notifications);
   }
 
+  bool justNow = false;
+  getNotifications() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.reload();
+    var temp = notifications;
+    notifications = prefs.getStringList('notifications') ?? [];
+    if (temp != notifications) {
+      setState(() {
+        justNow = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if (!justNow) {
+      getNotifications();
+    } else {
+      justNow = false;
+    }
+
+    List<Noti> nots = notifications.map((e) {
+      return Noti(notificationString: e);
+    }).toList();
+
+    nots.sort((a, b) {
+      return b.timeStamp.compareTo(a.timeStamp);
+    });
+
     return RefreshIndicator(
       onRefresh: () async {
         setState(() {});
@@ -32,12 +60,18 @@ class _NotificationSubPageState extends State<NotificationSubPage>
             ? Padding(
                 padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
                 child: ListView(
-                  children: notifications.map((e) {
-                    List<String> notification = e.split('~');
+                  children: nots.map((e) {
+                    List<String> dt = e.timeStamp.split(' ');
+                    List<String> dateTemp = dt[0].split('-');
+                    String date =
+                        '${dateTemp[2]}/${dateTemp[1]}/${dateTemp[2]}';
+                    List<String> t = dt[1].split(':');
+                    String time = '${t[0]}:${t[1]}';
+                    String lastUpdate = '  $time $date';
                     return InkWell(
                       onTap: () {
                         setState(() {
-                          markRead(e);
+                          markRead(e.notificationString);
                         });
                       },
                       child: Card(
@@ -49,10 +83,10 @@ class _NotificationSubPageState extends State<NotificationSubPage>
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Icon(
-                                  notification[2] == 'u'
+                                  !e.isRead
                                       ? Icons.notifications_active
                                       : Icons.notifications,
-                                  color: notification[2] == 'u'
+                                  color: !e.isRead
                                       ? Theme.of(context).primaryColor
                                       : Colors.brown,
                                 ),
@@ -62,11 +96,26 @@ class _NotificationSubPageState extends State<NotificationSubPage>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      notification[0],
+                                      e.title,
                                       style: TextStyle(fontSize: 17),
                                     ),
                                     Text(
-                                      notification[1],
+                                      e.body,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 0, 10, 0),
+                                          child: Text(
+                                            time + '  ' + date,
+                                            style: TextStyle(
+                                              color: Colors.grey[800],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

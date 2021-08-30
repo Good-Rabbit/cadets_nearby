@@ -1,13 +1,13 @@
 import 'package:cadets_nearby/pages/completeAccountPage.dart';
 import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/login.dart';
+import 'package:cadets_nearby/pages/uiElements/loading.dart';
 import 'package:cadets_nearby/services/localNotificationService.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -64,6 +64,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
 
   @override
   void initState() {
+    LocalNotificationService.initialize(context);
     user = HomeSetterPage.auth.currentUser;
     if (user != null) {
       HomeSetterPage.setMainUser(user!);
@@ -87,6 +88,20 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
       },
     );
 
+    FirebaseMessaging.instance.getInitialMessage().then((message) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.reload();
+      notifications = prefs.getStringList('notifications') ?? [];
+      if (message != null) {
+        RemoteNotification notification = message.notification!;
+        // AndroidNotification android = message.notification!.android!;
+
+        markRead(message);
+
+        showNotificationDialog(notification);
+      }
+    });
+
     FirebaseMessaging.onMessage.listen((message) async {
       print('Cloud message received(foreground)...');
       RemoteNotification notification = message.notification!;
@@ -94,7 +109,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
 
       LocalNotificationService.display(message);
 
-      updateNotifications(notification);
+      updateNotifications(notification, message.sentTime!);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) async {
@@ -102,40 +117,57 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
       RemoteNotification notification = message.notification!;
       // AndroidNotification android = message.notification!.android!;
 
-      markRead(notification);
+      markRead(message);
 
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(notification.title!),
-            content: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(notification.body!),
-                ],
-              ),
-            ),
-          );
-        },
-      );
+      showNotificationDialog(notification);
     });
     super.initState();
   }
 
-  Future<void> updateNotifications(RemoteNotification notification) async {
-    notifications
-        .add(notification.title! + '~' + notification.body! + '~' + 'u');
+  void showNotificationDialog(RemoteNotification notification) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(notification.title!),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(notification.body!),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> updateNotifications(
+      RemoteNotification notification, DateTime timeStamp) async {
+    notifications.add(notification.title! +
+        '~' +
+        notification.body! +
+        '~' +
+        'u' +
+        '~' +
+        timeStamp.toString());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setStringList('notifications', notifications);
   }
 
-  Future<void> markRead(RemoteNotification notification) async {
-    String nf = notification.title! + '~' + notification.body! + '~' + 'u';
-    String nr = notification.title! + '~' + notification.body! + '~' + 'r';
-    notifications[notifications.indexOf(nf)] = nr;
+  Future<void> markRead(RemoteMessage message) async {
+    String nf = message.notification!.title! +
+        '~' +
+        message.notification!.body! +
+        '~' +
+        'u' +
+        '~' +
+        message.sentTime.toString();
+    String nr = nf.replaceFirst('~u~', '~r~');
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    notifications = prefs.getStringList('notifications') ?? [];
+    notifications[notifications.indexOf(nf)] = nr;
     prefs.setStringList('notifications', notifications);
   }
 
@@ -173,7 +205,10 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
               }
             }
           }
-          return Scaffold();
+          return Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            body: Center(child: Loading()),
+          );
         },
       );
     } else {

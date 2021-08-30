@@ -4,6 +4,7 @@ import 'package:cadets_nearby/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountSubPage extends StatefulWidget {
   AccountSubPage({Key? key}) : super(key: key);
@@ -260,10 +261,11 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   ? Colors.red
                                   : Colors.green),
                         ),
-                        label: Text((!HomeSetterPage.auth.currentUser!.emailVerified ||
-                                HomeSetterPage.mainUser!.verified != 'yes')
-                            ? 'Verification'
-                            : 'Verified'),
+                        label: Text(
+                            (!HomeSetterPage.auth.currentUser!.emailVerified ||
+                                    HomeSetterPage.mainUser!.verified != 'yes')
+                                ? 'Verification'
+                                : 'Verified'),
                       ),
                     ),
                     Padding(
@@ -802,7 +804,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   'cname': cName,
                                   'cnumber': cNumberTextController.text,
                                   'phone': phoneTextController.text,
-                                  'email': HomeSetterPage.auth.currentUser!.email,
+                                  'email':
+                                      HomeSetterPage.auth.currentUser!.email,
                                   'pphone': phoneAccess,
                                   'plocation': locationAccess,
                                   'fburl': fbTextController.text,
@@ -871,10 +874,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                   margin: EdgeInsets.fromLTRB(100, 15, 100, 15),
                   child: ElevatedButton(
                     child: Text('Sign Out'),
-                    onPressed: () {
+                    onPressed: () async {
                       GoogleSignIn googleSignIn = GoogleSignIn();
                       googleSignIn.signOut();
                       HomeSetterPage.auth.signOut();
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.clear();
                     },
                   ),
                 ),

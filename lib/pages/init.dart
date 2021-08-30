@@ -10,6 +10,8 @@ class InitPage extends StatefulWidget {
 class _InitPageState extends State<InitPage> {
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 1))
+        .then((value) => Navigator.of(context).pushReplacementNamed('/home'));
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(

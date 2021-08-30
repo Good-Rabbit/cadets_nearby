@@ -32,17 +32,21 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('New background message : ${message.messageId}');
   SharedPreferences prefs = await SharedPreferences.getInstance();
   notifications = prefs.getStringList('notifications') ?? [];
-  notifications.add(message.notification!.title! +
-      '~' +
-      message.notification!.body! +
-      '~' +
-      'u');
-  prefs.setStringList('bgnotifications', notifications);
+  notifications.add(
+    message.notification!.title! +
+        '~' +
+        message.notification!.body! +
+        '~' +
+        'u' +
+        '~' +
+        message.sentTime!.toString(),
+  );
+  prefs.setStringList('notifications', notifications);
+  prefs.reload();
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  LocalNotificationService.initialize();
   await Firebase.initializeApp();
 
   try {
@@ -72,10 +76,6 @@ Future<void> main() async {
 Future<void> getNotifications() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   notifications = prefs.getStringList('notifications') ?? [];
-  // var bgNotifications = prefs.getStringList('bgnotifications') ?? [];
-  // bgNotifications.map((e) {
-  //   notifications.add(e);
-  // });
 }
 
 class MyApp extends StatefulWidget {
@@ -84,14 +84,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'cadets_nearby',
       theme: lightTheme,
+      initialRoute: '/',
       routes: {
-        '/': (context) => HomeSetterPage(),
+        '/': (context) => InitPage(),
+        '/home': (context) => HomeSetterPage(),
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignupMainPage(),
         '/reset': (context) => ResetPage(),

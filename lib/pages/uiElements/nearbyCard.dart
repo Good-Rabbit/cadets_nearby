@@ -18,11 +18,12 @@ class NearbyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String lastUpdate = (e.timeStamp.day.toString() +
-        '/' +
-        e.timeStamp.month.toString() +
-        '/' +
-        e.timeStamp.year.toString());
+    List<String> dt = e.timeStamp.toString().split(' ');
+    List<String> dateTemp = dt[0].split('-');
+    String date = '${dateTemp[2]}/${dateTemp[1]}/${dateTemp[2]}';
+    List<String> t = dt[1].split(':');
+    String time = '${t[0]}:${t[1]}';
+    String lastUpdate = '  $time $date';
     return InkWell(
       onTap: () {
         showModalBottomSheet(
