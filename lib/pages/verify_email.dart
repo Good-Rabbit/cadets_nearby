@@ -71,7 +71,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                         setState(() {
                           disabled = true;
                         });
-                        Future.delayed(const Duration(minutes: 1)).then((value) {
+                        Future.delayed(const Duration(minutes: 1))
+                            .then((value) {
                           setState(() {
                             disabled = false;
                           });

@@ -13,6 +13,7 @@ import 'package:cadets_nearby/pages/verification.dart';
 import 'package:cadets_nearby/pages/verify_cadet.dart';
 import 'package:cadets_nearby/pages/verify_email.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -68,6 +69,9 @@ Future<void> main() async {
     providers: [
       ChangeNotifierProvider(
         create: (context) => GlobalNotifications(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => MainUser(),
       )
     ],
     child: MyApp(),
@@ -86,10 +90,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'cadets_nearby',
       theme: lightTheme,
-      initialRoute: '/',
       routes: {
-        '/': (context) => const InitPage(),
-        '/home': (context) => const HomeSetterPage(),
+        '/': (context) => const HomeSetterPage(),
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupMainPage(),
         '/reset': (context) => const ResetPage(),

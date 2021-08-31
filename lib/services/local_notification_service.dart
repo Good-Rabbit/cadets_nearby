@@ -15,7 +15,8 @@ class LocalNotificationService {
   static Future<void> markRead(String notification) async {
     final String nr = notification.replaceFirst('~u~', '~r~');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final List<String> notifications = prefs.getStringList('notifications') ?? [];
+    final List<String> notifications =
+        prefs.getStringList('notifications') ?? [];
     notifications[notifications.indexOf(notification)] = nr;
     prefs.setStringList('notifications', notifications);
   }

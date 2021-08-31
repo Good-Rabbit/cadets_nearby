@@ -2,12 +2,15 @@ import 'dart:developer';
 
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cadets_nearby/data/app_data.dart';
+import 'package:animate_icons/animate_icons.dart';
+import 'package:provider/provider.dart';
 
 class AccountSubPage extends StatefulWidget {
   const AccountSubPage({Key? key}) : super(key: key);
@@ -29,6 +32,8 @@ class _AccountSubPageState extends State<AccountSubPage>
   TextEditingController fbTextController = TextEditingController();
   TextEditingController instaTextController = TextEditingController();
   TextEditingController designationTextController = TextEditingController();
+
+  AnimateIconController controller = AnimateIconController();
 
   bool locationAccess = true;
   bool phoneAccess = false;
@@ -92,15 +97,18 @@ class _AccountSubPageState extends State<AccountSubPage>
                           borderRadius: BorderRadius.circular(50),
                           child: Stack(
                             children: [
-                              if (HomeSetterPage.mainUser!.photoUrl == '') Image.asset(
-                                      'assets/images/user.png',
-                                      fit: BoxFit.cover,
-                                    ) else Image.network(
-                                      HomeSetterPage.mainUser!.photoUrl,
-                                      width: 80,
-                                      height: 80,
-                                      fit: BoxFit.cover,
-                                    ),
+                              if (context.watch<MainUser>().user!.photoUrl == '')
+                                Image.asset(
+                                  'assets/images/user.png',
+                                  fit: BoxFit.cover,
+                                )
+                              else
+                                Image.network(
+                                  context.watch<MainUser>().user!.photoUrl,
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                ),
                               if (editingEnabled)
                                 Container(
                                   color: Colors.black.withOpacity(0.65),
@@ -121,21 +129,31 @@ class _AccountSubPageState extends State<AccountSubPage>
                         ),
                       ),
                     ),
-                    InkWell(
-                      borderRadius: BorderRadius.circular(20.0),
-                      onTap: () {
-                        //Enable Account Editing
-                        setState(() {
-                          editingEnabled = !editingEnabled;
-                          if (editingEnabled == false) {
+                    CircleAvatar(
+                      radius: 20.0,
+                      child: AnimateIcons(
+                        startIcon: Icons.edit,
+                        endIcon: Icons.cancel,
+                        startIconColor: Colors.white,
+                        endIconColor: Colors.white,
+                        controller: controller,
+                        onStartIconPress: () {
+                          controller.animateToEnd();
+                          setState(() {
+                            editingEnabled = true;
+                          });
+                          return true;
+                        },
+                        onEndIconPress: () {
+                          controller.animateToStart();
+                          setState(() {
+                            editingEnabled = false;
                             resetEdits();
-                          }
-                        });
-                      },
-                      child: CircleAvatar(
-                        radius: 20.0,
-                        child: Icon(editingEnabled ? Icons.cancel : Icons.edit),
+                          });
+                          return true;
+                        },
                       ),
+                      // Icon(editingEnabled ? Icons.cancel : Icons.edit),
                     ),
                   ],
                 ),
@@ -144,16 +162,16 @@ class _AccountSubPageState extends State<AccountSubPage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        HomeSetterPage.mainUser!.fullName,
+                        context.watch<MainUser>().user!.fullName,
                         style: const TextStyle(fontSize: 20.0),
                       ),
-                      if (HomeSetterPage.mainUser!.verified != 'yes')
+                      if (context.watch<MainUser>().user!.verified != 'yes')
                         const Icon(
                           Icons.info_rounded,
                           size: 20,
                           color: Colors.redAccent,
                         ),
-                      if (HomeSetterPage.mainUser!.celeb)
+                      if (context.watch<MainUser>().user!.celeb)
                         const Icon(
                           Icons.verified,
                           size: 20,
@@ -162,7 +180,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ],
                   ),
                 ),
-                if (HomeSetterPage.mainUser!.premium)
+                if (context.watch<MainUser>().user!.premium)
                   const Center(
                     child: Text(
                       'Premium User',
@@ -175,14 +193,14 @@ class _AccountSubPageState extends State<AccountSubPage>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        HomeSetterPage.mainUser!.cName,
+                        context.watch<MainUser>().user!.cName,
                         style: const TextStyle(fontSize: 17.0),
                       ),
                       const SizedBox(
                         width: 5,
                       ),
                       Text(
-                        HomeSetterPage.mainUser!.cNumber.toString(),
+                        context.watch<MainUser>().user!.cNumber.toString(),
                         style: const TextStyle(fontSize: 15.0),
                       ),
                     ],
@@ -195,7 +213,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                       child: ElevatedButton.icon(
                         onPressed: !(!HomeSetterPage
                                     .auth.currentUser!.emailVerified ||
-                                HomeSetterPage.mainUser!.verified != 'yes')
+                                context.watch<MainUser>().user!.verified != 'yes')
                             ? null
                             : () {
                                 showModalBottomSheet(
@@ -227,7 +245,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                                       15, 10, 10, 10),
                                               child: ListView(
                                                 controller: controller,
-                                                children:const  [
+                                                children: const [
                                                   VerificationSteps(),
                                                 ],
                                               ),
@@ -242,14 +260,14 @@ class _AccountSubPageState extends State<AccountSubPage>
                           backgroundColor: MaterialStateProperty.all(
                               (!HomeSetterPage
                                           .auth.currentUser!.emailVerified ||
-                                      HomeSetterPage.mainUser!.verified !=
+                                      context.watch<MainUser>().user!.verified !=
                                           'yes')
                                   ? Colors.red
                                   : Colors.green),
                         ),
                         label: Text(
                             (!HomeSetterPage.auth.currentUser!.emailVerified ||
-                                    HomeSetterPage.mainUser!.verified != 'yes')
+                                    context.watch<MainUser>().user!.verified != 'yes')
                                 ? 'Verification'
                                 : 'Verified'),
                       ),
@@ -264,7 +282,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
                             hintText: 'Full Name*',
-                            
                             prefixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.account_box_rounded),
@@ -277,10 +294,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (fullNameTextController.text !=
-                                  HomeSetterPage.mainUser!.fullName){
+                                  context.watch<MainUser>().user!.fullName) {
                                 hasChanged = true;
-
-                                  }
+                              }
                             });
                           },
                           validator: (val) {
@@ -302,9 +318,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
                             hintText: 'Cadet Name* -e.g. Rashid',
-                            
                             prefixIcon: Padding(
-                              padding:  EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.perm_identity_rounded),
                             ),
                           ),
@@ -315,10 +330,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (cNameTextController.text !=
-                                  HomeSetterPage.mainUser!.cName){
+                                  context.watch<MainUser>().user!.cName) {
                                 hasChanged = true;
-
-                                  }
+                              }
                             });
                           },
                           validator: (val) {
@@ -340,7 +354,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
                             hintText: 'Cadet Number*',
-                            
                             prefixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.book),
@@ -353,10 +366,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (cNumberTextController.text !=
-                                  HomeSetterPage.mainUser!.cNumber.toString()){
+                                  context.watch<MainUser>().user!.cNumber.toString()) {
                                 hasChanged = true;
-
-                                  }
+                              }
                             });
                           },
                           validator: (val) {
@@ -389,10 +401,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   setState(() {
                                     college = value! as String;
                                     if (college !=
-                                        HomeSetterPage.mainUser!.college){
+                                        context.watch<MainUser>().user!.college) {
                                       hasChanged = true;
-
-                                        }
+                                    }
                                   });
                                 },
                           items: colleges.map((String value) {
@@ -420,7 +431,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
                             hintText: 'Intake Year*',
-                            
                             prefixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.date_range),
@@ -433,10 +443,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (intakeTextController.text !=
-                                  HomeSetterPage.mainUser!.intake.toString()){
+                                  context.watch<MainUser>().user!.intake.toString()) {
                                 hasChanged = true;
-
-                                  }
+                              }
                             });
                           },
                           validator: (val) {
@@ -553,10 +562,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
                             hintText: 'Contact E-mail*',
-                            
                             prefixIcon: Padding(
-                                padding:
-                                     EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.alternate_email,
                                 )),
@@ -568,10 +575,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (emailTextController.text !=
-                                  HomeSetterPage.mainUser!.email){
+                                  context.watch<MainUser>().user!.email) {
                                 hasChanged = true;
-
-                                  }
+                              }
                             });
                           },
                           validator: (val) {
@@ -586,9 +592,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                             }
                             final temp = val;
                             final List a = temp.split('@');
-                            if (a.length > 2){
+                            if (a.length > 2) {
                               return 'Please provide a valid E-mail';
-
                             }
                             return null;
                           },
@@ -619,10 +624,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                                     }
                                     useRegularEmail = value;
                                     if (emailTextController.text !=
-                                        HomeSetterPage.mainUser!.email){
+                                        context.watch<MainUser>().user!.email) {
                                       hasChanged = true;
-
-                                        }
+                                    }
                                   });
                                 }),
                     ),
@@ -636,7 +640,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'username e.g. "rashid.hr"',
-                            
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
@@ -657,10 +660,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (instaTextController.text !=
-                                  HomeSetterPage.mainUser!.instaUrl){
+                                  context.watch<MainUser>().user!.instaUrl) {
                                 hasChanged = true;
-
-                                  }
+                              }
                             });
                           },
                           style: TextStyle(
@@ -680,7 +682,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'username e.g. "harun.xt"',
-                            
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
@@ -703,10 +704,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (instaTextController.text !=
-                                  HomeSetterPage.mainUser!.instaUrl){
+                                  context.watch<MainUser>().user!.instaUrl) {
                                 hasChanged = true;
-
-                                  }
+                              }
                             });
                           },
                           style: TextStyle(
@@ -726,7 +726,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
                             hintText: 'Phone',
-                            
                             prefixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.phone),
@@ -742,10 +741,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                             }
                             setState(() {
                               if (phoneTextController.text !=
-                                  HomeSetterPage.mainUser!.phone){
+                                  context.watch<MainUser>().user!.phone) {
                                 hasChanged = true;
-
-                                  }
+                              }
                             });
                           },
                           validator: (val) {
@@ -770,10 +768,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   setState(() {
                                     phoneAccess = value!;
                                     if (phoneAccess !=
-                                        HomeSetterPage.mainUser!.pPhone){
+                                        context.watch<MainUser>().user!.pPhone) {
                                       hasChanged = true;
-
-                                        }
+                                    }
                                   });
                                 }),
                     ),
@@ -795,10 +792,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   setState(() {
                                     locationAccess = !value!;
                                     if (locationAccess !=
-                                        HomeSetterPage.mainUser!.pLocation){
+                                        context.watch<MainUser>().user!.pLocation) {
                                       hasChanged = true;
-
-                                        }
+                                    }
                                   });
                                 }),
                     ),
@@ -853,8 +849,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   'profession': profession,
                                   'district': district,
                                 });
-                                HomeSetterPage.mainUser = AppUser(
-                                  id: HomeSetterPage.mainUser!.id,
+                                // ignore: use_build_context_synchronously
+                                context.read<MainUser>().user = AppUser(
+                                  // ignore: use_build_context_synchronously
+                                  id: context.watch<MainUser>().user!.id,
                                   cName: cName,
                                   cNumber:
                                       int.parse(cNumberTextController.text),
@@ -862,27 +860,39 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   college: college,
                                   email: emailTextController.text,
                                   intake: int.parse(intakeTextController.text),
-                                  pAlways: HomeSetterPage.mainUser!.pAlways,
+                                  // ignore: use_build_context_synchronously
+                                  pAlways: context.watch<MainUser>().user!.pAlways,
                                   pLocation: locationAccess,
-                                  pMaps: HomeSetterPage.mainUser!.pMaps,
+                                  // ignore: use_build_context_synchronously
+                                  pMaps: context.watch<MainUser>().user!.pMaps,
                                   pPhone: phoneAccess,
-                                  photoUrl: HomeSetterPage.mainUser!.photoUrl,
+                                  // ignore: use_build_context_synchronously
+                                  photoUrl: context.watch<MainUser>().user!.photoUrl,
                                   phone: phoneTextController.text,
                                   fbUrl: fbTextController.text,
                                   instaUrl: instaTextController.text,
-                                  timeStamp: HomeSetterPage.mainUser!.timeStamp,
-                                  premium: HomeSetterPage.mainUser!.premium,
-                                  verified: HomeSetterPage.mainUser!.verified,
-                                  celeb: HomeSetterPage.mainUser!.celeb,
-                                  treatHead: HomeSetterPage.mainUser!.treatHead,
+                                  // ignore: use_build_context_synchronously
+                                  timeStamp: context.watch<MainUser>().user!.timeStamp,
+                                  // ignore: use_build_context_synchronously
+                                  premium: context.watch<MainUser>().user!.premium,
+                                  // ignore: use_build_context_synchronously
+                                  verified: context.watch<MainUser>().user!.verified,
+                                  // ignore: use_build_context_synchronously
+                                  celeb: context.watch<MainUser>().user!.celeb,
+                                  // ignore: use_build_context_synchronously
+                                  treatHead: context.watch<MainUser>().user!.treatHead,
                                   treatHunter:
-                                      HomeSetterPage.mainUser!.treatHunter,
+                                      // ignore: use_build_context_synchronously
+                                      context.watch<MainUser>().user!.treatHunter,
                                   designation: designationTextController.text,
                                   profession: profession,
-                                  manualDp: HomeSetterPage.mainUser!.manualDp,
+                                  // ignore: use_build_context_synchronously
+                                  manualDp: context.watch<MainUser>().user!.manualDp,
                                   treatCount:
-                                      HomeSetterPage.mainUser!.treatCount,
-                                  sector: HomeSetterPage.mainUser!.sector,
+                                      // ignore: use_build_context_synchronously
+                                      context.watch<MainUser>().user!.treatCount,
+                                  // ignore: use_build_context_synchronously
+                                  sector: context.watch<MainUser>().user!.sector,
                                   district: district,
                                 );
                                 // ignore: use_build_context_synchronously
@@ -938,20 +948,20 @@ class _AccountSubPageState extends State<AccountSubPage>
   }
 
   void resetEdits() {
-    locationAccess = HomeSetterPage.mainUser!.pLocation;
-    phoneAccess = HomeSetterPage.mainUser!.pPhone;
-    fullNameTextController.text = HomeSetterPage.mainUser!.fullName;
-    cNameTextController.text = HomeSetterPage.mainUser!.cName;
-    cNumberTextController.text = HomeSetterPage.mainUser!.cNumber.toString();
-    intakeTextController.text = HomeSetterPage.mainUser!.intake.toString();
-    phoneTextController.text = HomeSetterPage.mainUser!.phone;
-    emailTextController.text = HomeSetterPage.mainUser!.email;
-    fbTextController.text = HomeSetterPage.mainUser!.fbUrl;
-    instaTextController.text = HomeSetterPage.mainUser!.instaUrl;
-    profession = HomeSetterPage.mainUser!.profession;
-    designationTextController.text = HomeSetterPage.mainUser!.designation;
-    college = HomeSetterPage.mainUser!.college;
-    useRegularEmail = HomeSetterPage.mainUser!.email ==
+    locationAccess = context.watch<MainUser>().user!.pLocation;
+    phoneAccess = context.watch<MainUser>().user!.pPhone;
+    fullNameTextController.text = context.watch<MainUser>().user!.fullName;
+    cNameTextController.text = context.watch<MainUser>().user!.cName;
+    cNumberTextController.text = context.watch<MainUser>().user!.cNumber.toString();
+    intakeTextController.text = context.watch<MainUser>().user!.intake.toString();
+    phoneTextController.text = context.watch<MainUser>().user!.phone;
+    emailTextController.text = context.watch<MainUser>().user!.email;
+    fbTextController.text = context.watch<MainUser>().user!.fbUrl;
+    instaTextController.text = context.watch<MainUser>().user!.instaUrl;
+    profession = context.watch<MainUser>().user!.profession;
+    designationTextController.text = context.watch<MainUser>().user!.designation;
+    college = context.watch<MainUser>().user!.college;
+    useRegularEmail = context.watch<MainUser>().user!.email ==
         HomeSetterPage.auth.currentUser!.email;
     if (formKey.currentState != null) {
       formKey.currentState!.validate();

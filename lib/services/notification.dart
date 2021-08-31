@@ -8,10 +8,10 @@ class Noti {
 
   Noti({
     required this.notificationString,
-    this.body= '',
-    this.isRead= false,
-    this.title= '',
-    this.timeStamp= '',
+    this.body = '',
+    this.isRead = false,
+    this.title = '',
+    this.timeStamp = '',
   }) {
     final List<String> e = notificationString.split('~');
     title = e[0];

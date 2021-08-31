@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 import 'package:cadets_nearby/data/app_data.dart';
 
 class CompleteAccountPage extends StatefulWidget {
@@ -531,11 +533,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                         final parts = fullNameTextController
                                             .text
                                             .split(' ');
-                                        final StringBuffer fname = StringBuffer();
+                                        final StringBuffer fname =
+                                            StringBuffer();
                                         for (final each in parts) {
                                           first = each[0];
                                           first = first.toUpperCase();
-                                          fname.write('$first${each.substring(1)} ');
+                                          fname.write(
+                                              '$first${each.substring(1)} ');
                                         }
                                         fullName = fname.toString().trim();
 
@@ -586,7 +590,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                               'sector': 0,
                                             },
                                           );
-                                          HomeSetterPage.mainUser = AppUser(
+                                          // ignore: use_build_context_synchronously
+                                          context.read<MainUser>().user = AppUser(
                                             id: HomeSetterPage
                                                 .auth.currentUser!.uid,
                                             cName: cName,
@@ -685,8 +690,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
       if (!_serviceEnabled) {
         _serviceEnabled = await location.requestService();
         if (!_serviceEnabled) {
-          setState(() {
-          });
+          setState(() {});
           return;
         }
       }
@@ -696,8 +700,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
         _permissionGranted = await location.requestPermission();
         if (!(_permissionGranted == PermissionStatus.granted ||
             _permissionGranted == PermissionStatus.grantedLimited)) {
-          setState(() {
-          });
+          setState(() {});
           return;
         }
       }

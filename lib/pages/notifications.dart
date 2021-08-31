@@ -1,4 +1,3 @@
-
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +11,6 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage>
     with AutomaticKeepAliveClientMixin {
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -26,11 +24,16 @@ class _NotificationPageState extends State<NotificationPage>
         backgroundColor: Theme.of(context).backgroundColor,
         body: Center(
           child: SafeArea(
-            child: context.watch<GlobalNotifications>().allNotification.isNotEmpty
+            child: context
+                    .watch<GlobalNotifications>()
+                    .allNotification
+                    .isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
                     child: ListView(
-                      children: Provider.of<GlobalNotifications>(context).allNotification.map((e) {
+                      children: Provider.of<GlobalNotifications>(context)
+                          .allNotification
+                          .map((e) {
                         final List<String> dt = e.timeStamp.split(' ');
                         final List<String> dateTemp = dt[0].split('-');
                         final String date =
@@ -39,7 +42,9 @@ class _NotificationPageState extends State<NotificationPage>
                         final String time = '${t[0]}:${t[1]}';
                         return InkWell(
                           onTap: () {
-                            context.read<GlobalNotifications>().markNotificationAsRead(e.notificationString);
+                            context
+                                .read<GlobalNotifications>()
+                                .markNotificationAsRead(e.notificationString);
                           },
                           child: Card(
                             child: Padding(

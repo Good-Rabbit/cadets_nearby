@@ -5,6 +5,7 @@ import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/filter_range.dart';
 import 'package:cadets_nearby/pages/ui_elements/loading.dart';
 import 'package:cadets_nearby/pages/ui_elements/nearby_card.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -54,11 +55,11 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   int shown = 0;
 
-  void calculateMinMax() {
-    latMax = (HomeSetterPage.mainUser!.lat) + 0.1;
-    latMin = (HomeSetterPage.mainUser!.lat) - 0.1;
-    longMax = (HomeSetterPage.mainUser!.long) + 0.1;
-    longMin = (HomeSetterPage.mainUser!.long) - 0.1;
+  void calculateMinMax(BuildContext context) {
+    latMax = Provider.of<MainUser>(context, listen: false).user!.lat + 0.1;
+    latMin = Provider.of<MainUser>(context, listen: false).user!.lat  - 0.1;
+    longMax = Provider.of<MainUser>(context, listen: false).user!.long  + 0.1;
+    longMin = Provider.of<MainUser>(context, listen: false).user!.long  - 0.1;
   }
 
   Future<void> getLocation() async {
@@ -101,7 +102,8 @@ class _HomeSubPageState extends State<HomeSubPage>
 
         locationData = await location.getLocation();
         //Calculate minimum and maximum for other distances
-        calculateMinMax();
+        // ignore: use_build_context_synchronously
+        calculateMinMax(context);
         uploadLocation(locationData!);
         updateFlag = true;
         loadingComplete = true;
@@ -129,17 +131,17 @@ class _HomeSubPageState extends State<HomeSubPage>
         'sector': sector,
         'lastonline': timeStamp,
       });
-      HomeSetterPage.mainUser!.lat = locationData.latitude!;
-      HomeSetterPage.mainUser!.long = locationData.latitude!;
+      Provider.of<MainUser>(context, listen: false).setLat  = locationData.latitude!;
+      Provider.of<MainUser>(context, listen: false).setLong  = locationData.latitude!;
     } catch (e) {
       dev.log(e.toString());
     }
   }
 
   double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    const  p = 0.017453292519943295;
-    const  c = cos;
-    final  a = 0.5 -
+    const p = 0.017453292519943295;
+    const c = cos;
+    final a = 0.5 -
         c((lat2 - lat1) * p) / 2 +
         c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a));
@@ -170,7 +172,7 @@ class _HomeSubPageState extends State<HomeSubPage>
     }
 
     // TODO enable verification
-    if (HomeSetterPage.mainUser!.verified == 'no' && !warningGiven) {
+    if (context.watch<MainUser>().user!.verified == 'no' && !warningGiven) {
       warningGiven = true;
       Future.delayed(const Duration(seconds: 5)).then((value) {
         Navigator.of(context).pushNamed('/verification');
@@ -184,6 +186,8 @@ class _HomeSubPageState extends State<HomeSubPage>
           ? Colors.green
           : (locationData!.accuracy! <= 100 ? Colors.orange : Colors.red);
     }
+
+    context.read<GlobalNotifications>().initialize();
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -208,13 +212,13 @@ class _HomeSubPageState extends State<HomeSubPage>
                       radius: 20.0,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(50),
-                        child: HomeSetterPage.mainUser!.photoUrl == ''
+                        child: context.watch<MainUser>().user!.photoUrl == ''
                             ? Image.asset(
                                 'assets/images/user.png',
                                 fit: BoxFit.cover,
                               )
                             : Image.network(
-                                HomeSetterPage.mainUser!.photoUrl,
+                                context.watch<MainUser>().user!.photoUrl,
                                 fit: BoxFit.cover,
                                 width: 40,
                                 height: 40,
@@ -229,18 +233,19 @@ class _HomeSubPageState extends State<HomeSubPage>
                         Row(
                           children: [
                             Text(
-                              HomeSetterPage.mainUser!.cName,
+                              context.watch<MainUser>().user!.cName,
                               style: const TextStyle(
                                 fontSize: 17,
                               ),
                             ),
-                            if (HomeSetterPage.mainUser!.verified != 'yes')
+                            if (context.watch<MainUser>().user!.verified !=
+                                'yes')
                               const Icon(
                                 Icons.info_rounded,
                                 size: 15,
                                 color: Colors.redAccent,
                               ),
-                            if (HomeSetterPage.mainUser!.celeb)
+                            if (context.watch<MainUser>().user!.celeb)
                               const Icon(
                                 Icons.verified,
                                 size: 15,
@@ -263,10 +268,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                       onPressed: () {
                         Navigator.of(context).pushNamed('/notifications');
                       },
-                      icon: Icon(
-                          context.watch<GlobalNotifications>().hasUnread
-                              ? Icons.notifications_active
-                              : Icons.notifications_rounded),
+                      icon: const NotificationIndicator(),
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
@@ -300,7 +302,8 @@ class _HomeSubPageState extends State<HomeSubPage>
                                       builder: (_, controller) => Container(
                                         decoration: BoxDecoration(
                                           color: Colors.orange[50],
-                                          borderRadius: const BorderRadius.vertical(
+                                          borderRadius:
+                                              const BorderRadius.vertical(
                                             top: Radius.circular(15.0),
                                           ),
                                         ),
@@ -378,9 +381,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                   //TODO uncomment
                   .where('lat', isLessThan: latMax, isGreaterThan: latMin)
                   .where('sector', whereIn: [
-                HomeSetterPage.mainUser!.sector + 1,
-                HomeSetterPage.mainUser!.sector,
-                HomeSetterPage.mainUser!.sector - 1,
+                context.watch<MainUser>().user!.sector + 1,
+                context.watch<MainUser>().user!.sector,
+                context.watch<MainUser>().user!.sector - 1,
               ]).get(),
               builder: (context, snapshots) {
                 dataFetchTimeout = true;
@@ -403,8 +406,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 fullName: u.data()['fullname'] as String,
                                 college: u.data()['college'] as String,
                                 email: u.data()['email'] as String,
-                                intake:
-                                    int.parse(u.data()['intake'] as String),
+                                intake: int.parse(u.data()['intake'] as String),
                                 lat: u.data()['lat'] as double,
                                 long: u.data()['long'] as double,
                                 timeStamp: DateTime.parse(
@@ -422,8 +424,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 celeb: u.data()['celeb'] as bool,
                                 treatHead: u.data()['treathead'] as bool,
                                 treatHunter: u.data()['treathunter'] as bool,
-                                designation:
-                                    u.data()['designation'] as String,
+                                designation: u.data()['designation'] as String,
                                 profession: u.data()['profession'] as String,
                                 manualDp: u.data()['manualdp'] as bool,
                                 treatCount: u.data()['treatcount'] as int,
@@ -432,13 +433,13 @@ class _HomeSubPageState extends State<HomeSubPage>
                               );
 
                               Duration timeDiff;
-                              timeDiff =
-                                  DateTime.now().difference(e.timeStamp);
+                              timeDiff = DateTime.now().difference(e.timeStamp);
 
-                              if (e.equals(HomeSetterPage.mainUser!) &&
+                              if (e.equals(context.watch<MainUser>().user!) &&
                                   snapshots.data!.docs.length == 1) {
                                 return noOneNearby();
-                              } else if (e.equals(HomeSetterPage.mainUser!)) {
+                              } else if (e
+                                  .equals(context.watch<MainUser>().user!)) {
                                 dontShow = true;
                               } else if (timeDiff.inDays > 30) {
                                 dontShow = true;
@@ -501,8 +502,8 @@ class _HomeSubPageState extends State<HomeSubPage>
                               }
                               // -------------
                               return Container(
-                                margin:
-                                    const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                                margin: const EdgeInsets.fromLTRB(
+                                    10.0, 5.0, 10.0, 5.0),
                                 child: NearbyCard(
                                     e: e,
                                     isKm: isKm,
@@ -524,18 +525,15 @@ class _HomeSubPageState extends State<HomeSubPage>
                   : savedUsers.map((e) {
                       bool dontShow = false;
                       counter++;
-                      if (e.equals(HomeSetterPage.mainUser!) &&
+                      if (e.equals(context.watch<MainUser>().user!) &&
                           savedUsers.length == 1) {
                         return noOneNearby();
-                      } else if (e.equals(HomeSetterPage.mainUser!)) {
+                      } else if (e.equals(context.watch<MainUser>().user!)) {
                         dontShow = true;
                       }
                       // Get distance in metres
-                      var distanceD = calculateDistance(
-                          locationData!.latitude!,
-                          locationData!.longitude!,
-                          e.lat,
-                          e.long);
+                      var distanceD = calculateDistance(locationData!.latitude!,
+                          locationData!.longitude!, e.lat, e.long);
 
                       // Range Check
                       if (distanceD > range.end || distanceD < range.start) {
@@ -562,8 +560,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                       double distanceKm = distanceD.roundToDouble() -
                           distanceD.roundToDouble() % 10;
                       distanceKm /= 1000;
-                      distanceKm =
-                          double.parse(distanceKm.toStringAsFixed(2));
+                      distanceKm = double.parse(distanceKm.toStringAsFixed(2));
                       int distanceM = distanceD.toInt();
                       bool isKm = false;
 
@@ -619,4 +616,17 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class NotificationIndicator extends StatelessWidget {
+  const NotificationIndicator({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(context.watch<GlobalNotifications>().hasUnread
+        ? Icons.notifications_active
+        : Icons.notifications_rounded);
+  }
 }

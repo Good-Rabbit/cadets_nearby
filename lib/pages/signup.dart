@@ -73,20 +73,16 @@ class _SignupMainPageState extends State<SignupMainPage> {
                         children: [
                           TextFormField(
                             controller: emailTextController,
-                            
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
                               hintText: 'E-mail',
-                              
                               prefixIcon: Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.person,
                                 ),
                               ),
                             ),
-                            
                             keyboardType: TextInputType.emailAddress,
                             onChanged: (val) {
                               if (invalidEmail || emailInUse) {
@@ -113,9 +109,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
                               }
                               final temp = val;
                               final List a = temp.split('@');
-                              if (a.length > 2){
+                              if (a.length > 2) {
                                 return 'Please provide a valid E-mail';
-
                               }
                               return null;
                             },
@@ -135,10 +130,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             },
                             decoration: InputDecoration(
                               hintText: 'Password',
-                              
                               prefixIcon: const Padding(
-                                padding:
-                                     EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.fence_rounded,
                                 ),
@@ -157,7 +150,6 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                 ),
                               ),
                             ),
-                            
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (weakPassword) {
@@ -181,10 +173,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             cursorColor: Colors.grey[800],
                             decoration: InputDecoration(
                               hintText: 'Confirm Password',
-                              
                               prefixIcon: const Padding(
-                                padding:
-                                     EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.fence_rounded,
                                 ),
@@ -203,7 +193,6 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                 ),
                               ),
                             ),
-                            
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (val != passwordTextController.text) {
@@ -305,8 +294,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
                           signInWithGoogle();
                         },
                         style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(const Color(0xFF1F1F1F)),
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color(0xFF1F1F1F)),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -348,9 +337,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
     );
 
     // Once signed in, return the UserCredential
-    return HomeSetterPage.auth
-        .signInWithCredential(credential)
-        .then((value) {
+    return HomeSetterPage.auth.signInWithCredential(credential).then((value) {
       Navigator.of(context).pop();
       return value;
     });

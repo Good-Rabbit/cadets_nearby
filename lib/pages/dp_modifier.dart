@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cadets_nearby/data/data.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 class DpPage extends StatefulWidget {
@@ -48,9 +50,10 @@ class _DpPageState extends State<DpPage> {
       },
     ).then((value) {
       //Delete previous if manual
-      if (HomeSetterPage.mainUser!.manualDp) {
+      if (context.watch<MainUser>().user!.manualDp) {
         final Uri uri = Uri.parse('$siteAddress/deleteDp.php');
-        final String delFilename = HomeSetterPage.mainUser!.photoUrl.split('/').last;
+        final String delFilename =
+            context.watch<MainUser>().user!.photoUrl.split('/').last;
         http.post(
           uri,
           body: {
@@ -62,18 +65,17 @@ class _DpPageState extends State<DpPage> {
       if (value.statusCode == 200) {
         HomeSetterPage.store
             .collection('users')
-            .doc(HomeSetterPage.mainUser!.id)
+            .doc(context.watch<MainUser>().user!.id)
             .update({
           'photourl': '$siteAddress/DPs/${filename!}',
           'manualdp': true,
         });
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Updated Successfully')));
-        HomeSetterPage.mainUser!.photoUrl = '$siteAddress/DPs/${filename!}';
-        HomeSetterPage.mainUser!.manualDp = true;
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Updated Successfully')));
+        context.watch<MainUser>().user!.photoUrl = '$siteAddress/DPs/${filename!}';
+        context.watch<MainUser>().user!.manualDp = true;
         Navigator.of(context).pop();
-      } else {
-      }
+      } else {}
     }).catchError((e) {
       log(e.toString());
     });
@@ -81,7 +83,7 @@ class _DpPageState extends State<DpPage> {
 
   Future<void> deleteImage() async {
     final Uri uri = Uri.parse('$siteAddress/deleteDp.php');
-    filename = HomeSetterPage.mainUser!.photoUrl.split('/').last;
+    filename = context.watch<MainUser>().user!.photoUrl.split('/').last;
     http.post(
       uri,
       body: {
@@ -92,15 +94,15 @@ class _DpPageState extends State<DpPage> {
       if (value.statusCode == 200) {
         HomeSetterPage.store
             .collection('users')
-            .doc(HomeSetterPage.mainUser!.id)
+            .doc(context.watch<MainUser>().user!.id)
             .update({
           'photourl': '',
           'manualdp': false,
         });
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Deleted Successfully')));
-        HomeSetterPage.mainUser!.photoUrl = '';
-        HomeSetterPage.mainUser!.manualDp = false;
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Deleted Successfully')));
+        context.watch<MainUser>().user!.photoUrl = '';
+        context.watch<MainUser>().user!.manualDp = false;
         Navigator.of(context).pop();
       }
     }).catchError((e) {
@@ -144,13 +146,13 @@ class _DpPageState extends State<DpPage> {
                               File(image!.path),
                               fit: BoxFit.cover,
                             )
-                          : (HomeSetterPage.mainUser!.photoUrl == ''
+                          : (context.watch<MainUser>().user!.photoUrl == ''
                               ? Image.asset(
                                   'assets/images/user.png',
                                   fit: BoxFit.cover,
                                 )
                               : Image.network(
-                                  HomeSetterPage.mainUser!.photoUrl,
+                                  context.watch<MainUser>().user!.photoUrl,
                                   fit: BoxFit.cover,
                                 )),
                     ),
@@ -201,7 +203,7 @@ class _DpPageState extends State<DpPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        onPressed: !HomeSetterPage.mainUser!.manualDp
+                        onPressed: !context.watch<MainUser>().user!.manualDp
                             ? null
                             : () {
                                 showDialog(

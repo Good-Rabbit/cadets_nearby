@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class CadetVerificationPage extends StatefulWidget {
   const CadetVerificationPage({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
     setState(() {});
   }
 
-  Future<void>uploadImage() async {
+  Future<void> uploadImage() async {
     final Uri uri = Uri.parse('$siteAddress/uploadVp.php');
     http.post(
       uri,
@@ -45,14 +47,14 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
       if (value.statusCode == 200) {
         HomeSetterPage.store
             .collection('users')
-            .doc(HomeSetterPage.mainUser!.id)
+            .doc(context.watch<MainUser>().user!.id)
             .update({
           'verifyurl': '$siteAddress/VPs/${filename!}',
           'verified': 'waiting',
         });
-        HomeSetterPage.mainUser!.verified = 'waiting';
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Uploaded Successfully')));
+        context.watch<MainUser>().user!.verified = 'waiting';
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Uploaded Successfully')));
         Navigator.of(context).pop();
       }
     }).catchError((e) {

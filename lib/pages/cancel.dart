@@ -79,8 +79,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                             decoration: InputDecoration(
                               hintText: 'Password',
                               prefixIcon: const Padding(
-                                padding:
-                                    EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.fence_rounded,
                                 ),
@@ -99,7 +98,6 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                 ),
                               ),
                             ),
-
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (wrongPassword) {

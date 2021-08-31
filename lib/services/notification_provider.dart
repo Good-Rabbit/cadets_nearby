@@ -25,11 +25,17 @@ class GlobalNotifications with ChangeNotifier {
   }
 
   void checkNewnotification() {
+    bool temp = false;
     for (final notification in notifications) {
       if (!notification.isRead) {
-        isAnyUnread = true;
+        temp = true;
         break;
       }
+    }
+    if (temp) {
+      isAnyUnread = true;
+    } else {
+      isAnyUnread = false;
     }
   }
 
@@ -73,7 +79,9 @@ class GlobalNotifications with ChangeNotifier {
       notificationString: nf,
     );
     final Noti nrr = Noti(notificationString: nr);
-    notifications[notifications.indexOf(nff)] = nrr;
+    final int index = notifications.indexWhere(
+        (element) => element.notificationString == nf);
+    notifications[index] = nrr;
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.reload();
@@ -81,6 +89,8 @@ class GlobalNotifications with ChangeNotifier {
         prefs.getStringList('notifications') ?? [];
     notificationsStringList[notificationsStringList.indexOf(nf)] = nr;
     prefs.setStringList('notifications', notificationsStringList);
+    checkNewnotification();
+
     notifyListeners();
   }
 
@@ -91,7 +101,9 @@ class GlobalNotifications with ChangeNotifier {
       notificationString: nf,
     );
     final Noti nrr = Noti(notificationString: nr);
-    notifications[notifications.indexOf(nff)] = nrr;
+    final int index = notifications.indexWhere(
+        (element) => element.notificationString == nf);
+    notifications[index] = nrr;
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.reload();
@@ -99,6 +111,8 @@ class GlobalNotifications with ChangeNotifier {
         prefs.getStringList('notifications') ?? [];
     notificationsStringList[notificationsStringList.indexOf(nf)] = nr;
     prefs.setStringList('notifications', notificationsStringList);
+    checkNewnotification();
+
     notifyListeners();
   }
 }

@@ -3,8 +3,8 @@ import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/login.dart';
 import 'package:cadets_nearby/pages/ui_elements/loading.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
-import 'package:cadets_nearby/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -15,42 +15,6 @@ class HomeSetterPage extends StatefulWidget {
   const HomeSetterPage({Key? key}) : super(key: key);
   static FirebaseFirestore store = FirebaseFirestore.instance;
   static FirebaseAuth auth = FirebaseAuth.instance;
-  static AppUser? mainUser;
-  static Future<void> setMainUser(User? user) async {
-    final u =
-        await HomeSetterPage.store.collection('users').doc(user!.uid).get();
-    HomeSetterPage.mainUser = AppUser(
-      id: HomeSetterPage.auth.currentUser!.uid,
-      cName: u.data()!['cname'] as String,
-      cNumber: int.parse(u.data()!['cnumber'] as String),
-      fullName: u.data()!['fullname'] as String,
-      college: u.data()!['college'] as String,
-      email: u.data()!['email'] as String,
-      intake: int.parse(u.data()!['intake'] as String),
-      lat: u.data()!['lat'] as double,
-      long: u.data()!['long'] as double,
-      pAlways: u.data()!['palways'] as bool,
-      pLocation: u.data()!['plocation'] as bool,
-      pMaps: u.data()!['pmaps'] as bool,
-      pPhone: u.data()!['pphone'] as bool,
-      photoUrl: u.data()!['photourl'] as String,
-      phone: u.data()!['phone'] as String,
-      timeStamp: DateTime.parse(u.data()!['lastonline'] as String),
-      premium: u.data()!['premium'] as bool,
-      fbUrl: u.data()!['fburl'] as String,
-      instaUrl: u.data()!['instaurl'] as String,
-      verified: u.data()!['verified'] as String,
-      celeb: u.data()!['celeb'] as bool,
-      treatHead: u.data()!['treathead'] as bool,
-      treatHunter: u.data()!['treathunter'] as bool,
-      designation: u.data()!['designation'] as String,
-      profession: u.data()!['profession'] as String,
-      manualDp: u.data()!['manualdp'] as bool,
-      treatCount: u.data()!['treatcount'] as int,
-      sector: u.data()!['sector'] as int,
-      district: u.data()!['district'] as String,
-    );
-  }
 
   @override
   _HomeSetterPageState createState() => _HomeSetterPageState();
@@ -68,7 +32,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
     LocalNotificationService.initialize(context);
     user = HomeSetterPage.auth.currentUser;
     if (user != null) {
-      HomeSetterPage.setMainUser(user);
+      context.read<MainUser>().setWithUser(user!);
     }
     HomeSetterPage.auth.authStateChanges().listen(
       (user) {
@@ -78,9 +42,9 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
               () {
                 this.user = user;
                 if (user != null) {
-                  HomeSetterPage.setMainUser(user);
+                  context.read<MainUser>().setWithUser(user);
                 } else {
-                  HomeSetterPage.mainUser = null;
+                  context.read<MainUser>().user = null;
                 }
               },
             );
@@ -153,8 +117,8 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
                   loggedInNotifier: loggedInNotifier,
                 );
               } else {
-                if (HomeSetterPage.mainUser == null) {
-                  HomeSetterPage.setMainUser(user);
+                if (context.watch<MainUser>().user == null) {
+                  context.read<MainUser>().setWithUser(user!);
                 }
 
                 if (!HomeSetterPage.auth.currentUser!.emailVerified) {
