@@ -1,11 +1,10 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:cadets_nearby/pages/homeSetter.dart';
-import 'package:cadets_nearby/pages/subPages/contactSub.dart';
+import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/pages/sub_pages/about_sub.dart';
+import 'package:cadets_nearby/pages/sub_pages/account_sub.dart';
+import 'package:cadets_nearby/pages/sub_pages/contact_sub.dart';
+import 'package:cadets_nearby/pages/sub_pages/home_sub.dart';
 import 'package:flutter/material.dart';
-import 'package:cadets_nearby/pages/subPages/accountSub.dart';
-import 'package:cadets_nearby/pages/subPages/homeSub.dart';
-import 'package:cadets_nearby/pages/subPages/aboutSub.dart';
-import 'package:cadets_nearby/pages/notifications.dart';
 
 class RealHome extends StatefulWidget {
   const RealHome({
@@ -17,13 +16,13 @@ class RealHome extends StatefulWidget {
 }
 
 class _RealHomeState extends State<RealHome> {
-  var pageController = PageController(initialPage: 0);
+  final pageController = PageController();
   int selectedIndex = 0;
 
-  setSelectedIndex(int index) {
+  void setSelectedIndex(int index) {
     selectedIndex = index;
     pageController.animateToPage(index,
-        duration: Duration(milliseconds: 300), curve: Curves.ease);
+        duration: const Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   @override
@@ -52,9 +51,9 @@ class _RealHomeState extends State<RealHome> {
                       setSelectedIndex: setSelectedIndex,
                     ),
                     // NotificationSubPage(),
-                    ContactSubPage(),
-                    AccountSubPage(),
-                    AboutSubPage(),
+                    const ContactSubPage(),
+                    const AccountSubPage(),
+                    const AboutSubPage(),
                   ],
                 ),
           bottomNavigationBar: BottomNavyBar(
@@ -65,29 +64,29 @@ class _RealHomeState extends State<RealHome> {
             }),
             items: [
               BottomNavyBarItem(
-                icon: Icon(Icons.home_rounded),
-                title: Text('Home'),
+                icon: const Icon(Icons.home_rounded),
+                title: const Text('Home'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.redAccent,
                 inactiveColor: Theme.of(context).accentColor,
               ),
               BottomNavyBarItem(
-                icon: Icon(Icons.contacts_rounded),
-                title: Text('Contacts'),
+                icon: const Icon(Icons.contacts_rounded),
+                title: const Text('Contacts'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.brown,
                 inactiveColor: Theme.of(context).accentColor,
               ),
               BottomNavyBarItem(
-                icon: Icon(Icons.manage_accounts_rounded),
-                title: Text('Account'),
+                icon: const Icon(Icons.manage_accounts_rounded),
+                title: const Text('Account'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.purpleAccent,
                 inactiveColor: Theme.of(context).accentColor,
               ),
               BottomNavyBarItem(
-                icon: Icon(Icons.info_rounded),
-                title: Text('About'),
+                icon: const Icon(Icons.info_rounded),
+                title: const Text('About'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.teal,
                 inactiveColor: Theme.of(context).accentColor,

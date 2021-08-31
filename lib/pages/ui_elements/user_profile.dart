@@ -1,7 +1,7 @@
+import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({
@@ -11,13 +11,10 @@ class UserProfile extends StatelessWidget {
 
   final AppUser e;
 
-  void launchURL(url) async =>
-      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
-
   @override
   Widget build(BuildContext context) {
-    String emailAddress = 'mailto:' + e.email;
-    String phoneNumber = 'tel:' + e.phone;
+    final String emailAddress = 'mailto:${e.email}';
+    final String phoneNumber = 'tel:${e.phone}';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,35 +43,29 @@ class UserProfile extends StatelessWidget {
         Row(
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(30, 0, 0, 0),
+              margin: const EdgeInsets.fromLTRB(30, 0, 0, 0),
               width: MediaQuery.of(context).size.width / 4,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Name:',
-                    style: TextStyle(),
                   ),
-                  if (e.premium) Text(''),
-                  Text(
+                  if (e.premium) const Text(''),
+                  const Text(
                     'Cadet No:',
-                    style: TextStyle(),
                   ),
-                  Text(
+                  const Text(
                     'College:',
-                    style: TextStyle(),
                   ),
-                  Text(
+                  const Text(
                     'Profession:',
-                    style: TextStyle(),
                   ),
-                  Text(
+                  const Text(
                     'Designation:',
-                    style: TextStyle(),
                   ),
-                  Text(
+                  const Text(
                     'District:',
-                    style: TextStyle(),
                   ),
                 ],
               ),
@@ -88,17 +79,17 @@ class UserProfile extends StatelessWidget {
                     Text(
                       e.fullName,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     if (e.celeb)
-                      Icon(
+                      const Icon(
                         Icons.verified,
                         size: 15,
                         color: Colors.green,
                       ),
                     if (e.verified != 'yes')
-                      Icon(
+                      const Icon(
                         Icons.info_rounded,
                         size: 15,
                         color: Colors.redAccent,
@@ -106,7 +97,7 @@ class UserProfile extends StatelessWidget {
                   ],
                 ),
                 if (e.premium)
-                  Text(
+                  const Text(
                     'Premium User',
                     style: TextStyle(
                       color: Colors.deepOrange,
@@ -116,7 +107,7 @@ class UserProfile extends StatelessWidget {
                   e.cNumber.toString(),
                 ),
                 Text(
-                  e.college + ' (' + e.intake.toString() + ') ',
+                  '${e.college} (${e.intake}) ',
                 ),
                 Text(
                   e.profession != '' ? e.profession : '-',
@@ -131,7 +122,7 @@ class UserProfile extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 10.0,
         ),
         Row(
@@ -142,14 +133,14 @@ class UserProfile extends StatelessWidget {
                 onPressed: () {
                   launchURL('https://fb.com/${e.fbUrl}');
                 },
-                icon: Icon(Icons.facebook),
-                label: Text('Facebook'),
+                icon: const Icon(Icons.facebook),
+                label: const Text('Facebook'),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.blue[600]),
                 ),
               ),
             if (e.instaUrl != '' && e.fbUrl != '')
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
             if (e.instaUrl != '')
@@ -157,8 +148,8 @@ class UserProfile extends StatelessWidget {
                 onPressed: () {
                   launchURL('https://instagr.am/${e.instaUrl}');
                 },
-                icon: Icon(FontAwesomeIcons.instagram),
-                label: Text('Instagram'),
+                icon: const Icon(FontAwesomeIcons.instagram),
+                label: const Text('Instagram'),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.red),
                 ),
@@ -166,7 +157,7 @@ class UserProfile extends StatelessWidget {
           ],
         ),
         Container(
-          margin: EdgeInsets.fromLTRB(20, 0, 0, 0),
+          margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -174,16 +165,16 @@ class UserProfile extends StatelessWidget {
                 onPressed: () {
                   launchURL(emailAddress);
                 },
-                icon: Icon(Icons.alternate_email),
+                icon: const Icon(Icons.alternate_email),
                 label: Text(e.email),
               ),
-              if (!e.pPhone) Text('Phone number is private'),
+              if (!e.pPhone) const Text('Phone number is private'),
               if (e.pPhone)
                 TextButton.icon(
                   onPressed: () {
                     launchURL(phoneNumber);
                   },
-                  icon: Icon(Icons.phone),
+                  icon: const Icon(Icons.phone),
                   label: Text(e.phone),
                 ),
             ],

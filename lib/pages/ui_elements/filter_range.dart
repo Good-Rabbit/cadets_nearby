@@ -7,7 +7,7 @@ class FilterRange extends StatefulWidget {
     required this.max,
     required this.min,
     required this.onChanged,
-    this.divisions: 5,
+    this.divisions= 5,
   }) : super(key: key);
   final RangeValues range;
   final double min;
@@ -21,7 +21,7 @@ class FilterRange extends StatefulWidget {
 
 class _FilterRangeState extends State<FilterRange> {
   bool once = true;
-  RangeValues range = RangeValues(0, 5);
+  RangeValues range = const RangeValues(0, 5);
   @override
   Widget build(BuildContext context) {
     if (once) {
@@ -49,12 +49,12 @@ class _FilterRangeState extends State<FilterRange> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Min: ' + range.start.ceil().toString(),
-                style: TextStyle(),
+                'Min: ${range.start.ceil()}',
+                
               ),
               Text(
-                'Max: ' + range.end.ceil().toString(),
-                style: TextStyle(),
+                'Max: ${range.end.ceil()}',
+                
               ),
             ],
           ),

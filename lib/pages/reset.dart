@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/pages/home_setter.dart';
 
 class ResetPage extends StatefulWidget {
   const ResetPage({Key? key}) : super(key: key);
@@ -18,10 +18,8 @@ class _ResetPageState extends State<ResetPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
             child: Text(
               'Reset password',
@@ -31,7 +29,7 @@ class _ResetPageState extends State<ResetPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(30, 10, 30, 40),
+            padding: const EdgeInsets.fromLTRB(30, 10, 30, 40),
             child: Text(
               'An e-mail with the password reset link will be sent to you. Please follow the instructions given in the e-mail to reset your password',
               maxLines: 5,
@@ -48,7 +46,6 @@ class _ResetPageState extends State<ResetPage> {
                   padding: const EdgeInsets.all(10.0),
                   child: TextFormField(
                     controller: emailTextController,
-                    obscureText: false,
                     cursorColor: Colors.grey[800],
                     // onChanged: (val) {
                     //   if (userDisabled || userNotFound || invalidEmail) {
@@ -58,17 +55,16 @@ class _ResetPageState extends State<ResetPage> {
                     //     checkChanged();
                     //   }
                     // },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'E-mail',
-                      hintStyle: TextStyle(),
                       prefixIcon: Padding(
-                        padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                         child: Icon(
                           Icons.person,
                         ),
                       ),
                     ),
-                    style: TextStyle(),
+
                     keyboardType: TextInputType.emailAddress,
                     validator: (val) {
                       if (val!.isEmpty) {
@@ -89,8 +85,8 @@ class _ResetPageState extends State<ResetPage> {
                           val.endsWith('.')) {
                         return 'Please provide a valid E-mail';
                       }
-                      var temp = val;
-                      List a = temp.split('@');
+                      final temp = val;
+                      final List a = temp.split('@');
                       if (a.length > 2) return 'Please provide a valid E-mail';
                       return null;
                     },
@@ -103,8 +99,8 @@ class _ResetPageState extends State<ResetPage> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      label: Text('Cancel'),
-                      icon: Icon(
+                      label: const Text('Cancel'),
+                      icon: const Icon(
                         Icons.arrow_left_rounded,
                         size: 20,
                       ),
@@ -120,15 +116,15 @@ class _ResetPageState extends State<ResetPage> {
                                 email: emailTextController.text)
                             .then((value) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('Reset E-mail sent'),
                             ),
                           );
                           Navigator.pop(context);
                         });
                       },
-                      icon: Icon(Icons.login),
-                      label: Text('Send E-mail'),
+                      icon: const Icon(Icons.login),
+                      label: const Text('Send E-mail'),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
                             Theme.of(context).primaryColor),
@@ -144,7 +140,7 @@ class _ResetPageState extends State<ResetPage> {
     );
   }
 
-  checkChanged() {
+  void checkChanged() {
     formKey.currentState!.validate();
   }
 }

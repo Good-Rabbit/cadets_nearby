@@ -1,4 +1,4 @@
-import 'package:cadets_nearby/pages/uiElements/verificationSteps.dart';
+import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
 import 'package:flutter/material.dart';
 
 class VerificationPage extends StatelessWidget {
@@ -10,7 +10,7 @@ class VerificationPage extends StatelessWidget {
       backgroundColor: Colors.orange[50],
       body: SafeArea(
           child: ListView(
-        children: [
+        children: const [
           SizedBox(
             height: 30,
           ),

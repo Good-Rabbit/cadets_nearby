@@ -53,14 +53,14 @@ class AppUser {
     required this.treatCount,
     required this.sector,
     required this.district,
-    this.photoUrl: '',
-    this.lat: 0,
-    this.long: 0,
-    this.phone: '',
-    this.pAlways: false,
-    this.pMaps: false,
+    this.photoUrl = '',
+    this.lat = 0,
+    this.long = 0,
+    this.phone = '',
+    this.pAlways = false,
+    this.pMaps = false,
   });
 
-  bool equals(AppUser user) => (user.id == this.id);
-  bool notEquals(AppUser user) => (user.id != this.id);
+  bool equals(AppUser user) => user.id == id;
+  bool notEquals(AppUser user) => user.id != id;
 }

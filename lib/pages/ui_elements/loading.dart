@@ -7,13 +7,12 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 3 / 5,
       child: Center(
         child: SpinKitFadingCube(
           color: Theme.of(context).accentColor,
-          duration: Duration(seconds: 1),
-          size: 50.0,
+          duration: const Duration(seconds: 1),
         ),
       ),
     );

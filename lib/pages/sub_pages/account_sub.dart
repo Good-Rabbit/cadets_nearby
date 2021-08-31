@@ -1,14 +1,16 @@
-import 'package:cadets_nearby/pages/homeSetter.dart';
-import 'package:cadets_nearby/pages/uiElements/verificationSteps.dart';
+import 'dart:developer';
+
+import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cadets_nearby/data/appData.dart';
+import 'package:cadets_nearby/data/app_data.dart';
 
 class AccountSubPage extends StatefulWidget {
-  AccountSubPage({Key? key}) : super(key: key);
+  const AccountSubPage({Key? key}) : super(key: key);
 
   @override
   _AccountSubPageState createState() => _AccountSubPageState();
@@ -67,7 +69,7 @@ class _AccountSubPageState extends State<AccountSubPage>
     return RefreshIndicator(
       onRefresh: () async {
         setState(() {});
-        return null;
+        return;
       },
       child: Form(
         key: formKey,
@@ -79,7 +81,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 40,
                     ),
                     Padding(
@@ -90,12 +92,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                           borderRadius: BorderRadius.circular(50),
                           child: Stack(
                             children: [
-                              HomeSetterPage.mainUser!.photoUrl == ''
-                                  ? Image.asset(
+                              if (HomeSetterPage.mainUser!.photoUrl == '') Image.asset(
                                       'assets/images/user.png',
                                       fit: BoxFit.cover,
-                                    )
-                                  : Image.network(
+                                    ) else Image.network(
                                       HomeSetterPage.mainUser!.photoUrl,
                                       width: 80,
                                       height: 80,
@@ -111,7 +111,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                       Navigator.of(context)
                                           .pushNamed('/dpchange');
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.edit,
                                     ),
                                   ),
@@ -145,16 +145,16 @@ class _AccountSubPageState extends State<AccountSubPage>
                     children: [
                       Text(
                         HomeSetterPage.mainUser!.fullName,
-                        style: TextStyle(fontSize: 20.0),
+                        style: const TextStyle(fontSize: 20.0),
                       ),
                       if (HomeSetterPage.mainUser!.verified != 'yes')
-                        Icon(
+                        const Icon(
                           Icons.info_rounded,
                           size: 20,
                           color: Colors.redAccent,
                         ),
                       if (HomeSetterPage.mainUser!.celeb)
-                        Icon(
+                        const Icon(
                           Icons.verified,
                           size: 20,
                           color: Colors.green,
@@ -163,7 +163,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                   ),
                 ),
                 if (HomeSetterPage.mainUser!.premium)
-                  Center(
+                  const Center(
                     child: Text(
                       'Premium User',
                       style: TextStyle(color: Colors.deepOrange),
@@ -176,14 +176,14 @@ class _AccountSubPageState extends State<AccountSubPage>
                     children: [
                       Text(
                         HomeSetterPage.mainUser!.cName,
-                        style: TextStyle(fontSize: 17.0),
+                        style: const TextStyle(fontSize: 17.0),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 5,
                       ),
                       Text(
                         HomeSetterPage.mainUser!.cNumber.toString(),
-                        style: TextStyle(fontSize: 15.0),
+                        style: const TextStyle(fontSize: 15.0),
                       ),
                     ],
                   ),
@@ -218,7 +218,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                               decoration: BoxDecoration(
                                                 color: Colors.orange[50],
                                                 borderRadius:
-                                                    BorderRadius.vertical(
+                                                    const BorderRadius.vertical(
                                                   top: Radius.circular(15.0),
                                                 ),
                                               ),
@@ -227,7 +227,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                                       15, 10, 10, 10),
                                               child: ListView(
                                                 controller: controller,
-                                                children: [
+                                                children:const  [
                                                   VerificationSteps(),
                                                 ],
                                               ),
@@ -237,7 +237,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                       );
                                     });
                               },
-                        icon: Icon(Icons.verified_user),
+                        icon: const Icon(Icons.verified_user),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                               (!HomeSetterPage
@@ -256,17 +256,17 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: TextFormField(
                           controller: fullNameTextController,
                           enabled: editingEnabled,
                           cursorColor: Colors.grey[800],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Full Name*',
-                            hintStyle: TextStyle(),
+                            
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.account_box_rounded),
                             ),
                           ),
@@ -277,8 +277,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (fullNameTextController.text !=
-                                  HomeSetterPage.mainUser!.fullName)
+                                  HomeSetterPage.mainUser!.fullName){
                                 hasChanged = true;
+
+                                  }
                             });
                           },
                           validator: (val) {
@@ -292,17 +294,17 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: TextFormField(
                           controller: cNameTextController,
                           enabled: editingEnabled,
                           cursorColor: Colors.grey[800],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Cadet Name* -e.g. Rashid',
-                            hintStyle: TextStyle(),
+                            
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding:  EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.perm_identity_rounded),
                             ),
                           ),
@@ -313,8 +315,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (cNameTextController.text !=
-                                  HomeSetterPage.mainUser!.cName)
+                                  HomeSetterPage.mainUser!.cName){
                                 hasChanged = true;
+
+                                  }
                             });
                           },
                           validator: (val) {
@@ -328,17 +332,17 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: TextFormField(
                           controller: cNumberTextController,
                           enabled: editingEnabled,
                           cursorColor: Colors.grey[800],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Cadet Number*',
-                            hintStyle: TextStyle(),
+                            
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.book),
                             ),
                           ),
@@ -349,8 +353,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (cNumberTextController.text !=
-                                  HomeSetterPage.mainUser!.cNumber.toString())
+                                  HomeSetterPage.mainUser!.cNumber.toString()){
                                 hasChanged = true;
+
+                                  }
                             });
                           },
                           validator: (val) {
@@ -364,12 +370,12 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: DropdownButtonFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
                                 Icons.house,
                               ),
@@ -383,8 +389,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   setState(() {
                                     college = value! as String;
                                     if (college !=
-                                        HomeSetterPage.mainUser!.college)
+                                        HomeSetterPage.mainUser!.college){
                                       hasChanged = true;
+
+                                        }
                                   });
                                 },
                           items: colleges.map((String value) {
@@ -404,17 +412,17 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: TextFormField(
                           controller: intakeTextController,
                           enabled: editingEnabled,
                           cursorColor: Colors.grey[800],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Intake Year*',
-                            hintStyle: TextStyle(),
+                            
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.date_range),
                             ),
                           ),
@@ -425,8 +433,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (intakeTextController.text !=
-                                  HomeSetterPage.mainUser!.intake.toString())
+                                  HomeSetterPage.mainUser!.intake.toString()){
                                 hasChanged = true;
+
+                                  }
                             });
                           },
                           validator: (val) {
@@ -440,13 +450,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: DropdownButtonFormField(
-                          hint: Text('Profession'),
-                          decoration: InputDecoration(
+                          hint: const Text('Profession'),
+                          decoration: const InputDecoration(
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
                                 Icons.work,
                               ),
@@ -472,16 +482,16 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: TextFormField(
                           enabled: editingEnabled,
                           controller: designationTextController,
                           cursorColor: Colors.grey[800],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Designation at institude',
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.location_city),
                             ),
                           ),
@@ -494,13 +504,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: DropdownButtonFormField(
-                          hint: Text('Work district'),
-                          decoration: InputDecoration(
+                          hint: const Text('Work district'),
+                          decoration: const InputDecoration(
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
                                 Icons.location_pin,
                               ),
@@ -524,8 +534,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0),
                       child: Text(
                         'Contact Info',
                         style: TextStyle(
@@ -535,18 +545,18 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: TextFormField(
                           controller: emailTextController,
                           enabled: !useRegularEmail && editingEnabled,
                           cursorColor: Colors.grey[800],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Contact E-mail*',
-                            hintStyle: TextStyle(),
+                            
                             prefixIcon: Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                     EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.alternate_email,
                                 )),
@@ -558,8 +568,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (emailTextController.text !=
-                                  HomeSetterPage.mainUser!.email)
+                                  HomeSetterPage.mainUser!.email){
                                 hasChanged = true;
+
+                                  }
                             });
                           },
                           validator: (val) {
@@ -572,10 +584,12 @@ class _AccountSubPageState extends State<AccountSubPage>
                                 val.endsWith('.')) {
                               return 'Please provide a valid E-mail';
                             }
-                            var temp = val;
-                            List a = temp.split('@');
-                            if (a.length > 2)
+                            final temp = val;
+                            final List a = temp.split('@');
+                            if (a.length > 2){
                               return 'Please provide a valid E-mail';
+
+                            }
                             return null;
                           },
                         ),
@@ -586,7 +600,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                       child: CheckboxListTile(
                           value: useRegularEmail,
-                          title: Text(
+                          title: const Text(
                             'Use login e-mail',
                             maxLines: 2,
                           ),
@@ -605,14 +619,16 @@ class _AccountSubPageState extends State<AccountSubPage>
                                     }
                                     useRegularEmail = value;
                                     if (emailTextController.text !=
-                                        HomeSetterPage.mainUser!.email)
+                                        HomeSetterPage.mainUser!.email){
                                       hasChanged = true;
+
+                                        }
                                   });
                                 }),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: TextFormField(
                           controller: fbTextController,
@@ -620,7 +636,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'username e.g. "rashid.hr"',
-                            hintStyle: TextStyle(),
+                            
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
@@ -641,8 +657,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (instaTextController.text !=
-                                  HomeSetterPage.mainUser!.instaUrl)
+                                  HomeSetterPage.mainUser!.instaUrl){
                                 hasChanged = true;
+
+                                  }
                             });
                           },
                           style: TextStyle(
@@ -654,7 +672,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: TextFormField(
                           controller: instaTextController,
@@ -662,7 +680,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           cursorColor: Colors.grey[800],
                           decoration: InputDecoration(
                             hintText: 'username e.g. "harun.xt"',
-                            hintStyle: TextStyle(),
+                            
                             prefixIcon: Padding(
                               padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
@@ -685,8 +703,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (instaTextController.text !=
-                                  HomeSetterPage.mainUser!.instaUrl)
+                                  HomeSetterPage.mainUser!.instaUrl){
                                 hasChanged = true;
+
+                                  }
                             });
                           },
                           style: TextStyle(
@@ -698,17 +718,17 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: Container(
+                      child: SizedBox(
                         width: 500,
                         child: TextFormField(
                           controller: phoneTextController,
                           enabled: editingEnabled,
                           cursorColor: Colors.grey[800],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Phone',
-                            hintStyle: TextStyle(),
+                            
                             prefixIcon: Padding(
-                              padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.phone),
                             ),
                           ),
@@ -722,8 +742,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                             }
                             setState(() {
                               if (phoneTextController.text !=
-                                  HomeSetterPage.mainUser!.phone)
+                                  HomeSetterPage.mainUser!.phone){
                                 hasChanged = true;
+
+                                  }
                             });
                           },
                           validator: (val) {
@@ -737,7 +759,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                       width: 500,
                       child: CheckboxListTile(
                           value: phoneAccess,
-                          title: Text('Make phone number public'),
+                          title: const Text('Make phone number public'),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
                           activeColor: Colors.black,
@@ -748,8 +770,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   setState(() {
                                     phoneAccess = value!;
                                     if (phoneAccess !=
-                                        HomeSetterPage.mainUser!.pPhone)
+                                        HomeSetterPage.mainUser!.pPhone){
                                       hasChanged = true;
+
+                                        }
                                   });
                                 }),
                     ),
@@ -758,7 +782,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                       padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                       child: CheckboxListTile(
                           value: !locationAccess,
-                          title: Text(
+                          title: const Text(
                             'Hide my exact location (Still show me in nearby result)',
                             maxLines: 2,
                           ),
@@ -771,8 +795,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   setState(() {
                                     locationAccess = !value!;
                                     if (locationAccess !=
-                                        HomeSetterPage.mainUser!.pLocation)
+                                        HomeSetterPage.mainUser!.pLocation){
                                       hasChanged = true;
+
+                                        }
                                   });
                                 }),
                     ),
@@ -780,7 +806,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                 ),
                 Container(
                   width: 500,
-                  margin: EdgeInsets.fromLTRB(100, 20, 100, 0),
+                  margin: const EdgeInsets.fromLTRB(100, 20, 100, 0),
                   child: ElevatedButton.icon(
                     onPressed: !(editingEnabled && hasChanged && !inProgress)
                         ? null
@@ -795,14 +821,15 @@ class _AccountSubPageState extends State<AccountSubPage>
                               cName = first + cName.substring(1);
 
                               String fullName = '';
-                              var parts =
+                              final parts =
                                   fullNameTextController.text.split(' ');
-                              for (var each in parts) {
+                              final StringBuffer fname = StringBuffer();
+                              for (final each in parts) {
                                 first = each[0];
                                 first = first.toUpperCase();
-                                fullName += first + each.substring(1) + ' ';
+                                fname.write('$first${each.substring(1)} ');
                               }
-                              fullName = fullName.trim();
+                              fullName = fname.toString().trim();
                               try {
                                 await HomeSetterPage.auth.currentUser!
                                     .updateDisplayName('Saim Ul Islam');
@@ -858,15 +885,16 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   sector: HomeSetterPage.mainUser!.sector,
                                   district: district,
                                 );
+                                // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text(
                                       'Account settings updated',
                                     ),
                                   ),
                                 );
                               } catch (e) {
-                                print(e);
+                                log(e.toString());
                               }
                               setState(() {
                                 hasChanged = false;
@@ -879,26 +907,26 @@ class _AccountSubPageState extends State<AccountSubPage>
                               });
                             }
                           },
-                    icon: Icon(Icons.save),
-                    label: Text('Save Changes'),
+                    icon: const Icon(Icons.save),
+                    label: const Text('Save Changes'),
                   ),
                 ),
                 Container(
                   width: 500,
-                  margin: EdgeInsets.fromLTRB(100, 15, 100, 15),
+                  margin: const EdgeInsets.fromLTRB(100, 15, 100, 15),
                   child: ElevatedButton(
-                    child: Text('Sign Out'),
                     onPressed: () async {
-                      GoogleSignIn googleSignIn = GoogleSignIn();
+                      final GoogleSignIn googleSignIn = GoogleSignIn();
                       googleSignIn.signOut();
                       HomeSetterPage.auth.signOut();
-                      SharedPreferences prefs =
+                      final SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       prefs.clear();
                     },
+                    child: const Text('Sign Out'),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 120.0,
                 ),
               ],

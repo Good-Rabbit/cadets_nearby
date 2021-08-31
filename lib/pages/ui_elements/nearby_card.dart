@@ -1,4 +1,4 @@
-import 'package:cadets_nearby/pages/uiElements/userProfile.dart';
+import 'package:cadets_nearby/pages/ui_elements/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cadets_nearby/services/user.dart';
 
@@ -18,12 +18,12 @@ class NearbyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> dt = e.timeStamp.toString().split(' ');
-    List<String> dateTemp = dt[0].split('-');
-    String date = '${dateTemp[2]}/${dateTemp[1]}/${dateTemp[2]}';
-    List<String> t = dt[1].split(':');
-    String time = '${t[0]}:${t[1]}';
-    String lastUpdate = '  $time $date';
+    final List<String> dt = e.timeStamp.toString().split(' ');
+    final List<String> dateTemp = dt[0].split('-');
+    final String date = '${dateTemp[2]}/${dateTemp[1]}/${dateTemp[2]}';
+    final List<String> t = dt[1].split(':');
+    final String time = '${t[0]}:${t[1]}';
+    final String lastUpdate = '  $time $date';
     return InkWell(
       onTap: () {
         showModalBottomSheet(
@@ -43,7 +43,7 @@ class NearbyCard extends StatelessWidget {
                     builder: (_, controller) => Container(
                       decoration: BoxDecoration(
                         color: Colors.orange[50],
-                        borderRadius: BorderRadius.vertical(
+                        borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(15.0),
                         ),
                       ),
@@ -83,24 +83,21 @@ class NearbyCard extends StatelessWidget {
               ),
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
                           e.cName,
                         ),
                         if (e.celeb)
-                          Icon(
+                          const Icon(
                             Icons.verified,
                             size: 15,
                             color: Colors.green,
                           ),
                         if (e.verified != 'yes')
-                          Icon(
+                          const Icon(
                             Icons.info_rounded,
                             size: 15,
                             color: Colors.redAccent,
@@ -108,7 +105,7 @@ class NearbyCard extends StatelessWidget {
                       ],
                     ),
                     if (e.premium)
-                      Text(
+                      const Text(
                         'Premium User',
                         style: TextStyle(
                           color: Colors.deepOrange,
@@ -120,11 +117,11 @@ class NearbyCard extends StatelessWidget {
                             (isKm ? 'km' : 'm'),
                       ),
                     if (!e.pLocation)
-                      Icon(
+                      const Icon(
                         Icons.visibility_off_rounded,
                         size: 17,
                       ),
-                    Text('Last update: ' + lastUpdate),
+                    Text('Last update: $lastUpdate'),
                   ],
                 ),
               ),

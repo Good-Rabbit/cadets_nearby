@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cadets_nearby/data/data.dart';
 import 'package:http/http.dart' as http;
-import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -20,7 +21,7 @@ class _DpPageState extends State<DpPage> {
   String? stringImage;
   String? filename;
 
-  getImage(source) async {
+  Future<void> getImage(ImageSource source) async {
     image = await picker
         .pickImage(
       source: source,
@@ -37,8 +38,8 @@ class _DpPageState extends State<DpPage> {
     setState(() {});
   }
 
-  uploadImage() async {
-    Uri uri = Uri.parse(siteAddress + '/uploadDp.php');
+  Future<void> uploadImage() async {
+    final Uri uri = Uri.parse('$siteAddress/uploadDp.php');
     http.post(
       uri,
       body: {
@@ -48,8 +49,8 @@ class _DpPageState extends State<DpPage> {
     ).then((value) {
       //Delete previous if manual
       if (HomeSetterPage.mainUser!.manualDp) {
-        Uri uri = Uri.parse(siteAddress + '/deleteDp.php');
-        String delFilename = HomeSetterPage.mainUser!.photoUrl.split('/').last;
+        final Uri uri = Uri.parse('$siteAddress/deleteDp.php');
+        final String delFilename = HomeSetterPage.mainUser!.photoUrl.split('/').last;
         http.post(
           uri,
           body: {
@@ -59,29 +60,27 @@ class _DpPageState extends State<DpPage> {
       }
       //Update locally
       if (value.statusCode == 200) {
-        print(value.body);
         HomeSetterPage.store
             .collection('users')
             .doc(HomeSetterPage.mainUser!.id)
             .update({
-          'photourl': siteAddress + '/DPs/' + filename!,
+          'photourl': '$siteAddress/DPs/${filename!}',
           'manualdp': true,
         });
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Updated Successfully')));
-        HomeSetterPage.mainUser!.photoUrl = siteAddress + '/DPs/' + filename!;
+            .showSnackBar(const SnackBar(content: Text('Updated Successfully')));
+        HomeSetterPage.mainUser!.photoUrl = '$siteAddress/DPs/${filename!}';
         HomeSetterPage.mainUser!.manualDp = true;
         Navigator.of(context).pop();
       } else {
-        print(value.body);
       }
     }).catchError((e) {
-      print(e);
+      log(e.toString());
     });
   }
 
-  deleteImage() async {
-    Uri uri = Uri.parse(siteAddress + '/deleteDp.php');
+  Future<void> deleteImage() async {
+    final Uri uri = Uri.parse('$siteAddress/deleteDp.php');
     filename = HomeSetterPage.mainUser!.photoUrl.split('/').last;
     http.post(
       uri,
@@ -91,7 +90,6 @@ class _DpPageState extends State<DpPage> {
     ).then((value) {
       //Do something
       if (value.statusCode == 200) {
-        print(value.body);
         HomeSetterPage.store
             .collection('users')
             .doc(HomeSetterPage.mainUser!.id)
@@ -100,15 +98,13 @@ class _DpPageState extends State<DpPage> {
           'manualdp': false,
         });
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Deleted Successfully')));
+            .showSnackBar(const SnackBar(content: Text('Deleted Successfully')));
         HomeSetterPage.mainUser!.photoUrl = '';
         HomeSetterPage.mainUser!.manualDp = false;
         Navigator.of(context).pop();
-      } else {
-        print(value.body);
       }
     }).catchError((e) {
-      print(e);
+      log(e.toString());
     });
   }
 
@@ -121,22 +117,21 @@ class _DpPageState extends State<DpPage> {
           child: ListView(
             children: [
               Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  Text(
+                  const Text(
                     'Change profile picture',
                     style: TextStyle(
                       fontSize: 25.0,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey,
                     ),
@@ -160,8 +155,8 @@ class _DpPageState extends State<DpPage> {
                                 )),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                     child: Text(
                       'Your profile picture is always visible to everyone. You cannot change that. But you can always delete your profile picture',
                       style: TextStyle(
@@ -169,14 +164,14 @@ class _DpPageState extends State<DpPage> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton.icon(
-                        icon: Icon(Icons.camera),
+                        icon: const Icon(Icons.camera),
                         onPressed: () {
                           getImage(ImageSource.camera);
                         },
@@ -184,10 +179,10 @@ class _DpPageState extends State<DpPage> {
                           backgroundColor:
                               MaterialStateProperty.all(Colors.blue),
                         ),
-                        label: Text('Take picture'),
+                        label: const Text('Take picture'),
                       ),
                       ElevatedButton.icon(
-                        icon: Icon(Icons.photo),
+                        icon: const Icon(Icons.photo),
                         onPressed: () {
                           getImage(ImageSource.gallery);
                         },
@@ -195,11 +190,11 @@ class _DpPageState extends State<DpPage> {
                           backgroundColor:
                               MaterialStateProperty.all(Colors.blue),
                         ),
-                        label: Text('Select picture'),
+                        label: const Text('Select picture'),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Row(
@@ -213,22 +208,22 @@ class _DpPageState extends State<DpPage> {
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        title: Text('Are you sure?'),
-                                        content: Text(
+                                        title: const Text('Are you sure?'),
+                                        content: const Text(
                                             'Your profile picture will be permanently deleted'),
                                         actions: [
                                           TextButton(
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
-                                            child: Text('No'),
+                                            child: const Text('No'),
                                           ),
                                           TextButton(
                                             onPressed: () {
                                               deleteImage();
                                               Navigator.of(context).pop();
                                             },
-                                            child: Text('Yes'),
+                                            child: const Text('Yes'),
                                           ),
                                         ],
                                       );
@@ -238,7 +233,7 @@ class _DpPageState extends State<DpPage> {
                           backgroundColor: MaterialStateProperty.all(
                               Theme.of(context).accentColor),
                         ),
-                        child: Text('Delete picture'),
+                        child: const Text('Delete picture'),
                       ),
                       ElevatedButton(
                         onPressed: image == null
@@ -246,7 +241,7 @@ class _DpPageState extends State<DpPage> {
                             : () async {
                                 uploadImage();
                               },
-                        child: Text('Upload picture'),
+                        child: const Text('Upload picture'),
                       ),
                     ],
                   ),
@@ -254,7 +249,7 @@ class _DpPageState extends State<DpPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: Text('Cancel'),
+                    child: const Text('Cancel'),
                   ),
                 ],
               ),

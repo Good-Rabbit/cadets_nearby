@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cadets_nearby/data/appData.dart';
+import 'package:cadets_nearby/data/app_data.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/pages/home_setter.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -42,10 +42,9 @@ class _LoginPageState extends State<LoginPage> {
           child: ListView(
             children: [
               Column(
-                mainAxisSize: MainAxisSize.max,
                 children: [
                   //Heading
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
                     child: Text(
                       'Welcome',
@@ -55,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 40),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
                     child: Text(
                       'to $appName',
                       style: TextStyle(
@@ -66,13 +65,12 @@ class _LoginPageState extends State<LoginPage> {
                   //TextFields
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                    child: Container(
+                    child: SizedBox(
                       width: 500,
                       child: Column(
                         children: [
                           TextFormField(
                             controller: emailTextController,
-                            obscureText: false,
                             cursorColor: Colors.grey[800],
                             onChanged: (val) {
                               if (userDisabled ||
@@ -84,18 +82,15 @@ class _LoginPageState extends State<LoginPage> {
                                 checkChanged();
                               }
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'E-mail',
-                              hintStyle: TextStyle(),
                               prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.person,
                                 ),
                               ),
                             ),
-                            style: TextStyle(),
                             keyboardType: TextInputType.emailAddress,
                             validator: (val) {
                               if (val!.isEmpty) {
@@ -116,14 +111,15 @@ class _LoginPageState extends State<LoginPage> {
                                   val.endsWith('.')) {
                                 return 'Please provide a valid E-mail';
                               }
-                              var temp = val;
-                              List a = temp.split('@');
-                              if (a.length > 2)
+                              final temp = val;
+                              final List a = temp.split('@');
+                              if (a.length > 2) {
                                 return 'Please provide a valid E-mail';
+                              }
                               return null;
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20.0,
                           ),
                           TextFormField(
@@ -138,10 +134,8 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             decoration: InputDecoration(
                               hintText: 'Password',
-                              hintStyle: TextStyle(),
-                              prefixIcon: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              prefixIcon: const Padding(
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.fence_rounded,
                                 ),
@@ -155,12 +149,11 @@ class _LoginPageState extends State<LoginPage> {
                                   passwordVisibility
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
-                                  color: Color(0xFF757575),
+                                  color: const Color(0xFF757575),
                                   size: 22,
                                 ),
                               ),
                             ),
-                            style: TextStyle(),
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (wrongPassword) {
@@ -181,17 +174,16 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   //Normal Buttons
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Row(
-                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton.icon(
                           onPressed: () async {
                             await Navigator.pushNamed(context, '/signup');
                           },
-                          label: Text('Register'),
-                          icon: Icon(
+                          label: const Text('Register'),
+                          icon: const Icon(
                             Icons.how_to_reg,
                             size: 20,
                           ),
@@ -200,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Theme.of(context).accentColor),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20.0,
                         ),
                         ElevatedButton.icon(
@@ -242,8 +234,8 @@ class _LoginPageState extends State<LoginPage> {
                                     }
                                   }
                                 },
-                          label: Text('Login'),
-                          icon: Icon(
+                          label: const Text('Login'),
+                          icon: const Icon(
                             Icons.login,
                             size: 20,
                           ),
@@ -252,39 +244,39 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: TextButton(
-                      child: Text('Forgot password?'),
                       onPressed: () {
                         Navigator.of(context).pushNamed('/reset');
                       },
+                      child: const Text('Forgot password?'),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Container(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: SizedBox(
                       width: 220,
                       height: 40,
                       child: ElevatedButton(
                         onPressed: () {
                           signInWithGoogle();
                         },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              const Color(0xFF1F1F1F)),
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
-                              margin: EdgeInsets.all(5.0),
+                              margin: const EdgeInsets.all(5.0),
                               width: 25.0,
                               height: 25.0,
                               child: Image.asset('assets/images/google.png',
                                   fit: BoxFit.contain),
                             ),
-                            Text('Sign in with Google'),
+                            const Text('Sign in with Google'),
                           ],
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xFF1F1F1F)),
                         ),
                       ),
                     ),
@@ -313,10 +305,10 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     // Once signed in, return the UserCredential
-    return await HomeSetterPage.auth.signInWithCredential(credential);
+    return HomeSetterPage.auth.signInWithCredential(credential);
   }
 
-  checkChanged() {
+  void checkChanged() {
     formKey.currentState!.validate();
   }
 }

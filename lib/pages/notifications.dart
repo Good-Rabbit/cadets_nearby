@@ -1,11 +1,10 @@
-import 'package:cadets_nearby/pages/subPages/homeSub.dart';
+
+import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:cadets_nearby/main.dart';
-import 'package:cadets_nearby/services/notification.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class NotificationPage extends StatefulWidget {
-  NotificationPage({Key? key}) : super(key: key);
+  const NotificationPage({Key? key}) : super(key: key);
 
   @override
   _NotificationPageState createState() => _NotificationPageState();
@@ -13,43 +12,10 @@ class NotificationPage extends StatefulWidget {
 
 class _NotificationPageState extends State<NotificationPage>
     with AutomaticKeepAliveClientMixin {
-  Future<void> markRead(String notification) async {
-    List<String> nrl = notification.split('~');
-    String nr = '${nrl[0]}~${nrl[1]}~r~${nrl[3]}';
-    notifications[notifications.indexOf(notification)] = nr;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('notifications', notifications);
-  }
-
-  bool justNow = false;
-  getNotifications() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.reload();
-    var temp = notifications;
-    notifications = prefs.getStringList('notifications') ?? [];
-    if (temp != notifications) {
-      setState(() {
-        justNow = true;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    if (!justNow) {
-      getNotifications();
-    } else {
-      justNow = false;
-    }
-
-    HomeSubPage.nots = notifications.map((e) {
-      return Noti(notificationString: e);
-    }).toList();
-
-    HomeSubPage.nots.sort((a, b) {
-      return b.timeStamp.compareTo(a.timeStamp);
-    });
 
     return RefreshIndicator(
       onRefresh: () async {
@@ -60,29 +26,26 @@ class _NotificationPageState extends State<NotificationPage>
         backgroundColor: Theme.of(context).backgroundColor,
         body: Center(
           child: SafeArea(
-            child: notifications.length != 0
+            child: context.watch<GlobalNotifications>().allNotification.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
                     child: ListView(
-                      children: HomeSubPage.nots.map((e) {
-                        List<String> dt = e.timeStamp.split(' ');
-                        List<String> dateTemp = dt[0].split('-');
-                        String date =
+                      children: Provider.of<GlobalNotifications>(context).allNotification.map((e) {
+                        final List<String> dt = e.timeStamp.split(' ');
+                        final List<String> dateTemp = dt[0].split('-');
+                        final String date =
                             '${dateTemp[2]}/${dateTemp[1]}/${dateTemp[2]}';
-                        List<String> t = dt[1].split(':');
-                        String time = '${t[0]}:${t[1]}';
+                        final List<String> t = dt[1].split(':');
+                        final String time = '${t[0]}:${t[1]}';
                         return InkWell(
                           onTap: () {
-                            setState(() {
-                              markRead(e.notificationString);
-                            });
+                            context.read<GlobalNotifications>().markNotificationAsRead(e.notificationString);
                           },
                           child: Card(
                             child: Padding(
                               padding:
                                   const EdgeInsets.fromLTRB(10, 15, 20, 15),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.all(10.0),
@@ -102,7 +65,7 @@ class _NotificationPageState extends State<NotificationPage>
                                       children: [
                                         Text(
                                           e.title,
-                                          style: TextStyle(fontSize: 17),
+                                          style: const TextStyle(fontSize: 17),
                                         ),
                                         Text(
                                           e.body,
@@ -116,7 +79,7 @@ class _NotificationPageState extends State<NotificationPage>
                                                   const EdgeInsets.fromLTRB(
                                                       0, 0, 10, 0),
                                               child: Text(
-                                                time + '  ' + date,
+                                                '$time  $date',
                                                 style: TextStyle(
                                                   color: Colors.grey[800],
                                                 ),

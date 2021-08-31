@@ -1,11 +1,11 @@
-import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CancelVerificationPage extends StatefulWidget {
-  CancelVerificationPage({Key? key}) : super(key: key);
+  const CancelVerificationPage({Key? key}) : super(key: key);
 
   @override
   _CancelVerificationPageState createState() => _CancelVerificationPageState();
@@ -39,10 +39,9 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
           child: ListView(
             children: [
               Column(
-                mainAxisSize: MainAxisSize.max,
                 children: [
                   //Heading
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
                     child: Text(
                       'Verify your password',
@@ -52,7 +51,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 40),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
                     child: Text(
                       'to delete your account',
                       style: TextStyle(
@@ -63,7 +62,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                   //TextFields
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                    child: Container(
+                    child: SizedBox(
                       width: 500,
                       child: Column(
                         children: [
@@ -79,10 +78,9 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                             },
                             decoration: InputDecoration(
                               hintText: 'Password',
-                              hintStyle: TextStyle(),
-                              prefixIcon: Padding(
+                              prefixIcon: const Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                    EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.fence_rounded,
                                 ),
@@ -96,12 +94,12 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                   passwordVisibility
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
-                                  color: Color(0xFF757575),
+                                  color: const Color(0xFF757575),
                                   size: 22,
                                 ),
                               ),
                             ),
-                            style: TextStyle(),
+
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (wrongPassword) {
@@ -122,17 +120,16 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                   ),
                   //Normal Buttons
                   Padding(
-                    padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
+                    padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
                     child: Row(
-                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton.icon(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          label: Text('Cancel'),
-                          icon: Icon(
+                          label: const Text('Cancel'),
+                          icon: const Icon(
                             Icons.arrow_left_rounded,
                             size: 20,
                           ),
@@ -149,7 +146,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                     inProgress = true;
                                   });
                                   if (formKey.currentState!.validate()) {
-                                    var credential =
+                                    final credential =
                                         EmailAuthProvider.credential(
                                       email: FirebaseAuth
                                           .instance.currentUser!.email!,
@@ -169,19 +166,21 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                       });
                                       return;
                                     }
-                                    HomeSetterPage.auth.currentUser!
+                                    await HomeSetterPage.auth.currentUser!
                                         .delete()
                                         .then((value) async {
-                                      SharedPreferences prefs =
+                                      final SharedPreferences prefs =
                                           await SharedPreferences.getInstance();
                                       prefs.clear();
+                                      // ignore: use_build_context_synchronously
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
-                                        SnackBar(
+                                        const SnackBar(
                                           content:
                                               Text('Account has been deleted'),
                                         ),
                                       );
+                                      // ignore: use_build_context_synchronously
                                       Navigator.of(context).pop();
                                     });
                                   }
@@ -189,8 +188,8 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                     inProgress = false;
                                   });
                                 },
-                          label: Text('Confirm'),
-                          icon: Icon(
+                          label: const Text('Confirm'),
+                          icon: const Icon(
                             Icons.delete,
                             size: 20,
                           ),
@@ -211,7 +210,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                             await googleUser.authentication;
 
                         // Create a new credential
-                        var credential = GoogleAuthProvider.credential(
+                        final credential = GoogleAuthProvider.credential(
                           accessToken: googleAuth.accessToken,
                           idToken: googleAuth.idToken,
                         );
@@ -222,16 +221,18 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                         HomeSetterPage.auth.currentUser!
                             .delete()
                             .then((value) async {
-                          var googleSignIn = GoogleSignIn();
+                          final googleSignIn = GoogleSignIn();
                           googleSignIn.signOut();
-                          SharedPreferences prefs =
+                          final SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           prefs.clear();
+                          // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('Account has been deleted'),
                             ),
                           );
+                          // ignore: use_build_context_synchronously
                           Navigator.of(context).pop();
                           setState(() {
                             inProgress = false;
@@ -239,32 +240,32 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                           return;
                         });
                       },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(const Color(0xFF1F1F1F)),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            margin: EdgeInsets.all(5.0),
+                            margin: const EdgeInsets.all(5.0),
                             width: 25.0,
                             height: 25.0,
                             child: Image.asset('assets/images/google.png',
                                 fit: BoxFit.contain),
                           ),
-                          Text('Signed in with Google?'),
+                          const Text('Signed in with Google?'),
                         ],
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Color(0xFF1F1F1F)),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: TextButton(
-                      child: Text('Forgot password?'),
                       onPressed: () {
                         Navigator.of(context).pushNamed('/reset');
                       },
+                      child: const Text('Forgot password?'),
                     ),
                   ),
                 ],
@@ -276,7 +277,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
     );
   }
 
-  checkChanged() {
+  void checkChanged() {
     formKey.currentState!.validate();
   }
 }

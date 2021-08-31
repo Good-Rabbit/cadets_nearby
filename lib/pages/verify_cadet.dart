@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'package:cadets_nearby/data/data.dart';
-import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,7 +22,7 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
   String? stringImage;
   String? filename;
 
-  getImage(source) async {
+  Future<void> getImage(ImageSource source) async {
     image =
         await picker.pickImage(source: source, imageQuality: 30).then((value) {
       filename = File(value!.path).path.split('/').last;
@@ -31,8 +32,8 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
     setState(() {});
   }
 
-  uploadImage() async {
-    Uri uri = Uri.parse(siteAddress + '/uploadVp.php');
+  Future<void>uploadImage() async {
+    final Uri uri = Uri.parse('$siteAddress/uploadVp.php');
     http.post(
       uri,
       body: {
@@ -42,23 +43,20 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
     ).then((value) {
       //Update verification requests
       if (value.statusCode == 200) {
-        print(value.body);
         HomeSetterPage.store
             .collection('users')
             .doc(HomeSetterPage.mainUser!.id)
             .update({
-          'verifyurl': siteAddress + '/VPs/' + filename!,
+          'verifyurl': '$siteAddress/VPs/${filename!}',
           'verified': 'waiting',
         });
         HomeSetterPage.mainUser!.verified = 'waiting';
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Uploaded Successfully')));
+            .showSnackBar(const SnackBar(content: Text('Uploaded Successfully')));
         Navigator.of(context).pop();
-      } else {
-        print(value.body);
       }
     }).catchError((e) {
-      print(e);
+      log(e.toString());
     });
   }
 
@@ -74,12 +72,11 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
         body: SafeArea(
           child: Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
-                Hero(
+                const Hero(
                   tag: 'warningHero',
                   child: Icon(
                     Icons.warning_rounded,
@@ -87,14 +84,14 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                     color: Colors.red,
                   ),
                 ),
-                Text(
+                const Text(
                   'Document verification',
                   style: TextStyle(
                     fontSize: 20,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
+                const Padding(
+                  padding: EdgeInsets.all(30.0),
                   child: Text(
                     'Submit a document bearing proof that you are a present or an ex cadet. Please note that it might take some time to get verified, you can still use the app while waiting for verification.',
                     style: TextStyle(
@@ -113,14 +110,14 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                           File(image!.path),
                           fit: BoxFit.cover,
                         )
-                      : Center(
+                      : const Center(
                           child: Text(
                             'Select an image',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
@@ -133,8 +130,8 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
                       ),
-                      icon: Icon(Icons.photo),
-                      label: Text('Select photo'),
+                      icon: const Icon(Icons.photo),
+                      label: const Text('Select photo'),
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
@@ -143,8 +140,8 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.blue),
                       ),
-                      icon: Icon(Icons.camera),
-                      label: Text('Take photo'),
+                      icon: const Icon(Icons.camera),
+                      label: const Text('Take photo'),
                     ),
                   ],
                 ),
@@ -154,14 +151,14 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                       : () {
                           uploadImage();
                         },
-                  child: Text('Upload'),
+                  child: const Text('Upload'),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
                     warnUnverified(context);
                   },
-                  icon: Icon(Icons.arrow_left_rounded),
-                  label: Text('Later'),
+                  icon: const Icon(Icons.arrow_left_rounded),
+                  label: const Text('Later'),
                 ),
               ],
             ),
@@ -174,11 +171,11 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
   Future<dynamic> warnUnverified(BuildContext context) {
     return showDialog(
       context: context,
-      builder: (context) => Container(
+      builder: (context) => SizedBox(
         width: 500,
         child: AlertDialog(
-          title: Text('Are you sure'),
-          content: Text(
+          title: const Text('Are you sure'),
+          content: const Text(
             'Your account will be marked as unverified until you upload a valid document of proof.',
           ),
           actions: [
@@ -187,13 +184,13 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: Text('Yes'),
+              child: const Text('Yes'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('No'),
+              child: const Text('No'),
             ),
           ],
         ),

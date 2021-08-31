@@ -1,9 +1,9 @@
-import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class VerificationSteps extends StatefulWidget {
-  VerificationSteps({Key? key}) : super(key: key);
+  const VerificationSteps({Key? key}) : super(key: key);
 
   @override
   _VerificationStepsState createState() => _VerificationStepsState();
@@ -23,7 +23,7 @@ class _VerificationStepsState extends State<VerificationSteps> {
       padding: const EdgeInsets.all(30.0),
       child: Column(
         children: [
-          Hero(
+          const Hero(
             tag: 'warningHero',
             child: Icon(
               Icons.warning_rounded,
@@ -31,19 +31,19 @@ class _VerificationStepsState extends State<VerificationSteps> {
               color: Colors.red,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
-          Text(
+          const Text(
             'Get Verified',
             style: TextStyle(fontSize: 20),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           ElevatedButton.icon(
             onPressed: () {
               setState(() {
                 emailAlready = true;
-                Future.delayed(Duration(seconds: 2)).then((value) {
+                Future.delayed(const Duration(seconds: 2)).then((value) {
                   setState(() {
                     emailAlready = false;
                   });
@@ -53,25 +53,27 @@ class _VerificationStepsState extends State<VerificationSteps> {
             icon: Icon(
               emailV ? FontAwesomeIcons.check : FontAwesomeIcons.times,
             ),
-            label: Expanded(child: Text('E-mail verification')),
+            label: const Expanded(child: Text('E-mail verification')),
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.grey[800]),
             ),
           ),
           if (emailAlready)
-            Text(
+            const Text(
               'E-mail already verified',
               style: TextStyle(color: Colors.green),
             ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ElevatedButton.icon(
             onPressed: () {
-              if (emailV)
+              if (emailV){
                 Navigator.of(context).pushNamed('/verifycadet');
+
+              }
               else {
                 setState(() {
                   emailFirst = true;
-                  Future.delayed(Duration(seconds: 2)).then((value) {
+                  Future.delayed(const Duration(seconds: 2)).then((value) {
                     setState(() {
                       emailFirst = false;
                     });
@@ -85,10 +87,9 @@ class _VerificationStepsState extends State<VerificationSteps> {
             ),
             label: Expanded(
               child: Text(
-                'Cadet verification' +
-                    (HomeSetterPage.mainUser!.verified == 'waiting'
+                'Cadet verification${HomeSetterPage.mainUser!.verified == 'waiting'
                         ? ' - Waiting'
-                        : ''),
+                        : ''}',
               ),
             ),
             style: ButtonStyle(
@@ -96,17 +97,17 @@ class _VerificationStepsState extends State<VerificationSteps> {
             ),
           ),
           if (emailFirst)
-            Text(
+            const Text(
               'Please verify your e-mail first',
               style: TextStyle(color: Colors.red),
             ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton.icon(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            label: Text('Cancel'),
-            icon: Icon(
+            label: const Text('Cancel'),
+            icon: const Icon(
               Icons.arrow_left_rounded,
               size: 20,
             ),

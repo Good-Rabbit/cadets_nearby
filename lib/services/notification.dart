@@ -8,12 +8,12 @@ class Noti {
 
   Noti({
     required this.notificationString,
-    this.body: '',
-    this.isRead: false,
-    this.title: '',
-    this.timeStamp: '',
+    this.body= '',
+    this.isRead= false,
+    this.title= '',
+    this.timeStamp= '',
   }) {
-    List<String> e = notificationString.split('~');
+    final List<String> e = notificationString.split('~');
     title = e[0];
     body = e[1];
     isRead = e[2] != 'u';

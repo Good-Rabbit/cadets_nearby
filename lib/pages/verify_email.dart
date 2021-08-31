@@ -1,4 +1,4 @@
-import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -19,12 +19,12 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       onWillPop: () async {
         if (!exit) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Press back again to exit'),
             ),
           );
           exit = true;
-          Future.delayed(Duration(seconds: 2)).then((value) {
+          Future.delayed(const Duration(seconds: 2)).then((value) {
             exit = false;
           });
         } else {
@@ -39,24 +39,23 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         body: SafeArea(
           child: Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
-                Icon(
+                const Icon(
                   Icons.alternate_email_rounded,
                   size: 100,
                   color: Colors.red,
                 ),
-                Text(
+                const Text(
                   'E-mail verification',
                   style: TextStyle(
                     fontSize: 20,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 10, 15, 30),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(15, 10, 15, 30),
                   child: Text(
                     'A link has been sent to you by e-mail to this address. Click on the link to verify that this e-mail really belongs to you.',
                   ),
@@ -68,18 +67,18 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                           .sendEmailVerification()
                           .then((value) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('E-mail sent')));
+                            const SnackBar(content: Text('E-mail sent')));
                         setState(() {
                           disabled = true;
                         });
-                        Future.delayed(Duration(minutes: 1)).then((value) {
+                        Future.delayed(const Duration(minutes: 1)).then((value) {
                           setState(() {
                             disabled = false;
                           });
                         });
                       });
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text('Wait 1 minutes before trying again')));
                     }
                   },
@@ -87,22 +86,22 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                     backgroundColor: MaterialStateProperty.all(
                         disabled ? Colors.grey[800] : null),
                   ),
-                  icon: Icon(Icons.email_rounded),
-                  label: Text(
+                  icon: const Icon(Icons.email_rounded),
+                  label: const Text(
                     'Resend e-mail',
                   ),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    GoogleSignIn googleSignIn = GoogleSignIn();
+                    final GoogleSignIn googleSignIn = GoogleSignIn();
                     googleSignIn.signOut();
                     HomeSetterPage.auth.signOut();
                     Navigator.of(context).pop();
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.login,
                   ),
-                  label: Text('Verification complete'),
+                  label: const Text('Verification complete'),
                 ),
               ],
             ),

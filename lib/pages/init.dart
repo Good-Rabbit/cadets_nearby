@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class InitPage extends StatefulWidget {
-  InitPage({Key? key}) : super(key: key);
+  const InitPage({Key? key}) : super(key: key);
 
   @override
   _InitPageState createState() => _InitPageState();
@@ -10,7 +10,7 @@ class InitPage extends StatefulWidget {
 class _InitPageState extends State<InitPage> {
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 1))
+    Future.delayed(const Duration(seconds: 1))
         .then((value) => Navigator.of(context).pushReplacementNamed('/home'));
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,

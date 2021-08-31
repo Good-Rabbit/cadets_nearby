@@ -1,11 +1,11 @@
-import 'package:cadets_nearby/data/appData.dart';
-import 'package:cadets_nearby/pages/homeSetter.dart';
+import 'package:cadets_nearby/data/app_data.dart';
+import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SignupMainPage extends StatefulWidget {
-  SignupMainPage({Key? key}) : super(key: key);
+  const SignupMainPage({Key? key}) : super(key: key);
 
   @override
   _SignupMainPageState createState() => _SignupMainPageState();
@@ -46,9 +46,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
           child: ListView(
             children: [
               Column(
-                mainAxisSize: MainAxisSize.max,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
                     child: Text(
                       'Sign Up',
@@ -58,7 +57,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 40),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
                     child: Text(
                       'at $appName',
                       style: TextStyle(
@@ -68,26 +67,26 @@ class _SignupMainPageState extends State<SignupMainPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                    child: Container(
+                    child: SizedBox(
                       width: 500,
                       child: Column(
                         children: [
                           TextFormField(
                             controller: emailTextController,
-                            obscureText: false,
+                            
                             cursorColor: Colors.grey[800],
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'E-mail',
-                              hintStyle: TextStyle(),
+                              
                               prefixIcon: Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                    EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.person,
                                 ),
                               ),
                             ),
-                            style: TextStyle(),
+                            
                             keyboardType: TextInputType.emailAddress,
                             onChanged: (val) {
                               if (invalidEmail || emailInUse) {
@@ -112,14 +111,16 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                   val.endsWith('.')) {
                                 return 'Please provide a valid E-mail';
                               }
-                              var temp = val;
-                              List a = temp.split('@');
-                              if (a.length > 2)
+                              final temp = val;
+                              final List a = temp.split('@');
+                              if (a.length > 2){
                                 return 'Please provide a valid E-mail';
+
+                              }
                               return null;
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20.0,
                           ),
                           TextFormField(
@@ -134,10 +135,10 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             },
                             decoration: InputDecoration(
                               hintText: 'Password',
-                              hintStyle: TextStyle(),
-                              prefixIcon: Padding(
+                              
+                              prefixIcon: const Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                     EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.fence_rounded,
                                 ),
@@ -151,12 +152,12 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                   passwordVisibility
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
-                                  color: Color(0xFF757575),
+                                  color: const Color(0xFF757575),
                                   size: 22,
                                 ),
                               ),
                             ),
-                            style: TextStyle(),
+                            
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (weakPassword) {
@@ -171,7 +172,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                               return null;
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20.0,
                           ),
                           TextFormField(
@@ -180,10 +181,10 @@ class _SignupMainPageState extends State<SignupMainPage> {
                             cursorColor: Colors.grey[800],
                             decoration: InputDecoration(
                               hintText: 'Confirm Password',
-                              hintStyle: TextStyle(),
-                              prefixIcon: Padding(
+                              
+                              prefixIcon: const Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                     EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
                                   Icons.fence_rounded,
                                 ),
@@ -197,12 +198,12 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                   passwordVisibility
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
-                                  color: Color(0xFF757575),
+                                  color: const Color(0xFF757575),
                                   size: 22,
                                 ),
                               ),
                             ),
-                            style: TextStyle(),
+                            
                             keyboardType: TextInputType.visiblePassword,
                             validator: (val) {
                               if (val != passwordTextController.text) {
@@ -216,17 +217,16 @@ class _SignupMainPageState extends State<SignupMainPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Row(
-                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton.icon(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          label: Text('Login'),
-                          icon: Icon(
+                          label: const Text('Login'),
+                          icon: const Icon(
                             Icons.login,
                             size: 20,
                           ),
@@ -235,7 +235,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                 Theme.of(context).accentColor),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 20.0,
                         ),
                         ElevatedButton.icon(
@@ -258,7 +258,6 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                         Navigator.of(context).pop();
                                       });
                                     } on FirebaseAuthException catch (e) {
-                                      print(e);
                                       switch (e.code) {
                                         case 'email-already-in-use':
                                           emailInUse = true;
@@ -269,7 +268,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                         case 'operation-not-allowed':
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
-                                            SnackBar(
+                                            const SnackBar(
                                               content: Text('Please try again'),
                                             ),
                                           );
@@ -287,8 +286,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                     }
                                   }
                                 },
-                          label: Text('Register'),
-                          icon: Icon(
+                          label: const Text('Register'),
+                          icon: const Icon(
                             Icons.how_to_reg,
                             size: 20,
                           ),
@@ -297,30 +296,30 @@ class _SignupMainPageState extends State<SignupMainPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Container(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: SizedBox(
                       width: 220,
                       height: 40,
                       child: ElevatedButton(
                         onPressed: () {
                           signInWithGoogle();
                         },
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(const Color(0xFF1F1F1F)),
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
-                              margin: EdgeInsets.all(5.0),
+                              margin: const EdgeInsets.all(5.0),
                               width: 25.0,
                               height: 25.0,
                               child: Image.asset('assets/images/google.png',
                                   fit: BoxFit.contain),
                             ),
-                            Text('Sign in with Google'),
+                            const Text('Sign in with Google'),
                           ],
-                        ),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xFF1F1F1F)),
                         ),
                       ),
                     ),
@@ -349,7 +348,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
     );
 
     // Once signed in, return the UserCredential
-    return await HomeSetterPage.auth
+    return HomeSetterPage.auth
         .signInWithCredential(credential)
         .then((value) {
       Navigator.of(context).pop();
@@ -357,7 +356,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
     });
   }
 
-  checkChanged() {
+  void checkChanged() {
     formKey.currentState!.validate();
   }
 }
