@@ -401,7 +401,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   setState(() {
                                     college = value! as String;
                                     if (college !=
-                                        context.watch<MainUser>().user!.college) {
+                                        context.read<MainUser>().user!.college) {
                                       hasChanged = true;
                                     }
                                   });
@@ -443,7 +443,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (intakeTextController.text !=
-                                  context.watch<MainUser>().user!.intake.toString()) {
+                                  context.read<MainUser>().user!.intake.toString()) {
                                 hasChanged = true;
                               }
                             });
@@ -477,7 +477,11 @@ class _AccountSubPageState extends State<AccountSubPage>
                               ? null
                               : (value) {
                                   setState(() {
-                                    college = value! as String;
+                                    profession = value! as String;
+if (profession !=
+                                        context.read<MainUser>().user!.profession) {
+                                      hasChanged = true;
+                                    }
                                   });
                                 },
                           items: professions.map((String value) {
@@ -504,6 +508,14 @@ class _AccountSubPageState extends State<AccountSubPage>
                               child: Icon(Icons.location_city),
                             ),
                           ),
+onChanged: (value) {
+                            setState(() {
+                              if (designationTextController.text !=
+                                  context.read<MainUser>().user!.designation) {
+                                hasChanged = true;
+                              }
+                            });
+                          },
                           style: TextStyle(
                             color: editingEnabled ? Colors.black : Colors.grey,
                           ),
@@ -531,7 +543,11 @@ class _AccountSubPageState extends State<AccountSubPage>
                               ? null
                               : (value) {
                                   setState(() {
-                                    college = value! as String;
+                                    district = value! as String;
+if (district !=
+                                        context.read<MainUser>().user!.district) {
+                                      hasChanged = true;
+                                    }
                                   });
                                 },
                           items: districts.map((String value) {
@@ -840,7 +856,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   'cnumber': cNumberTextController.text,
                                   'phone': phoneTextController.text,
                                   'email':
-                                      HomeSetterPage.auth.currentUser!.email,
+                                      emailTextController.text,
                                   'pphone': phoneAccess,
                                   'plocation': locationAccess,
                                   'fburl': fbTextController.text,
