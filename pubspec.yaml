@@ -30,6 +30,7 @@ dependencies:
   url_launcher: ^6.0.9
   flutter:
     sdk: flutter
+  geocode: ^1.0.1
 
 
 dev_dependencies:

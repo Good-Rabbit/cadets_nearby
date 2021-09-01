@@ -26,8 +26,8 @@ class HomeSubPage extends StatefulWidget {
 class _HomeSubPageState extends State<HomeSubPage>
     with AutomaticKeepAliveClientMixin {
   bool warningGiven = false;
-  bool locationEnabled = false;
-  bool permissionGranted = false;
+  bool locationEnabled = true;
+  bool permissionGranted = true;
   bool rejected = false;
   bool updateFlag = false;
   bool disabled = false;
@@ -57,9 +57,9 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   void calculateMinMax(BuildContext context) {
     latMax = Provider.of<MainUser>(context, listen: false).user!.lat + 0.1;
-    latMin = Provider.of<MainUser>(context, listen: false).user!.lat  - 0.1;
-    longMax = Provider.of<MainUser>(context, listen: false).user!.long  + 0.1;
-    longMin = Provider.of<MainUser>(context, listen: false).user!.long  - 0.1;
+    latMin = Provider.of<MainUser>(context, listen: false).user!.lat - 0.1;
+    longMax = Provider.of<MainUser>(context, listen: false).user!.long + 0.1;
+    longMin = Provider.of<MainUser>(context, listen: false).user!.long - 0.1;
   }
 
   Future<void> getLocation() async {
@@ -131,8 +131,10 @@ class _HomeSubPageState extends State<HomeSubPage>
         'sector': sector,
         'lastonline': timeStamp,
       });
-      Provider.of<MainUser>(context, listen: false).setLat  = locationData.latitude!;
-      Provider.of<MainUser>(context, listen: false).setLong  = locationData.latitude!;
+      Provider.of<MainUser>(context, listen: false).setLat =
+          locationData.latitude!;
+      Provider.of<MainUser>(context, listen: false).setLong =
+          locationData.latitude!;
     } catch (e) {
       dev.log(e.toString());
     }
@@ -206,53 +208,15 @@ class _HomeSubPageState extends State<HomeSubPage>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                    child: CircleAvatar(
-                      radius: 20.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: context.watch<MainUser>().user!.photoUrl == ''
-                            ? Image.asset(
-                                'assets/images/user.png',
-                                fit: BoxFit.cover,
-                              )
-                            : Image.network(
-                                context.watch<MainUser>().user!.photoUrl,
-                                fit: BoxFit.cover,
-                                width: 40,
-                                height: 40,
-                              ),
-                      ),
-                    ),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    child: ProfilePicture(),
                   ),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              context.watch<MainUser>().user!.cName,
-                              style: const TextStyle(
-                                fontSize: 17,
-                              ),
-                            ),
-                            if (context.watch<MainUser>().user!.verified !=
-                                'yes')
-                              const Icon(
-                                Icons.info_rounded,
-                                size: 15,
-                                color: Colors.redAccent,
-                              ),
-                            if (context.watch<MainUser>().user!.celeb)
-                              const Icon(
-                                Icons.verified,
-                                size: 15,
-                                color: Colors.green,
-                              ),
-                          ],
-                        ),
+                        const UserNameRow(),
                         Text(
                           quote ?? '',
                           style: const TextStyle(
@@ -582,7 +546,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                       );
                     }).toList(),
             ),
-          if (locationData == null) const Loading(),
+          if (locationData == null && permissionGranted) const Loading(),
+          if (rejected || !locationEnabled || !permissionGranted)
+            locationDisabled(),
           const SizedBox(
             height: 100.0,
           ),
@@ -614,8 +580,90 @@ class _HomeSubPageState extends State<HomeSubPage>
     );
   }
 
+  Widget locationDisabled() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 3 / 5,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.location_disabled,
+            size: 70.0,
+            color: Theme.of(context).primaryColor,
+          ),
+          Text(
+            "Location Disabled",
+            style: TextStyle(
+              fontSize: 25,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   bool get wantKeepAlive => true;
+}
+
+class ProfilePicture extends StatelessWidget {
+  const ProfilePicture({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 20.0,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(50),
+        child: context.watch<MainUser>().user!.photoUrl == ''
+            ? Image.asset(
+                'assets/images/user.png',
+                fit: BoxFit.cover,
+              )
+            : Image.network(
+                context.watch<MainUser>().user!.photoUrl,
+                fit: BoxFit.cover,
+                width: 40,
+                height: 40,
+              ),
+      ),
+    );
+  }
+}
+
+class UserNameRow extends StatelessWidget {
+  const UserNameRow({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          context.watch<MainUser>().user!.cName,
+          style: const TextStyle(
+            fontSize: 17,
+          ),
+        ),
+        if (context.watch<MainUser>().user!.verified != 'yes')
+          const Icon(
+            Icons.info_rounded,
+            size: 15,
+            color: Colors.redAccent,
+          ),
+        if (context.watch<MainUser>().user!.celeb)
+          const Icon(
+            Icons.verified,
+            size: 15,
+            color: Colors.green,
+          ),
+      ],
+    );
+  }
 }
 
 class NotificationIndicator extends StatelessWidget {

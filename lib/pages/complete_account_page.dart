@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocode/geocode.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:cadets_nearby/data/app_data.dart';
@@ -36,12 +38,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   bool alwaysAccess = false;
   bool phoneAccess = false;
   bool useRegularEmail = false;
-
   bool inProgress = false;
 
   String college = 'Pick your college*';
   String profession = 'Student';
   String district = 'Dhaka';
+
+  LocationData? locationData;
 
   @override
   void dispose() {
@@ -55,6 +58,55 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     instaTextController.dispose();
     designationTextController.dispose();
     super.dispose();
+  }
+
+  Future<void> getLocations() async {
+    try {
+      final Location location = Location();
+
+      bool _serviceEnabled;
+      PermissionStatus _permissionGranted;
+
+      _serviceEnabled = await location.serviceEnabled();
+      if (!_serviceEnabled) {
+        _serviceEnabled = await location.requestService();
+        if (!_serviceEnabled) {
+          return;
+        }
+      }
+
+      _permissionGranted = await location.hasPermission();
+      if (_permissionGranted == PermissionStatus.denied) {
+        _permissionGranted = await location.requestPermission();
+        if (!(_permissionGranted == PermissionStatus.granted ||
+            _permissionGranted == PermissionStatus.grantedLimited)) {
+          return;
+        }
+      }
+
+      locationData = await location.getLocation();
+
+      final GeoCode geoCode = GeoCode(apiKey: geoCodeApiKey);
+      if (locationData != null) {
+        final Address address = await geoCode.reverseGeocoding(
+          latitude: locationData!.latitude!,
+          longitude: locationData!.longitude!,
+        );
+        final String dist = address.region!.split(',')[0];
+        if (districts.contains(dist)) {
+          district = dist;
+        }
+      }
+      setState(() {});
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    getLocations();
+    super.initState();
   }
 
   @override
@@ -591,7 +643,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             },
                                           );
                                           // ignore: use_build_context_synchronously
-                                          context.read<MainUser>().user = AppUser(
+                                          context.read<MainUser>().user =
+                                              AppUser(
                                             id: HomeSetterPage
                                                 .auth.currentUser!.uid,
                                             cName: cName,
