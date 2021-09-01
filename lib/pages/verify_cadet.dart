@@ -147,13 +147,14 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                     ),
                   ],
                 ),
-                ElevatedButton(
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.upload),
                   onPressed: image == null
                       ? null
                       : () {
                           uploadImage();
                         },
-                  child: const Text('Upload'),
+                  label: const Text('Upload'),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {

@@ -97,7 +97,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                           borderRadius: BorderRadius.circular(50),
                           child: Stack(
                             children: [
-                              if (context.watch<MainUser>().user!.photoUrl == '')
+                              if (context.watch<MainUser>().user!.photoUrl ==
+                                  '')
                                 Image.asset(
                                   'assets/images/user.png',
                                   fit: BoxFit.cover,
@@ -213,7 +214,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                       child: ElevatedButton.icon(
                         onPressed: !(!HomeSetterPage
                                     .auth.currentUser!.emailVerified ||
-                                context.read<MainUser>().user!.verified != 'yes')
+                                context.read<MainUser>().user!.verified !=
+                                    'yes')
                             ? null
                             : () {
                                 showModalBottomSheet(
@@ -260,14 +262,18 @@ class _AccountSubPageState extends State<AccountSubPage>
                           backgroundColor: MaterialStateProperty.all(
                               (!HomeSetterPage
                                           .auth.currentUser!.emailVerified ||
-                                      context.watch<MainUser>().user!.verified !=
+                                      context
+                                              .watch<MainUser>()
+                                              .user!
+                                              .verified !=
                                           'yes')
                                   ? Colors.red
                                   : Colors.green),
                         ),
                         label: Text(
                             (!HomeSetterPage.auth.currentUser!.emailVerified ||
-                                    context.watch<MainUser>().user!.verified != 'yes')
+                                    context.watch<MainUser>().user!.verified !=
+                                        'yes')
                                 ? 'Verification'
                                 : 'Verified'),
                       ),
@@ -366,7 +372,11 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (cNumberTextController.text !=
-                                  context.read<MainUser>().user!.cNumber.toString()) {
+                                  context
+                                      .read<MainUser>()
+                                      .user!
+                                      .cNumber
+                                      .toString()) {
                                 hasChanged = true;
                               }
                             });
@@ -401,7 +411,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   setState(() {
                                     college = value! as String;
                                     if (college !=
-                                        context.read<MainUser>().user!.college) {
+                                        context
+                                            .read<MainUser>()
+                                            .user!
+                                            .college) {
                                       hasChanged = true;
                                     }
                                   });
@@ -443,7 +456,11 @@ class _AccountSubPageState extends State<AccountSubPage>
                           onChanged: (value) {
                             setState(() {
                               if (intakeTextController.text !=
-                                  context.read<MainUser>().user!.intake.toString()) {
+                                  context
+                                      .read<MainUser>()
+                                      .user!
+                                      .intake
+                                      .toString()) {
                                 hasChanged = true;
                               }
                             });
@@ -478,8 +495,11 @@ class _AccountSubPageState extends State<AccountSubPage>
                               : (value) {
                                   setState(() {
                                     profession = value! as String;
-if (profession !=
-                                        context.read<MainUser>().user!.profession) {
+                                    if (profession !=
+                                        context
+                                            .read<MainUser>()
+                                            .user!
+                                            .profession) {
                                       hasChanged = true;
                                     }
                                   });
@@ -508,7 +528,7 @@ if (profession !=
                               child: Icon(Icons.location_city),
                             ),
                           ),
-onChanged: (value) {
+                          onChanged: (value) {
                             setState(() {
                               if (designationTextController.text !=
                                   context.read<MainUser>().user!.designation) {
@@ -544,8 +564,11 @@ onChanged: (value) {
                               : (value) {
                                   setState(() {
                                     district = value! as String;
-if (district !=
-                                        context.read<MainUser>().user!.district) {
+                                    if (district !=
+                                        context
+                                            .read<MainUser>()
+                                            .user!
+                                            .district) {
                                       hasChanged = true;
                                     }
                                   });
@@ -808,7 +831,10 @@ if (district !=
                                   setState(() {
                                     locationAccess = !value!;
                                     if (locationAccess !=
-                                        context.read<MainUser>().user!.pLocation) {
+                                        context
+                                            .read<MainUser>()
+                                            .user!
+                                            .pLocation) {
                                       hasChanged = true;
                                     }
                                   });
@@ -855,8 +881,7 @@ if (district !=
                                   'cname': cName,
                                   'cnumber': cNumberTextController.text,
                                   'phone': phoneTextController.text,
-                                  'email':
-                                      emailTextController.text,
+                                  'email': emailTextController.text,
                                   'pphone': phoneAccess,
                                   'plocation': locationAccess,
                                   'fburl': fbTextController.text,
@@ -877,33 +902,43 @@ if (district !=
                                   email: emailTextController.text,
                                   intake: int.parse(intakeTextController.text),
                                   // ignore: use_build_context_synchronously
-                                  pAlways: context.read<MainUser>().user!.pAlways,
+                                  pAlways:
+                                      context.read<MainUser>().user!.pAlways,
                                   pLocation: locationAccess,
                                   // ignore: use_build_context_synchronously
                                   pMaps: context.read<MainUser>().user!.pMaps,
                                   pPhone: phoneAccess,
                                   // ignore: use_build_context_synchronously
-                                  photoUrl: context.read<MainUser>().user!.photoUrl,
+                                  photoUrl:
+                                      context.read<MainUser>().user!.photoUrl,
                                   phone: phoneTextController.text,
                                   fbUrl: fbTextController.text,
                                   instaUrl: instaTextController.text,
                                   // ignore: use_build_context_synchronously
-                                  timeStamp: context.read<MainUser>().user!.timeStamp,
+                                  timeStamp:
+                                      context.read<MainUser>().user!.timeStamp,
                                   // ignore: use_build_context_synchronously
-                                  premium: context.read<MainUser>().user!.premium,
+                                  premium:
+                                      context.read<MainUser>().user!.premium,
                                   // ignore: use_build_context_synchronously
-                                  verified: context.read<MainUser>().user!.verified,
+                                  verified:
+                                      context.read<MainUser>().user!.verified,
                                   // ignore: use_build_context_synchronously
                                   celeb: context.read<MainUser>().user!.celeb,
                                   // ignore: use_build_context_synchronously
-                                  treatHead: context.read<MainUser>().user!.treatHead,
+                                  treatHead:
+                                      context.read<MainUser>().user!.treatHead,
                                   treatHunter:
                                       // ignore: use_build_context_synchronously
-                                      context.read<MainUser>().user!.treatHunter,
+                                      context
+                                          .read<MainUser>()
+                                          .user!
+                                          .treatHunter,
                                   designation: designationTextController.text,
                                   profession: profession,
                                   // ignore: use_build_context_synchronously
-                                  manualDp: context.read<MainUser>().user!.manualDp,
+                                  manualDp:
+                                      context.read<MainUser>().user!.manualDp,
                                   treatCount:
                                       // ignore: use_build_context_synchronously
                                       context.read<MainUser>().user!.treatCount,
@@ -968,8 +1003,10 @@ if (district !=
     phoneAccess = context.read<MainUser>().user!.pPhone;
     fullNameTextController.text = context.read<MainUser>().user!.fullName;
     cNameTextController.text = context.read<MainUser>().user!.cName;
-    cNumberTextController.text = context.read<MainUser>().user!.cNumber.toString();
-    intakeTextController.text = context.read<MainUser>().user!.intake.toString();
+    cNumberTextController.text =
+        context.read<MainUser>().user!.cNumber.toString();
+    intakeTextController.text =
+        context.read<MainUser>().user!.intake.toString();
     phoneTextController.text = context.read<MainUser>().user!.phone;
     emailTextController.text = context.read<MainUser>().user!.email;
     fbTextController.text = context.read<MainUser>().user!.fbUrl;

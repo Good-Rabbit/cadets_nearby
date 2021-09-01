@@ -202,7 +202,8 @@ class _DpPageState extends State<DpPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.delete),
                         onPressed: !context.read<MainUser>().user!.manualDp
                             ? null
                             : () {
@@ -235,23 +236,25 @@ class _DpPageState extends State<DpPage> {
                           backgroundColor: MaterialStateProperty.all(
                               Theme.of(context).accentColor),
                         ),
-                        child: const Text('Delete picture'),
+                        label: const Text('Delete picture'),
                       ),
-                      ElevatedButton(
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.upload),
                         onPressed: image == null
                             ? null
                             : () async {
                                 uploadImage();
                               },
-                        child: const Text('Upload picture'),
+                        label: const Text('Upload picture'),
                       ),
                     ],
                   ),
-                  ElevatedButton(
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.arrow_left_rounded),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text('Cancel'),
+                    label: const Text('Cancel'),
                   ),
                 ],
               ),
