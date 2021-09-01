@@ -47,12 +47,12 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
       if (value.statusCode == 200) {
         HomeSetterPage.store
             .collection('users')
-            .doc(context.watch<MainUser>().user!.id)
+            .doc(context.read<MainUser>().user!.id)
             .update({
           'verifyurl': '$siteAddress/VPs/${filename!}',
           'verified': 'waiting',
         });
-        context.watch<MainUser>().user!.verified = 'waiting';
+        context.read<MainUser>().user!.verified = 'waiting';
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Uploaded Successfully')));
         Navigator.of(context).pop();

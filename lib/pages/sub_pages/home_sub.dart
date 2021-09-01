@@ -381,9 +381,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                   //TODO uncomment
                   .where('lat', isLessThan: latMax, isGreaterThan: latMin)
                   .where('sector', whereIn: [
-                context.watch<MainUser>().user!.sector + 1,
-                context.watch<MainUser>().user!.sector,
-                context.watch<MainUser>().user!.sector - 1,
+                context.read<MainUser>().user!.sector + 1,
+                context.read<MainUser>().user!.sector,
+                context.read<MainUser>().user!.sector - 1,
               ]).get(),
               builder: (context, snapshots) {
                 dataFetchTimeout = true;
@@ -435,11 +435,11 @@ class _HomeSubPageState extends State<HomeSubPage>
                               Duration timeDiff;
                               timeDiff = DateTime.now().difference(e.timeStamp);
 
-                              if (e.equals(context.watch<MainUser>().user!) &&
+                              if (e.equals(context.read<MainUser>().user!) &&
                                   snapshots.data!.docs.length == 1) {
                                 return noOneNearby();
                               } else if (e
-                                  .equals(context.watch<MainUser>().user!)) {
+                                  .equals(context.read<MainUser>().user!)) {
                                 dontShow = true;
                               } else if (timeDiff.inDays > 30) {
                                 dontShow = true;
@@ -525,10 +525,10 @@ class _HomeSubPageState extends State<HomeSubPage>
                   : savedUsers.map((e) {
                       bool dontShow = false;
                       counter++;
-                      if (e.equals(context.watch<MainUser>().user!) &&
+                      if (e.equals(context.read<MainUser>().user!) &&
                           savedUsers.length == 1) {
                         return noOneNearby();
-                      } else if (e.equals(context.watch<MainUser>().user!)) {
+                      } else if (e.equals(context.read<MainUser>().user!)) {
                         dontShow = true;
                       }
                       // Get distance in metres

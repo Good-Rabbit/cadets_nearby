@@ -75,9 +75,6 @@ class GlobalNotifications with ChangeNotifier {
         '${message.notification!.title}~${message.notification!.body}~u~${message.sentTime.toString()}';
     final String nr = nf.replaceFirst('~u~', '~r~');
 
-    final Noti nff = Noti(
-      notificationString: nf,
-    );
     final Noti nrr = Noti(notificationString: nr);
     final int index = notifications.indexWhere(
         (element) => element.notificationString == nf);
@@ -97,9 +94,6 @@ class GlobalNotifications with ChangeNotifier {
   Future<void> markNotificationAsRead(String nf) async {
     final String nr = nf.replaceFirst('~u~', '~r~');
 
-    final Noti nff = Noti(
-      notificationString: nf,
-    );
     final Noti nrr = Noti(notificationString: nr);
     final int index = notifications.indexWhere(
         (element) => element.notificationString == nf);

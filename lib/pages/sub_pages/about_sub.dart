@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,8 +13,6 @@ class AboutSubPage extends StatefulWidget {
 
 class _AboutSubPageState extends State<AboutSubPage>
     with AutomaticKeepAliveClientMixin {
-
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -67,6 +67,60 @@ class _AboutSubPageState extends State<AboutSubPage>
                     label: const Text('Github page'),
                   ),
                 ],
+              ),
+            ),
+            const Text(
+              'Devs',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Text(
+              'Saim Ul Islam',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            const Text(
+              'KM Mynur',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            const Text(
+              'Project Manager',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Text(
+              'Muaz Fahim Faruki',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Container(
+              child: const Text(
+                'Service by',
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            Text(
+              'GoldenFleece',
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
               ),
             ),
           ],

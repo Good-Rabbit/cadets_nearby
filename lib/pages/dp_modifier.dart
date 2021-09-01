@@ -50,10 +50,10 @@ class _DpPageState extends State<DpPage> {
       },
     ).then((value) {
       //Delete previous if manual
-      if (context.watch<MainUser>().user!.manualDp) {
+      if (context.read<MainUser>().user!.manualDp) {
         final Uri uri = Uri.parse('$siteAddress/deleteDp.php');
         final String delFilename =
-            context.watch<MainUser>().user!.photoUrl.split('/').last;
+            context.read<MainUser>().user!.photoUrl.split('/').last;
         http.post(
           uri,
           body: {
@@ -65,15 +65,15 @@ class _DpPageState extends State<DpPage> {
       if (value.statusCode == 200) {
         HomeSetterPage.store
             .collection('users')
-            .doc(context.watch<MainUser>().user!.id)
+            .doc(context.read<MainUser>().user!.id)
             .update({
           'photourl': '$siteAddress/DPs/${filename!}',
           'manualdp': true,
         });
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Updated Successfully')));
-        context.watch<MainUser>().user!.photoUrl = '$siteAddress/DPs/${filename!}';
-        context.watch<MainUser>().user!.manualDp = true;
+        context.read<MainUser>().user!.photoUrl = '$siteAddress/DPs/${filename!}';
+        context.read<MainUser>().user!.manualDp = true;
         Navigator.of(context).pop();
       } else {}
     }).catchError((e) {
@@ -83,7 +83,7 @@ class _DpPageState extends State<DpPage> {
 
   Future<void> deleteImage() async {
     final Uri uri = Uri.parse('$siteAddress/deleteDp.php');
-    filename = context.watch<MainUser>().user!.photoUrl.split('/').last;
+    filename = context.read<MainUser>().user!.photoUrl.split('/').last;
     http.post(
       uri,
       body: {
@@ -94,15 +94,15 @@ class _DpPageState extends State<DpPage> {
       if (value.statusCode == 200) {
         HomeSetterPage.store
             .collection('users')
-            .doc(context.watch<MainUser>().user!.id)
+            .doc(context.read<MainUser>().user!.id)
             .update({
           'photourl': '',
           'manualdp': false,
         });
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Deleted Successfully')));
-        context.watch<MainUser>().user!.photoUrl = '';
-        context.watch<MainUser>().user!.manualDp = false;
+        context.read<MainUser>().user!.photoUrl = '';
+        context.read<MainUser>().user!.manualDp = false;
         Navigator.of(context).pop();
       }
     }).catchError((e) {
@@ -146,13 +146,13 @@ class _DpPageState extends State<DpPage> {
                               File(image!.path),
                               fit: BoxFit.cover,
                             )
-                          : (context.watch<MainUser>().user!.photoUrl == ''
+                          : (context.read<MainUser>().user!.photoUrl == ''
                               ? Image.asset(
                                   'assets/images/user.png',
                                   fit: BoxFit.cover,
                                 )
                               : Image.network(
-                                  context.watch<MainUser>().user!.photoUrl,
+                                  context.read<MainUser>().user!.photoUrl,
                                   fit: BoxFit.cover,
                                 )),
                     ),
@@ -203,7 +203,7 @@ class _DpPageState extends State<DpPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        onPressed: !context.watch<MainUser>().user!.manualDp
+                        onPressed: !context.read<MainUser>().user!.manualDp
                             ? null
                             : () {
                                 showDialog(

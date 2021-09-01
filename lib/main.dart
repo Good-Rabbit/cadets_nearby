@@ -4,7 +4,6 @@ import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/pages/cancel.dart';
 import 'package:cadets_nearby/pages/dp_modifier.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
-import 'package:cadets_nearby/pages/init.dart';
 import 'package:cadets_nearby/pages/login.dart';
 import 'package:cadets_nearby/pages/notifications.dart';
 import 'package:cadets_nearby/pages/reset.dart';

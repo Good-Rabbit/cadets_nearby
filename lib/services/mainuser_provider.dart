@@ -18,6 +18,7 @@ class MainUser with ChangeNotifier {
     mainUser!.lat = lat;
   }
 
+  // ignore: avoid_setters_without_getters
   set setLong(double long){
     mainUser!.long = long;
   }
