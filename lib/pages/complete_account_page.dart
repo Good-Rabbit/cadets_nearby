@@ -33,6 +33,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   TextEditingController fbTextController = TextEditingController();
   TextEditingController instaTextController = TextEditingController();
   TextEditingController designationTextController = TextEditingController();
+  TextEditingController addressTextController = TextEditingController();
 
   bool locationAccess = true;
   bool alwaysAccess = false;
@@ -42,7 +43,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
 
   String college = 'Pick your college*';
   String profession = 'Student';
-  String district = 'Dhaka';
 
   LocationData? locationData;
 
@@ -57,6 +57,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     fbTextController.dispose();
     instaTextController.dispose();
     designationTextController.dispose();
+    addressTextController.dispose();
     super.dispose();
   }
 
@@ -92,10 +93,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           latitude: locationData!.latitude!,
           longitude: locationData!.longitude!,
         );
-        final String dist = address.region!.split(',')[0];
-        if (districts.contains(dist)) {
-          district = dist;
-        }
+        addressTextController.text = '${address.streetAddress!}, ${address.region!}';
       }
       setState(() {});
     } catch (e) {
@@ -328,29 +326,17 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: SizedBox(
                         width: 500,
-                        child: DropdownButtonFormField(
-                          hint: const Text('Work district'),
+                        child: TextFormField(
+                          controller: addressTextController,
+                          cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
+                            hintText: 'Address',
                             prefixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(
-                                Icons.location_pin,
-                              ),
+                              child: Icon(Icons.location_pin),
                             ),
                           ),
-                          value: district,
-                          isDense: true,
-                          onChanged: (value) {
-                            setState(() {
-                              college = value! as String;
-                            });
-                          },
-                          items: districts.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+                          keyboardType: TextInputType.streetAddress,
                         ),
                       ),
                     ),
@@ -637,9 +623,10 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                               'designation':
                                                   designationTextController
                                                       .text,
-                                              'district': district,
+                                              'address': addressTextController.text,
                                               'manualdp': false,
                                               'sector': 0,
+                                              'contact':false,
                                             },
                                           );
                                           // ignore: use_build_context_synchronously
@@ -675,9 +662,10 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             designation:
                                                 designationTextController.text,
                                             profession: profession,
-                                            district: district,
+                                            address: addressTextController.text,
                                             manualDp: false,
                                             sector: 0,
+                                            contact: false,
                                           );
                                           widget.loggedInNotifier();
                                         } catch (e) {

@@ -45,6 +45,24 @@ class _NotificationPageState extends State<NotificationPage>
                             context
                                 .read<GlobalNotifications>()
                                 .markNotificationAsRead(e.notificationString);
+
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(e.title),
+                                  content: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(e.body),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
                           },
                           child: Card(
                             child: Padding(

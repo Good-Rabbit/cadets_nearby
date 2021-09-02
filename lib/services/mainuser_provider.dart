@@ -55,7 +55,8 @@ class MainUser with ChangeNotifier {
       manualDp: u.data()!['manualdp'] as bool,
       treatCount: u.data()!['treatcount'] as int,
       sector: u.data()!['sector'] as int,
-      district: u.data()!['district'] as String,
+      address: u.data()!['address'] as String,
+      contact: u.data()!['address'] as bool,
     );
   }
 }

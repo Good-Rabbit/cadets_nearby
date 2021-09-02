@@ -16,7 +16,7 @@ class AppUser {
   String instaUrl;
   String designation;
   String profession;
-  String district;
+  String address;
   String verified;
   DateTime timeStamp;
   bool pLocation;
@@ -28,6 +28,7 @@ class AppUser {
   bool pAlways;
   bool pMaps;
   bool manualDp;
+  bool contact;
 
   AppUser({
     required this.cName,
@@ -52,7 +53,8 @@ class AppUser {
     required this.manualDp,
     required this.treatCount,
     required this.sector,
-    required this.district,
+    required this.address,
+    required this.contact,
     this.photoUrl = '',
     this.lat = 0,
     this.long = 0,

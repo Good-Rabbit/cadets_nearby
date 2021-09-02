@@ -471,7 +471,8 @@ class _HomeSubPageState extends State<HomeSubPage>
                                 manualDp: u.data()['manualdp'] as bool,
                                 treatCount: u.data()['treatcount'] as int,
                                 sector: u.data()['sector'] as int,
-                                district: u.data()['district'] as String,
+                                address: u.data()['address'] as String,
+                                contact: u.data()['contact'] as bool
                               );
 
                               Duration timeDiff;
@@ -649,9 +650,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                       );
                     }).toList(),
             ),
-          if (locationData == null && permissionGranted) const Loading(),
           if (rejected || !locationEnabled || !permissionGranted)
             locationDisabled(),
+          if (locationData == null && permissionGranted && locationEnabled)const Loading(),
           const SizedBox(
             height: 100.0,
           ),

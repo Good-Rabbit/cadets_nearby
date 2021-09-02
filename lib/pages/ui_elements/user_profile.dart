@@ -65,7 +65,7 @@ class UserProfile extends StatelessWidget {
                     'Designation:',
                   ),
                   const Text(
-                    'District:',
+                    'Address:',
                   ),
                 ],
               ),
@@ -116,7 +116,7 @@ class UserProfile extends StatelessWidget {
                   e.designation != '' ? e.designation : '-',
                 ),
                 Text(
-                  e.district,
+                  e.address,
                 ),
               ],
             ),

@@ -18,12 +18,28 @@ class NearbyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> dt = e.timeStamp.toString().split(' ');
-    final List<String> dateTemp = dt[0].split('-');
-    final String date = '${dateTemp[2]}/${dateTemp[1]}/${dateTemp[2]}';
-    final List<String> t = dt[1].split(':');
-    final String time = '${t[0]}:${t[1]}';
-    final String lastUpdate = '  $time $date';
+    final Duration lastOnline = e.timeStamp.difference(DateTime.now());
+    String timeAgo = '';
+    if (lastOnline.inSeconds <= 80) {
+      timeAgo = 'active now';
+    } else if (lastOnline.inMinutes < 60) {
+      timeAgo = '${lastOnline.inMinutes} mins ago';
+    } else if (lastOnline.inHours < 24) {
+      timeAgo = '${lastOnline.inHours} hrs ago';
+    } else if (lastOnline.inHours < 47) {
+      timeAgo = 'Yesterday';
+    } else if (lastOnline.inDays < 7) {
+      timeAgo = '${lastOnline.inDays} days ago';
+    } else if (lastOnline.inDays == 7) {
+      timeAgo = 'A week ago';
+    } else if (lastOnline.inDays >= 7 && lastOnline.inDays <= 14) {
+      timeAgo = 'More than a week ago';
+    } else if (lastOnline.inDays > 14 && lastOnline.inDays <= 30) {
+      timeAgo = 'More than 2 weeks ago';
+    } else if(lastOnline.inDays > 30){
+      timeAgo = '${(lastOnline.inDays/30).floor()} ${(lastOnline.inDays/30).floor() == 1 ? 'month' : 'months'}ago';
+    }
+
     return InkWell(
       onTap: () {
         showModalBottomSheet(
@@ -121,7 +137,7 @@ class NearbyCard extends StatelessWidget {
                         Icons.visibility_off_rounded,
                         size: 17,
                       ),
-                    Text('Last update: $lastUpdate'),
+                    Text('Last update: $timeAgo'),
                   ],
                 ),
               ),

@@ -32,6 +32,7 @@ class _AccountSubPageState extends State<AccountSubPage>
   TextEditingController fbTextController = TextEditingController();
   TextEditingController instaTextController = TextEditingController();
   TextEditingController designationTextController = TextEditingController();
+  TextEditingController addressTextController = TextEditingController();
 
   AnimateIconController controller = AnimateIconController();
 
@@ -43,7 +44,6 @@ class _AccountSubPageState extends State<AccountSubPage>
 
   String college = 'Pick your college*';
   String profession = 'Doctor';
-  String district = 'Dhaka';
 
   @override
   void dispose() {
@@ -56,6 +56,7 @@ class _AccountSubPageState extends State<AccountSubPage>
     fbTextController.dispose();
     instaTextController.dispose();
     designationTextController.dispose();
+    addressTextController.dispose();
     super.dispose();
   }
 
@@ -547,38 +548,26 @@ class _AccountSubPageState extends State<AccountSubPage>
                       padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: SizedBox(
                         width: 500,
-                        child: DropdownButtonFormField(
-                          hint: const Text('Work district'),
+                        child: TextFormField(
+                          enabled:editingEnabled,
+                          controller: addressTextController,
+                          cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
+                            hintText: 'Address',
                             prefixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(
-                                Icons.location_pin,
-                              ),
+                              child: Icon(Icons.location_pin),
                             ),
                           ),
-                          value: district,
-                          isDense: true,
-                          onChanged: !editingEnabled
-                              ? null
-                              : (value) {
-                                  setState(() {
-                                    district = value! as String;
-                                    if (district !=
-                                        context
-                                            .read<MainUser>()
-                                            .user!
-                                            .district) {
-                                      hasChanged = true;
-                                    }
-                                  });
-                                },
-                          items: districts.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              if (addressTextController.text !=
+                                  context.read<MainUser>().user!.address) {
+                                hasChanged = true;
+                              }
+                            });
+                          },
+                          keyboardType: TextInputType.streetAddress,
                         ),
                       ),
                     ),
@@ -888,7 +877,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   'instaurl': instaTextController.text,
                                   'designation': designationTextController.text,
                                   'profession': profession,
-                                  'district': district,
+                                  'address': addressTextController.text,
                                 });
                                 // ignore: use_build_context_synchronously
                                 context.read<MainUser>().user = AppUser(
@@ -901,32 +890,32 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   college: college,
                                   email: emailTextController.text,
                                   intake: int.parse(intakeTextController.text),
-                                  // ignore: use_build_context_synchronously
                                   pAlways:
+                                      // ignore: use_build_context_synchronously
                                       context.read<MainUser>().user!.pAlways,
                                   pLocation: locationAccess,
                                   // ignore: use_build_context_synchronously
                                   pMaps: context.read<MainUser>().user!.pMaps,
                                   pPhone: phoneAccess,
-                                  // ignore: use_build_context_synchronously
                                   photoUrl:
+                                      // ignore: use_build_context_synchronously
                                       context.read<MainUser>().user!.photoUrl,
                                   phone: phoneTextController.text,
                                   fbUrl: fbTextController.text,
                                   instaUrl: instaTextController.text,
-                                  // ignore: use_build_context_synchronously
                                   timeStamp:
+                                      // ignore: use_build_context_synchronously
                                       context.read<MainUser>().user!.timeStamp,
-                                  // ignore: use_build_context_synchronously
                                   premium:
+                                      // ignore: use_build_context_synchronously
                                       context.read<MainUser>().user!.premium,
-                                  // ignore: use_build_context_synchronously
                                   verified:
+                                      // ignore: use_build_context_synchronously
                                       context.read<MainUser>().user!.verified,
                                   // ignore: use_build_context_synchronously
                                   celeb: context.read<MainUser>().user!.celeb,
-                                  // ignore: use_build_context_synchronously
                                   treatHead:
+                                      // ignore: use_build_context_synchronously
                                       context.read<MainUser>().user!.treatHead,
                                   treatHunter:
                                       // ignore: use_build_context_synchronously
@@ -936,15 +925,17 @@ class _AccountSubPageState extends State<AccountSubPage>
                                           .treatHunter,
                                   designation: designationTextController.text,
                                   profession: profession,
-                                  // ignore: use_build_context_synchronously
                                   manualDp:
+                                      // ignore: use_build_context_synchronously
                                       context.read<MainUser>().user!.manualDp,
                                   treatCount:
                                       // ignore: use_build_context_synchronously
                                       context.read<MainUser>().user!.treatCount,
                                   // ignore: use_build_context_synchronously
                                   sector: context.read<MainUser>().user!.sector,
-                                  district: district,
+                                  address: addressTextController.text,
+                                  // ignore: use_build_context_synchronously
+                                  contact: context.read<MainUser>().user!.contact,
                                 );
                                 // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
