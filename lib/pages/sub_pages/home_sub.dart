@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 import 'dart:math';
 
+import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/filter_range.dart';
 import 'package:cadets_nearby/pages/ui_elements/loading.dart';
@@ -47,6 +48,7 @@ class _HomeSubPageState extends State<HomeSubPage>
   double longMin = 0;
 
   String? quote;
+  String college = 'Pick your college*';
 
   double min = 0;
   double max = 15;
@@ -54,6 +56,8 @@ class _HomeSubPageState extends State<HomeSubPage>
   RangeValues range = const RangeValues(0, 5);
 
   int shown = 0;
+
+  TextEditingController intakeTextController = TextEditingController();
 
   void calculateMinMax(BuildContext context) {
     latMax = Provider.of<MainUser>(context, listen: false).user!.lat + 0.1;
@@ -131,10 +135,9 @@ class _HomeSubPageState extends State<HomeSubPage>
         'sector': sector,
         'lastonline': timeStamp,
       });
-      Provider.of<MainUser>(context, listen: false).setLat =
-          locationData.latitude!;
-      Provider.of<MainUser>(context, listen: false).setLong =
-          locationData.latitude!;
+      context.read<MainUser>().setLat = locationData.latitude!;
+      context.read<MainUser>().setLong = locationData.latitude!;
+      context.read<MainUser>().user!.sector = sector;
     } catch (e) {
       dev.log(e.toString());
     }
@@ -158,6 +161,12 @@ class _HomeSubPageState extends State<HomeSubPage>
     Future.delayed(const Duration(minutes: 1)).then((value) {
       dataFetchTimeout = false;
     });
+  }
+
+  @override
+  void dispose() {
+    intakeTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -296,8 +305,77 @@ class _HomeSubPageState extends State<HomeSubPage>
                                                 });
                                               },
                                             ),
-                                            const Text('By College - TODO'),
-                                            const Text('By Intake - TODO'),
+                                            const Text(
+                                              'By College',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  10.0, 15.0, 10.0, 15.0),
+                                              width: 500,
+                                              child: DropdownButtonFormField(
+                                                decoration:
+                                                    const InputDecoration(
+                                                  prefixIcon: Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            10.0, 0, 0, 0),
+                                                    child: Icon(
+                                                      Icons.house,
+                                                    ),
+                                                  ),
+                                                ),
+                                                value: college,
+                                                isDense: true,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    college = value! as String;
+                                                  });
+                                                },
+                                                items: colleges
+                                                    .map((String value) {
+                                                  return DropdownMenuItem<
+                                                      String>(
+                                                    value: value,
+                                                    child: Text(value),
+                                                  );
+                                                }).toList(),
+                                              ),
+                                            ),
+                                            const Text(
+                                              'By Intake',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  10.0, 15.0, 10.0, 15.0),
+                                              width: 500,
+                                              child: TextFormField(
+                                                controller:
+                                                    intakeTextController,
+                                                cursorColor: Colors.grey[800],
+                                                decoration:
+                                                    const InputDecoration(
+                                                  hintText: 'Intake Year*',
+                                                  prefixIcon: Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            10.0, 0, 0, 0),
+                                                    child:
+                                                        Icon(Icons.date_range),
+                                                  ),
+                                                ),
+                                                keyboardType:
+                                                    TextInputType.datetime,
+                                                onChanged: (value) {
+                                                  setState(() {});
+                                                },
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -421,6 +499,19 @@ class _HomeSubPageState extends State<HomeSubPage>
                                   distanceD < range.start) {
                                 dontShow = true;
                               }
+                              // College Check
+                              if (college != 'Pick your college*') {
+                                if (e.college != college) {
+                                  dontShow = true;
+                                }
+                              }
+                              // Intake Check
+                              if (intakeTextController.text != '') {
+                                if (e.intake !=
+                                    int.parse(intakeTextController.text)) {
+                                  dontShow = true;
+                                }
+                              }
 
                               if (!dontShow) shown++;
 
@@ -502,6 +593,18 @@ class _HomeSubPageState extends State<HomeSubPage>
                       // Range Check
                       if (distanceD > range.end || distanceD < range.start) {
                         dontShow = true;
+                      }
+                      // College Check
+                      if (college != 'Pick your college*') {
+                        if (e.college != college) {
+                          dontShow = true;
+                        }
+                      }
+                      // Intake Check
+                      if (intakeTextController.text != '') {
+                        if (e.intake != int.parse(intakeTextController.text)) {
+                          dontShow = true;
+                        }
                       }
 
                       if (!dontShow) shown++;

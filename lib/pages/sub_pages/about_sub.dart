@@ -82,12 +82,6 @@ class _AboutSubPageState extends State<AboutSubPage>
                 fontSize: 15,
               ),
             ),
-            const Text(
-              'KM Mynur',
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            ),
             const SizedBox(
               height: 25,
             ),
@@ -107,12 +101,10 @@ class _AboutSubPageState extends State<AboutSubPage>
             const SizedBox(
               height: 25,
             ),
-            Container(
-              child: const Text(
-                'Service by',
-                style: TextStyle(
-                  fontSize: 15,
-                ),
+            const Text(
+              'By',
+              style: TextStyle(
+                fontSize: 15,
               ),
             ),
             Text(

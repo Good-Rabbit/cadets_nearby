@@ -24,7 +24,7 @@ class LocalNotificationService {
   static void initialize(BuildContext context) {
     const InitializationSettings initializationSettings =
         InitializationSettings(
-            android: AndroidInitializationSettings("@mipmap/launcher_icon"));
+            android: AndroidInitializationSettings("@mipmap/ic_launcher"));
 
     notificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? payload) async {
@@ -62,7 +62,7 @@ class LocalNotificationService {
             channel.name,
             channel.description,
             importance: Importance.max,
-            icon: '@mipmap/launcher_icon',
+            icon: '@mipmap/ic_launcher',
             priority: Priority.high,
           ),
         ),
