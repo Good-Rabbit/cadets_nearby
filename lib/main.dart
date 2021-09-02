@@ -36,7 +36,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await prefs.reload();
   final List<String> notifications = prefs.getStringList('notifications') ?? [];
   notifications.add(
-    '${message.notification!.title!}~${message.notification!.body!}~u~${message.sentTime!}',
+    '${message.notification!.title!}~${message.notification!.body!}~u~${message.sentTime!.toString()}~${message.data['url']}',
   );
   prefs.setStringList('notifications', notifications);
 }

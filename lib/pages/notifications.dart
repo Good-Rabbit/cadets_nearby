@@ -1,4 +1,5 @@
 import 'package:cadets_nearby/services/notification_provider.dart';
+import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -57,6 +58,10 @@ class _NotificationPageState extends State<NotificationPage>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(e.body),
+                                        if(e.url != '')
+                                        TextButton(onPressed: (){
+                                          launchURL(e.url);
+                                        }, child: Text(e.url)),
                                       ],
                                     ),
                                   ),

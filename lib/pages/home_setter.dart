@@ -5,6 +5,7 @@ import 'package:cadets_nearby/pages/ui_elements/loading.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
+import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -57,7 +58,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
       if (message != null) {
         context.read<GlobalNotifications>().markMessageAsRead(message);
 
-        showNotificationDialog(message.notification!);
+        showNotificationDialog(message);
       }
     });
 
@@ -68,17 +69,16 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) async {
-      final RemoteNotification notification = message.notification!;
-      // AndroidNotification android = message.notification!.android!;
-
       context.read<GlobalNotifications>().markMessageAsRead(message);
 
-      showNotificationDialog(notification);
+      showNotificationDialog(message);
     });
     super.initState();
   }
 
-  void showNotificationDialog(RemoteNotification notification) {
+  void showNotificationDialog(RemoteMessage message) {
+    final RemoteNotification notification = message.notification!;
+
     showDialog(
       context: context,
       builder: (context) {
@@ -89,6 +89,12 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(notification.body!),
+                if (message.data['url'] != '')
+                  TextButton(
+                      onPressed: () {
+                        launchURL(message.data['url'] as String);
+                      },
+                      child: Text(message.data['url'] as String)),
               ],
             ),
           ),

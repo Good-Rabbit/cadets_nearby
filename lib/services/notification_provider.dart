@@ -46,7 +46,7 @@ class GlobalNotifications with ChangeNotifier {
   Future<void> addNotification(RemoteMessage message) async {
     final Noti noti = Noti(
       notificationString:
-          '${message.notification!.title}~${message.notification!.body}~u~${message.sentTime.toString()}',
+          '${message.notification!.title}~${message.notification!.body}~u~${message.sentTime.toString()}~${message.data['url']}',
     );
     notifications.add(noti);
 
@@ -55,7 +55,7 @@ class GlobalNotifications with ChangeNotifier {
     final List<String> notificationsString =
         prefs.getStringList('notifications') ?? [];
     notificationsString.add(
-      '${message.notification!.title!}~${message.notification!.body!}~u~${message.sentTime!}',
+      '${message.notification!.title!}~${message.notification!.body!}~u~${message.sentTime!.toString()}~${message.data['url']}',
     );
     prefs.setStringList('notifications', notificationsString);
 

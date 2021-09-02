@@ -4,6 +4,7 @@ class Noti {
   String title;
   String body;
   String timeStamp;
+  String url;
   bool isRead;
 
   Noti({
@@ -12,6 +13,7 @@ class Noti {
     this.isRead = false,
     this.title = '',
     this.timeStamp = '',
+    this.url = '',
   }) {
     final List<String> e = notificationString.split('~');
     title = e[0];
