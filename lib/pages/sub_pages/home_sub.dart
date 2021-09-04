@@ -58,8 +58,8 @@ class _HomeSubPageState extends State<HomeSubPage>
   TextEditingController intakeTextController = TextEditingController();
 
   void calculateMinMax(BuildContext context) {
-    latMax = Provider.of<MainUser>(context, listen: false).user!.lat + 0.14;
-    latMin = Provider.of<MainUser>(context, listen: false).user!.lat - 0.14;
+    latMax = Provider.of<MainUser>(context, listen: false).user!.lat + 0.138;
+    latMin = Provider.of<MainUser>(context, listen: false).user!.lat - 0.138;
   }
 
   Future<void> getLocation() async {
@@ -119,7 +119,7 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   void uploadLocation(LocationData locationData) {
     int sector = 0;
-    sector = ((locationData.latitude! - 20.56666) / (0.45)).ceil();
+    sector = ((locationData.latitude! - 20.56666) / (0.046)).ceil();
     final String timeStamp = DateTime.now().toString();
     try {
       HomeSetterPage.store

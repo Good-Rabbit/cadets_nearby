@@ -73,7 +73,7 @@ Future<void> onStart() async {
         stream = FirebaseFirestore.instance
             .collection('users')
             .where('lat',
-                isLessThan: latitude + 0.45, isGreaterThan: latitude - 0.45)
+                isLessThan: latitude + 0.46, isGreaterThan: latitude - 0.46)
             .where('sector', whereIn: [
           event["sector"] - 1,
           event["sector"],
