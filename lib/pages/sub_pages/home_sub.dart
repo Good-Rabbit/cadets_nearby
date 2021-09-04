@@ -119,7 +119,7 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   void uploadLocation(LocationData locationData) {
     int sector = 0;
-    sector = ((locationData.latitude! - 20.56666) / (0.1)).ceil();
+    sector = ((locationData.latitude! - 20.56666) / (0.45)).ceil();
     final String timeStamp = DateTime.now().toString();
     try {
       HomeSetterPage.store
@@ -421,12 +421,15 @@ class _HomeSubPageState extends State<HomeSubPage>
             FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
               future: HomeSetterPage.store
                   .collection('users')
-                  //TODO uncomment
                   .where('lat', isLessThan: latMax, isGreaterThan: latMin)
                   .where('sector', whereIn: [
+                context.read<MainUser>().user!.sector + 3,
+                context.read<MainUser>().user!.sector + 2,
                 context.read<MainUser>().user!.sector + 1,
                 context.read<MainUser>().user!.sector,
                 context.read<MainUser>().user!.sector - 1,
+                context.read<MainUser>().user!.sector - 2,
+                context.read<MainUser>().user!.sector - 3,
               ]).get(),
               builder: (context, snapshots) {
                 dataFetchTimeout = true;
