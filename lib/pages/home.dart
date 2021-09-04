@@ -22,7 +22,7 @@ class _RealHomeState extends State<RealHome> {
   void setSelectedIndex(int index) {
     selectedIndex = index;
     pageController.animateToPage(index,
-        duration: const Duration(milliseconds: 300), curve: Curves.ease);
+        duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
   }
 
   @override

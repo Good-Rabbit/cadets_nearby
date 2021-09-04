@@ -1,6 +1,6 @@
 name: cadets_nearby
 description: Stay in touch with cadets nearby you.
-version: 0.9.12+0
+version: 0.9.15+0
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -64,6 +64,6 @@ flutter_icons:
 
 flutter_native_splash:
   color: "#ffe099"
-  image: assets/images/icon.png
+  image: assets/images/icon_splash.png
   # To enable support for Android 12, set the following parameter to true.  Defaults to false.
   #android12: true
