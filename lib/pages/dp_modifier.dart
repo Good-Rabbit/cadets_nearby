@@ -72,8 +72,8 @@ class _DpPageState extends State<DpPage> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Updated Successfully')));
-        context.read<MainUser>().user!.photoUrl = '$siteAddress/DPs/${filename!}';
         context.read<MainUser>().user!.manualDp = true;
+        context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
         Navigator.of(context).pop();
       } else {}
     }).catchError((e) {
@@ -101,8 +101,8 @@ class _DpPageState extends State<DpPage> {
         });
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Deleted Successfully')));
-        context.read<MainUser>().user!.photoUrl = '';
         context.read<MainUser>().user!.manualDp = false;
+        context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
         Navigator.of(context).pop();
       }
     }).catchError((e) {

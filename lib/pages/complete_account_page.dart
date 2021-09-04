@@ -93,7 +93,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           latitude: locationData!.latitude!,
           longitude: locationData!.longitude!,
         );
-        addressTextController.text = '${address.streetAddress!}, ${address.region!}';
+        addressTextController.text =
+            '${address.streetAddress!}, ${address.region!}';
       }
       setState(() {});
     } catch (e) {
@@ -615,6 +616,9 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                               'photourl': HomeSetterPage.auth
                                                       .currentUser!.photoURL ??
                                                   '',
+                                              'lat': 0,
+                                              'long': 0,
+                                              'sector': 0,
                                               'celeb': false,
                                               'treatcount': 0,
                                               'treathead': true,
@@ -623,10 +627,11 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                               'designation':
                                                   designationTextController
                                                       .text,
-                                              'address': addressTextController.text,
+                                              'address':
+                                                  addressTextController.text,
                                               'manualdp': false,
                                               'sector': 0,
-                                              'contact':false,
+                                              'contact': false,
                                             },
                                           );
                                           // ignore: use_build_context_synchronously

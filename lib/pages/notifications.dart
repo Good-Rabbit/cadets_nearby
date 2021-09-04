@@ -51,6 +51,7 @@ class _NotificationPageState extends State<NotificationPage>
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
+                                  
                                   title: Text(e.title),
                                   content: SingleChildScrollView(
                                     child: Column(

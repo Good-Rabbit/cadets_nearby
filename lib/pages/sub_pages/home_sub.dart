@@ -11,6 +11,7 @@ import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
@@ -44,9 +45,6 @@ class _HomeSubPageState extends State<HomeSubPage>
   double latMax = 0;
   double latMin = 0;
 
-  double longMax = 0;
-  double longMin = 0;
-
   String? quote;
   String college = 'Pick your college*';
 
@@ -60,10 +58,8 @@ class _HomeSubPageState extends State<HomeSubPage>
   TextEditingController intakeTextController = TextEditingController();
 
   void calculateMinMax(BuildContext context) {
-    latMax = Provider.of<MainUser>(context, listen: false).user!.lat + 0.1;
-    latMin = Provider.of<MainUser>(context, listen: false).user!.lat - 0.1;
-    longMax = Provider.of<MainUser>(context, listen: false).user!.long + 0.1;
-    longMin = Provider.of<MainUser>(context, listen: false).user!.long - 0.1;
+    latMax = Provider.of<MainUser>(context, listen: false).user!.lat + 0.14;
+    latMin = Provider.of<MainUser>(context, listen: false).user!.lat - 0.14;
   }
 
   Future<void> getLocation() async {
@@ -138,6 +134,11 @@ class _HomeSubPageState extends State<HomeSubPage>
       context.read<MainUser>().setLat = locationData.latitude!;
       context.read<MainUser>().setLong = locationData.latitude!;
       context.read<MainUser>().user!.sector = sector;
+      FlutterBackgroundService().sendData({
+        'action':'setAsForeground',
+        'latitude':locationData.latitude!,
+        'sector':sector,
+      });
     } catch (e) {
       dev.log(e.toString());
     }

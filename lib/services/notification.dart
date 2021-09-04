@@ -20,5 +20,6 @@ class Noti {
     body = e[1];
     isRead = e[2] != 'u';
     timeStamp = e[3];
+    url = e[4];
   }
 }

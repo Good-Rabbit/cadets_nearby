@@ -559,6 +559,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                               child: Icon(Icons.location_pin),
                             ),
                           ),
+                          style: TextStyle(
+                            color: editingEnabled ? Colors.black : Colors.grey,
+                          ),
                           onChanged: (value) {
                             setState(() {
                               if (addressTextController.text !=
@@ -1004,6 +1007,7 @@ class _AccountSubPageState extends State<AccountSubPage>
     instaTextController.text = context.read<MainUser>().user!.instaUrl;
     profession = context.read<MainUser>().user!.profession;
     designationTextController.text = context.read<MainUser>().user!.designation;
+    addressTextController.text = context.read<MainUser>().user!.address;
     college = context.read<MainUser>().user!.college;
     useRegularEmail = context.read<MainUser>().user!.email ==
         HomeSetterPage.auth.currentUser!.email;

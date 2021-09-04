@@ -23,6 +23,12 @@ class MainUser with ChangeNotifier {
     mainUser!.long = long;
   }
 
+  // ignore: avoid_setters_without_getters
+  set setPhotoUrl(String url){
+    mainUser!.photoUrl = url;
+    notifyListeners();
+  }
+
   Future<void> setWithUser(User user)async{
     final u =
         await HomeSetterPage.store.collection('users').doc(user.uid).get();
@@ -56,7 +62,7 @@ class MainUser with ChangeNotifier {
       treatCount: u.data()!['treatcount'] as int,
       sector: u.data()!['sector'] as int,
       address: u.data()!['address'] as String,
-      contact: u.data()!['address'] as bool,
+      contact: u.data()!['contact'] as bool,
     );
   }
 }

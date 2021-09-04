@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:cadets_nearby/pages/complete_account_page.dart';
 import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/login.dart';
@@ -11,6 +13,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../main.dart';
 
 class HomeSetterPage extends StatefulWidget {
   const HomeSetterPage({Key? key}) : super(key: key);
