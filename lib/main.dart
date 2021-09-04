@@ -52,6 +52,7 @@ Future<void> onStart() async {
   // send to background
   service.setForegroundMode(false);
   Stream? stream;
+  // ignore: cancel_subscriptions
   StreamSubscription<dynamic>? streamSubscription;
   int count = 0;
   bool once = false;
@@ -63,7 +64,7 @@ Future<void> onStart() async {
         once = false;
         service.setNotificationInfo(
           title: "Starting zone detection",
-          content:"",
+          content: "",
         );
         if (streamSubscription != null) {
           streamSubscription!.cancel();
@@ -115,6 +116,9 @@ Future<void> onStart() async {
 
     if (event["action"] == "stopService") {
       service.stopBackgroundService();
+      if (streamSubscription != null) {
+        streamSubscription!.cancel();
+      }
     }
   });
 }

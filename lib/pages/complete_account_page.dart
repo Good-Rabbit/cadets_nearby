@@ -630,7 +630,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                               'address':
                                                   addressTextController.text,
                                               'manualdp': false,
-                                              'sector': 0,
                                               'contact': false,
                                             },
                                           );
