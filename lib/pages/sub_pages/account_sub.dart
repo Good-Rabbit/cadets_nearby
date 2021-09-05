@@ -1,10 +1,13 @@
 import 'dart:developer';
 
+import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
+import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +42,7 @@ class _AccountSubPageState extends State<AccountSubPage>
   bool locationAccess = true;
   bool phoneAccess = false;
   bool useRegularEmail = false;
+  bool enableZoneMonitor = true;
 
   bool inProgress = false;
 
@@ -549,7 +553,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                       child: SizedBox(
                         width: 500,
                         child: TextFormField(
-                          enabled:editingEnabled,
+                          enabled: editingEnabled,
                           controller: addressTextController,
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
@@ -784,11 +788,13 @@ class _AccountSubPageState extends State<AccountSubPage>
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       width: 500,
                       child: CheckboxListTile(
                           value: phoneAccess,
                           title: const Text('Make phone number public'),
+                          subtitle: const Text(
+                              'Anyone near you can use your phone number'),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
                           activeColor: Colors.black,
@@ -811,9 +817,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                       child: CheckboxListTile(
                           value: !locationAccess,
                           title: const Text(
-                            'Hide my exact location (Still show me in nearby result)',
-                            maxLines: 2,
+                            'Hide my exact location',
                           ),
+                          subtitle:
+                              const Text('Still show me in nearby result'),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
                           activeColor: Colors.black,
@@ -827,6 +834,34 @@ class _AccountSubPageState extends State<AccountSubPage>
                                             .read<MainUser>()
                                             .user!
                                             .pLocation) {
+                                      hasChanged = true;
+                                    }
+                                  });
+                                }),
+                    ),
+                    Container(
+                      width: 500,
+                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      child: CheckboxListTile(
+                          value: enableZoneMonitor,
+                          title: const Text(
+                            'Enable Zone Monitor',
+                            maxLines: 2,
+                          ),
+                          subtitle: const Text(
+                              'Get notified when anyone enters your 5km zone'),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40.0)),
+                          activeColor: Colors.black,
+                          onChanged: !editingEnabled
+                              ? null
+                              : (value) {
+                                  setState(() {
+                                    enableZoneMonitor = value!;
+                                    if (enableZoneMonitor !=
+                                        context
+                                            .read<Settings>()
+                                            .zoneDetection) {
                                       hasChanged = true;
                                     }
                                   });
@@ -937,9 +972,21 @@ class _AccountSubPageState extends State<AccountSubPage>
                                   // ignore: use_build_context_synchronously
                                   sector: context.read<MainUser>().user!.sector,
                                   address: addressTextController.text,
-                                  // ignore: use_build_context_synchronously
-                                  contact: context.read<MainUser>().user!.contact,
+                                  contact:
+                                      // ignore: use_build_context_synchronously
+                                      context.read<MainUser>().user!.contact,
                                 );
+                                // ignore: use_build_context_synchronously
+                                context.read<Settings>().zoneDetection =
+                                    enableZoneMonitor;
+
+                                if (!enableZoneMonitor) {
+                                  FlutterBackgroundService()
+                                      .sendData({'action': 'stopService'});
+                                } else {
+                                  FlutterBackgroundService.initialize(onLogin);
+                                }
+
                                 // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -977,6 +1024,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                       final SharedPreferences prefs =
                           await SharedPreferences.getInstance();
                       prefs.clear();
+                      FlutterBackgroundService()
+                          .sendData({'action': 'stopService'});
                     },
                     child: const Text('Sign Out'),
                   ),
@@ -1011,6 +1060,7 @@ class _AccountSubPageState extends State<AccountSubPage>
     college = context.read<MainUser>().user!.college;
     useRegularEmail = context.read<MainUser>().user!.email ==
         HomeSetterPage.auth.currentUser!.email;
+    enableZoneMonitor = context.read<Settings>().zoneDetection;
     if (formKey.currentState != null) {
       formKey.currentState!.validate();
     }

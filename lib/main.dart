@@ -15,12 +15,11 @@ import 'package:cadets_nearby/pages/verify_email.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,89 +43,9 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   prefs.setStringList('notifications', notifications);
 }
 
-Future<void> onStart() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  final service = FlutterBackgroundService();
-  // send to background
-  service.setForegroundMode(false);
-  Stream? stream;
-  // ignore: cancel_subscriptions
-  StreamSubscription<dynamic>? streamSubscription;
-  int count = 0;
-  bool once = false;
-  service.onDataReceived.listen((event) {
-    if (event!["action"] == "setAsForeground") {
-      service.setForegroundMode(true);
-      if (event["latitude"] != null) {
-        count = 0;
-        once = false;
-        service.setNotificationInfo(
-          title: "Starting zone detection",
-          content: "",
-        );
-        if (streamSubscription != null) {
-          streamSubscription!.cancel();
-        }
-        final double latitude = event['latitude'] as double;
-        stream = FirebaseFirestore.instance
-            .collection('users')
-            .where('lat',
-                isLessThan: latitude + 0.046, isGreaterThan: latitude - 0.046)
-            .where('sector', whereIn: [
-          event["sector"] - 1,
-          event["sector"],
-          event["sector"] + 1,
-        ]).snapshots();
-
-        streamSubscription = stream!.listen((value) {
-          final QuerySnapshot<Map<String, dynamic>> snap =
-              value as QuerySnapshot<Map<String, dynamic>>;
-          if (!once) {
-            count = snap.docs.length;
-            once = true;
-          } else if (count < snap.docs.length) {
-            LocalNotificationService.notificationsPlugin.show(
-              DateTime.now().hashCode,
-              'Someone has entered your zone!',
-              'Check who it is and fix your rendezvous!',
-              NotificationDetails(
-                android: AndroidNotificationDetails(
-                  channel.id,
-                  channel.name,
-                  channel.description,
-                  importance: Importance.max,
-                  icon: '@mipmap/ic_launcher',
-                  priority: Priority.high,
-                ),
-              ),
-            );
-          }
-        });
-
-        service.setForegroundMode(false);
-      }
-      return;
-    }
-
-    if (event["action"] == "setAsBackground") {
-      service.setForegroundMode(false);
-    }
-
-    if (event["action"] == "stopService") {
-      service.stopBackgroundService();
-      if (streamSubscription != null) {
-        streamSubscription!.cancel();
-      }
-    }
-  });
-}
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  FlutterBackgroundService.initialize(onStart);
 
   try {
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
@@ -154,6 +73,9 @@ Future<void> main() async {
       ),
       ChangeNotifierProvider(
         create: (context) => MainUser(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Settings(),
       )
     ],
     child: MyApp(),

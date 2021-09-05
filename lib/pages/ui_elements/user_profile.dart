@@ -41,10 +41,12 @@ class UserProfile extends StatelessWidget {
           ],
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(30, 0, 0, 0),
-              width: MediaQuery.of(context).size.width / 4,
+            const SizedBox(
+              width: 30,
+            ),
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -70,55 +72,62 @@ class UserProfile extends StatelessWidget {
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      e.fullName,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    if (e.celeb)
-                      const Icon(
-                        Icons.verified,
-                        size: 15,
-                        color: Colors.green,
+            Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        e.fullName,
                       ),
-                    if (e.verified != 'yes')
-                      const Icon(
-                        Icons.info_rounded,
-                        size: 15,
-                        color: Colors.redAccent,
+                      const SizedBox(
+                        width: 5,
                       ),
-                  ],
-                ),
-                if (e.premium)
-                  const Text(
-                    'Premium User',
-                    style: TextStyle(
-                      color: Colors.deepOrange,
-                    ),
+                      if (e.celeb)
+                        const Icon(
+                          Icons.verified,
+                          size: 15,
+                          color: Colors.green,
+                        ),
+                      if (e.verified != 'yes')
+                        const Icon(
+                          Icons.info_rounded,
+                          size: 15,
+                          color: Colors.redAccent,
+                        ),
+                    ],
                   ),
-                Text(
-                  e.cNumber.toString(),
-                ),
-                Text(
-                  '${e.college} (${e.intake}) ',
-                ),
-                Text(
-                  e.profession != '' ? e.profession : '-',
-                ),
-                Text(
-                  e.designation != '' ? e.designation : '-',
-                ),
-                Text(
-                  e.address,
-                ),
-              ],
+                  if (e.premium)
+                    const Text(
+                      'Premium User',
+                      style: TextStyle(
+                        color: Colors.deepOrange,
+                      ),
+                    ),
+                  Text(
+                    e.cNumber.toString(),
+                    maxLines: 1,
+                  ),
+                  Text(
+                    '${e.college} (${e.intake}) ',
+                    maxLines: 1,
+                  ),
+                  Text(
+                    e.profession != '' ? e.profession : '-',
+                    maxLines: 1,
+                  ),
+                  Text(
+                    e.designation != '' ? e.designation : '-',
+                    maxLines: 1,
+                  ),
+                  Text(
+                    e.address,
+                    maxLines: 3,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

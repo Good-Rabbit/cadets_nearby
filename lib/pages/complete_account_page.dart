@@ -293,7 +293,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           isDense: true,
                           onChanged: (value) {
                             setState(() {
-                              college = value! as String;
+                              profession = value! as String;
                             });
                           },
                           items: professions.map((String value) {
@@ -501,6 +501,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         child: CheckboxListTile(
                             value: phoneAccess,
                             title: const Text('Make phone number public'),
+                            subtitle: const Text(
+                                'Anyone near you can use your phone number'),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40.0)),
                             activeColor: Colors.black,
@@ -520,9 +522,10 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                         child: CheckboxListTile(
                             value: !locationAccess,
                             title: const Text(
-                              'Hide my exact location (Still show me in nearby result)',
-                              maxLines: 2,
+                              'Hide my exact location',
                             ),
+                            subtitle:
+                                const Text('Still show me in nearby result'),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40.0)),
                             activeColor: Colors.black,

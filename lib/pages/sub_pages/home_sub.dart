@@ -35,8 +35,7 @@ class _HomeSubPageState extends State<HomeSubPage>
   bool disabled = false;
   bool loadingComplete = false;
 
-  bool locationTimeout = false;
-  bool dataFetchTimeout = false;
+  bool timeout = false;
 
   List<AppUser> savedUsers = [];
 
@@ -63,8 +62,8 @@ class _HomeSubPageState extends State<HomeSubPage>
   }
 
   Future<void> getLocation() async {
-    if (!locationTimeout) {
-      locationTimeout = true;
+    if (!timeout) {
+      timeout = true;
 
       try {
         final Location location = Location();
@@ -112,7 +111,7 @@ class _HomeSubPageState extends State<HomeSubPage>
         dev.log(e.toString());
       }
       Future.delayed(const Duration(minutes: 1)).then((value) {
-        locationTimeout = false;
+        timeout = false;
       });
     }
   }
@@ -156,12 +155,6 @@ class _HomeSubPageState extends State<HomeSubPage>
   Future<void> getQuote() async {
     final doc = await HomeSetterPage.store.collection('quotes').doc('1').get();
     quote = doc.data()!['quote'] as String;
-  }
-
-  Future<void> clearTimeout() async {
-    Future.delayed(const Duration(minutes: 1)).then((value) {
-      dataFetchTimeout = false;
-    });
   }
 
   @override
@@ -420,9 +413,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                 ),
             ],
           ),
-          if (locationData != null && !dataFetchTimeout)
-            FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              future: HomeSetterPage.store
+          if (locationData != null)
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: HomeSetterPage.store
                   .collection('users')
                   .where('lat', isLessThan: latMax, isGreaterThan: latMin)
                   .where('sector', whereIn: [
@@ -433,228 +426,240 @@ class _HomeSubPageState extends State<HomeSubPage>
                 context.read<MainUser>().user!.sector - 1,
                 context.read<MainUser>().user!.sector - 2,
                 context.read<MainUser>().user!.sector - 3,
-              ]).get(),
+              ]).snapshots(),
               builder: (context, snapshots) {
-                dataFetchTimeout = true;
                 if (snapshots.hasData) {
                   shown = 0;
-                  if (snapshots.data!.docs.length != 1 && snapshots.data!.docs.isNotEmpty) {
-                    return ListView(
-                      children: snapshots.data!.docs.map(
-                        (u) {
-                          counter++;
-                          bool dontShow = false;
-                          // Make a user object
-                          final AppUser e = AppUser(
-                              id: u.data()['id'] as String,
-                              cName: u.data()['cname'] as String,
-                              cNumber: int.parse(u.data()['cnumber'] as String),
-                              fullName: u.data()['fullname'] as String,
-                              college: u.data()['college'] as String,
-                              email: u.data()['email'] as String,
-                              intake: int.parse(u.data()['intake'] as String),
-                              lat: u.data()['lat'] as double,
-                              long: u.data()['long'] as double,
-                              timeStamp: DateTime.parse(
-                                  u.data()['lastonline'] as String),
-                              photoUrl: u.data()['photourl'] as String,
-                              pAlways: u.data()['palways'] as bool,
-                              pLocation: u.data()['plocation'] as bool,
-                              pMaps: u.data()['pmaps'] as bool,
-                              pPhone: u.data()['pphone'] as bool,
-                              phone: u.data()['phone'] as String,
-                              premium: u.data()['premium'] as bool,
-                              verified: u.data()['verified'] as String,
-                              fbUrl: u.data()['fburl'] as String,
-                              instaUrl: u.data()['instaurl'] as String,
-                              celeb: u.data()['celeb'] as bool,
-                              treatHead: u.data()['treathead'] as bool,
-                              treatHunter: u.data()['treathunter'] as bool,
-                              designation: u.data()['designation'] as String,
-                              profession: u.data()['profession'] as String,
-                              manualDp: u.data()['manualdp'] as bool,
-                              treatCount: u.data()['treatcount'] as int,
-                              sector: u.data()['sector'] as int,
-                              address: u.data()['address'] as String,
-                              contact: u.data()['contact'] as bool);
+                  if (snapshots.data!.docs.length != 1 &&
+                      snapshots.data!.docs.isNotEmpty) {
+                    return Expanded(
+                      child: ListView(
+                        children: snapshots.data!.docs.map(
+                          (u) {
+                            counter++;
+                            bool dontShow = false;
+                            // Make a user object
+                            final AppUser e = AppUser(
+                                id: u.data()['id'] as String,
+                                cName: u.data()['cname'] as String,
+                                cNumber:
+                                    int.parse(u.data()['cnumber'] as String),
+                                fullName: u.data()['fullname'] as String,
+                                college: u.data()['college'] as String,
+                                email: u.data()['email'] as String,
+                                intake: int.parse(u.data()['intake'] as String),
+                                lat: u.data()['lat'] as double,
+                                long: u.data()['long'] as double,
+                                timeStamp: DateTime.parse(
+                                    u.data()['lastonline'] as String),
+                                photoUrl: u.data()['photourl'] as String,
+                                pAlways: u.data()['palways'] as bool,
+                                pLocation: u.data()['plocation'] as bool,
+                                pMaps: u.data()['pmaps'] as bool,
+                                pPhone: u.data()['pphone'] as bool,
+                                phone: u.data()['phone'] as String,
+                                premium: u.data()['premium'] as bool,
+                                verified: u.data()['verified'] as String,
+                                fbUrl: u.data()['fburl'] as String,
+                                instaUrl: u.data()['instaurl'] as String,
+                                celeb: u.data()['celeb'] as bool,
+                                treatHead: u.data()['treathead'] as bool,
+                                treatHunter: u.data()['treathunter'] as bool,
+                                designation: u.data()['designation'] as String,
+                                profession: u.data()['profession'] as String,
+                                manualDp: u.data()['manualdp'] as bool,
+                                treatCount: u.data()['treatcount'] as int,
+                                sector: u.data()['sector'] as int,
+                                address: u.data()['address'] as String,
+                                contact: u.data()['contact'] as bool);
 
-                          Duration timeDiff;
-                          timeDiff = DateTime.now().difference(e.timeStamp);
+                            Duration timeDiff;
+                            timeDiff = DateTime.now().difference(e.timeStamp);
 
-                          if (e.equals(context.read<MainUser>().user!) &&
-                              snapshots.data!.docs.length == 1) {
-                            return noOneNearby();
-                          } else if (e.equals(context.read<MainUser>().user!)) {
-                            dontShow = true;
-                          } else if (timeDiff.inDays > 30) {
-                            dontShow = true;
-                          }
-
-                          //Distance in km
-                          var distanceD = calculateDistance(
-                              locationData!.latitude!,
-                              locationData!.longitude!,
-                              e.lat,
-                              e.long);
-
-                          // Range Check
-                          if (distanceD > range.end ||
-                              distanceD < range.start) {
-                            dontShow = true;
-                          }
-                          // College Check
-                          if (college != 'Pick your college*') {
-                            if (e.college != college) {
-                              dontShow = true;
-                            }
-                          }
-                          // Intake Check
-                          if (intakeTextController.text != '') {
-                            if (e.intake !=
-                                int.parse(intakeTextController.text)) {
-                              dontShow = true;
-                            }
-                          }
-
-                          if (!dontShow) shown++;
-
-                          if (counter == snapshots.data!.docs.length) {
-                            clearTimeout();
-                            if (shown == 0) {
+                            if (e.equals(context.read<MainUser>().user!) &&
+                                snapshots.data!.docs.length == 1) {
                               return noOneNearby();
+                            } else if (e
+                                .equals(context.read<MainUser>().user!)) {
+                              dontShow = true;
+                            } else if (timeDiff.inDays > 30) {
+                              dontShow = true;
                             }
-                          }
 
-                          if (dontShow) {
-                            return const SizedBox();
-                          }
-                          bool contains = false;
-                          for (final user in savedUsers) {
-                            if (user.id == e.id) {
-                              contains = true;
-                              break;
+                            //Distance in km
+                            var distanceD = calculateDistance(
+                                locationData!.latitude!,
+                                locationData!.longitude!,
+                                e.lat,
+                                e.long);
+
+                            // Range Check
+                            if (distanceD > range.end ||
+                                distanceD < range.start) {
+                              dontShow = true;
                             }
-                          }
-                          if (!contains && !dontShow) {
-                            savedUsers.add(e);
-                          }
+                            // College Check
+                            if (college != 'Pick your college*') {
+                              if (e.college != college) {
+                                dontShow = true;
+                              }
+                            }
+                            // Intake Check
+                            if (intakeTextController.text != '') {
+                              if (e.intake !=
+                                  int.parse(intakeTextController.text)) {
+                                dontShow = true;
+                              }
+                            }
 
-                          //This is kinda fuzzy, I'll optimize it later
-                          // ------------
-                          //Distance in meter
-                          distanceD *= 1000;
-                          //Distance in meter rounded to tens
-                          double distanceKm = distanceD.roundToDouble() -
-                              distanceD.roundToDouble() % 10;
-                          distanceKm /= 1000;
-                          distanceKm =
-                              double.parse(distanceKm.toStringAsFixed(2));
-                          int distanceM = distanceD.toInt();
-                          bool isKm = false;
+                            if (!dontShow) shown++;
 
-                          if (distanceM >= 10) {
-                            distanceM = distanceM - distanceM % 10;
-                          }
-                          if (distanceM > 1000) {
-                            isKm = true;
-                          }
-                          // -------------
-                          return Container(
-                            margin:
-                                const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                            child: NearbyCard(
-                                e: e,
-                                isKm: isKm,
-                                distanceKm: distanceKm,
-                                distanceM: distanceM),
-                          );
-                        },
-                      ).toList(),
+                            if (counter == snapshots.data!.docs.length) {
+                              // clearTimeout();
+                              if (shown == 0) {
+                                return noOneNearby();
+                              }
+                            }
+
+                            if (dontShow) {
+                              return const SizedBox();
+                            }
+                            bool contains = false;
+                            for (final user in savedUsers) {
+                              if (user.id == e.id) {
+                                contains = true;
+                                break;
+                              }
+                            }
+                            if (!contains && !dontShow) {
+                              savedUsers.add(e);
+                            }
+
+                            //This is kinda fuzzy, I'll optimize it later
+                            // ------------
+                            //Distance in meter
+                            distanceD *= 1000;
+                            //Distance in meter rounded to tens
+                            double distanceKm = distanceD.roundToDouble() -
+                                distanceD.roundToDouble() % 10;
+                            distanceKm /= 1000;
+                            distanceKm =
+                                double.parse(distanceKm.toStringAsFixed(2));
+                            int distanceM = distanceD.toInt();
+                            bool isKm = false;
+
+                            if (distanceM >= 10) {
+                              distanceM = distanceM - distanceM % 10;
+                            }
+                            if (distanceM > 1000) {
+                              isKm = true;
+                            }
+                            // -------------
+                            return Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  10.0, 5.0, 10.0, 5.0),
+                              child: NearbyCard(
+                                  e: e,
+                                  isKm: isKm,
+                                  distanceKm: distanceKm,
+                                  distanceM: distanceM),
+                            );
+                          },
+                        ).toList(),
+                      ),
                     );
-                  }
-                  else{
+                  } else {
                     return noOneNearby();
                   }
                 }
                 return const Expanded(child: Loading());
               },
             ),
-          if (locationData != null && dataFetchTimeout)
-            ListView(
-              children: savedUsers.isEmpty
-                  ? [noOneNearby()]
-                  : savedUsers.map((e) {
-                      bool dontShow = false;
-                      counter++;
-                      if (e.equals(context.read<MainUser>().user!) &&
-                          savedUsers.length == 1) {
-                        return noOneNearby();
-                      } else if (e.equals(context.read<MainUser>().user!)) {
-                        dontShow = true;
-                      }
-                      // Get distance in metres
-                      var distanceD = calculateDistance(locationData!.latitude!,
-                          locationData!.longitude!, e.lat, e.long);
+          // if (locationData != null && dataFetchTimeout)
+          //   Expanded(
+          //     child: ListView(
+          //       children: savedUsers.isEmpty
+          //           ? [noOneNearby()]
+          //           : savedUsers.map((e) {
+          //               bool dontShow = false;
+          //               counter++;
+          //               if (e.equals(context.read<MainUser>().user!) &&
+          //                   savedUsers.length == 1) {
+          //                 return noOneNearby();
+          //               } else if (e.equals(context.read<MainUser>().user!)) {
+          //                 dontShow = true;
+          //               }
+          //               // Get distance in metres
+          //               var distanceD = calculateDistance(
+          //                   locationData!.latitude!,
+          //                   locationData!.longitude!,
+          //                   e.lat,
+          //                   e.long);
 
-                      // Range Check
-                      if (distanceD > range.end || distanceD < range.start) {
-                        dontShow = true;
-                      }
-                      // College Check
-                      if (college != 'Pick your college*') {
-                        if (e.college != college) {
-                          dontShow = true;
-                        }
-                      }
-                      // Intake Check
-                      if (intakeTextController.text != '') {
-                        if (e.intake != int.parse(intakeTextController.text)) {
-                          dontShow = true;
-                        }
-                      }
+          //               // Range Check
+          //               if (distanceD > range.end || distanceD < range.start) {
+          //                 dontShow = true;
+          //               }
+          //               // College Check
+          //               if (college != 'Pick your college*') {
+          //                 if (e.college != college) {
+          //                   dontShow = true;
+          //                 }
+          //               }
+          //               // Intake Check
+          //               if (intakeTextController.text != '') {
+          //                 if (e.intake !=
+          //                     int.parse(intakeTextController.text)) {
+          //                   dontShow = true;
+          //                 }
+          //               }
 
-                      if (!dontShow) shown++;
+          //               if (!dontShow) shown++;
 
-                      if (counter == savedUsers.length) {
-                        if (shown == 0) {
-                          return noOneNearby();
-                        }
-                      }
+          //               if (counter == savedUsers.length) {
+          //                 if (shown == 0) {
+          //                   return noOneNearby();
+          //                 }
+          //               }
 
-                      if (dontShow) {
-                        return const SizedBox();
-                      }
+          //               if (dontShow) {
+          //                 return const SizedBox();
+          //               }
 
-                      //This is kinda fuzzy, I'll optimize it later
-                      // ------------
-                      //Distance in meter
-                      distanceD *= 1000;
-                      //Distance in meter rounded to tens
-                      double distanceKm = distanceD.roundToDouble() -
-                          distanceD.roundToDouble() % 10;
-                      distanceKm /= 1000;
-                      distanceKm = double.parse(distanceKm.toStringAsFixed(2));
-                      int distanceM = distanceD.toInt();
-                      bool isKm = false;
+          //               //This is kinda fuzzy, I'll optimize it later
+          //               // ------------
+          //               //Distance in meter
+          //               distanceD *= 1000;
+          //               //Distance in meter rounded to tens
+          //               double distanceKm = distanceD.roundToDouble() -
+          //                   distanceD.roundToDouble() % 10;
+          //               distanceKm /= 1000;
+          //               distanceKm =
+          //                   double.parse(distanceKm.toStringAsFixed(2));
+          //               int distanceM = distanceD.toInt();
+          //               bool isKm = false;
 
-                      if (distanceM >= 10) {
-                        distanceM = distanceM - distanceM % 10;
-                      }
-                      if (distanceM > 1000) {
-                        isKm = true;
-                      }
-                      // -------------
+          //               if (distanceM >= 10) {
+          //                 distanceM = distanceM - distanceM % 10;
+          //               }
+          //               if (distanceM > 1000) {
+          //                 isKm = true;
+          //               }
+          //               // -------------
 
-                      return Container(
-                        margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        child: NearbyCard(
-                            e: e,
-                            isKm: isKm,
-                            distanceKm: distanceKm,
-                            distanceM: distanceM),
-                      );
-                    }).toList(),
-            ),
+          //               return Container(
+          //                 margin:
+          //                     const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+          //                 child: NearbyCard(
+          //                     e: e,
+          //                     isKm: isKm,
+          //                     distanceKm: distanceKm,
+          //                     distanceM: distanceM),
+          //               );
+          //             }).toList(),
+          //     ),
+          //   ),
+
           if (rejected || !locationEnabled || !permissionGranted)
             Expanded(child: locationDisabled()),
           if (locationData == null && permissionGranted && locationEnabled)
