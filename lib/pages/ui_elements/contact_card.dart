@@ -102,7 +102,7 @@ class ContactCard extends StatelessWidget {
                         ),
                       ),
                     Text('Profession: ${e.profession}'),
-                    Text('Designation: ${e.designation}'),
+                    Text('Designation: ${e.designation == ''?'-':e.designation}'),
                   ],
                 ),
               ),

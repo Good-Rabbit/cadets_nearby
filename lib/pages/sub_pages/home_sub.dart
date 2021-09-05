@@ -426,7 +426,8 @@ class _HomeSubPageState extends State<HomeSubPage>
                 context.read<MainUser>().user!.sector - 1,
                 context.read<MainUser>().user!.sector - 2,
                 context.read<MainUser>().user!.sector - 3,
-              ]).snapshots(),
+              ])
+              .snapshots(),
               builder: (context, snapshots) {
                 if (snapshots.hasData) {
                   shown = 0;
@@ -569,7 +570,13 @@ class _HomeSubPageState extends State<HomeSubPage>
                       ),
                     );
                   } else {
-                    return noOneNearby();
+                    return Expanded(
+                      child: ListView(
+                        children: [
+                          noOneNearby(),
+                        ],
+                      ),
+                    );
                   }
                 }
                 return const Expanded(child: Loading());

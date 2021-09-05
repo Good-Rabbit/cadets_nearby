@@ -69,52 +69,6 @@ class _AboutSubPageState extends State<AboutSubPage>
                 ],
               ),
             ),
-            const Text(
-              'Devs',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Text(
-              'Saim Ul Islam',
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            const Text(
-              'Project Manager',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const Text(
-              'Muaz Fahim Faruki',
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            const Text(
-              'By',
-              style: TextStyle(
-                fontSize: 15,
-              ),
-            ),
-            Text(
-              'GoldenFleece',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
           ],
         ),
       ),
