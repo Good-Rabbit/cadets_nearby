@@ -30,7 +30,6 @@ Future<void> onLogin() async {
   bool once = false;
   service.onDataReceived.listen((event) {
     if (event!["action"] == "setAsForeground") {
-      service.setForegroundMode(true);
       if (event["latitude"] != null) {
         count = 0;
         once = false;
@@ -115,10 +114,10 @@ class _RealHomeState extends State<RealHome> {
   }
 
   Future<void> startService() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.reload();
     if (prefs.getBool('zoneDetection') ?? true) {
-      FlutterBackgroundService.initialize(onLogin);
+      FlutterBackgroundService.initialize(onLogin,foreground:false,);
     }
   }
 

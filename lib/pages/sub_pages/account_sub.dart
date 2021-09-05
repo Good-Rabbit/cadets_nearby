@@ -527,7 +527,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           controller: designationTextController,
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
-                            hintText: 'Designation at institude',
+                            hintText: 'Designation at institute',
                             prefixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.location_city),
@@ -557,7 +557,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           controller: addressTextController,
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
-                            hintText: 'Address',
+                            hintText: 'Address*',
                             prefixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.location_pin),
@@ -573,6 +573,12 @@ class _AccountSubPageState extends State<AccountSubPage>
                                 hasChanged = true;
                               }
                             });
+                          },
+                          validator: (val) {
+                            if (val!.trim().isEmpty) {
+                              return 'Address is required';
+                            }
+                            return null;
                           },
                           keyboardType: TextInputType.streetAddress,
                         ),
@@ -977,14 +983,18 @@ class _AccountSubPageState extends State<AccountSubPage>
                                       context.read<MainUser>().user!.contact,
                                 );
                                 // ignore: use_build_context_synchronously
-                                context.read<Settings>().zoneDetection =
-                                    enableZoneMonitor;
-
-                                if (!enableZoneMonitor) {
-                                  FlutterBackgroundService()
-                                      .sendData({'action': 'stopService'});
-                                } else {
-                                  FlutterBackgroundService.initialize(onLogin);
+                                if (context.read<Settings>().zoneDetection !=
+                                    enableZoneMonitor) {
+                                  if (!enableZoneMonitor) {
+                                    FlutterBackgroundService()
+                                        .sendData({'action': 'stopService'});
+                                  } else {
+                                    FlutterBackgroundService.initialize(
+                                        onLogin);
+                                  }
+                                  // ignore: use_build_context_synchronously
+                                  context.read<Settings>().zoneDetection =
+                                      enableZoneMonitor;
                                 }
 
                                 // ignore: use_build_context_synchronously

@@ -26,7 +26,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
   User? user;
 
   void loggedInNotifier() {
-    setState(() {});
+    Navigator.of(context).pushReplacementNamed('/');
   }
 
   @override

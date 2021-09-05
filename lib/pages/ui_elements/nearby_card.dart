@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:cadets_nearby/pages/ui_elements/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cadets_nearby/services/user.dart';
 
-class NearbyCard extends StatelessWidget {
+class NearbyCard extends StatefulWidget {
   const NearbyCard({
     Key? key,
     required this.e,
@@ -17,10 +19,15 @@ class NearbyCard extends StatelessWidget {
   final int distanceM;
 
   @override
-  Widget build(BuildContext context) {
-    final Duration lastOnline = e.timeStamp.difference(DateTime.now());
-    String timeAgo = '';
-    if (lastOnline.inSeconds <= 80) {
+  _NearbyCardState createState() => _NearbyCardState();
+}
+
+class _NearbyCardState extends State<NearbyCard> {
+  String timeAgo = '';
+
+  void updateTime() {
+    final Duration lastOnline = DateTime.now().difference(widget.e.timeStamp);
+    if (lastOnline.inSeconds <= 20) {
       timeAgo = 'active now';
     } else if (lastOnline.inMinutes < 60) {
       timeAgo = '${lastOnline.inMinutes} mins ago';
@@ -36,10 +43,24 @@ class NearbyCard extends StatelessWidget {
       timeAgo = 'More than a week ago';
     } else if (lastOnline.inDays > 14 && lastOnline.inDays <= 30) {
       timeAgo = 'More than 2 weeks ago';
-    } else if(lastOnline.inDays > 30){
-      timeAgo = '${(lastOnline.inDays/30).floor()} ${(lastOnline.inDays/30).floor() == 1 ? 'month' : 'months'}ago';
+    } else if (lastOnline.inDays > 30) {
+      timeAgo =
+          '${(lastOnline.inDays / 30).floor()} ${(lastOnline.inDays / 30).floor() == 1 ? 'month' : 'months'}ago';
     }
+  }
 
+  @override
+  void initState() {
+    updateTime();
+    Timer.periodic(const Duration(minutes: 2), (timer) {
+      updateTime();
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         showModalBottomSheet(
@@ -66,7 +87,7 @@ class NearbyCard extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(15, 10, 10, 10),
                       child: ListView(
                         controller: controller,
-                        children: [UserProfile(e: e)],
+                        children: [UserProfile(e: widget.e)],
                       ),
                     ),
                   ),
@@ -86,10 +107,10 @@ class NearbyCard extends StatelessWidget {
                   radius: 25.0,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: e.photoUrl == ''
+                    child: widget.e.photoUrl == ''
                         ? Image.asset('assets/images/user.png')
                         : Image.network(
-                            e.photoUrl,
+                            widget.e.photoUrl,
                             fit: BoxFit.cover,
                             width: 50,
                             height: 50,
@@ -104,15 +125,15 @@ class NearbyCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          e.cName,
+                          widget.e.cName,
                         ),
-                        if (e.celeb)
+                        if (widget.e.celeb)
                           const Icon(
                             Icons.verified,
                             size: 15,
                             color: Colors.green,
                           ),
-                        if (e.verified != 'yes')
+                        if (widget.e.verified != 'yes')
                           const Icon(
                             Icons.info_rounded,
                             size: 15,
@@ -120,19 +141,21 @@ class NearbyCard extends StatelessWidget {
                           ),
                       ],
                     ),
-                    if (e.premium)
+                    if (widget.e.premium)
                       const Text(
                         'Premium User',
                         style: TextStyle(
                           color: Colors.deepOrange,
                         ),
                       ),
-                    if (e.pLocation)
+                    if (widget.e.pLocation)
                       Text(
-                        (isKm ? distanceKm.toString() : distanceM.toString()) +
-                            (isKm ? 'km' : 'm'),
+                        (widget.isKm
+                                ? widget.distanceKm.toString()
+                                : widget.distanceM.toString()) +
+                            (widget.isKm ? 'km' : 'm'),
                       ),
-                    if (!e.pLocation)
+                    if (!widget.e.pLocation)
                       const Icon(
                         Icons.visibility_off_rounded,
                         size: 17,

@@ -313,7 +313,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           controller: designationTextController,
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
-                            hintText: 'Designation at institue',
+                            hintText: 'Designation at institute',
                             prefixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.location_city),
@@ -331,13 +331,19 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           controller: addressTextController,
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
-                            hintText: 'Address',
+                            hintText: 'Address*',
                             prefixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(Icons.location_pin),
                             ),
                           ),
                           keyboardType: TextInputType.streetAddress,
+                          validator: (val) {
+                            if (val!.trim().isEmpty) {
+                              return 'Address is required';
+                            }
+                            return null;
+                          },
                         ),
                       ),
                     ),
@@ -495,7 +501,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                       child: SizedBox(
                         width: 500,
                         child: CheckboxListTile(
@@ -636,6 +642,11 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                               'contact': false,
                                             },
                                           );
+                                          int sector = 0;
+                                          sector = ((locationData!.latitude! -
+                                                      20.56666) /
+                                                  (0.046))
+                                              .ceil();
                                           // ignore: use_build_context_synchronously
                                           context.read<MainUser>().user =
                                               AppUser(
@@ -653,6 +664,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             pAlways: alwaysAccess,
                                             pLocation: locationAccess,
                                             pPhone: phoneAccess,
+                                            lat: locationData!.latitude ?? 0,
+                                            long: locationData!.longitude ?? 0,
                                             photoUrl: HomeSetterPage.auth
                                                     .currentUser!.photoURL ??
                                                 '',
@@ -671,7 +684,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                             profession: profession,
                                             address: addressTextController.text,
                                             manualDp: false,
-                                            sector: 0,
+                                            sector: sector,
                                             contact: false,
                                           );
                                           widget.loggedInNotifier();
