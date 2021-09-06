@@ -390,6 +390,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                             if (val!.isEmpty) {
                               return 'Cadet Number is required';
                             }
+                            if (!isInt(val)) {
+                              return 'Please enter a valid number';
+                            }
                             return null;
                           },
                         ),
@@ -473,6 +476,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                           validator: (val) {
                             if (val!.trim().isEmpty) {
                               return 'Intake year is required';
+                            }
+                            if (!isInt(val)) {
+                              return 'Please enter a valid number';
                             }
                             return null;
                           },
@@ -1049,6 +1055,14 @@ class _AccountSubPageState extends State<AccountSubPage>
         ),
       ),
     );
+  }
+
+  bool isInt(String? value) {
+    if (value == null) {
+      return false;
+    }
+    int? number = int.tryParse(value);
+    return number != null;
   }
 
   void resetEdits() {

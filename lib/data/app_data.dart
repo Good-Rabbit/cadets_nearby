@@ -81,6 +81,21 @@ const List<String> colleges = [
   'MCC',
 ];
 
+const List<String> filterColleges = [
+  'Select college',
+  'MGCC',
+  'JGCC',
+  'FGCC',
+  'SCC',
+  'CCC',
+  'PCC',
+  'RCC',
+  'JCC',
+  'FCC',
+  'CCR',
+  'MCC',
+];
+
 const List<String> professions = [
   'Defense Forces',
   'Doctor',

@@ -211,6 +211,9 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             if (val!.isEmpty) {
                               return 'Cadet Number is required';
                             }
+                            if (!isInt(val)) {
+                              return 'Please enter a valid number';
+                            }
                             return null;
                           },
                         ),
@@ -269,6 +272,9 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           validator: (val) {
                             if (val!.trim().isEmpty) {
                               return 'Intake year is required';
+                            }
+                            if (!isInt(val)) {
+                              return 'Please enter a valid number';
                             }
                             return null;
                           },
@@ -738,6 +744,14 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
             ],
           );
         });
+  }
+
+  bool isInt(String? value) {
+    if (value == null) {
+      return false;
+    }
+    int? number = int.tryParse(value);
+    return number != null;
   }
 
   Future<void> getLocationPermission() async {

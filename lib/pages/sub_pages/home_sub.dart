@@ -45,7 +45,7 @@ class _HomeSubPageState extends State<HomeSubPage>
   double latMin = 0;
 
   String? quote;
-  String college = 'Pick your college*';
+  String college = 'Select college';
 
   double min = 0;
   double max = 15;
@@ -331,7 +331,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                                     college = value! as String;
                                                   });
                                                 },
-                                                items: colleges
+                                                items: filterColleges
                                                     .map((String value) {
                                                   return DropdownMenuItem<
                                                       String>(
@@ -357,7 +357,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                                                 cursorColor: Colors.grey[800],
                                                 decoration:
                                                     const InputDecoration(
-                                                  hintText: 'Intake Year*',
+                                                  hintText: 'Intake Year',
                                                   prefixIcon: Padding(
                                                     padding:
                                                         EdgeInsets.fromLTRB(
@@ -413,7 +413,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                 ),
             ],
           ),
-          if (locationData != null)
+          if (locationData != null && !(rejected || !locationEnabled || !permissionGranted))
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: HomeSetterPage.store
                   .collection('users')
@@ -500,7 +500,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                               dontShow = true;
                             }
                             // College Check
-                            if (college != 'Pick your college*') {
+                            if (college != filterColleges.elementAt(0)) {
                               if (e.college != college) {
                                 dontShow = true;
                               }
