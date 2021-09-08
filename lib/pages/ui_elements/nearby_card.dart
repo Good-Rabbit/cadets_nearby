@@ -49,14 +49,25 @@ class _NearbyCardState extends State<NearbyCard> {
     }
   }
 
+  Timer? timer;
+
   @override
   void initState() {
     updateTime();
     Timer.periodic(const Duration(minutes: 2), (timer) {
+      this.timer = timer;
       updateTime();
       setState(() {});
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (timer != null) {
+      timer!.cancel();
+    }
+    super.dispose();
   }
 
   @override

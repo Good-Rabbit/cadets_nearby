@@ -12,6 +12,7 @@ import 'package:cadets_nearby/pages/signup.dart';
 import 'package:cadets_nearby/pages/verification.dart';
 import 'package:cadets_nearby/pages/verify_cadet.dart';
 import 'package:cadets_nearby/pages/verify_email.dart';
+import 'package:cadets_nearby/services/ad_service.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
@@ -23,6 +24,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'important_notifications',
@@ -46,6 +48,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  AdService.initialize();
 
   try {
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);

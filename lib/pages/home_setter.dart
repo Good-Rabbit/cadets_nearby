@@ -25,6 +25,7 @@ class HomeSetterPage extends StatefulWidget {
 class _HomeSetterPageState extends State<HomeSetterPage> {
   User? user;
 
+
   void loggedInNotifier() {
     Navigator.of(context).pushReplacementNamed('/');
   }

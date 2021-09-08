@@ -1,8 +1,5 @@
-import 'dart:ui';
 
-import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AboutSubPage extends StatefulWidget {
   const AboutSubPage({Key? key}) : super(key: key);
@@ -35,38 +32,6 @@ class _AboutSubPageState extends State<AboutSubPage>
                 style: TextStyle(
                   fontSize: 15,
                 ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(15),
-              child: const Text(
-                'Want to ckeck out what we are doing behind the scene?',
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.fromLTRB(15, 0, 15, 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Visit our ',
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                  TextButton.icon(
-                    onPressed: () {
-                      launchURL('https://github.com/Saim20/cadets_nearby');
-                    },
-                    icon: const Icon(
-                      FontAwesomeIcons.github,
-                    ),
-                    label: const Text('Github page'),
-                  ),
-                ],
               ),
             ),
           ],

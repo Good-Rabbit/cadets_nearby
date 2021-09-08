@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "566224129077",
+    "project_id": "cadets-nearby",
+    "storage_bucket": "cadets-nearby.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566224129077:android:9ffddadb3524d3ce86b57c",
+        "android_client_info": {
+          "package_name": "com.goodrabbit.cadets_nearby"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566224129077-2cspskmfag46r7qiifk23thsgiq65pul.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkCwx1KDsOAWpxOqE6yoXWOixh7OOx3tk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566224129077-2cspskmfag46r7qiifk23thsgiq65pul.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-1177190482374537~5838190704"
+    }
+  ],
+  "configuration_version": "1"
+}

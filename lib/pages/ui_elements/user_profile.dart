@@ -1,7 +1,10 @@
+import 'package:cadets_nearby/services/ad_service.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({
@@ -140,7 +143,47 @@ class UserProfile extends StatelessWidget {
             if (e.fbUrl != '')
               ElevatedButton.icon(
                 onPressed: () {
-                  launchURL('https://fb.com/${e.fbUrl}');
+                  if (context.read<MainUser>().user!.premium) {
+                    launchURL('https://fb.com/${e.fbUrl}');
+                  } else {
+                    final bool ready = AdService.isRewardedAdReady;
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(
+                                ready ? 'Watch ad?' : 'Sorry, no ad available'),
+                            actions: [
+                              if (ready)
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    AdService.rewardedAd.show(
+                                        onUserEarnedReward: (ad, item) {
+                                      launchURL('https://fb.com/${e.fbUrl}');
+                                    });
+                                  },
+                                  child: const Text('Watch ad'),
+                                ),
+                              if (ready)
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                              if (!ready)
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Ok'),
+                                ),
+                            ],
+                          );
+                        });
+                  }
                 },
                 icon: const Icon(Icons.facebook),
                 label: const Text('Facebook'),
@@ -155,7 +198,48 @@ class UserProfile extends StatelessWidget {
             if (e.instaUrl != '')
               ElevatedButton.icon(
                 onPressed: () {
-                  launchURL('https://instagr.am/${e.instaUrl}');
+                  if (context.read<MainUser>().user!.premium) {
+                    launchURL('https://instagr.am/${e.instaUrl}');
+                  } else {
+                    final bool ready = AdService.isRewardedAdReady;
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(
+                                ready ? 'Watch ad?' : 'Sorry, no ad available'),
+                            actions: [
+                              if (ready)
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    AdService.rewardedAd.show(
+                                        onUserEarnedReward: (ad, item) {
+                                      launchURL(
+                                          'https://instagr.am/${e.instaUrl}');
+                                    });
+                                  },
+                                  child: const Text('Watch ad'),
+                                ),
+                              if (ready)
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel'),
+                                ),
+                              if (!ready)
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Ok'),
+                                ),
+                            ],
+                          );
+                        });
+                  }
                 },
                 icon: const Icon(FontAwesomeIcons.instagram),
                 label: const Text('Instagram'),

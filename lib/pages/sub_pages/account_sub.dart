@@ -325,7 +325,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                         width: 500,
                         child: TextFormField(
                           controller: cNameTextController,
-                          enabled: editingEnabled,
+                          enabled: false,
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
                             hintText: 'Cadet Name* -e.g. Rashid',
@@ -334,18 +334,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                               child: Icon(Icons.perm_identity_rounded),
                             ),
                           ),
-                          style: TextStyle(
-                            color: editingEnabled ? Colors.black : Colors.grey,
+                          style: const TextStyle(
+                            color: Colors.grey,
                           ),
                           keyboardType: TextInputType.name,
-                          onChanged: (value) {
-                            setState(() {
-                              if (cNameTextController.text !=
-                                  context.read<MainUser>().user!.cName) {
-                                hasChanged = true;
-                              }
-                            });
-                          },
                           validator: (val) {
                             if (val!.trim().isEmpty) {
                               return 'Cadet name is required';
@@ -361,7 +353,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                         width: 500,
                         child: TextFormField(
                           controller: cNumberTextController,
-                          enabled: editingEnabled,
+                          enabled: false,
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
                             hintText: 'Cadet Number*',
@@ -370,22 +362,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                               child: Icon(Icons.book),
                             ),
                           ),
-                          style: TextStyle(
-                            color: editingEnabled ? Colors.black : Colors.grey,
+                          style: const TextStyle(
+                            color:Colors.grey,
                           ),
                           keyboardType: TextInputType.number,
-                          onChanged: (value) {
-                            setState(() {
-                              if (cNumberTextController.text !=
-                                  context
-                                      .read<MainUser>()
-                                      .user!
-                                      .cNumber
-                                      .toString()) {
-                                hasChanged = true;
-                              }
-                            });
-                          },
                           validator: (val) {
                             if (val!.isEmpty) {
                               return 'Cadet Number is required';
@@ -413,20 +393,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                           ),
                           value: college,
                           isDense: true,
-                          onChanged: !editingEnabled
-                              ? null
-                              : (value) {
-                                  setState(() {
-                                    college = value! as String;
-                                    if (college !=
-                                        context
-                                            .read<MainUser>()
-                                            .user!
-                                            .college) {
-                                      hasChanged = true;
-                                    }
-                                  });
-                                },
+                          onChanged: null,
                           items: colleges.map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -448,7 +415,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                         width: 500,
                         child: TextFormField(
                           controller: intakeTextController,
-                          enabled: editingEnabled,
+                          enabled: false,
                           cursorColor: Colors.grey[800],
                           decoration: const InputDecoration(
                             hintText: 'Intake Year*',
@@ -457,22 +424,10 @@ class _AccountSubPageState extends State<AccountSubPage>
                               child: Icon(Icons.date_range),
                             ),
                           ),
-                          style: TextStyle(
-                            color: editingEnabled ? Colors.black : Colors.grey,
+                          style: const TextStyle(
+                            color: Colors.grey,
                           ),
                           keyboardType: TextInputType.datetime,
-                          onChanged: (value) {
-                            setState(() {
-                              if (intakeTextController.text !=
-                                  context
-                                      .read<MainUser>()
-                                      .user!
-                                      .intake
-                                      .toString()) {
-                                hasChanged = true;
-                              }
-                            });
-                          },
                           validator: (val) {
                             if (val!.trim().isEmpty) {
                               return 'Intake year is required';
@@ -915,10 +870,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                                     .doc(HomeSetterPage.auth.currentUser!.uid)
                                     .update({
                                   'fullname': fullName,
-                                  'intake': intakeTextController.text,
-                                  'college': college,
-                                  'cname': cName,
-                                  'cnumber': cNumberTextController.text,
                                   'phone': phoneTextController.text,
                                   'email': emailTextController.text,
                                   'pphone': phoneAccess,
@@ -1061,7 +1012,7 @@ class _AccountSubPageState extends State<AccountSubPage>
     if (value == null) {
       return false;
     }
-    int? number = int.tryParse(value);
+    final int? number = int.tryParse(value);
     return number != null;
   }
 

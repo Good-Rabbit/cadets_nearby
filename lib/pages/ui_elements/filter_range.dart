@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class FilterRange extends StatefulWidget {
@@ -22,6 +23,7 @@ class FilterRange extends StatefulWidget {
 class _FilterRangeState extends State<FilterRange> {
   bool once = true;
   RangeValues range = const RangeValues(0, 5);
+
   @override
   Widget build(BuildContext context) {
     if (once) {

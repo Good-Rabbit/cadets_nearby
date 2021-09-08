@@ -44,8 +44,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-
-# Private app data
-/android/app/google-services.json
-/lib/data/data.dart
-/lib/pages/test.dart
