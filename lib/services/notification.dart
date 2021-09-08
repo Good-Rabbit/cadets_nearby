@@ -1,6 +1,5 @@
 class Noti {
   String notificationString;
-
   String title;
   String body;
   String timeStamp;

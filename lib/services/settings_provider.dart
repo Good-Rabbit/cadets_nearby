@@ -3,8 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings with ChangeNotifier {
   bool zoneDetectionBool;
+  bool rewardGained;
 
-  Settings({this.zoneDetectionBool = true,}) {
+  Settings({this.zoneDetectionBool = true, this.rewardGained = false}) {
     initialize();
   }
 
@@ -21,8 +22,15 @@ class Settings with ChangeNotifier {
     update();
   }
 
-  Future<void> update()async{
+  Future<void> update() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('zoneDetection', zoneDetectionBool);
   }
+
+  set reward(bool reward) {
+    rewardGained = reward;
+    notifyListeners();
+  }
+
+  bool get reward => rewardGained;
 }

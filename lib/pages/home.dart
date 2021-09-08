@@ -89,6 +89,7 @@ Future<void> onLogin() async {
       service.stopBackgroundService();
       if (streamSubscription != null) {
         streamSubscription!.cancel();
+        streamSubscription = null;
       }
     }
   });

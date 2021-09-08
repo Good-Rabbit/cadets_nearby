@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cadets_nearby/main.dart';
 import 'package:cadets_nearby/services/notification.dart';
+import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -41,6 +42,12 @@ class LocalNotificationService {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(notification.body),
+                  if (notification.url != '')
+                    TextButton(
+                        onPressed: () {
+                          launchURL(notification.url);
+                        },
+                        child: Text(notification.url)),
                 ],
               ),
             ),

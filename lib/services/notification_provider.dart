@@ -21,6 +21,7 @@ class GlobalNotifications with ChangeNotifier {
     }).toList();
 
     checkNewnotification();
+    sortNotifications();
     notifyListeners();
   }
 
@@ -65,8 +66,8 @@ class GlobalNotifications with ChangeNotifier {
   }
 
   void sortNotifications() {
-    notifications.sort((a, b) {
-      return b.timeStamp.compareTo(a.timeStamp);
+    notifications.sort((b, a) {
+      return a.timeStamp.compareTo(b.timeStamp);
     });
   }
 

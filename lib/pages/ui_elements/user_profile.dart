@@ -1,5 +1,6 @@
 import 'package:cadets_nearby/services/ad_service.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
+import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:flutter/material.dart';
@@ -143,7 +144,8 @@ class UserProfile extends StatelessWidget {
             if (e.fbUrl != '')
               ElevatedButton.icon(
                 onPressed: () {
-                  if (context.read<MainUser>().user!.premium) {
+                  if (context.watch<MainUser>().user!.premium ||
+                      context.watch<Settings>().reward) {
                     launchURL('https://fb.com/${e.fbUrl}');
                   } else {
                     final bool ready = AdService.isRewardedAdReady;
@@ -161,6 +163,12 @@ class UserProfile extends StatelessWidget {
                                     Navigator.of(context).pop();
                                     AdService.rewardedAd.show(
                                         onUserEarnedReward: (ad, item) {
+                                      context.read<Settings>().reward = true;
+                                      Future.delayed(
+                                              const Duration(minutes: 30))
+                                          .then((e) {
+                                        context.read<Settings>().reward = false;
+                                      });
                                       launchURL('https://fb.com/${e.fbUrl}');
                                     });
                                   },
@@ -198,7 +206,8 @@ class UserProfile extends StatelessWidget {
             if (e.instaUrl != '')
               ElevatedButton.icon(
                 onPressed: () {
-                  if (context.read<MainUser>().user!.premium) {
+                  if (context.watch<MainUser>().user!.premium ||
+                      context.watch<Settings>().reward) {
                     launchURL('https://instagr.am/${e.instaUrl}');
                   } else {
                     final bool ready = AdService.isRewardedAdReady;
@@ -216,6 +225,12 @@ class UserProfile extends StatelessWidget {
                                     Navigator.of(context).pop();
                                     AdService.rewardedAd.show(
                                         onUserEarnedReward: (ad, item) {
+                                      context.read<Settings>().reward = true;
+                                      Future.delayed(
+                                              const Duration(minutes: 30))
+                                          .then((e) {
+                                        context.read<Settings>().reward = false;
+                                      });
                                       launchURL(
                                           'https://instagr.am/${e.instaUrl}');
                                     });
