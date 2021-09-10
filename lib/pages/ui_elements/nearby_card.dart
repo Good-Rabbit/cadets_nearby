@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/user_profile.dart';
-import 'package:flutter/material.dart';
 import 'package:cadets_nearby/services/user.dart';
+import 'package:flutter/material.dart';
 
 class NearbyCard extends StatefulWidget {
   const NearbyCard({
@@ -74,37 +75,7 @@ class _NearbyCardState extends State<NearbyCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            backgroundColor: Colors.transparent,
-            builder: (context) {
-              return GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => Navigator.of(context).pop(),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: DraggableScrollableSheet(
-                    initialChildSize: 0.7,
-                    maxChildSize: 0.9,
-                    minChildSize: 0.5,
-                    builder: (_, controller) => Container(
-                      decoration: BoxDecoration(
-                        color: Colors.orange[50],
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(15.0),
-                        ),
-                      ),
-                      padding: const EdgeInsets.fromLTRB(15, 10, 10, 10),
-                      child: ListView(
-                        controller: controller,
-                        children: [UserProfile(e: widget.e)],
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            });
+        showBottomSheetWith([UserProfile(e: widget.e)], context);
       },
       borderRadius: BorderRadius.circular(20),
       child: Card(

@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:cadets_nearby/services/mainuser_provider.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -54,7 +54,8 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
         });
         context.read<MainUser>().user!.verified = 'waiting';
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Uploaded Successfully')));
+            SnackBar(backgroundColor:
+                                            Theme.of(context).primaryColor,content: const Text('Uploaded Successfully')));
         Navigator.of(context).pop();
       }
     }).catchError((e) {

@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cadets_nearby/data/data.dart';
-import 'package:cadets_nearby/services/mainuser_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class DpPage extends StatefulWidget {
   const DpPage({Key? key}) : super(key: key);
@@ -70,8 +70,9 @@ class _DpPageState extends State<DpPage> {
           'photourl': '$siteAddress/DPs/${filename!}',
           'manualdp': true,
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Updated Successfully')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            content: const Text('Updated Successfully')));
         context.read<MainUser>().user!.manualDp = true;
         context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
         Navigator.of(context).pop();
@@ -99,8 +100,9 @@ class _DpPageState extends State<DpPage> {
           'photourl': '',
           'manualdp': false,
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Deleted Successfully')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            content: const Text('Deleted Successfully')));
         context.read<MainUser>().user!.manualDp = false;
         context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
         Navigator.of(context).pop();
@@ -234,7 +236,7 @@ class _DpPageState extends State<DpPage> {
                               },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              Theme.of(context).accentColor),
+                              Theme.of(context).secondaryHeaderColor),
                         ),
                         label: const Text('Delete picture'),
                       ),

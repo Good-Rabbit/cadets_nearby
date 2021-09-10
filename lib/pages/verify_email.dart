@@ -19,8 +19,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       onWillPop: () async {
         if (!exit) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Press back again to exit'),
+            SnackBar(
+              backgroundColor: Theme.of(context).primaryColor,
+              content: const Text('Press back again to exit'),
             ),
           );
           exit = true;
@@ -67,7 +68,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                           .sendEmailVerification()
                           .then((value) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('E-mail sent')));
+                            SnackBar(backgroundColor:
+                                            Theme.of(context).primaryColor,content: const Text('E-mail sent')));
                         setState(() {
                           disabled = true;
                         });
@@ -79,8 +81,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                         });
                       });
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text('Wait 1 minutes before trying again')));
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:
+                                            Theme.of(context).primaryColor,
+                          content: const Text('Wait 1 minutes before trying again')));
                     }
                   },
                   style: ButtonStyle(

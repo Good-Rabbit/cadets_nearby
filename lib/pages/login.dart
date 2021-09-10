@@ -1,8 +1,8 @@
+import 'package:cadets_nearby/data/app_data.dart';
+import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cadets_nearby/data/app_data.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cadets_nearby/pages/home_setter.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -189,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Theme.of(context).accentColor),
+                                Theme.of(context).secondaryHeaderColor),
                           ),
                         ),
                         const SizedBox(
@@ -211,6 +211,13 @@ class _LoginPageState extends State<LoginPage> {
                                       );
                                       // Navigator.of(context).pushReplacementNamed('/');
                                     } on FirebaseAuthException catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: const SafeArea(
+                                                  child: Text('Login Failed')),
+                                              backgroundColor: Theme.of(context)
+                                                  .primaryColor,
+                                              ));
                                       switch (e.code) {
                                         case 'invalid-email':
                                           invalidEmail = true;

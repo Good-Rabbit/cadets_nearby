@@ -10,7 +10,7 @@ final ThemeData lightTheme = ThemeData(
   fontFamily: 'DMSans',
   primarySwatch: Colors.deepOrange,
   primaryColor: Colors.deepOrange,
-  accentColor: Colors.orange,
+  secondaryHeaderColor: Colors.orange,
   backgroundColor: Colors.orange[200],
   bottomAppBarColor: Colors.orange[100],
   textTheme: const TextTheme(

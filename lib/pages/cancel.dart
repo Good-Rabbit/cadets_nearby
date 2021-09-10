@@ -133,7 +133,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Theme.of(context).accentColor),
+                                Theme.of(context).secondaryHeaderColor),
                           ),
                         ),
                         ElevatedButton.icon(
@@ -173,9 +173,11 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                       // ignore: use_build_context_synchronously
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
-                                        const SnackBar(
+                                        SnackBar(
+                                          backgroundColor:
+                                            Theme.of(context).primaryColor,
                                           content:
-                                              Text('Account has been deleted'),
+                                              const Text('Account has been deleted'),
                                         ),
                                       );
                                       // ignore: use_build_context_synchronously
@@ -226,8 +228,10 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                           prefs.clear();
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Account has been deleted'),
+                            SnackBar(
+                              backgroundColor:
+                                            Theme.of(context).primaryColor,
+                              content: const Text('Account has been deleted'),
                             ),
                           );
                           // ignore: use_build_context_synchronously

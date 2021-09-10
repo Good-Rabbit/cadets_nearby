@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,10 +12,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocode/geocode.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-import 'package:cadets_nearby/data/app_data.dart';
 
 class CompleteAccountPage extends StatefulWidget {
-  const CompleteAccountPage({required this.loggedInNotifier});
+  const CompleteAccountPage({Key? key, required this.loggedInNotifier})
+      : super(key: key);
 
   final Function loggedInNotifier;
 
@@ -40,6 +42,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   bool phoneAccess = false;
   bool useRegularEmail = false;
   bool inProgress = false;
+  bool terms = false;
+  bool privacy = false;
 
   String college = 'Pick your college*';
   String profession = 'Student';
@@ -532,6 +536,77 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       child: SizedBox(
                         width: 500,
                         child: CheckboxListTile(
+                            value: terms,
+                            title: Row(
+                              children: [
+                                const Text(
+                                  'I agree to the ',
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showBottomSheetWith([Container()], context);
+                                  },
+                                  child: Text(
+                                    'terms and conditions',
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0)),
+                            activeColor: Colors.black,
+                            onChanged: (value) {
+                              setState(() {
+                                terms = value!;
+                              });
+                            }),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      child: SizedBox(
+                        width: 500,
+                        child: CheckboxListTile(
+                            value: privacy,
+                            title: Row(
+                              children: [
+                                const Text(
+                                  'I agree to the ',
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showBottomSheetWith([Container()], context);
+                                  },
+                                  child: Text(
+                                    'privacy policy',
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0)),
+                            activeColor: Colors.black,
+                            onChanged: (value) {
+                              setState(() {
+                                privacy = value!;
+                              });
+                            }),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      child: SizedBox(
+                        width: 500,
+                        child: CheckboxListTile(
                             value: !locationAccess,
                             title: const Text(
                               'Hide my exact location',
@@ -542,7 +617,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                 borderRadius: BorderRadius.circular(40.0)),
                             activeColor: Colors.black,
                             onChanged: (value) {
-                              getLocationPermission();
                               setState(() {
                                 locationAccess = !value!;
                               });
@@ -571,7 +645,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               ),
                             ),
                             ElevatedButton.icon(
-                              onPressed: inProgress
+                              onPressed: (inProgress || !(privacy && terms))
                                   ? null
                                   : () async {
                                       setState(() {
@@ -647,7 +721,11 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
 
       try {
         await FirebaseAuth.instance.currentUser!.updateDisplayName(fullName);
-        await HomeSetterPage.store
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const SafeArea(child: Text('Updating account info')),
+          backgroundColor: Theme.of(context).primaryColor,
+        ));
+        HomeSetterPage.store
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .set(

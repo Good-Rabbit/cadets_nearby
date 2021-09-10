@@ -221,7 +221,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Theme.of(context).accentColor),
+                                Theme.of(context).secondaryHeaderColor),
                           ),
                         ),
                         const SizedBox(
@@ -236,7 +236,15 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                       inProgress = true;
                                     });
                                     try {
-                                      await HomeSetterPage.auth
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: const SafeArea(
+                                          child: Text('Creating account'),
+                                        ),
+                                        backgroundColor:
+                                            Theme.of(context).primaryColor,
+                                      ));
+                                      HomeSetterPage.auth
                                           .createUserWithEmailAndPassword(
                                         email: emailTextController.text,
                                         password: passwordTextController.text,
@@ -257,8 +265,10 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                         case 'operation-not-allowed':
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
-                                            const SnackBar(
-                                              content: Text('Please try again'),
+                                            SnackBar(
+                                              backgroundColor:
+                                            Theme.of(context).primaryColor,
+                                              content: const Text('Please try again'),
                                             ),
                                           );
                                           break;

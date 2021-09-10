@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:animate_icons/animate_icons.dart';
+import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/settings_provider.dart';
@@ -10,10 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cadets_nearby/data/app_data.dart';
-import 'package:animate_icons/animate_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountSubPage extends StatefulWidget {
   const AccountSubPage({Key? key}) : super(key: key);
@@ -217,51 +218,15 @@ class _AccountSubPageState extends State<AccountSubPage>
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
                       child: ElevatedButton.icon(
-                        onPressed: !(!HomeSetterPage
-                                    .auth.currentUser!.emailVerified ||
-                                context.read<MainUser>().user!.verified !=
-                                    'yes')
-                            ? null
-                            : () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (context) {
-                                      return GestureDetector(
-                                        behavior: HitTestBehavior.opaque,
-                                        onTap: () =>
-                                            Navigator.of(context).pop(),
-                                        child: GestureDetector(
-                                          onTap: () {},
-                                          child: DraggableScrollableSheet(
-                                            initialChildSize: 0.7,
-                                            maxChildSize: 0.9,
-                                            minChildSize: 0.5,
-                                            builder: (_, controller) =>
-                                                Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.orange[50],
-                                                borderRadius:
-                                                    const BorderRadius.vertical(
-                                                  top: Radius.circular(15.0),
-                                                ),
-                                              ),
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      15, 10, 10, 10),
-                                              child: ListView(
-                                                controller: controller,
-                                                children: const [
-                                                  VerificationSteps(),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    });
-                              },
+                        onPressed:
+                            !(!HomeSetterPage.auth.currentUser!.emailVerified ||
+                                    context.read<MainUser>().user!.verified !=
+                                        'yes')
+                                ? null
+                                : () {
+                                    showBottomSheetWith(
+                                        const [VerificationSteps()], context);
+                                  },
                         icon: const Icon(Icons.verified_user),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
@@ -363,7 +328,7 @@ class _AccountSubPageState extends State<AccountSubPage>
                             ),
                           ),
                           style: const TextStyle(
-                            color:Colors.grey,
+                            color: Colors.grey,
                           ),
                           keyboardType: TextInputType.number,
                           validator: (val) {
@@ -956,8 +921,10 @@ class _AccountSubPageState extends State<AccountSubPage>
 
                                 // ignore: use_build_context_synchronously
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
+                                  SnackBar(
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
+                                    content: const Text(
                                       'Account settings updated',
                                     ),
                                   ),

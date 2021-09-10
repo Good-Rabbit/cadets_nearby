@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:flutter/material.dart';
 
 class ResetPage extends StatefulWidget {
   const ResetPage({Key? key}) : super(key: key);
@@ -106,7 +106,7 @@ class _ResetPageState extends State<ResetPage> {
                       ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            Theme.of(context).accentColor),
+                            Theme.of(context).secondaryHeaderColor),
                       ),
                     ),
                     ElevatedButton.icon(
@@ -116,8 +116,10 @@ class _ResetPageState extends State<ResetPage> {
                                 email: emailTextController.text)
                             .then((value) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Reset E-mail sent'),
+                            SnackBar(
+                              backgroundColor:
+                                            Theme.of(context).primaryColor,
+                              content: const Text('Reset E-mail sent'),
                             ),
                           );
                           Navigator.pop(context);

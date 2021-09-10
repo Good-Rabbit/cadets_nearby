@@ -142,61 +142,17 @@ class UserProfile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (e.fbUrl != '')
-              ElevatedButton.icon(
-                onPressed: () {
-                  if (context.watch<MainUser>().user!.premium ||
-                      context.watch<Settings>().reward) {
-                    launchURL('https://fb.com/${e.fbUrl}');
-                  } else {
-                    final bool ready = AdService.isRewardedAdReady;
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(
-                                ready ? 'Watch ad?' : 'Sorry, no ad available'),
-                            actions: [
-                              if (ready)
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                    AdService.rewardedAd.show(
-                                        onUserEarnedReward: (ad, item) {
-                                      context.read<Settings>().reward = true;
-                                      Future.delayed(
-                                              const Duration(minutes: 30))
-                                          .then((e) {
-                                        context.read<Settings>().reward = false;
-                                      });
-                                      launchURL('https://fb.com/${e.fbUrl}');
-                                    });
-                                  },
-                                  child: const Text('Watch ad'),
-                                ),
-                              if (ready)
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Cancel'),
-                                ),
-                              if (!ready)
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Ok'),
-                                ),
-                            ],
-                          );
-                        });
-                  }
-                },
-                icon: const Icon(Icons.facebook),
-                label: const Text('Facebook'),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue[600]),
+              SizedBox(
+                width: 150,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    launchWithCheck('https://fb.com/${e.fbUrl}', context);
+                  },
+                  icon: const Icon(Icons.facebook),
+                  label: const Text('Facebook'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.blue[600]),
+                  ),
                 ),
               ),
             if (e.instaUrl != '' && e.fbUrl != '')
@@ -204,91 +160,109 @@ class UserProfile extends StatelessWidget {
                 width: 20,
               ),
             if (e.instaUrl != '')
-              ElevatedButton.icon(
-                onPressed: () {
-                  if (context.watch<MainUser>().user!.premium ||
-                      context.watch<Settings>().reward) {
-                    launchURL('https://instagr.am/${e.instaUrl}');
-                  } else {
-                    final bool ready = AdService.isRewardedAdReady;
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(
-                                ready ? 'Watch ad?' : 'Sorry, no ad available'),
-                            actions: [
-                              if (ready)
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                    AdService.rewardedAd.show(
-                                        onUserEarnedReward: (ad, item) {
-                                      context.read<Settings>().reward = true;
-                                      Future.delayed(
-                                              const Duration(minutes: 30))
-                                          .then((e) {
-                                        context.read<Settings>().reward = false;
-                                      });
-                                      launchURL(
-                                          'https://instagr.am/${e.instaUrl}');
-                                    });
-                                  },
-                                  child: const Text('Watch ad'),
-                                ),
-                              if (ready)
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Cancel'),
-                                ),
-                              if (!ready)
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Ok'),
-                                ),
-                            ],
-                          );
-                        });
-                  }
-                },
-                icon: const Icon(FontAwesomeIcons.instagram),
-                label: const Text('Instagram'),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.red),
+              SizedBox(
+                width: 150,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    launchWithCheck('https://instagr.am/${e.instaUrl}', context);
+                  },
+                  icon: const Icon(FontAwesomeIcons.instagram),
+                  label: const Text('Instagram'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                  ),
                 ),
               ),
           ],
         ),
         Container(
-          margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton.icon(
-                onPressed: () {
-                  launchURL(emailAddress);
-                },
-                icon: const Icon(Icons.alternate_email),
-                label: Text(e.email),
-              ),
-              if (!e.pPhone) const Text('Phone number is private'),
               if (e.pPhone)
-                TextButton.icon(
-                  onPressed: () {
-                    launchURL(phoneNumber);
-                  },
-                  icon: const Icon(Icons.phone),
-                  label: Text(e.phone),
+                SizedBox(
+                  width: 150,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      launchWithCheck(phoneNumber, context);
+                    },
+                    icon: const Icon(Icons.phone),
+                    label: const Text('Phone'),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.green[600]),
+                    ),
+                  ),
                 ),
+              if (e.pPhone)
+                const SizedBox(
+                  width: 20,
+                ),
+              SizedBox(
+                width: 150,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    launchWithCheck(emailAddress, context);
+                  },
+                  icon: const Icon(Icons.alternate_email),
+                  label: const Text('E-mail'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.purple),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ],
     );
   }
+
+  void launchWithCheck(String url,BuildContext context) {
+    if (context.watch<MainUser>().user!.premium ||
+        context.watch<Settings>().reward) {
+      launchURL(url);
+    } else {
+      final bool ready = AdService.isRewardedAdReady;
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(ready ? 'Watch ad?' : 'Sorry, no ad available'),
+              actions: [
+                if (ready)
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      AdService.rewardedAd.show(onUserEarnedReward: (ad, item) {
+                        context.read<Settings>().reward = true;
+                        Future.delayed(const Duration(minutes: 30)).then((e) {
+                          context.read<Settings>().reward = false;
+                        });
+                        launchURL(url);
+                      });
+                    },
+                    child: const Text('Watch ad'),
+                  ),
+                if (ready)
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                if (!ready)
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Ok'),
+                  ),
+              ],
+            );
+          });
+    }
+  }
+
 }

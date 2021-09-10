@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/sub_pages/about_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/account_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/contact_sub.dart';
@@ -140,9 +139,7 @@ class _RealHomeState extends State<RealHome> {
       },
       child: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
-          body: !HomeSetterPage.auth.currentUser!.emailVerified
-              ? Container()
-              : PageView(
+          body:PageView(
                   controller: pageController,
                   onPageChanged: (index) {
                     setState(() {
@@ -171,28 +168,28 @@ class _RealHomeState extends State<RealHome> {
                 title: const Text('Home'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.redAccent,
-                inactiveColor: Theme.of(context).accentColor,
+                inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
                 icon: const Icon(Icons.contacts_rounded),
                 title: const Text('Contacts'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.brown,
-                inactiveColor: Theme.of(context).accentColor,
+                inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
                 icon: const Icon(Icons.manage_accounts_rounded),
                 title: const Text('Account'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.purpleAccent,
-                inactiveColor: Theme.of(context).accentColor,
+                inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
                 icon: const Icon(Icons.info_rounded),
                 title: const Text('About'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.teal,
-                inactiveColor: Theme.of(context).accentColor,
+                inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
             ],
           )),
