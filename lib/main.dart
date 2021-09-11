@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cadets_nearby/data/app_data.dart';
+import 'package:cadets_nearby/pages/about.dart';
 import 'package:cadets_nearby/pages/cancel.dart';
 import 'package:cadets_nearby/pages/dp_modifier.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
@@ -101,6 +102,7 @@ class _MyAppState extends State<MyApp> {
       theme: lightTheme,
       routes: {
         '/': (context) => const HomeSetterPage(),
+        '/about': (context) => const AboutPage(),
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupMainPage(),
         '/reset': (context) => const ResetPage(),

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:cadets_nearby/pages/sub_pages/about_sub.dart';
+import 'package:cadets_nearby/pages/sub_pages/help_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/account_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/contact_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/home_sub.dart';
@@ -117,7 +117,10 @@ class _RealHomeState extends State<RealHome> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.reload();
     if (prefs.getBool('zoneDetection') ?? true) {
-      FlutterBackgroundService.initialize(onLogin,foreground:false,);
+      FlutterBackgroundService.initialize(
+        onLogin,
+        foreground: false,
+      );
     }
   }
 
@@ -139,23 +142,23 @@ class _RealHomeState extends State<RealHome> {
       },
       child: Scaffold(
           backgroundColor: Theme.of(context).backgroundColor,
-          body:PageView(
-                  controller: pageController,
-                  onPageChanged: (index) {
-                    setState(() {
-                      selectedIndex = index;
-                    });
-                  },
-                  children: [
-                    HomeSubPage(
-                      setSelectedIndex: setSelectedIndex,
-                    ),
-                    // NotificationSubPage(),
-                    const ContactSubPage(),
-                    const AccountSubPage(),
-                    const AboutSubPage(),
-                  ],
-                ),
+          body: PageView(
+            controller: pageController,
+            onPageChanged: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+            },
+            children: [
+              HomeSubPage(
+                setSelectedIndex: setSelectedIndex,
+              ),
+              // NotificationSubPage(),
+              const ContactSubPage(),
+              const AboutSubPage(),
+              const AccountSubPage(),
+            ],
+          ),
           bottomNavigationBar: BottomNavyBar(
             selectedIndex: selectedIndex,
             backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -178,17 +181,17 @@ class _RealHomeState extends State<RealHome> {
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
+                icon: const Icon(Icons.live_help_rounded),
+                title: const Text('Help'),
+                textAlign: TextAlign.center,
+                activeColor: Colors.teal,
+                inactiveColor: Theme.of(context).secondaryHeaderColor,
+              ),
+              BottomNavyBarItem(
                 icon: const Icon(Icons.manage_accounts_rounded),
                 title: const Text('Account'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.purpleAccent,
-                inactiveColor: Theme.of(context).secondaryHeaderColor,
-              ),
-              BottomNavyBarItem(
-                icon: const Icon(Icons.info_rounded),
-                title: const Text('About'),
-                textAlign: TextAlign.center,
-                activeColor: Colors.teal,
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
             ],

@@ -8,6 +8,7 @@ import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/settings_provider.dart';
+import 'package:cadets_nearby/services/sign_out.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -626,8 +627,8 @@ class _AccountSubPageState extends State<AccountSubPage>
                           ),
                           onChanged: (value) {
                             setState(() {
-                              if (instaTextController.text !=
-                                  context.read<MainUser>().user!.instaUrl) {
+                              if (fbTextController.text !=
+                                  context.read<MainUser>().user!.fbUrl) {
                                 hasChanged = true;
                               }
                             });
@@ -950,18 +951,9 @@ class _AccountSubPageState extends State<AccountSubPage>
                 Container(
                   width: 500,
                   margin: const EdgeInsets.fromLTRB(100, 15, 100, 15),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      final GoogleSignIn googleSignIn = GoogleSignIn();
-                      googleSignIn.signOut();
-                      HomeSetterPage.auth.signOut();
-                      final SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      prefs.clear();
-                      FlutterBackgroundService()
-                          .sendData({'action': 'stopService'});
-                    },
-                    child: const Text('Sign Out'),
+                  child: const ElevatedButton(
+                    onPressed: signOut,
+                    child: Text('Sign Out'),
                   ),
                 ),
                 const SizedBox(
@@ -974,6 +966,7 @@ class _AccountSubPageState extends State<AccountSubPage>
       ),
     );
   }
+
 
   bool isInt(String? value) {
     if (value == null) {

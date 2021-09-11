@@ -5,6 +5,7 @@ import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
+import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocode/geocode.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class CompleteAccountPage extends StatefulWidget {
   const CompleteAccountPage({Key? key, required this.loggedInNotifier})
@@ -544,7 +546,19 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    showBottomSheetWith([Container()], context);
+                                    // * Cannot scroll webview in bottom sheet
+                                    // showBottomSheetWith([
+                                    //   SizedBox(
+                                    //     height:
+                                    //         MediaQuery.of(context).size.height -
+                                    //             100,
+                                    //     child: const WebView(
+                                    //       initialUrl: 'https://google.com',
+                                    //     ),
+                                    //   ),
+                                    // ], context);
+                                    // * Opening external link
+                                    launchURL('https://privacy-policy.com/');
                                   },
                                   child: Text(
                                     'terms and conditions',
@@ -578,7 +592,19 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    showBottomSheetWith([Container()], context);
+                                    // * Cannot scroll webview in bottom sheet
+                                    // showBottomSheetWith([
+                                    //   SizedBox(
+                                    //     height:
+                                    //         MediaQuery.of(context).size.height -
+                                    //             100,
+                                    //     child: const WebView(
+                                    //       initialUrl: 'https://google.com',
+                                    //     ),
+                                    //   ),
+                                    // ], context);
+                                    // * Opening to external link
+                                    launchURL('https://privacy-policy.com/');
                                   },
                                   child: Text(
                                     'privacy policy',

@@ -34,6 +34,7 @@ dependencies:
   shared_preferences: ^2.0.7
   timeago: ^3.1.0
   url_launcher: ^6.0.9
+  webview_flutter: ^2.0.13
 
 
 dev_dependencies:
@@ -65,10 +66,11 @@ flutter:
           style: italic
 
 flutter_icons:
+  adaptive_icon_background: "#ffe6d5"
+  adaptive_icon_foreground: "assets/images/icon_fg.png"
   android: "ic_launcher"
   ios: true
   image_path: "assets/images/icon.png"
-  adaptive_icon_background: "#ffe6d5"
 
 flutter_native_splash:
   color: "#ff9955"

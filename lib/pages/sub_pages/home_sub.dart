@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:cadets_nearby/data/app_data.dart';
+import 'package:cadets_nearby/data/menu_item.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/ad_card.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
@@ -11,6 +12,7 @@ import 'package:cadets_nearby/pages/ui_elements/nearby_card.dart';
 import 'package:cadets_nearby/services/ad_service.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
+import 'package:cadets_nearby/services/sign_out.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -216,7 +218,7 @@ class _HomeSubPageState extends State<HomeSubPage>
           ),
           GestureDetector(
             onTap: () {
-              widget.setSelectedIndex(2);
+              widget.setSelectedIndex(3);
             },
             child: Card(
               elevation: 0,
@@ -243,7 +245,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.fromLTRB(0, 15, 15, 15),
+                    margin: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                     child: IconButton(
                       onPressed: () {
                         Navigator.of(context).pushNamed('/notifications');
@@ -251,6 +253,32 @@ class _HomeSubPageState extends State<HomeSubPage>
                       icon: const NotificationIndicator(),
                       color: Theme.of(context).primaryColor,
                     ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(0, 15, 15, 15),
+                    child: PopupMenuButton<MenuItem>(
+                        onSelected: (e) {
+                          switch (e) {
+                            case MenuItems.itemAbout:
+                              Navigator.of(context).pushNamed('/about');
+                              break;
+                            case MenuItems.itemSignOut:
+                              signOut();
+                              break;
+                            default:
+                              break;
+                          }
+                        },
+                        itemBuilder: (context) => [
+                              ...MenuItems.first.map(buildItem),
+                              const PopupMenuDivider(height: 10),
+                              ...MenuItems.second.map(buildItem),
+                            ],
+                        icon: Icon(
+                          Icons.more_vert_rounded,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        color: Theme.of(context).secondaryHeaderColor),
                   ),
                 ],
               ),
@@ -665,6 +693,18 @@ class _HomeSubPageState extends State<HomeSubPage>
 
   @override
   bool get wantKeepAlive => true;
+
+  PopupMenuEntry<MenuItem> buildItem(MenuItem e) {
+    return PopupMenuItem<MenuItem>(
+        value: e,
+        child: Row(
+          children: [
+            e.icon,
+            const SizedBox(width: 12),
+            Text(e.name),
+          ],
+        ));
+  }
 }
 
 class ProfilePicture extends StatelessWidget {

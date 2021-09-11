@@ -146,7 +146,8 @@ class UserProfile extends StatelessWidget {
                 width: 150,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    launchWithCheck('https://fb.com/${e.fbUrl}', context);
+                    // launchWithCheck('https://fb.com/${e.fbUrl}', context);
+                    launchURL('https://fb.com/${e.fbUrl}');
                   },
                   icon: const Icon(Icons.facebook),
                   label: const Text('Facebook'),
@@ -164,7 +165,8 @@ class UserProfile extends StatelessWidget {
                 width: 150,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    launchWithCheck('https://instagr.am/${e.instaUrl}', context);
+                    // launchWithCheck('https://instagr.am/${e.instaUrl}', context);
+                    launchURL('https://instagr.am/${e.instaUrl}');
                   },
                   icon: const Icon(FontAwesomeIcons.instagram),
                   label: const Text('Instagram'),
@@ -185,7 +187,8 @@ class UserProfile extends StatelessWidget {
                   width: 150,
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      launchWithCheck(phoneNumber, context);
+                      // launchWithCheck(phoneNumber, context);
+                      launchURL(phoneNumber);
                     },
                     icon: const Icon(Icons.phone),
                     label: const Text('Phone'),
@@ -202,7 +205,8 @@ class UserProfile extends StatelessWidget {
                 width: 150,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    launchWithCheck(emailAddress, context);
+                    // launchWithCheck(emailAddress, context);
+                    launchURL(emailAddress);
                   },
                   icon: const Icon(Icons.alternate_email),
                   label: const Text('E-mail'),
