@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
-import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:cadets_nearby/services/user.dart';
@@ -13,7 +12,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocode/geocode.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class CompleteAccountPage extends StatefulWidget {
   const CompleteAccountPage({Key? key, required this.loggedInNotifier})

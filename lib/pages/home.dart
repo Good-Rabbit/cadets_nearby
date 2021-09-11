@@ -104,8 +104,8 @@ class RealHome extends StatefulWidget {
 }
 
 class _RealHomeState extends State<RealHome> {
-  final pageController = PageController();
   int selectedIndex = 0;
+  final pageController = PageController(initialPage: 0);
 
   void setSelectedIndex(int index) {
     selectedIndex = index;
@@ -181,7 +181,7 @@ class _RealHomeState extends State<RealHome> {
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
-                icon: const Icon(Icons.live_help_rounded),
+                icon: const Icon(Icons.support),
                 title: const Text('Help'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.teal,

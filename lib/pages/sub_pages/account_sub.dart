@@ -13,9 +13,7 @@ import 'package:cadets_nearby/services/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AccountSubPage extends StatefulWidget {
   const AccountSubPage({Key? key}) : super(key: key);

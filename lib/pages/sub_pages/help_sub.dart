@@ -1,5 +1,11 @@
+import 'dart:ui';
 
+import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/pages/ui_elements/support_card.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AboutSubPage extends StatefulWidget {
   const AboutSubPage({Key? key}) : super(key: key);
@@ -13,9 +19,94 @@ class _AboutSubPageState extends State<AboutSubPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return const SafeArea(
-      child: Center(
-        child: Text('Help Page'),),
+    return SafeArea(
+      child: ListView(
+        children: [
+          const SizedBox(
+            height: 20,
+          ),
+          const Center(
+            child: Text(
+              'We are here to help',
+              style: TextStyle(fontSize: 25),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(20),
+            child: ElevatedButton.icon(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  minimumSize: MaterialStateProperty.all(
+                    const Size(300, 60),
+                  ),
+                ),
+                onPressed: () {
+                  // TODO Ask for help
+                },
+                icon: const Icon(Icons.support),
+                label: const Text('Ask for help')),
+          ),
+          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: HomeSetterPage.store
+                .collection('support')
+                .where('id', isEqualTo: context.read<MainUser>().user!.id)
+                .snapshots(),
+            builder: (context, snapshots) {
+              if (snapshots.hasData) {
+                if (snapshots.data!.docs.isNotEmpty) {
+                  return Column(
+                    children: [
+                      const Text(
+                        'Support you asked for',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      ...snapshots.data!.docs.map((e) {
+                        return Container(
+                          margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: SupportCard(e: e),
+                        );
+                      }),
+                      const SizedBox(height: 20,),
+                    ],
+                  );
+                }
+              }
+              return const SizedBox();
+            },
+          ),
+          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: HomeSetterPage.store
+                .collection('support')
+                .where('id', isNotEqualTo: context.read<MainUser>().user!.id)
+                .snapshots(),
+            builder: (context, snapshots) {
+              if (snapshots.hasData) {
+                if (snapshots.data!.docs.isNotEmpty) {
+                  return Column(
+                    children: [
+                      const Text(
+                        'Support needed',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      ...snapshots.data!.docs.map((e) {
+                        return Container(
+                          margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: SupportCard(e: e),
+                        );
+                      }),
+                    ],
+                  );
+                }
+              }
+              return const SizedBox();
+            },
+          ),
+        ],
+      ),
     );
   }
 

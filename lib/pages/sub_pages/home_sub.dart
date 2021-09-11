@@ -10,6 +10,7 @@ import 'package:cadets_nearby/pages/ui_elements/filter_range.dart';
 import 'package:cadets_nearby/pages/ui_elements/loading.dart';
 import 'package:cadets_nearby/pages/ui_elements/nearby_card.dart';
 import 'package:cadets_nearby/services/ad_service.dart';
+import 'package:cadets_nearby/services/calculations.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
@@ -151,15 +152,6 @@ class _HomeSubPageState extends State<HomeSubPage>
     }
   }
 
-  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-    const p = 0.017453292519943295;
-    const c = cos;
-    final a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
-  }
-
   Future<void> getQuote() async {
     final doc = await HomeSetterPage.store.collection('quotes').doc('1').get();
     quote = doc.data()!['quote'] as String;
@@ -257,6 +249,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 15, 15, 15),
                     child: PopupMenuButton<MenuItem>(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         onSelected: (e) {
                           switch (e) {
                             case MenuItems.itemAbout:
@@ -410,25 +405,25 @@ class _HomeSubPageState extends State<HomeSubPage>
                               dontShow = true;
                             }
 
-                            //Distance in km
+                            // * Distance in km
                             var distanceD = calculateDistance(
                                 locationData!.latitude!,
                                 locationData!.longitude!,
                                 e.lat,
                                 e.long);
 
-                            // Range Check
+                            // * Range Check
                             if (distanceD > range.end ||
                                 distanceD < range.start) {
                               dontShow = true;
                             }
-                            // College Check
+                            // * College Check
                             if (college != filterColleges.elementAt(0)) {
                               if (e.college != college) {
                                 dontShow = true;
                               }
                             }
-                            // Intake Check
+                            // * Intake Check
                             if (intakeTextController.text != '') {
                               if (e.intake !=
                                   int.parse(intakeTextController.text)) {
@@ -439,7 +434,6 @@ class _HomeSubPageState extends State<HomeSubPage>
                             if (!dontShow) shown++;
 
                             if (counter == snapshots.data!.docs.length) {
-                              // clearTimeout();
                               if (shown == 0) {
                                 return noOneNearby();
                               }
@@ -449,26 +443,23 @@ class _HomeSubPageState extends State<HomeSubPage>
                               return const SizedBox();
                             }
 
-                            //This is kinda fuzzy, I'll optimize it later
-                            // ------------
-                            //Distance in meter
+                            // * Distance in meter
                             distanceD *= 1000;
-                            //Distance in meter rounded to tens
-                            double distanceKm = distanceD.roundToDouble() -
-                                distanceD.roundToDouble() % 10;
-                            distanceKm /= 1000;
-                            distanceKm =
-                                double.parse(distanceKm.toStringAsFixed(2));
+                            // * Distance in meter rounded to tens
                             int distanceM = distanceD.toInt();
                             bool isKm = false;
-
-                            if (distanceM >= 10) {
-                              distanceM = distanceM - distanceM % 10;
-                            }
+                            double distanceKm = 0;
                             if (distanceM > 1000) {
                               isKm = true;
+                              distanceKm = distanceD.roundToDouble() -
+                                  distanceD.roundToDouble() % 10;
+                              distanceKm /= 1000;
+                              distanceKm =
+                                  double.parse(distanceKm.toStringAsFixed(2));
+                            } else if (distanceM >= 10) {
+                              distanceM = distanceM - distanceM % 10;
                             }
-                            // -------------
+
                             return Container(
                               margin:
                                   const EdgeInsets.fromLTRB(10.0, 0, 10.0, 5.0),

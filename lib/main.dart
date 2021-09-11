@@ -26,7 +26,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'important_notifications',
   'Important notifications',
@@ -45,6 +44,10 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   );
   prefs.setStringList('notifications', notifications);
 }
+
+const systemUiOverlayStyle = SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,9 +69,7 @@ Future<void> main() async {
     sound: true,
   );
 
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark));
+  SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 
   runApp(MultiProvider(
     providers: [

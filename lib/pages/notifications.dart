@@ -3,6 +3,8 @@ import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../main.dart';
+
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key? key}) : super(key: key);
 
@@ -23,6 +25,23 @@ class _NotificationPageState extends State<NotificationPage>
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Row(
+            children: const [
+              Icon(Icons.notifications),
+              SizedBox(width: 10,),
+              Text(
+                'Notifications',
+                style: TextStyle(fontSize: 20),
+              ),
+            ],
+          ),
+          titleTextStyle: const TextStyle(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
+          systemOverlayStyle: systemUiOverlayStyle,
+        ),
         body: Center(
           child: SafeArea(
             child: context
@@ -51,7 +70,6 @@ class _NotificationPageState extends State<NotificationPage>
                               context: context,
                               builder: (context) {
                                 return AlertDialog(
-                                  
                                   title: Text(e.title),
                                   content: SingleChildScrollView(
                                     child: Column(
@@ -59,10 +77,12 @@ class _NotificationPageState extends State<NotificationPage>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(e.body),
-                                        if(e.url != '')
-                                        TextButton(onPressed: (){
-                                          launchURL(e.url);
-                                        }, child: Text(e.url)),
+                                        if (e.url != '')
+                                          TextButton(
+                                              onPressed: () {
+                                                launchURL(e.url);
+                                              },
+                                              child: Text(e.url)),
                                       ],
                                     ),
                                   ),

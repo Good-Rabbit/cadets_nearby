@@ -38,6 +38,7 @@ final ThemeData lightTheme = ThemeData(
           color: Colors.white,
         ),
       ),
+      minimumSize: MaterialStateProperty.all(const Size(70, 40)),
       elevation: MaterialStateProperty.all(0),
     ),
   ),
