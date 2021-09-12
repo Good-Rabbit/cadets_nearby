@@ -65,6 +65,7 @@ final ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  snackBarTheme: const SnackBarThemeData(backgroundColor: Colors.deepOrange,),
 );
 
 const List<String> colleges = [

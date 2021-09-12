@@ -5,6 +5,7 @@ import 'package:cadets_nearby/pages/ui_elements/support_card.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class AboutSubPage extends StatefulWidget {
@@ -45,7 +46,7 @@ class _AboutSubPageState extends State<AboutSubPage>
                   ),
                 ),
                 onPressed: () {
-                  // TODO Ask for help
+                  Navigator.of(context).pushNamed('/posthelp');
                 },
                 icon: const Icon(Icons.support),
                 label: const Text('Ask for help')),
@@ -61,7 +62,7 @@ class _AboutSubPageState extends State<AboutSubPage>
                   return Column(
                     children: [
                       const Text(
-                        'Support you asked for',
+                        'Support requested by you',
                         style: TextStyle(fontSize: 20),
                       ),
                       ...snapshots.data!.docs.map((e) {
@@ -82,6 +83,7 @@ class _AboutSubPageState extends State<AboutSubPage>
             stream: HomeSetterPage.store
                 .collection('support')
                 .where('id', isNotEqualTo: context.read<MainUser>().user!.id)
+                .where('status', whereIn: ['waiting','emergency'],)
                 .snapshots(),
             builder: (context, snapshots) {
               if (snapshots.hasData) {
@@ -89,7 +91,7 @@ class _AboutSubPageState extends State<AboutSubPage>
                   return Column(
                     children: [
                       const Text(
-                        'Support needed',
+                        'Support requested by others',
                         style: TextStyle(fontSize: 20),
                       ),
                       ...snapshots.data!.docs.map((e) {
@@ -100,6 +102,8 @@ class _AboutSubPageState extends State<AboutSubPage>
                       }),
                     ],
                   );
+                }else{
+                  return noSupportNeeded();
                 }
               }
               return const SizedBox();
@@ -109,6 +113,30 @@ class _AboutSubPageState extends State<AboutSubPage>
       ),
     );
   }
+
+  Widget noSupportNeeded() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height * 1 / 2,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.support,
+            size: 70.0,
+            color: Theme.of(context).primaryColor,
+          ),
+          Text(
+            "No support needed",
+            style: TextStyle(
+              fontSize: 25,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   @override
   bool get wantKeepAlive => true;

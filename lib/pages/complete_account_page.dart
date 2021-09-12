@@ -411,7 +411,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             value: useRegularEmail,
                             title: const Text(
                               'Use login e-mail',
-                              maxLines: 2,
                             ),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40.0)),

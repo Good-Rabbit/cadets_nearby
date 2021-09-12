@@ -68,8 +68,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                           .sendEmailVerification()
                           .then((value) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(backgroundColor:
-                                            Theme.of(context).primaryColor,content: const Text('E-mail sent')));
+                            SnackBar(content: const Text('E-mail sent')));
                         setState(() {
                           disabled = true;
                         });
@@ -81,8 +80,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                         });
                       });
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor:
-                                            Theme.of(context).primaryColor,
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: const Text('Wait 1 minutes before trying again')));
                     }
                   },

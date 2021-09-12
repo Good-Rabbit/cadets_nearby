@@ -1,5 +1,4 @@
 import 'dart:developer' as dev;
-import 'dart:math';
 
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/data/menu_item.dart';
@@ -303,21 +302,13 @@ class _HomeSubPageState extends State<HomeSubPage>
               if (locationData != null)
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
-                      child: Row(
-                        children: [
-                          const Text(
-                            'Accuracy ',
-                          ),
-                          Icon(
-                            Icons.circle,
-                            color: accuracyColor,
-                          ),
-                        ],
-                      ),
+                  child: Chip(
+                    backgroundColor: Colors.orange[50],
+                    avatar: Icon(
+                      Icons.circle,
+                      color: accuracyColor,
                     ),
+                    label: const Text('Accuracy'),
                   ),
                 ),
             ],

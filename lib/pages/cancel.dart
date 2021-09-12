@@ -174,10 +174,8 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
-                                          backgroundColor:
-                                            Theme.of(context).primaryColor,
-                                          content:
-                                              const Text('Account has been deleted'),
+                                          content: const Text(
+                                              'Account has been deleted'),
                                         ),
                                       );
                                       // ignore: use_build_context_synchronously
@@ -229,8 +227,6 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                           // ignore: use_build_context_synchronously
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              backgroundColor:
-                                            Theme.of(context).primaryColor,
                               content: const Text('Account has been deleted'),
                             ),
                           );

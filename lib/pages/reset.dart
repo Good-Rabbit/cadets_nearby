@@ -117,8 +117,7 @@ class _ResetPageState extends State<ResetPage> {
                             .then((value) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              backgroundColor:
-                                            Theme.of(context).primaryColor,
+                              
                               content: const Text('Reset E-mail sent'),
                             ),
                           );

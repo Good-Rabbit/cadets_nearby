@@ -241,8 +241,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                         content: const SafeArea(
                                           child: Text('Creating account'),
                                         ),
-                                        backgroundColor:
-                                            Theme.of(context).primaryColor,
+                                        
                                       ));
                                       HomeSetterPage.auth
                                           .createUserWithEmailAndPassword(
@@ -266,8 +265,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(
-                                              backgroundColor:
-                                            Theme.of(context).primaryColor,
+                                              
                                               content: const Text('Please try again'),
                                             ),
                                           );
