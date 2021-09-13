@@ -11,6 +11,7 @@ import 'package:cadets_nearby/pages/login.dart';
 import 'package:cadets_nearby/pages/notifications.dart';
 import 'package:cadets_nearby/pages/reset.dart';
 import 'package:cadets_nearby/pages/signup.dart';
+import 'package:cadets_nearby/pages/support_details.dart';
 import 'package:cadets_nearby/pages/verification.dart';
 import 'package:cadets_nearby/pages/verify_cadet.dart';
 import 'package:cadets_nearby/pages/verify_email.dart';
@@ -109,12 +110,13 @@ class _MyAppState extends State<MyApp> {
         '/signup': (context) => const SignupMainPage(),
         '/reset': (context) => const ResetPage(),
         '/cancel': (context) => const CancelVerificationPage(),
+        '/dpchange': (context) => const DpPage(),
         '/posthelp': (context) => const PostHelpPage(),
         '/verifycadet': (context) => const CadetVerificationPage(),
         '/verifyemail': (context) => const EmailVerificationPage(),
         '/verification': (context) => const VerificationPage(),
-        '/dpchange': (context) => const DpPage(),
         '/notifications': (context) => const NotificationPage(),
+        '/supportdetails': (context) => const SupportDetailsPage(),
       },
     );
   }

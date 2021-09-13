@@ -116,9 +116,9 @@ class _ResetPageState extends State<ResetPage> {
                                 email: emailTextController.text)
                             .then((value) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               
-                              content: const Text('Reset E-mail sent'),
+                              content: Text('Reset E-mail sent'),
                             ),
                           );
                           Navigator.pop(context);

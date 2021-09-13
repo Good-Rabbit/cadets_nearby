@@ -116,7 +116,6 @@ class _PostHelpPageState extends State<PostHelpPage> {
                   child: SizedBox(
                     width: 500,
                     child: TextFormField(
-                      autofocus: false,
                       maxLines: 6,
                       maxLength: 1000,
                       controller: bodyController,
@@ -183,6 +182,7 @@ class _PostHelpPageState extends State<PostHelpPage> {
                           }),
                     ),
                   ),
+                  const SizedBox(height: 10,),
                 ElevatedButton.icon(
                   onPressed: () {
                     final mainContext = context;
@@ -249,7 +249,7 @@ class _PostHelpPageState extends State<PostHelpPage> {
         'long': context.read<MainUser>().user!.long,
         'emergency': emergency,
         'status': emergency ? 'emergency' : 'waiting',
-        'timestamp': DateTime.now(),
+        'timestamp': DateTime.now().toString(),
       });
       return true;
     } catch (e) {

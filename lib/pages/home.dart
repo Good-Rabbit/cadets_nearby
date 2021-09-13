@@ -104,8 +104,8 @@ class RealHome extends StatefulWidget {
 }
 
 class _RealHomeState extends State<RealHome> {
-  int selectedIndex = 2;
-  final pageController = PageController(initialPage: 2);
+  int selectedIndex = 0;
+  final pageController = PageController(initialPage: 0);
 
   void setSelectedIndex(int index) {
     selectedIndex = index;

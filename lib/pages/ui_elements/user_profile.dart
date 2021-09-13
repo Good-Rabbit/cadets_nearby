@@ -103,13 +103,6 @@ class UserProfile extends StatelessWidget {
                         ),
                     ],
                   ),
-                  if (e.premium)
-                    const Text(
-                      'Premium User',
-                      style: TextStyle(
-                        color: Colors.deepOrange,
-                      ),
-                    ),
                   Text(
                     e.cNumber.toString(),
                     maxLines: 1,

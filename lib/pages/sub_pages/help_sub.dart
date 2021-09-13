@@ -5,7 +5,6 @@ import 'package:cadets_nearby/pages/ui_elements/support_card.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class AboutSubPage extends StatefulWidget {
@@ -55,6 +54,7 @@ class _AboutSubPageState extends State<AboutSubPage>
             stream: HomeSetterPage.store
                 .collection('support')
                 .where('id', isEqualTo: context.read<MainUser>().user!.id)
+                .where('status',isNotEqualTo: 'complete')
                 .snapshots(),
             builder: (context, snapshots) {
               if (snapshots.hasData) {
@@ -83,7 +83,7 @@ class _AboutSubPageState extends State<AboutSubPage>
             stream: HomeSetterPage.store
                 .collection('support')
                 .where('id', isNotEqualTo: context.read<MainUser>().user!.id)
-                .where('status', whereIn: ['waiting','emergency'],)
+                .where('status', whereIn: ['approved','emergency'],)
                 .snapshots(),
             builder: (context, snapshots) {
               if (snapshots.hasData) {

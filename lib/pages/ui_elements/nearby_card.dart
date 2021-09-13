@@ -121,19 +121,12 @@ class _NearbyCardState extends State<NearbyCard> {
                           ),
                       ],
                     ),
-                    if (widget.e.premium)
-                      const Text(
-                        'Premium User',
-                        style: TextStyle(
-                          color: Colors.deepOrange,
-                        ),
-                      ),
                     if (widget.e.pLocation)
                       Text(
                         (widget.isKm
                                 ? widget.distanceKm.toString()
                                 : widget.distanceM.toString()) +
-                            (widget.isKm ? 'km' : 'm'),
+                            (widget.isKm ? ' km' : ' m'),
                       ),
                     if (!widget.e.pLocation)
                       const Icon(

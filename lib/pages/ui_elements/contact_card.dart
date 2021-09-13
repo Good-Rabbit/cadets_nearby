@@ -63,13 +63,6 @@ class ContactCard extends StatelessWidget {
                           ),
                       ],
                     ),
-                    if (e.premium)
-                      const Text(
-                        'Premium User',
-                        style: TextStyle(
-                          color: Colors.deepOrange,
-                        ),
-                      ),
                     Text('Profession: ${e.profession}'),
                     Text(
                         'Designation: ${e.designation == '' ? '-' : e.designation}'),

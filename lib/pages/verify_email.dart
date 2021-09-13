@@ -68,7 +68,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                           .sendEmailVerification()
                           .then((value) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: const Text('E-mail sent')));
+                            const SnackBar(content: Text('E-mail sent')));
                         setState(() {
                           disabled = true;
                         });
@@ -80,8 +80,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
                         });
                       });
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: const Text('Wait 1 minutes before trying again')));
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Wait 1 minutes before trying again')));
                     }
                   },
                   style: ButtonStyle(

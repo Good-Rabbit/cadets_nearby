@@ -237,8 +237,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                     });
                                     try {
                                       ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: const SafeArea(
+                                          .showSnackBar(const SnackBar(
+                                        content: SafeArea(
                                           child: Text('Creating account'),
                                         ),
                                         
@@ -264,9 +264,9 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                         case 'operation-not-allowed':
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
-                                            SnackBar(
+                                            const SnackBar(
                                               
-                                              content: const Text('Please try again'),
+                                              content: Text('Please try again'),
                                             ),
                                           );
                                           break;

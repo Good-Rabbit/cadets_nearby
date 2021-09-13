@@ -186,13 +186,6 @@ class _AccountSubPageState extends State<AccountSubPage>
                     ],
                   ),
                 ),
-                if (context.watch<MainUser>().user!.premium)
-                  const Center(
-                    child: Text(
-                      'Premium User',
-                      style: TextStyle(color: Colors.deepOrange),
-                    ),
-                  ),
                 Center(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,

@@ -54,7 +54,7 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
         });
         context.read<MainUser>().user!.verified = 'waiting';
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: const Text('Uploaded Successfully')));
+            const SnackBar(content: Text('Uploaded Successfully')));
         Navigator.of(context).pop();
       }
     }).catchError((e) {

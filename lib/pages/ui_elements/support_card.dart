@@ -23,7 +23,7 @@ class _SupportCardState extends State<SupportCard> {
 
   void updateTime() {
     final Duration lastOnline =
-        DateTime.now().difference(DateTime.parse(widget.e.data()['timeStamp']));
+        DateTime.now().difference(DateTime.parse(widget.e.data()['timestamp']));
     if (lastOnline.inSeconds <= 20) {
       timeAgo = 'Just now';
     } else if (lastOnline.inMinutes < 60) {
@@ -81,83 +81,97 @@ class _SupportCardState extends State<SupportCard> {
     } else if (distanceM >= 10) {
       distanceM = distanceM - distanceM % 10;
     }
+    String distance = '${isKm ? distanceKm : distanceM} ${isKm ? 'km' : 'm'}';
 
-    return Card(
-      color: Colors.orange[50],
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 15, 20, 25),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          widget.e.data()['title'],
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 18),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/supportdetails',
+          arguments: {
+            'e': widget.e,
+            'distance': distance,
+            'timeago': timeAgo,
+          },
+        );
+      },
+      child: Card(
+        color: Colors.orange[50],
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 15, 20, 25),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            widget.e.data()['title'],
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 18),
+                          ),
                         ),
-                      ),
-                      Chip(
-                        label: Text(
-                          widget.e.data()['emergency']
-                              ? 'Emergency'
-                              : 'Support',
-                          style: TextStyle(
-                              color: widget.e.data()['emergency']
-                                  ? Colors.red
-                                  : Colors.green),
+                        Chip(
+                          label: Text(
+                            widget.e.data()['emergency']
+                                ? 'Emergency'
+                                : 'Support',
+                            style: TextStyle(
+                                color: widget.e.data()['emergency']
+                                    ? Colors.red
+                                    : Colors.green),
+                          ),
+                          backgroundColor: Colors.white,
+                          avatar: Icon(
+                            widget.e.data()['emergency']
+                                ? Icons.info_rounded
+                                : Icons.support,
+                            color: widget.e.data()['emergency']
+                                ? Colors.red
+                                : Colors.green,
+                          ),
                         ),
-                        backgroundColor: Colors.white,
-                        avatar: Icon(
-                          widget.e.data()['emergency']
-                              ? Icons.info_rounded
-                              : Icons.support,
-                          color: widget.e.data()['emergency']
-                              ? Colors.red
-                              : Colors.green,
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      widget.e.data()['body'],
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      'Posted: $timeAgo',
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'Distance: $distance',
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    widget.e.data()['body'],
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Posted: $timeAgo',
-                    style: TextStyle(color: Theme.of(context).primaryColor),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'Distance: ${isKm ? distanceKm : distanceM}${isKm ? 'km' : 'm'}',
-                        style: TextStyle(color: Theme.of(context).primaryColor),
-                      ),
-                      if (widget.e.data()['status'] == 'waiting')
-                        const SizedBox(width: 10),
-                      if (widget.e.data()['status'] == 'waiting')
-                        const Text(
-                          'Status: Waiting',
-                          style: TextStyle(color: Colors.purple),
-                        ),
-                    ],
-                  ),
-                ],
+                        if (widget.e.data()['status'] == 'waiting')
+                          const SizedBox(width: 10),
+                        if (widget.e.data()['status'] == 'waiting')
+                          const Text(
+                            'Status: Waiting',
+                            style: TextStyle(color: Colors.purple),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
