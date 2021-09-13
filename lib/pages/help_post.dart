@@ -66,8 +66,16 @@ class _PostHelpPageState extends State<PostHelpPage> {
             key: formKey,
             child: Column(
               children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Please don\'t misuse the emergency button and turn it unusable',
+                  maxLines: 2,
+                  style: TextStyle(color: Colors.red),
+                ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 20.0),
+                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20.0),
                   child: SizedBox(
                     width: 500,
                     child: CheckboxListTile(
@@ -182,7 +190,9 @@ class _PostHelpPageState extends State<PostHelpPage> {
                           }),
                     ),
                   ),
-                  const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 ElevatedButton.icon(
                   onPressed: () {
                     final mainContext = context;

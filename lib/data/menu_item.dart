@@ -10,6 +10,7 @@ class MenuItem {
 class MenuItems {
 
   static const List<MenuItem> first = [
+    itemAccount,
     itemAbout,
   ];
 
@@ -17,6 +18,10 @@ class MenuItems {
     itemSignOut,
   ];
 
+  static const itemAccount = MenuItem(
+    name: 'Account',
+    icon: Icon(Icons.account_circle_rounded),
+  );
   static const itemAbout = MenuItem(
     name: 'About',
     icon: Icon(Icons.info),

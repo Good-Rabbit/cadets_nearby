@@ -85,14 +85,33 @@ class _SupportCardState extends State<SupportCard> {
 
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/supportdetails',
-          arguments: {
-            'e': widget.e,
-            'distance': distance,
-            'timeago': timeAgo,
-          },
-        );
+        if (context.read<MainUser>().user!.verified == 'yes') {
+          Navigator.of(context).pushNamed(
+            '/supportdetails',
+            arguments: {
+              'e': widget.e,
+              'distance': distance,
+              'timeago': timeAgo,
+            },
+          );
+        } else {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Get verified first'),
+                  content: const Text(
+                      'You have to get verified first to be able to use this'),
+                  actions: [
+                    TextButton(
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Ok.')),
+                  ],
+                );
+              });
+        }
       },
       child: Card(
         color: Colors.orange[50],

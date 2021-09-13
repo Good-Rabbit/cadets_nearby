@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:cadets_nearby/pages/sub_pages/help_sub.dart';
-import 'package:cadets_nearby/pages/sub_pages/account_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/contact_sub.dart';
+import 'package:cadets_nearby/pages/sub_pages/help_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/home_sub.dart';
+import 'package:cadets_nearby/pages/sub_pages/offer_sub.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,27 +20,73 @@ Future<void> onLogin() async {
   await Firebase.initializeApp();
 
   final service = FlutterBackgroundService();
-  // send to background
+  // * Send to background
   service.setForegroundMode(false);
-  Stream? stream;
-  // ignore: cancel_subscriptions
-  StreamSubscription<dynamic>? streamSubscription;
-  int count = 0;
-  bool once = false;
+  Stream? zoneStream;
+  StreamSubscription<dynamic>? zoneStreamSubscription;
+
+  Stream? supportStream;
+  StreamSubscription<dynamic>? supportStreamSubscription;
+
+  int zoneCount = 0;
+  int supportCount = 0;
+
+  bool zoneOnce = false;
+  bool supportOnce = false;
+
   service.onDataReceived.listen((event) {
     if (event!["action"] == "setAsForeground") {
       if (event["latitude"] != null) {
-        count = 0;
-        once = false;
+        zoneCount = 0;
+        zoneOnce = false;
         service.setNotificationInfo(
           title: "Starting zone detection",
           content: "",
         );
-        if (streamSubscription != null) {
-          streamSubscription!.cancel();
+
+        if (zoneStreamSubscription != null) {
+          zoneStreamSubscription!.cancel();
         }
-        final double latitude = event['latitude'] as double;
-        stream = FirebaseFirestore.instance
+        if (supportStreamSubscription == null) {
+          supportStream = FirebaseFirestore.instance
+              .collection('support')
+              .where('id', isNotEqualTo: event['id'])
+              .where(
+            'status',
+            whereIn: ['approved', 'emergency'],
+          ).snapshots();
+          supportStreamSubscription = supportStream!.listen((value) {
+            final QuerySnapshot<Map<String, dynamic>> snap = value;
+            if (!supportOnce) {
+              supportCount = snap.docs.length;
+              supportOnce = true;
+            } else if (supportCount < snap.docs.length) {
+              supportCount = snap.docs.length;
+              LocalNotificationService.notificationsPlugin.show(
+                DateTime.now().hashCode,
+                'Someone needs your support',
+                'There is a new support request. See if you can help',
+                NotificationDetails(
+                  android: AndroidNotificationDetails(
+                    channel.id,
+                    channel.name,
+                    channel.description,
+                    importance: Importance.max,
+                    icon: '@mipmap/ic_launcher',
+                    priority: Priority.high,
+                  ),
+                ),
+              );
+            } else {
+              supportCount = snap.docs.length;
+            }
+          });
+        }
+
+        final double latitude = event['latitude'];
+        // final double longitude = event['longitude'];
+
+        zoneStream = FirebaseFirestore.instance
             .collection('users')
             .where('lat',
                 isLessThan: latitude + 0.046, isGreaterThan: latitude - 0.046)
@@ -50,13 +96,14 @@ Future<void> onLogin() async {
           event["sector"] + 1,
         ]).snapshots();
 
-        streamSubscription = stream!.listen((value) {
+        zoneStreamSubscription = zoneStream!.listen((value) {
           final QuerySnapshot<Map<String, dynamic>> snap =
               value as QuerySnapshot<Map<String, dynamic>>;
-          if (!once) {
-            count = snap.docs.length;
-            once = true;
-          } else if (count < snap.docs.length) {
+          if (!zoneOnce) {
+            zoneCount = snap.docs.length;
+            zoneOnce = true;
+          } else if (zoneCount < snap.docs.length) {
+            zoneCount = snap.docs.length;
             LocalNotificationService.notificationsPlugin.show(
               DateTime.now().hashCode,
               'Someone has entered your zone!',
@@ -72,6 +119,8 @@ Future<void> onLogin() async {
                 ),
               ),
             );
+          } else {
+            zoneCount = snap.docs.length;
           }
         });
 
@@ -86,9 +135,9 @@ Future<void> onLogin() async {
 
     if (event["action"] == "stopService") {
       service.stopBackgroundService();
-      if (streamSubscription != null) {
-        streamSubscription!.cancel();
-        streamSubscription = null;
+      if (zoneStreamSubscription != null) {
+        zoneStreamSubscription!.cancel();
+        zoneStreamSubscription = null;
       }
     }
   });
@@ -149,14 +198,11 @@ class _RealHomeState extends State<RealHome> {
                 selectedIndex = index;
               });
             },
-            children: [
-              HomeSubPage(
-                setSelectedIndex: setSelectedIndex,
-              ),
-              // NotificationSubPage(),
-              const ContactSubPage(),
-              const AboutSubPage(),
-              const AccountSubPage(),
+            children: const [
+              HomeSubPage(),
+              OfferSubPage(),
+              AboutSubPage(),
+              ContactSubPage(),
             ],
           ),
           bottomNavigationBar: BottomNavyBar(
@@ -174,10 +220,10 @@ class _RealHomeState extends State<RealHome> {
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
-                icon: const Icon(Icons.contacts_rounded),
-                title: const Text('Contacts'),
+                icon: const Icon(Icons.backpack),
+                title: const Text('Offers'),
                 textAlign: TextAlign.center,
-                activeColor: Colors.brown,
+                activeColor: Colors.purpleAccent,
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
@@ -188,10 +234,10 @@ class _RealHomeState extends State<RealHome> {
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
-                icon: const Icon(Icons.manage_accounts_rounded),
-                title: const Text('Account'),
+                icon: const Icon(Icons.contacts_rounded),
+                title: const Text('Contacts'),
                 textAlign: TextAlign.center,
-                activeColor: Colors.purpleAccent,
+                activeColor: Colors.brown,
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
             ],

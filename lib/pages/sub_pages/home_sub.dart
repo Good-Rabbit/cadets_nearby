@@ -3,7 +3,6 @@ import 'dart:developer' as dev;
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/data/menu_item.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
-import 'package:cadets_nearby/pages/ui_elements/ad_card.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/filter_range.dart';
 import 'package:cadets_nearby/pages/ui_elements/loading.dart';
@@ -21,10 +20,9 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class HomeSubPage extends StatefulWidget {
-  const HomeSubPage({Key? key, required this.setSelectedIndex})
+  const HomeSubPage({Key? key,})
       : super(key: key);
 
-  final Function setSelectedIndex;
 
   @override
   _HomeSubPageState createState() => _HomeSubPageState();
@@ -51,9 +49,9 @@ class _HomeSubPageState extends State<HomeSubPage>
   String college = 'Select college';
 
   double min = 0;
-  double max = 5;
+  double max = 15;
   int divisions = 3;
-  RangeValues range = const RangeValues(0, 5);
+  RangeValues range = const RangeValues(0, 15);
 
   int shown = 0;
 
@@ -144,6 +142,8 @@ class _HomeSubPageState extends State<HomeSubPage>
       FlutterBackgroundService().sendData({
         'action': 'setAsForeground',
         'latitude': locationData.latitude!,
+        'id': context.read<MainUser>().user!.id,
+        // 'longitude': locationData.longitude!,
         'sector': sector,
       });
     } catch (e) {
@@ -166,9 +166,9 @@ class _HomeSubPageState extends State<HomeSubPage>
   Widget build(BuildContext context) {
     super.build(context);
 
-    if (context.read<MainUser>().user!.premium) {
-      max = 15;
-    }
+    // if (context.read<MainUser>().user!.premium) {
+    //   max = 15;
+    // }
 
     if (quote == null) {
       getQuote();
@@ -209,7 +209,7 @@ class _HomeSubPageState extends State<HomeSubPage>
           ),
           GestureDetector(
             onTap: () {
-              widget.setSelectedIndex(3);
+              Navigator.of(context).pushNamed('/account');
             },
             child: Card(
               elevation: 0,
@@ -253,6 +253,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                         ),
                         onSelected: (e) {
                           switch (e) {
+                            case MenuItems.itemAccount:
+                              Navigator.of(context).pushNamed('/account');
+                              break;
                             case MenuItems.itemAbout:
                               Navigator.of(context).pushNamed('/about');
                               break;
@@ -313,15 +316,15 @@ class _HomeSubPageState extends State<HomeSubPage>
                 ),
             ],
           ),
-          if (locationData != null &&
-              !(rejected || !locationEnabled || !permissionGranted) &&
-              !context.read<MainUser>().user!.premium)
-            Container(
-              margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0),
-              child: AdCard(
-                ad: AdService.createBannerAd()..load(),
-              ),
-            ),
+          // if (locationData != null &&
+          //     !(rejected || !locationEnabled || !permissionGranted) &&
+          //     !context.read<MainUser>().user!.premium)
+          //   Container(
+          //     margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0),
+          //     child: AdCard(
+          //       ad: AdService.createBannerAd()..load(),
+          //     ),
+          //   ),
           if (locationData != null &&
               !(rejected || !locationEnabled || !permissionGranted))
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(

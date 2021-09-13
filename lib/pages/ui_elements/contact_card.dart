@@ -1,7 +1,9 @@
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/user_profile.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/user.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ContactCard extends StatelessWidget {
   const ContactCard({
@@ -15,7 +17,26 @@ class ContactCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        if (context.read<MainUser>().user!.verified == 'yes') {
         showBottomSheetWith([UserProfile(e: e)], context);
+        } else {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: const Text('Get verified first'),
+                  content: const Text(
+                      'You have to get verified first to be able to use this'),
+                  actions: [
+                    TextButton(
+                        onPressed: () async {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Ok.')),
+                  ],
+                );
+              });
+        }
       },
       borderRadius: BorderRadius.circular(20),
       child: Card(
