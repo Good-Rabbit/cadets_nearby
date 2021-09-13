@@ -47,7 +47,7 @@ class ContactCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          e.cName,
+                          '${e.cName} - ${e.intake.toString()}',
                         ),
                         if (e.celeb)
                           const Icon(

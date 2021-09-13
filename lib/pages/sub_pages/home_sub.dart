@@ -139,7 +139,7 @@ class _HomeSubPageState extends State<HomeSubPage>
         'lastonline': timeStamp,
       });
       context.read<MainUser>().setLat = locationData.latitude!;
-      context.read<MainUser>().setLong = locationData.latitude!;
+      context.read<MainUser>().setLong = locationData.longitude!;
       context.read<MainUser>().user!.sector = sector;
       FlutterBackgroundService().sendData({
         'action': 'setAsForeground',
