@@ -2,7 +2,7 @@ import 'package:cadets_nearby/services/ad_service.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
-import 'package:cadets_nearby/services/user.dart';
+import 'package:cadets_nearby/data/user.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';

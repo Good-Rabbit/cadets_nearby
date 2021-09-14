@@ -5,7 +5,7 @@ import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
-import 'package:cadets_nearby/services/user.dart';
+import 'package:cadets_nearby/data/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -782,6 +782,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
             'address': addressTextController.text,
             'manualdp': false,
             'contact': false,
+            'coupons': (DateTime.now().day > 14 ? 1 : 2),
           },
         );
         int sector = 0;
@@ -817,6 +818,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           manualDp: false,
           sector: sector,
           contact: false,
+          coupons: (DateTime.now().day > 14 ? 1 : 2),
         );
         widget.loggedInNotifier();
       } catch (e) {

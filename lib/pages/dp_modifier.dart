@@ -73,8 +73,8 @@ class _DpPageState extends State<DpPage> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: Theme.of(context).primaryColor,
             content: const Text('Updated Successfully')));
-        context.read<MainUser>().user!.manualDp = true;
-        context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
+        // context.read<MainUser>().user!.manualDp = true;
+        // context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
         Navigator.of(context).pop();
       } else {}
     }).catchError((e) {
@@ -103,8 +103,8 @@ class _DpPageState extends State<DpPage> {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: Theme.of(context).primaryColor,
             content: const Text('Deleted Successfully')));
-        context.read<MainUser>().user!.manualDp = false;
-        context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
+        // context.read<MainUser>().user!.manualDp = false;
+        // context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
         Navigator.of(context).pop();
       }
     }).catchError((e) {

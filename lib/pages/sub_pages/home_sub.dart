@@ -12,7 +12,7 @@ import 'package:cadets_nearby/services/calculations.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
-import 'package:cadets_nearby/services/user.dart';
+import 'package:cadets_nearby/data/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -20,9 +20,9 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class HomeSubPage extends StatefulWidget {
-  const HomeSubPage({Key? key,})
-      : super(key: key);
-
+  const HomeSubPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _HomeSubPageState createState() => _HomeSubPageState();
@@ -136,9 +136,9 @@ class _HomeSubPageState extends State<HomeSubPage>
         'sector': sector,
         'lastonline': timeStamp,
       });
-      context.read<MainUser>().setLat = locationData.latitude!;
-      context.read<MainUser>().setLong = locationData.longitude!;
-      context.read<MainUser>().user!.sector = sector;
+      // context.read<MainUser>().setLat = locationData.latitude!;
+      // context.read<MainUser>().setLong = locationData.longitude!;
+      // context.read<MainUser>().user!.sector = sector;
       FlutterBackgroundService().sendData({
         'action': 'setAsForeground',
         'latitude': locationData.latitude!,
@@ -353,38 +353,39 @@ class _HomeSubPageState extends State<HomeSubPage>
                             bool dontShow = false;
                             // Make a user object
                             final AppUser e = AppUser(
-                                id: u.data()['id'] as String,
-                                cName: u.data()['cname'] as String,
-                                cNumber:
-                                    int.parse(u.data()['cnumber'] as String),
-                                fullName: u.data()['fullname'] as String,
-                                college: u.data()['college'] as String,
-                                email: u.data()['email'] as String,
-                                intake: int.parse(u.data()['intake'] as String),
-                                lat: u.data()['lat'] as double,
-                                long: u.data()['long'] as double,
-                                timeStamp: DateTime.parse(
-                                    u.data()['lastonline'] as String),
-                                photoUrl: u.data()['photourl'] as String,
-                                pAlways: u.data()['palways'] as bool,
-                                pLocation: u.data()['plocation'] as bool,
-                                pMaps: u.data()['pmaps'] as bool,
-                                pPhone: u.data()['pphone'] as bool,
-                                phone: u.data()['phone'] as String,
-                                premium: u.data()['premium'] as bool,
-                                verified: u.data()['verified'] as String,
-                                fbUrl: u.data()['fburl'] as String,
-                                instaUrl: u.data()['instaurl'] as String,
-                                celeb: u.data()['celeb'] as bool,
-                                treatHead: u.data()['treathead'] as bool,
-                                treatHunter: u.data()['treathunter'] as bool,
-                                designation: u.data()['designation'] as String,
-                                profession: u.data()['profession'] as String,
-                                manualDp: u.data()['manualdp'] as bool,
-                                treatCount: u.data()['treatcount'] as int,
-                                sector: u.data()['sector'] as int,
-                                address: u.data()['address'] as String,
-                                contact: u.data()['contact'] as bool);
+                              id: u.data()['id'] as String,
+                              cName: u.data()['cname'] as String,
+                              cNumber: int.parse(u.data()['cnumber'] as String),
+                              fullName: u.data()['fullname'] as String,
+                              college: u.data()['college'] as String,
+                              email: u.data()['email'] as String,
+                              intake: int.parse(u.data()['intake'] as String),
+                              lat: u.data()['lat'] as double,
+                              long: u.data()['long'] as double,
+                              timeStamp: DateTime.parse(
+                                  u.data()['lastonline'] as String),
+                              photoUrl: u.data()['photourl'] as String,
+                              pAlways: u.data()['palways'] as bool,
+                              pLocation: u.data()['plocation'] as bool,
+                              pMaps: u.data()['pmaps'] as bool,
+                              pPhone: u.data()['pphone'] as bool,
+                              phone: u.data()['phone'] as String,
+                              premium: u.data()['premium'] as bool,
+                              verified: u.data()['verified'] as String,
+                              fbUrl: u.data()['fburl'] as String,
+                              instaUrl: u.data()['instaurl'] as String,
+                              celeb: u.data()['celeb'] as bool,
+                              treatHead: u.data()['treathead'] as bool,
+                              treatHunter: u.data()['treathunter'] as bool,
+                              designation: u.data()['designation'] as String,
+                              profession: u.data()['profession'] as String,
+                              manualDp: u.data()['manualdp'] as bool,
+                              treatCount: u.data()['treatcount'] as int,
+                              sector: u.data()['sector'] as int,
+                              address: u.data()['address'] as String,
+                              contact: u.data()['contact'] as bool,
+                              coupons: u.data()['coupons'] as int,
+                            );
 
                             Duration timeDiff;
                             timeDiff = DateTime.now().difference(e.timeStamp);

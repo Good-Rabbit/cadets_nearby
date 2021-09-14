@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
-import 'package:cadets_nearby/services/user.dart';
+import 'package:cadets_nearby/data/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -113,6 +113,7 @@ class _SupportDetailsPageState extends State<SupportDetailsPage> {
                       sector: snapshot.data!.data()!['sector'] as int,
                       address: snapshot.data!.data()!['address'] as String,
                       contact: snapshot.data!.data()!['contact'] as bool,
+                      coupons: snapshot.data!.data()!['coupons'] as int,
                     );
                     return Container(
                       margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
@@ -167,9 +168,7 @@ class _SupportDetailsPageState extends State<SupportDetailsPage> {
                         : ElevatedButton.icon(
                             onPressed: () async {
                               try {
-                                await e!.reference.update({
-                                  'status': 'complete',
-                                });
+                                await e!.reference.delete();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Marked help post complete'),

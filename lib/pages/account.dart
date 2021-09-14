@@ -9,7 +9,7 @@ import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
-import 'package:cadets_nearby/services/user.dart';
+import 'package:cadets_nearby/data/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -124,8 +124,7 @@ class _AccountPageState extends State<AccountPage>
                               height: 80,
                               child: IconButton(
                                 onPressed: () {
-                                  Navigator.of(context)
-                                      .pushNamed('/dpchange');
+                                  Navigator.of(context).pushNamed('/dpchange');
                                 },
                                 icon: const Icon(
                                   Icons.edit,
@@ -415,10 +414,7 @@ class _AccountPageState extends State<AccountPage>
                               setState(() {
                                 profession = value! as String;
                                 if (profession !=
-                                    context
-                                        .read<MainUser>()
-                                        .user!
-                                        .profession) {
+                                    context.read<MainUser>().user!.profession) {
                                   hasChanged = true;
                                 }
                               });
@@ -599,16 +595,14 @@ class _AccountPageState extends State<AccountPage>
                           padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                           child: Icon(
                             FontAwesomeIcons.facebook,
-                            color:
-                                !editingEnabled ? Colors.grey : Colors.blue,
+                            color: !editingEnabled ? Colors.grey : Colors.blue,
                           ),
                         ),
                         prefix: Text(
                           '/',
                           style: TextStyle(
                             fontSize: 20,
-                            color:
-                                !editingEnabled ? Colors.grey : Colors.blue,
+                            color: !editingEnabled ? Colors.grey : Colors.blue,
                           ),
                         ),
                       ),
@@ -718,18 +712,18 @@ class _AccountPageState extends State<AccountPage>
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(40.0)),
                       activeColor: Colors.black,
-                      onChanged: (phoneTextController.text == '' ||
-                              !editingEnabled)
-                          ? null
-                          : (value) {
-                              setState(() {
-                                phoneAccess = value!;
-                                if (phoneAccess !=
-                                    context.read<MainUser>().user!.pPhone) {
-                                  hasChanged = true;
-                                }
-                              });
-                            }),
+                      onChanged:
+                          (phoneTextController.text == '' || !editingEnabled)
+                              ? null
+                              : (value) {
+                                  setState(() {
+                                    phoneAccess = value!;
+                                    if (phoneAccess !=
+                                        context.read<MainUser>().user!.pPhone) {
+                                      hasChanged = true;
+                                    }
+                                  });
+                                }),
                 ),
                 Container(
                   width: 500,
@@ -749,10 +743,7 @@ class _AccountPageState extends State<AccountPage>
                               setState(() {
                                 locationAccess = !value!;
                                 if (locationAccess !=
-                                    context
-                                        .read<MainUser>()
-                                        .user!
-                                        .pLocation) {
+                                    context.read<MainUser>().user!.pLocation) {
                                   hasChanged = true;
                                 }
                               });
@@ -803,8 +794,7 @@ class _AccountPageState extends State<AccountPage>
                           cName = first + cName.substring(1);
 
                           String fullName = '';
-                          final parts =
-                              fullNameTextController.text.split(' ');
+                          final parts = fullNameTextController.text.split(' ');
                           final StringBuffer fname = StringBuffer();
                           for (final each in parts) {
                             first = each[0];
@@ -830,9 +820,8 @@ class _AccountPageState extends State<AccountPage>
                               'profession': profession,
                               'address': addressTextController.text,
                             });
-                            // ignore: use_build_context_synchronously
+
                             context.read<MainUser>().user = AppUser(
-                              // ignore: use_build_context_synchronously
                               id: context.read<MainUser>().user!.id,
                               cName: cName,
                               cNumber: int.parse(cNumberTextController.text),
@@ -840,52 +829,34 @@ class _AccountPageState extends State<AccountPage>
                               college: college,
                               email: emailTextController.text,
                               intake: int.parse(intakeTextController.text),
-                              pAlways:
-                                  // ignore: use_build_context_synchronously
-                                  context.read<MainUser>().user!.pAlways,
+                              pAlways: context.read<MainUser>().user!.pAlways,
                               pLocation: locationAccess,
-                              // ignore: use_build_context_synchronously
                               pMaps: context.read<MainUser>().user!.pMaps,
                               pPhone: phoneAccess,
-                              photoUrl:
-                                  // ignore: use_build_context_synchronously
-                                  context.read<MainUser>().user!.photoUrl,
+                              photoUrl: context.read<MainUser>().user!.photoUrl,
                               phone: phoneTextController.text,
                               fbUrl: fbTextController.text,
                               instaUrl: instaTextController.text,
                               timeStamp:
-                                  // ignore: use_build_context_synchronously
                                   context.read<MainUser>().user!.timeStamp,
-                              premium:
-                                  // ignore: use_build_context_synchronously
-                                  context.read<MainUser>().user!.premium,
-                              verified:
-                                  // ignore: use_build_context_synchronously
-                                  context.read<MainUser>().user!.verified,
-                              // ignore: use_build_context_synchronously
+                              premium: context.read<MainUser>().user!.premium,
+                              verified: context.read<MainUser>().user!.verified,
                               celeb: context.read<MainUser>().user!.celeb,
                               treatHead:
-                                  // ignore: use_build_context_synchronously
                                   context.read<MainUser>().user!.treatHead,
                               treatHunter:
-                                  // ignore: use_build_context_synchronously
                                   context.read<MainUser>().user!.treatHunter,
                               designation: designationTextController.text,
                               profession: profession,
-                              manualDp:
-                                  // ignore: use_build_context_synchronously
-                                  context.read<MainUser>().user!.manualDp,
+                              manualDp: context.read<MainUser>().user!.manualDp,
                               treatCount:
-                                  // ignore: use_build_context_synchronously
                                   context.read<MainUser>().user!.treatCount,
-                              // ignore: use_build_context_synchronously
                               sector: context.read<MainUser>().user!.sector,
                               address: addressTextController.text,
-                              contact:
-                                  // ignore: use_build_context_synchronously
-                                  context.read<MainUser>().user!.contact,
+                              contact: context.read<MainUser>().user!.contact,
+                              coupons: context.read<MainUser>().user!.coupons,
                             );
-                            // ignore: use_build_context_synchronously
+
                             if (context.read<Settings>().zoneDetection !=
                                 enableZoneMonitor) {
                               if (!enableZoneMonitor) {
@@ -894,16 +865,14 @@ class _AccountPageState extends State<AccountPage>
                               } else {
                                 FlutterBackgroundService.initialize(onLogin);
                               }
-                              // ignore: use_build_context_synchronously
+
                               context.read<Settings>().zoneDetection =
                                   enableZoneMonitor;
                             }
 
-                            // ignore: use_build_context_synchronously
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                backgroundColor:
-                                    Theme.of(context).primaryColor,
+                                backgroundColor: Theme.of(context).primaryColor,
                                 content: const Text(
                                   'Account settings updated',
                                 ),
@@ -930,9 +899,12 @@ class _AccountPageState extends State<AccountPage>
             Container(
               width: 500,
               margin: const EdgeInsets.fromLTRB(100, 15, 100, 15),
-              child: const ElevatedButton(
-                onPressed: signOut,
-                child: Text('Sign Out'),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  signOut();
+                },
+                child: const Text('Sign Out'),
               ),
             ),
             const SizedBox(

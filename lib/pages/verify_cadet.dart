@@ -52,7 +52,7 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
           'verifyurl': '$siteAddress/VPs/${filename!}',
           'verified': 'waiting',
         });
-        context.read<MainUser>().user!.verified = 'waiting';
+        // context.read<MainUser>().user!.verified = 'waiting';
         ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Uploaded Successfully')));
         Navigator.of(context).pop();

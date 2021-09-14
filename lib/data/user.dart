@@ -3,6 +3,7 @@ class AppUser {
   int intake;
   int treatCount;
   int sector;
+  int coupons;
   double lat;
   double long;
   String id;
@@ -55,6 +56,7 @@ class AppUser {
     required this.sector,
     required this.address,
     required this.contact,
+    required this.coupons,
     this.photoUrl = '',
     this.lat = 0,
     this.long = 0,

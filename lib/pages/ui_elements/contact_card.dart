@@ -1,7 +1,7 @@
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/user_profile.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
-import 'package:cadets_nearby/services/user.dart';
+import 'package:cadets_nearby/data/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
