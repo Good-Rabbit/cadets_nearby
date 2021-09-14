@@ -15,12 +15,11 @@ class _VerificationStepsState extends State<VerificationSteps> {
   bool emailV = false;
   bool cadetV = false;
   bool emailFirst = false;
-  bool emailAlready = false;
 
   @override
   Widget build(BuildContext context) {
     emailV = HomeSetterPage.auth.currentUser!.emailVerified;
-    cadetV = context.watch<MainUser>().user!.verified == 'yes';
+    cadetV = context.read<MainUser>().user!.verified == 'yes';
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Column(
@@ -42,16 +41,7 @@ class _VerificationStepsState extends State<VerificationSteps> {
           ),
           const SizedBox(height: 30),
           ElevatedButton.icon(
-            onPressed: () {
-              setState(() {
-                emailAlready = true;
-                Future.delayed(const Duration(seconds: 2)).then((value) {
-                  setState(() {
-                    emailAlready = false;
-                  });
-                });
-              });
-            },
+            onPressed: () {},
             icon: Icon(
               emailV ? FontAwesomeIcons.check : FontAwesomeIcons.times,
             ),
@@ -60,16 +50,13 @@ class _VerificationStepsState extends State<VerificationSteps> {
               backgroundColor: MaterialStateProperty.all(Colors.grey[800]),
             ),
           ),
-          if (emailAlready)
-            const Text(
-              'E-mail already verified',
-              style: TextStyle(color: Colors.green),
-            ),
           const SizedBox(height: 10),
           ElevatedButton.icon(
             onPressed: () {
               if (emailV) {
-                Navigator.of(context).pushNamed('/verifycadet');
+                if (context.read<MainUser>().user!.verified != 'waiting') {
+                  Navigator.of(context).pushNamed('/verifycadet');
+                }
               } else {
                 setState(() {
                   emailFirst = true;
@@ -87,7 +74,7 @@ class _VerificationStepsState extends State<VerificationSteps> {
             ),
             label: Expanded(
               child: Text(
-                'Cadet verification${context.watch<MainUser>().user!.verified == 'waiting' ? ' - Waiting' : ''}',
+                'Cadet verification${context.read<MainUser>().user!.verified == 'waiting' ? ' - Waiting' : ''}',
               ),
             ),
             style: ButtonStyle(

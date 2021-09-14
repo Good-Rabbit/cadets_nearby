@@ -71,7 +71,12 @@ class MainUser with ChangeNotifier {
         contact: u.data()!['contact'] as bool,
         coupons: u.data()!['coupons'] as int,
       );
-      if (mainUser!.timeStamp.month != DateTime.now().month) {}
+      if (mainUser!.timeStamp.month != DateTime.now().month) {
+        HomeSetterPage.store
+            .collection('users')
+            .doc(user.uid)
+            .update({'coupons': 2});
+      }
       notifyListeners();
     });
   }

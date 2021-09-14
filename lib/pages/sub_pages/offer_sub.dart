@@ -30,7 +30,7 @@ class _OfferSubPageState extends State<OfferSubPage>
         ),
         const SizedBox(height: 10,),
         Text(
-          "No offer",
+          'No offer',
           style: TextStyle(
             fontSize: 25,
             color: Theme.of(context).primaryColor,

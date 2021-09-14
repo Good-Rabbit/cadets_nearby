@@ -25,7 +25,7 @@ class LocalNotificationService {
   static void initialize(BuildContext context) {
     const InitializationSettings initializationSettings =
         InitializationSettings(
-            android: AndroidInitializationSettings("@mipmap/ic_launcher"));
+            android: AndroidInitializationSettings('@mipmap/ic_launcher'));
 
     notificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? payload) async {

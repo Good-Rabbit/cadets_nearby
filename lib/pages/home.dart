@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cadets_nearby/pages/sub_pages/contact_sub.dart';
-import 'package:cadets_nearby/pages/sub_pages/help_sub.dart';
+import 'package:cadets_nearby/pages/sub_pages/support_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/home_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/offer_sub.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
@@ -35,13 +35,13 @@ Future<void> onLogin() async {
   bool supportOnce = false;
 
   service.onDataReceived.listen((event) {
-    if (event!["action"] == "setAsForeground") {
-      if (event["latitude"] != null) {
+    if (event!['action'] == 'setAsForeground') {
+      if (event['latitude'] != null) {
         zoneCount = 0;
         zoneOnce = false;
         service.setNotificationInfo(
-          title: "Starting zone detection",
-          content: "",
+          title: 'Starting zone detection',
+          content: '',
         );
 
         if (zoneStreamSubscription != null) {
@@ -91,9 +91,9 @@ Future<void> onLogin() async {
             .where('lat',
                 isLessThan: latitude + 0.046, isGreaterThan: latitude - 0.046)
             .where('sector', whereIn: [
-          event["sector"] - 1,
-          event["sector"],
-          event["sector"] + 1,
+          event['sector'] - 1,
+          event['sector'],
+          event['sector'] + 1,
         ]).snapshots();
 
         zoneStreamSubscription = zoneStream!.listen((value) {
@@ -129,11 +129,11 @@ Future<void> onLogin() async {
       return;
     }
 
-    if (event["action"] == "setAsBackground") {
+    if (event['action'] == 'setAsBackground') {
       service.setForegroundMode(false);
     }
 
-    if (event["action"] == "stopService") {
+    if (event['action'] == 'stopService') {
       service.stopBackgroundService();
       if (zoneStreamSubscription != null) {
         zoneStreamSubscription!.cancel();
@@ -201,7 +201,7 @@ class _RealHomeState extends State<RealHome> {
             children: const [
               HomeSubPage(),
               OfferSubPage(),
-              AboutSubPage(),
+              SupportSubPage(),
               ContactSubPage(),
             ],
           ),
@@ -228,7 +228,7 @@ class _RealHomeState extends State<RealHome> {
               ),
               BottomNavyBarItem(
                 icon: const Icon(Icons.support),
-                title: const Text('Help'),
+                title: const Text('Support'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.teal,
                 inactiveColor: Theme.of(context).secondaryHeaderColor,

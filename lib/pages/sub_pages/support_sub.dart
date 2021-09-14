@@ -7,14 +7,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AboutSubPage extends StatefulWidget {
-  const AboutSubPage({Key? key}) : super(key: key);
+class SupportSubPage extends StatefulWidget {
+  const SupportSubPage({Key? key}) : super(key: key);
 
   @override
-  _AboutSubPageState createState() => _AboutSubPageState();
+  _SupportSubPageState createState() => _SupportSubPageState();
 }
 
-class _AboutSubPageState extends State<AboutSubPage>
+class _SupportSubPageState extends State<SupportSubPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
@@ -126,7 +126,7 @@ class _AboutSubPageState extends State<AboutSubPage>
             color: Theme.of(context).primaryColor,
           ),
           Text(
-            "No support needed",
+            'No support needed',
             style: TextStyle(
               fontSize: 25,
               color: Theme.of(context).primaryColor,

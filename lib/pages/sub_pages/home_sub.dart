@@ -180,7 +180,7 @@ class _HomeSubPageState extends State<HomeSubPage>
       updateFlag = false;
     }
 
-    if (context.watch<MainUser>().user!.verified == 'no' && !warningGiven) {
+    if (context.read<MainUser>().user!.verified == 'no' && !warningGiven) {
       warningGiven = true;
       Future.delayed(const Duration(seconds: 5)).then((value) {
         Navigator.of(context).pushNamed('/verification');
@@ -643,7 +643,7 @@ class _HomeSubPageState extends State<HomeSubPage>
             color: Theme.of(context).primaryColor,
           ),
           Text(
-            "No one nearby",
+            'No one nearby',
             style: TextStyle(
               fontSize: 25,
               color: Theme.of(context).primaryColor,
@@ -666,7 +666,7 @@ class _HomeSubPageState extends State<HomeSubPage>
             color: Theme.of(context).primaryColor,
           ),
           Text(
-            "Location Disabled",
+            'Location Disabled',
             style: TextStyle(
               fontSize: 25,
               color: Theme.of(context).primaryColor,

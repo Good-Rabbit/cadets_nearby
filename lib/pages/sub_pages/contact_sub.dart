@@ -104,7 +104,7 @@ class _ContactSubPageState extends State<ContactSubPage>
           color: Theme.of(context).primaryColor,
         ),
         Text(
-          "No contacts",
+          'No contacts',
           style: TextStyle(
             fontSize: 25,
             color: Theme.of(context).primaryColor,
