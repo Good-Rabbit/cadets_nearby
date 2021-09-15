@@ -32,6 +32,14 @@ class _PostHelpPageState extends State<PostHelpPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (context.read<MainUser>().user!.phone == '') {
+      fromAccount = false;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (fromAccount) {
       phoneController.text = context.read<MainUser>().user!.phone;
@@ -66,13 +74,13 @@ class _PostHelpPageState extends State<PostHelpPage> {
             key: formKey,
             child: Column(
               children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  'Please don\'t misuse the emergency button and turn it unusable',
-                  maxLines: 2,
-                  style: TextStyle(color: Colors.red),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(25, 20, 25, 0),
+                  child: Text(
+                    'Please don\'t misuse the emergency button and make it unusable',
+                    maxLines: 2,
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20.0),
@@ -195,30 +203,32 @@ class _PostHelpPageState extends State<PostHelpPage> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    final mainContext = context;
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Is the information correct?'),
-                            content: Text(emergency
-                                ? 'Post for help directly'
-                                : 'Post for review'),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('No, go back.')),
-                              TextButton(
-                                  onPressed: () async {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Uploading post'),
-                                        duration: Duration(seconds: 1),
-                                      ),
-                                    );
-                                    if (formKey.currentState!.validate()) {
+                    if (formKey.currentState!.validate()) {
+                      final mainContext = context;
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Is the information correct?'),
+                              content: Text(emergency
+                                  ? 'Post for help directly'
+                                  : 'Post for review'),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('No, go back.')),
+                                TextButton(
+                                    onPressed: () async {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text('Uploading post'),
+                                          duration: Duration(seconds: 1),
+                                        ),
+                                      );
+
                                       if (await uploadPost(context)) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
@@ -230,12 +240,12 @@ class _PostHelpPageState extends State<PostHelpPage> {
                                         Navigator.of(context).pop();
                                         Navigator.of(mainContext).pop();
                                       }
-                                    }
-                                  },
-                                  child: const Text('Yes.')),
-                            ],
-                          );
-                        });
+                                    },
+                                    child: const Text('Yes.')),
+                              ],
+                            );
+                          });
+                    }
                   },
                   icon: const Icon(Icons.arrow_right_rounded),
                   label: const Text('Submit'),

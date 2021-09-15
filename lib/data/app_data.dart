@@ -8,6 +8,12 @@ const TextStyle textStyle = TextStyle(
 
 final ThemeData lightTheme = ThemeData(
   fontFamily: 'DMSans',
+  popupMenuTheme: PopupMenuThemeData(
+    color: Colors.orange,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
+  ),
   primarySwatch: Colors.deepOrange,
   primaryColor: Colors.deepOrange,
   secondaryHeaderColor: Colors.orange,
@@ -65,7 +71,9 @@ final ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
-  snackBarTheme: const SnackBarThemeData(backgroundColor: Colors.deepOrange,),
+  snackBarTheme: const SnackBarThemeData(
+    backgroundColor: Colors.deepOrange,
+  ),
 );
 
 const List<String> colleges = [

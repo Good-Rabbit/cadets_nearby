@@ -29,6 +29,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'pages/availed_offers.dart';
+
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'important_notifications',
   'Important notifications',
@@ -108,17 +110,18 @@ class _MyAppState extends State<MyApp> {
         '/': (context) => const HomeSetterPage(),
         '/about': (context) => const AboutPage(),
         '/login': (context) => const LoginPage(),
-        '/signup': (context) => const SignupMainPage(),
         '/reset': (context) => const ResetPage(),
-        '/account': (context) => const AccountPage(),
+        '/signup': (context) => const SignupMainPage(),
         '/cancel': (context) => const CancelVerificationPage(),
-        '/dpchange': (context) => const DpPage(),
+        '/account': (context) => const AccountPage(),
         '/posthelp': (context) => const PostHelpPage(),
+        '/dpchange': (context) => const DpPage(),
         '/verifycadet': (context) => const CadetVerificationPage(),
         '/verifyemail': (context) => const EmailVerificationPage(),
         '/verification': (context) => const VerificationPage(),
         '/notifications': (context) => const NotificationPage(),
         '/supportdetails': (context) => const SupportDetailsPage(),
+        '/availedoffers': (context) => const AvailedOffersPage(),
       },
     );
   }

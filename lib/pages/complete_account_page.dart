@@ -674,33 +674,35 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                       setState(() {
                                         inProgress = true;
                                       });
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title: const Text(
-                                                  'Is the information correct?'),
-                                              content: const Text(
-                                                  'Some of your information cannot be changed later. e.g. Cadet name/number, college, intake year.'),
-                                              actions: [
-                                                TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    child: const Text(
-                                                        'No, go back.')),
-                                                TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      completeAccount();
-                                                    },
-                                                    child: const Text('Yes.')),
-                                              ],
-                                            );
-                                          });
-
+                                      if (formKey.currentState!.validate()) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: const Text(
+                                                    'Is the information correct?'),
+                                                content: const Text(
+                                                    'Some of your information cannot be changed later. e.g. Cadet name/number, college, intake year.'),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: const Text(
+                                                          'No, go back.')),
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                        completeAccount();
+                                                      },
+                                                      child:
+                                                          const Text('Yes.')),
+                                                ],
+                                              );
+                                            });
+                                      }
                                       setState(() {
                                         inProgress = false;
                                       });
@@ -726,105 +728,103 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   }
 
   Future<void> completeAccount() async {
-    if (formKey.currentState!.validate()) {
-      String cName = cNameTextController.text;
-      String first = cName[0];
+    String cName = cNameTextController.text;
+    String first = cName[0];
+    first = first.toUpperCase();
+    cName = first + cName.substring(1);
+
+    String fullName = '';
+    final parts = fullNameTextController.text.split(' ');
+    final StringBuffer fname = StringBuffer();
+    for (final each in parts) {
+      first = each[0];
       first = first.toUpperCase();
-      cName = first + cName.substring(1);
+      fname.write('$first${each.substring(1)} ');
+    }
+    fullName = fname.toString().trim();
 
-      String fullName = '';
-      final parts = fullNameTextController.text.split(' ');
-      final StringBuffer fname = StringBuffer();
-      for (final each in parts) {
-        first = each[0];
-        first = first.toUpperCase();
-        fname.write('$first${each.substring(1)} ');
-      }
-      fullName = fname.toString().trim();
-
-      try {
-        await FirebaseAuth.instance.currentUser!.updateDisplayName(fullName);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const SafeArea(child: Text('Updating account info')),
-          backgroundColor: Theme.of(context).primaryColor,
-        ));
-        HomeSetterPage.store
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .set(
-          {
-            'id': HomeSetterPage.auth.currentUser!.uid,
-            'fullname': fullName,
-            'intake': intakeTextController.text,
-            'college': college,
-            'cname': cName,
-            'cnumber': cNumberTextController.text,
-            'phone': phoneTextController.text,
-            'fburl': fbTextController.text,
-            'instaurl': instaTextController.text,
-            'email': emailTextController.text,
-            'pphone': phoneAccess,
-            'plocation': locationAccess,
-            'palways': alwaysAccess,
-            'pmaps': false,
-            'premium': false,
-            'verified': 'no',
-            'photourl': HomeSetterPage.auth.currentUser!.photoURL ?? '',
-            'lat': 0,
-            'long': 0,
-            'sector': 0,
-            'celeb': false,
-            'treatcount': 0,
-            'treathead': true,
-            'treathunter': true,
-            'profession': profession,
-            'designation': designationTextController.text,
-            'address': addressTextController.text,
-            'manualdp': false,
-            'contact': false,
-            'coupons': (DateTime.now().day > 14 ? 1 : 2),
-          },
-        );
-        int sector = 0;
-        sector = ((locationData!.latitude! - 20.56666) / (0.046)).ceil();
-        // ignore: use_build_context_synchronously
-        context.read<MainUser>().user = AppUser(
-          id: HomeSetterPage.auth.currentUser!.uid,
-          cName: cName,
-          cNumber: int.parse(cNumberTextController.text),
-          fullName: fullName,
-          college: college,
-          email: FirebaseAuth.instance.currentUser!.email!,
-          intake: int.parse(intakeTextController.text),
-          pAlways: alwaysAccess,
-          pLocation: locationAccess,
-          pPhone: phoneAccess,
-          lat: locationData!.latitude ?? 0,
-          long: locationData!.longitude ?? 0,
-          photoUrl: HomeSetterPage.auth.currentUser!.photoURL ?? '',
-          phone: phoneTextController.text,
-          premium: false,
-          verified: 'no',
-          timeStamp: DateTime.now(),
-          premiumTo: DateTime.now(),
-          celeb: false,
-          treatHead: true,
-          fbUrl: fbTextController.text,
-          instaUrl: instaTextController.text,
-          treatHunter: true,
-          treatCount: 0,
-          designation: designationTextController.text,
-          profession: profession,
-          address: addressTextController.text,
-          manualDp: false,
-          sector: sector,
-          contact: false,
-          coupons: (DateTime.now().day > 14 ? 1 : 2),
-        );
-        widget.loggedInNotifier();
-      } catch (e) {
-        log(e.toString());
-      }
+    try {
+      await FirebaseAuth.instance.currentUser!.updateDisplayName(fullName);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: const SafeArea(child: Text('Updating account info')),
+        backgroundColor: Theme.of(context).primaryColor,
+      ));
+      HomeSetterPage.store
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set(
+        {
+          'id': HomeSetterPage.auth.currentUser!.uid,
+          'fullname': fullName,
+          'intake': intakeTextController.text,
+          'college': college,
+          'cname': cName,
+          'cnumber': cNumberTextController.text,
+          'phone': phoneTextController.text,
+          'fburl': fbTextController.text,
+          'instaurl': instaTextController.text,
+          'email': emailTextController.text,
+          'pphone': phoneAccess,
+          'plocation': locationAccess,
+          'palways': alwaysAccess,
+          'pmaps': false,
+          'premium': false,
+          'verified': 'no',
+          'photourl': HomeSetterPage.auth.currentUser!.photoURL ?? '',
+          'lat': 0,
+          'long': 0,
+          'sector': 0,
+          'celeb': false,
+          'treatcount': 0,
+          'treathead': true,
+          'treathunter': true,
+          'profession': profession,
+          'designation': designationTextController.text,
+          'address': addressTextController.text,
+          'manualdp': false,
+          'contact': false,
+          'coupons': (DateTime.now().day > 14 ? 1 : 2),
+        },
+      );
+      int sector = 0;
+      sector = ((locationData!.latitude! - 20.56666) / (0.046)).ceil();
+      // ignore: use_build_context_synchronously
+      context.read<MainUser>().user = AppUser(
+        id: HomeSetterPage.auth.currentUser!.uid,
+        cName: cName,
+        cNumber: int.parse(cNumberTextController.text),
+        fullName: fullName,
+        college: college,
+        email: FirebaseAuth.instance.currentUser!.email!,
+        intake: int.parse(intakeTextController.text),
+        pAlways: alwaysAccess,
+        pLocation: locationAccess,
+        pPhone: phoneAccess,
+        lat: locationData!.latitude ?? 0,
+        long: locationData!.longitude ?? 0,
+        photoUrl: HomeSetterPage.auth.currentUser!.photoURL ?? '',
+        phone: phoneTextController.text,
+        premium: false,
+        verified: 'no',
+        timeStamp: DateTime.now(),
+        premiumTo: DateTime.now(),
+        celeb: false,
+        treatHead: true,
+        fbUrl: fbTextController.text,
+        instaUrl: instaTextController.text,
+        treatHunter: true,
+        treatCount: 0,
+        designation: designationTextController.text,
+        profession: profession,
+        address: addressTextController.text,
+        manualDp: false,
+        sector: sector,
+        contact: false,
+        coupons: (DateTime.now().day > 14 ? 1 : 2),
+      );
+      widget.loggedInNotifier();
+    } catch (e) {
+      log(e.toString());
     }
   }
 

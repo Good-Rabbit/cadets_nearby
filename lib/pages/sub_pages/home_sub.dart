@@ -248,34 +248,31 @@ class _HomeSubPageState extends State<HomeSubPage>
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 15, 15, 15),
                     child: PopupMenuButton<MenuItem>(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        onSelected: (e) {
-                          switch (e) {
-                            case MenuItems.itemAccount:
-                              Navigator.of(context).pushNamed('/account');
-                              break;
-                            case MenuItems.itemAbout:
-                              Navigator.of(context).pushNamed('/about');
-                              break;
-                            case MenuItems.itemSignOut:
-                              signOut();
-                              break;
-                            default:
-                              break;
-                          }
-                        },
-                        itemBuilder: (context) => [
-                              ...MenuItems.first.map(buildItem),
-                              const PopupMenuDivider(height: 10),
-                              ...MenuItems.second.map(buildItem),
-                            ],
-                        icon: Icon(
-                          Icons.more_vert_rounded,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        color: Theme.of(context).secondaryHeaderColor),
+                      onSelected: (e) {
+                        switch (e) {
+                          case MenuItems.itemAccount:
+                            Navigator.of(context).pushNamed('/account');
+                            break;
+                          case MenuItems.itemAbout:
+                            Navigator.of(context).pushNamed('/about');
+                            break;
+                          case MenuItems.itemSignOut:
+                            signOut();
+                            break;
+                          default:
+                            break;
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        ...MenuItems.first.map(buildItem),
+                        const PopupMenuDivider(height: 10),
+                        ...MenuItems.second.map(buildItem),
+                      ],
+                      icon: Icon(
+                        Icons.more_vert_rounded,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
                   ),
                 ],
               ),
