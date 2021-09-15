@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'cadets_nearby',
+      title: 'Cadets Nearby',
       theme: lightTheme,
       routes: {
         '/': (context) => const HomeSetterPage(),

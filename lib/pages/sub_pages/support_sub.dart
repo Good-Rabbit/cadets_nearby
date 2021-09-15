@@ -45,7 +45,26 @@ class _SupportSubPageState extends State<SupportSubPage>
                   ),
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/posthelp');
+                  if (context.read<MainUser>().user!.verified == 'yes') {
+                    Navigator.of(context).pushNamed('/posthelp');
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Get verified first'),
+                            content: const Text(
+                                'You have to get verified first to be able to use this'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () async {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Ok.')),
+                            ],
+                          );
+                        });
+                  }
                 },
                 icon: const Icon(Icons.support),
                 label: const Text('Ask for help')),
@@ -54,7 +73,7 @@ class _SupportSubPageState extends State<SupportSubPage>
             stream: HomeSetterPage.store
                 .collection('support')
                 .where('id', isEqualTo: context.read<MainUser>().user!.id)
-                .where('status',isNotEqualTo: 'complete')
+                .where('status', isNotEqualTo: 'complete')
                 .snapshots(),
             builder: (context, snapshots) {
               if (snapshots.hasData) {
@@ -71,7 +90,9 @@ class _SupportSubPageState extends State<SupportSubPage>
                           child: SupportCard(e: e),
                         );
                       }),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                     ],
                   );
                 }
@@ -83,8 +104,10 @@ class _SupportSubPageState extends State<SupportSubPage>
             stream: HomeSetterPage.store
                 .collection('support')
                 .where('id', isNotEqualTo: context.read<MainUser>().user!.id)
-                .where('status', whereIn: ['approved','emergency'],)
-                .snapshots(),
+                .where(
+              'status',
+              whereIn: ['approved', 'emergency'],
+            ).snapshots(),
             builder: (context, snapshots) {
               if (snapshots.hasData) {
                 if (snapshots.data!.docs.isNotEmpty) {
@@ -102,7 +125,7 @@ class _SupportSubPageState extends State<SupportSubPage>
                       }),
                     ],
                   );
-                }else{
+                } else {
                   return noSupportNeeded();
                 }
               }
@@ -136,7 +159,6 @@ class _SupportSubPageState extends State<SupportSubPage>
       ),
     );
   }
-
 
   @override
   bool get wantKeepAlive => true;

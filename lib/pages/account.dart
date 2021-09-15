@@ -839,6 +839,8 @@ class _AccountPageState extends State<AccountPage>
                               instaUrl: instaTextController.text,
                               timeStamp:
                                   context.read<MainUser>().user!.timeStamp,
+                              premiumTo:
+                                  context.read<MainUser>().user!.premiumTo,
                               premium: context.read<MainUser>().user!.premium,
                               verified: context.read<MainUser>().user!.verified,
                               celeb: context.read<MainUser>().user!.celeb,

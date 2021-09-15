@@ -364,6 +364,10 @@ class _HomeSubPageState extends State<HomeSubPage>
                               long: u.data()['long'] as double,
                               timeStamp: DateTime.parse(
                                   u.data()['lastonline'] as String),
+                              premiumTo: u.data()['premiumto'] == null
+                                  ? DateTime.now()
+                                  : DateTime.parse(
+                                      u.data()['premiumto'] as String),
                               photoUrl: u.data()['photourl'] as String,
                               pAlways: u.data()['palways'] as bool,
                               pLocation: u.data()['plocation'] as bool,

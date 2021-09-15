@@ -18,22 +18,6 @@ class MainUser with ChangeNotifier {
 
   AppUser? get user => mainUser;
 
-  // // ignore: avoid_setters_without_getters
-  // set setLat(double lat) {
-  //   mainUser!.lat = lat;
-  // }
-
-  // // ignore: avoid_setters_without_getters
-  // set setLong(double long) {
-  //   mainUser!.long = long;
-  // }
-
-  // // ignore: avoid_setters_without_getters
-  // set setPhotoUrl(String url) {
-  //   mainUser!.photoUrl = url;
-  //   notifyListeners();
-  // }
-
   Future<void> setWithUser(User user) async {
     userStream =
         HomeSetterPage.store.collection('users').doc(user.uid).snapshots();
@@ -55,6 +39,9 @@ class MainUser with ChangeNotifier {
         photoUrl: u.data()!['photourl'] as String,
         phone: u.data()!['phone'] as String,
         timeStamp: DateTime.parse(u.data()!['lastonline'] as String),
+        premiumTo: u.data()!['premiumto'] == null
+            ? DateTime.now()
+            : DateTime.parse(u.data()!['premiumto'] as String),
         premium: u.data()!['premium'] as bool,
         fbUrl: u.data()!['fburl'] as String,
         instaUrl: u.data()!['instaurl'] as String,
@@ -71,11 +58,29 @@ class MainUser with ChangeNotifier {
         contact: u.data()!['contact'] as bool,
         coupons: u.data()!['coupons'] as int,
       );
-      if (mainUser!.timeStamp.month != DateTime.now().month) {
-        HomeSetterPage.store
-            .collection('users')
-            .doc(user.uid)
-            .update({'coupons': 2});
+      if (mainUser!.premiumTo.difference(DateTime.now()).inDays < 1 &&
+          mainUser!.timeStamp.month != DateTime.now().month) {
+        HomeSetterPage.store.collection('users').doc(user.uid).update({
+          'premium': false,
+          'coupons': 2,
+        });
+      } else {
+        if (mainUser!.premiumTo.difference(DateTime.now()).inDays < 1) {
+          if (mainUser!.premium) {
+            HomeSetterPage.store
+                .collection('users')
+                .doc(user.uid)
+                .update({'premium': false});
+          }
+        }
+        if (mainUser!.timeStamp.month != DateTime.now().month) {
+          if (mainUser!.coupons != 2) {
+            HomeSetterPage.store
+                .collection('users')
+                .doc(user.uid)
+                .update({'coupons': 2});
+          }
+        }
       }
       notifyListeners();
     });

@@ -20,6 +20,7 @@ class AppUser {
   String address;
   String verified;
   DateTime timeStamp;
+  DateTime premiumTo;
   bool pLocation;
   bool premium;
   bool pPhone;
@@ -57,6 +58,7 @@ class AppUser {
     required this.address,
     required this.contact,
     required this.coupons,
+    required this.premiumTo,
     this.photoUrl = '',
     this.lat = 0,
     this.long = 0,

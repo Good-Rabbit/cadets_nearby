@@ -90,6 +90,9 @@ class _SupportDetailsPageState extends State<SupportDetailsPage> {
                       long: snapshot.data!.data()!['long'] as double,
                       timeStamp: DateTime.parse(
                           snapshot.data!.data()!['lastonline'] as String),
+                      premiumTo: snapshot.data!.data()!['premiumto'] == null
+                          ? DateTime.now()
+                          : DateTime.parse(snapshot.data!.data()!['premiumto'] as String),
                       photoUrl: snapshot.data!.data()!['photourl'] as String,
                       pAlways: snapshot.data!.data()!['palways'] as bool,
                       pLocation: snapshot.data!.data()!['plocation'] as bool,
