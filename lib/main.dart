@@ -29,7 +29,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'pages/availed_offer_code.dart';
 import 'pages/availed_offers.dart';
+import 'pages/offer_details.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'important_notifications',
@@ -118,10 +120,13 @@ class _MyAppState extends State<MyApp> {
         '/dpchange': (context) => const DpPage(),
         '/verifycadet': (context) => const CadetVerificationPage(),
         '/verifyemail': (context) => const EmailVerificationPage(),
+        '/offerdetails': (context) => const OfferDetailsPage(),
         '/verification': (context) => const VerificationPage(),
         '/notifications': (context) => const NotificationPage(),
         '/supportdetails': (context) => const SupportDetailsPage(),
         '/availedoffers': (context) => const AvailedOffersPage(),
+        '/availedofferdetails': (context) => const AvailedOfferDetailsPage(),
+
       },
     );
   }

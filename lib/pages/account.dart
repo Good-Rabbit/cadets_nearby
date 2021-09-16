@@ -78,841 +78,860 @@ class _AccountPageState extends State<AccountPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        titleTextStyle: const TextStyle(color: Colors.black),
-        iconTheme: const IconThemeData(color: Colors.black),
-        systemOverlayStyle: systemUiOverlayStyle,
-      ),
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: Form(
-        key: formKey,
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const SizedBox(
-                  width: 40,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: CircleAvatar(
-                    radius: 40.0,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Stack(
-                        children: [
-                          if (context.watch<MainUser>().user!.photoUrl == '')
-                            Image.asset(
-                              'assets/images/user.png',
-                              fit: BoxFit.cover,
-                            )
-                          else
-                            Image.network(
-                              context.watch<MainUser>().user!.photoUrl,
-                              width: 80,
-                              height: 80,
-                              fit: BoxFit.cover,
-                            ),
-                          if (editingEnabled)
-                            Container(
-                              color: Colors.black.withOpacity(0.65),
-                              width: 80,
-                              height: 80,
-                              child: IconButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed('/dpchange');
-                                },
-                                icon: const Icon(
-                                  Icons.edit,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          titleTextStyle: const TextStyle(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
+          systemOverlayStyle: systemUiOverlayStyle,
+        ),
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: Form(
+          key: formKey,
+          child: ListView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const SizedBox(
+                    width: 40,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: CircleAvatar(
+                      radius: 40.0,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Stack(
+                          children: [
+                            if (context.watch<MainUser>().user!.photoUrl == '')
+                              Image.asset(
+                                'assets/images/user.png',
+                                fit: BoxFit.cover,
+                              )
+                            else
+                              Image.network(
+                                context.watch<MainUser>().user!.photoUrl,
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
+                            if (editingEnabled)
+                              Container(
+                                color: Colors.black.withOpacity(0.65),
+                                width: 80,
+                                height: 80,
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamed('/dpchange');
+                                  },
+                                  icon: const Icon(
+                                    Icons.edit,
+                                  ),
                                 ),
                               ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                CircleAvatar(
-                  radius: 20.0,
-                  child: AnimateIcons(
-                    startIcon: Icons.edit,
-                    endIcon: Icons.cancel,
-                    startIconColor: Colors.white,
-                    endIconColor: Colors.white,
-                    controller: controller,
-                    onStartIconPress: () {
-                      controller.animateToEnd();
-                      setState(() {
-                        editingEnabled = true;
-                      });
-                      return true;
-                    },
-                    onEndIconPress: () {
-                      controller.animateToStart();
-                      setState(() {
-                        editingEnabled = false;
-                        resetEdits();
-                      });
-                      return true;
-                    },
-                  ),
-                  // Icon(editingEnabled ? Icons.cancel : Icons.edit),
-                ),
-              ],
-            ),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    context.watch<MainUser>().user!.fullName,
-                    style: const TextStyle(fontSize: 20.0),
-                  ),
-                  if (context.watch<MainUser>().user!.verified != 'yes')
-                    const Icon(
-                      Icons.info_rounded,
-                      size: 20,
-                      color: Colors.redAccent,
-                    ),
-                  if (context.watch<MainUser>().user!.celeb)
-                    const Icon(
-                      Icons.verified,
-                      size: 20,
-                      color: Colors.green,
-                    ),
-                ],
-              ),
-            ),
-            Center(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    context.watch<MainUser>().user!.cName,
-                    style: const TextStyle(fontSize: 17.0),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    context.watch<MainUser>().user!.cNumber.toString(),
-                    style: const TextStyle(fontSize: 15.0),
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
-                  child: ElevatedButton.icon(
-                    onPressed: !(!HomeSetterPage
-                                .auth.currentUser!.emailVerified ||
-                            context.read<MainUser>().user!.verified != 'yes')
-                        ? null
-                        : () {
-                            showBottomSheetWith(
-                                const [VerificationSteps()], context);
-                          },
-                    icon: const Icon(Icons.verified_user),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          (!HomeSetterPage.auth.currentUser!.emailVerified ||
-                                  context.watch<MainUser>().user!.verified !=
-                                      'yes')
-                              ? Colors.red
-                              : Colors.green),
-                    ),
-                    label: Text((!HomeSetterPage
-                                .auth.currentUser!.emailVerified ||
-                            context.watch<MainUser>().user!.verified != 'yes')
-                        ? 'Verification'
-                        : 'Verified'),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
-                  child: SizedBox(
-                    width: 500,
-                    child: TextFormField(
-                      controller: fullNameTextController,
-                      enabled: editingEnabled,
-                      cursorColor: Colors.grey[800],
-                      decoration: const InputDecoration(
-                        hintText: 'Full Name*',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(Icons.account_box_rounded),
+                          ],
                         ),
                       ),
-                      style: TextStyle(
-                        color: editingEnabled ? Colors.black : Colors.grey,
-                      ),
-                      keyboardType: TextInputType.name,
-                      onChanged: (value) {
+                    ),
+                  ),
+                  CircleAvatar(
+                    radius: 20.0,
+                    child: AnimateIcons(
+                      startIcon: Icons.edit,
+                      endIcon: Icons.cancel,
+                      startIconColor: Colors.white,
+                      endIconColor: Colors.white,
+                      controller: controller,
+                      onStartIconPress: () {
+                        controller.animateToEnd();
                         setState(() {
-                          if (fullNameTextController.text !=
-                              context.read<MainUser>().user!.fullName) {
-                            hasChanged = true;
-                          }
+                          editingEnabled = true;
                         });
+                        return true;
                       },
-                      validator: (val) {
-                        if (val!.trim().isEmpty) {
-                          return 'Full name is required';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                  child: SizedBox(
-                    width: 500,
-                    child: TextFormField(
-                      controller: cNameTextController,
-                      enabled: false,
-                      cursorColor: Colors.grey[800],
-                      decoration: const InputDecoration(
-                        hintText: 'Cadet Name* -e.g. Rashid',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(Icons.perm_identity_rounded),
-                        ),
-                      ),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                      ),
-                      keyboardType: TextInputType.name,
-                      validator: (val) {
-                        if (val!.trim().isEmpty) {
-                          return 'Cadet name is required';
-                        }
-                        return null;
+                      onEndIconPress: () {
+                        controller.animateToStart();
+                        setState(() {
+                          editingEnabled = false;
+                          resetEdits();
+                        });
+                        return true;
                       },
                     ),
+                    // Icon(editingEnabled ? Icons.cancel : Icons.edit),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                  child: SizedBox(
-                    width: 500,
-                    child: TextFormField(
-                      controller: cNumberTextController,
-                      enabled: false,
-                      cursorColor: Colors.grey[800],
-                      decoration: const InputDecoration(
-                        hintText: 'Cadet Number*',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(Icons.book),
-                        ),
-                      ),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                      ),
-                      keyboardType: TextInputType.number,
-                      validator: (val) {
-                        if (val!.isEmpty) {
-                          return 'Cadet Number is required';
-                        }
-                        if (!isInt(val)) {
-                          return 'Please enter a valid number';
-                        }
-                        return null;
-                      },
+                ],
+              ),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      context.watch<MainUser>().user!.fullName,
+                      style: const TextStyle(fontSize: 20.0),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                  child: SizedBox(
-                    width: 500,
-                    child: DropdownButtonFormField(
-                      decoration: const InputDecoration(
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(
-                            Icons.house,
-                          ),
-                        ),
+                    if (context.watch<MainUser>().user!.verified != 'yes')
+                      const Icon(
+                        Icons.info_rounded,
+                        size: 20,
+                        color: Colors.redAccent,
                       ),
-                      value: college,
-                      isDense: true,
-                      onChanged: null,
-                      items: colleges.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      validator: (value) {
-                        if (college == 'Pick your college') {
-                          return 'Please pick your college';
-                        }
-                        return null;
-                      },
+                    if (context.watch<MainUser>().user!.celeb)
+                      const Icon(
+                        Icons.verified,
+                        size: 20,
+                        color: Colors.green,
+                      ),
+                  ],
+                ),
+              ),
+              Center(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      context.watch<MainUser>().user!.cName,
+                      style: const TextStyle(fontSize: 17.0),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                  child: SizedBox(
-                    width: 500,
-                    child: TextFormField(
-                      controller: intakeTextController,
-                      enabled: false,
-                      cursorColor: Colors.grey[800],
-                      decoration: const InputDecoration(
-                        hintText: 'Intake Year*',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(Icons.date_range),
-                        ),
-                      ),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                      ),
-                      keyboardType: TextInputType.datetime,
-                      validator: (val) {
-                        if (val!.trim().isEmpty) {
-                          return 'Intake year is required';
-                        }
-                        if (!isInt(val)) {
-                          return 'Please enter a valid number';
-                        }
-                        return null;
-                      },
+                    const SizedBox(
+                      width: 5,
                     ),
-                  ),
+                    Text(
+                      context.watch<MainUser>().user!.cNumber.toString(),
+                      style: const TextStyle(fontSize: 15.0),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                  child: SizedBox(
-                    width: 500,
-                    child: DropdownButtonFormField(
-                      hint: const Text('Profession'),
-                      decoration: const InputDecoration(
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(
-                            Icons.work,
-                          ),
-                        ),
-                      ),
-                      value: profession,
-                      isDense: true,
-                      onChanged: !editingEnabled
+              ),
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
+                    child: ElevatedButton.icon(
+                      onPressed: !(!HomeSetterPage
+                                  .auth.currentUser!.emailVerified ||
+                              context.read<MainUser>().user!.verified != 'yes')
                           ? null
-                          : (value) {
-                              setState(() {
-                                profession = value! as String;
-                                if (profession !=
-                                    context.read<MainUser>().user!.profession) {
-                                  hasChanged = true;
-                                }
-                              });
+                          : () {
+                              showBottomSheetWith(
+                                  const [VerificationSteps()], context);
                             },
-                      items: professions.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                      icon: const Icon(Icons.verified_user),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                            (!HomeSetterPage.auth.currentUser!.emailVerified ||
+                                    context.watch<MainUser>().user!.verified !=
+                                        'yes')
+                                ? Colors.red
+                                : Colors.green),
+                      ),
+                      label: Text((!HomeSetterPage
+                                  .auth.currentUser!.emailVerified ||
+                              context.watch<MainUser>().user!.verified != 'yes')
+                          ? 'Verification'
+                          : 'Verified'),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                  child: SizedBox(
-                    width: 500,
-                    child: TextFormField(
-                      enabled: editingEnabled,
-                      controller: designationTextController,
-                      cursorColor: Colors.grey[800],
-                      decoration: const InputDecoration(
-                        hintText: 'Designation at institute',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(Icons.location_city),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        controller: fullNameTextController,
+                        enabled: editingEnabled,
+                        cursorColor: Colors.grey[800],
+                        decoration: const InputDecoration(
+                          hintText: 'Full Name*',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.account_box_rounded),
+                          ),
                         ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          if (designationTextController.text !=
-                              context.read<MainUser>().user!.designation) {
-                            hasChanged = true;
-                          }
-                        });
-                      },
-                      style: TextStyle(
-                        color: editingEnabled ? Colors.black : Colors.grey,
-                      ),
-                      keyboardType: TextInputType.text,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                  child: SizedBox(
-                    width: 500,
-                    child: TextFormField(
-                      enabled: editingEnabled,
-                      controller: addressTextController,
-                      cursorColor: Colors.grey[800],
-                      decoration: const InputDecoration(
-                        hintText: 'Address*',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(Icons.location_pin),
+                        style: TextStyle(
+                          color: editingEnabled ? Colors.black : Colors.grey,
                         ),
-                      ),
-                      style: TextStyle(
-                        color: editingEnabled ? Colors.black : Colors.grey,
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          if (addressTextController.text !=
-                              context.read<MainUser>().user!.address) {
-                            hasChanged = true;
+                        keyboardType: TextInputType.name,
+                        onChanged: (value) {
+                          setState(() {
+                            if (fullNameTextController.text !=
+                                context.read<MainUser>().user!.fullName) {
+                              hasChanged = true;
+                            }
+                          });
+                        },
+                        validator: (val) {
+                          if (val!.trim().isEmpty) {
+                            return 'Full name is required';
                           }
-                        });
-                      },
-                      validator: (val) {
-                        if (val!.trim().isEmpty) {
-                          return 'Address is required';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.streetAddress,
+                          return null;
+                        },
+                      ),
                     ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0),
-                  child: Text(
-                    'Contact Info',
-                    style: TextStyle(
-                      fontSize: 20.0,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        controller: cNameTextController,
+                        enabled: false,
+                        cursorColor: Colors.grey[800],
+                        decoration: const InputDecoration(
+                          hintText: 'Cadet Name* -e.g. Rashid',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.perm_identity_rounded),
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                        keyboardType: TextInputType.name,
+                        validator: (val) {
+                          if (val!.trim().isEmpty) {
+                            return 'Cadet name is required';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                  child: SizedBox(
-                    width: 500,
-                    child: TextFormField(
-                      controller: emailTextController,
-                      enabled: !useRegularEmail && editingEnabled,
-                      cursorColor: Colors.grey[800],
-                      decoration: const InputDecoration(
-                        hintText: 'Contact E-mail*',
-                        prefixIcon: Padding(
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        controller: cNumberTextController,
+                        enabled: false,
+                        cursorColor: Colors.grey[800],
+                        decoration: const InputDecoration(
+                          hintText: 'Cadet Number*',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.book),
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                        keyboardType: TextInputType.number,
+                        validator: (val) {
+                          if (val!.isEmpty) {
+                            return 'Cadet Number is required';
+                          }
+                          if (!isInt(val)) {
+                            return 'Please enter a valid number';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: DropdownButtonFormField(
+                        decoration: const InputDecoration(
+                          prefixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(
-                              Icons.alternate_email,
-                            )),
-                      ),
-                      style: TextStyle(
-                        color: editingEnabled ? Colors.black : Colors.grey,
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      onChanged: (value) {
-                        setState(() {
-                          if (emailTextController.text !=
-                              context.read<MainUser>().user!.email) {
-                            hasChanged = true;
+                              Icons.house,
+                            ),
+                          ),
+                        ),
+                        value: college,
+                        isDense: true,
+                        onChanged: null,
+                        items: colleges.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        validator: (value) {
+                          if (college == 'Pick your college') {
+                            return 'Please pick your college';
                           }
-                        });
-                      },
-                      validator: (val) {
-                        if (val!.trim().isEmpty) {
-                          return 'Contact e-mail is required';
-                        }
-                        if (!val.contains('@') ||
-                            !val.contains('.') ||
-                            val.endsWith('@') ||
-                            val.endsWith('.')) {
-                          return 'Please provide a valid E-mail';
-                        }
-                        final temp = val;
-                        final List a = temp.split('@');
-                        if (a.length > 2) {
-                          return 'Please provide a valid E-mail';
-                        }
-                        return null;
-                      },
+                          return null;
+                        },
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  width: 500,
-                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                  child: CheckboxListTile(
-                      value: useRegularEmail,
-                      title: const Text(
-                        'Use login e-mail',
-                        maxLines: 2,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        controller: intakeTextController,
+                        enabled: false,
+                        cursorColor: Colors.grey[800],
+                        decoration: const InputDecoration(
+                          hintText: 'Intake Year*',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.date_range),
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                        keyboardType: TextInputType.datetime,
+                        validator: (val) {
+                          if (val!.trim().isEmpty) {
+                            return 'Intake year is required';
+                          }
+                          if (!isInt(val)) {
+                            return 'Please enter a valid number';
+                          }
+                          return null;
+                        },
                       ),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)),
-                      activeColor: Colors.black,
-                      onChanged: !editingEnabled
-                          ? null
-                          : (value) {
-                              setState(() {
-                                if (value!) {
-                                  emailTextController.text =
-                                      HomeSetterPage.auth.currentUser!.email!;
-                                } else {
-                                  emailTextController.text = '';
-                                }
-                                useRegularEmail = value;
-                                if (emailTextController.text !=
-                                    context.read<MainUser>().user!.email) {
-                                  hasChanged = true;
-                                }
-                              });
-                            }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
-                  child: SizedBox(
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: DropdownButtonFormField(
+                        hint: const Text('Profession'),
+                        decoration: const InputDecoration(
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(
+                              Icons.work,
+                            ),
+                          ),
+                        ),
+                        value: profession,
+                        isDense: true,
+                        onChanged: !editingEnabled
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  profession = value! as String;
+                                  if (profession !=
+                                      context
+                                          .read<MainUser>()
+                                          .user!
+                                          .profession) {
+                                    hasChanged = true;
+                                  }
+                                });
+                              },
+                        items: professions.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        enabled: editingEnabled,
+                        controller: designationTextController,
+                        cursorColor: Colors.grey[800],
+                        decoration: const InputDecoration(
+                          hintText: 'Designation at institute',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.location_city),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            if (designationTextController.text !=
+                                context.read<MainUser>().user!.designation) {
+                              hasChanged = true;
+                            }
+                          });
+                        },
+                        style: TextStyle(
+                          color: editingEnabled ? Colors.black : Colors.grey,
+                        ),
+                        keyboardType: TextInputType.text,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        enabled: editingEnabled,
+                        controller: addressTextController,
+                        cursorColor: Colors.grey[800],
+                        decoration: const InputDecoration(
+                          hintText: 'Address*',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.location_pin),
+                          ),
+                        ),
+                        style: TextStyle(
+                          color: editingEnabled ? Colors.black : Colors.grey,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            if (addressTextController.text !=
+                                context.read<MainUser>().user!.address) {
+                              hasChanged = true;
+                            }
+                          });
+                        },
+                        validator: (val) {
+                          if (val!.trim().isEmpty) {
+                            return 'Address is required';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.streetAddress,
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0),
+                    child: Text(
+                      'Contact Info',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        controller: emailTextController,
+                        enabled: !useRegularEmail && editingEnabled,
+                        cursorColor: Colors.grey[800],
+                        decoration: const InputDecoration(
+                          hintText: 'Contact E-mail*',
+                          prefixIcon: Padding(
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(
+                                Icons.alternate_email,
+                              )),
+                        ),
+                        style: TextStyle(
+                          color: editingEnabled ? Colors.black : Colors.grey,
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: (value) {
+                          setState(() {
+                            if (emailTextController.text !=
+                                context.read<MainUser>().user!.email) {
+                              hasChanged = true;
+                            }
+                          });
+                        },
+                        validator: (val) {
+                          if (val!.trim().isEmpty) {
+                            return 'Contact e-mail is required';
+                          }
+                          if (!val.contains('@') ||
+                              !val.contains('.') ||
+                              val.endsWith('@') ||
+                              val.endsWith('.')) {
+                            return 'Please provide a valid E-mail';
+                          }
+                          final temp = val;
+                          final List a = temp.split('@');
+                          if (a.length > 2) {
+                            return 'Please provide a valid E-mail';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
                     width: 500,
-                    child: TextFormField(
-                      controller: fbTextController,
-                      enabled: editingEnabled,
-                      cursorColor: Colors.grey[800],
-                      decoration: InputDecoration(
-                        hintText: 'username e.g. "rashid.hr"',
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(
-                            FontAwesomeIcons.facebook,
-                            color: !editingEnabled ? Colors.grey : Colors.blue,
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                    child: CheckboxListTile(
+                        value: useRegularEmail,
+                        title: const Text(
+                          'Use login e-mail',
+                          maxLines: 2,
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0)),
+                        activeColor: Colors.black,
+                        onChanged: !editingEnabled
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  if (value!) {
+                                    emailTextController.text =
+                                        HomeSetterPage.auth.currentUser!.email!;
+                                  } else {
+                                    emailTextController.text = '';
+                                  }
+                                  useRegularEmail = value;
+                                  if (emailTextController.text !=
+                                      context.read<MainUser>().user!.email) {
+                                    hasChanged = true;
+                                  }
+                                });
+                              }),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        controller: fbTextController,
+                        enabled: editingEnabled,
+                        cursorColor: Colors.grey[800],
+                        decoration: InputDecoration(
+                          hintText: 'username e.g. "rashid.hr"',
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(
+                              FontAwesomeIcons.facebook,
+                              color:
+                                  !editingEnabled ? Colors.grey : Colors.blue,
+                            ),
+                          ),
+                          prefix: Text(
+                            '/',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color:
+                                  !editingEnabled ? Colors.grey : Colors.blue,
+                            ),
                           ),
                         ),
-                        prefix: Text(
-                          '/',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: !editingEnabled ? Colors.grey : Colors.blue,
-                          ),
+                        onChanged: (value) {
+                          setState(() {
+                            if (fbTextController.text !=
+                                context.read<MainUser>().user!.fbUrl) {
+                              hasChanged = true;
+                            }
+                          });
+                        },
+                        style: TextStyle(
+                          color: editingEnabled ? Colors.black : Colors.grey,
                         ),
+                        keyboardType: TextInputType.name,
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          if (fbTextController.text !=
-                              context.read<MainUser>().user!.fbUrl) {
-                            hasChanged = true;
-                          }
-                        });
-                      },
-                      style: TextStyle(
-                        color: editingEnabled ? Colors.black : Colors.grey,
-                      ),
-                      keyboardType: TextInputType.name,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                  child: SizedBox(
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        controller: instaTextController,
+                        enabled: editingEnabled,
+                        cursorColor: Colors.grey[800],
+                        decoration: InputDecoration(
+                          hintText: 'username e.g. "harun.xt"',
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(
+                              FontAwesomeIcons.instagram,
+                              color: !editingEnabled
+                                  ? Colors.grey
+                                  : Colors.deepOrange,
+                            ),
+                          ),
+                          prefix: Text(
+                            '/',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: !editingEnabled
+                                  ? Colors.grey
+                                  : Colors.deepOrange,
+                            ),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            if (instaTextController.text !=
+                                context.read<MainUser>().user!.instaUrl) {
+                              hasChanged = true;
+                            }
+                          });
+                        },
+                        style: TextStyle(
+                          color: editingEnabled ? Colors.black : Colors.grey,
+                        ),
+                        keyboardType: TextInputType.name,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        controller: phoneTextController,
+                        enabled: editingEnabled,
+                        cursorColor: Colors.grey[800],
+                        decoration: const InputDecoration(
+                          hintText: 'Phone',
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.phone),
+                          ),
+                        ),
+                        style: TextStyle(
+                          color: editingEnabled ? Colors.black : Colors.grey,
+                        ),
+                        keyboardType: TextInputType.phone,
+                        onChanged: (value) {
+                          if (phoneTextController.text == '') {
+                            phoneAccess = false;
+                          }
+                          setState(() {
+                            if (phoneTextController.text !=
+                                context.read<MainUser>().user!.phone) {
+                              hasChanged = true;
+                            }
+                          });
+                        },
+                        validator: (val) {
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                     width: 500,
-                    child: TextFormField(
-                      controller: instaTextController,
-                      enabled: editingEnabled,
-                      cursorColor: Colors.grey[800],
-                      decoration: InputDecoration(
-                        hintText: 'username e.g. "harun.xt"',
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(
-                            FontAwesomeIcons.instagram,
-                            color: !editingEnabled
-                                ? Colors.grey
-                                : Colors.deepOrange,
-                          ),
-                        ),
-                        prefix: Text(
-                          '/',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: !editingEnabled
-                                ? Colors.grey
-                                : Colors.deepOrange,
-                          ),
-                        ),
-                      ),
-                      onChanged: (value) {
-                        setState(() {
-                          if (instaTextController.text !=
-                              context.read<MainUser>().user!.instaUrl) {
-                            hasChanged = true;
-                          }
-                        });
-                      },
-                      style: TextStyle(
-                        color: editingEnabled ? Colors.black : Colors.grey,
-                      ),
-                      keyboardType: TextInputType.name,
-                    ),
+                    child: CheckboxListTile(
+                        value: phoneAccess,
+                        title: const Text('Make phone number public'),
+                        subtitle: const Text(
+                            'Anyone near you can use your phone number'),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0)),
+                        activeColor: Colors.black,
+                        onChanged: (phoneTextController.text == '' ||
+                                !editingEnabled)
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  phoneAccess = value!;
+                                  if (phoneAccess !=
+                                      context.read<MainUser>().user!.pPhone) {
+                                    hasChanged = true;
+                                  }
+                                });
+                              }),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                  child: SizedBox(
+                  Container(
                     width: 500,
-                    child: TextFormField(
-                      controller: phoneTextController,
-                      enabled: editingEnabled,
-                      cursorColor: Colors.grey[800],
-                      decoration: const InputDecoration(
-                        hintText: 'Phone',
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(Icons.phone),
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                    child: CheckboxListTile(
+                        value: !locationAccess,
+                        title: const Text(
+                          'Hide my exact location',
                         ),
-                      ),
-                      style: TextStyle(
-                        color: editingEnabled ? Colors.black : Colors.grey,
-                      ),
-                      keyboardType: TextInputType.phone,
-                      onChanged: (value) {
-                        if (phoneTextController.text == '') {
-                          phoneAccess = false;
-                        }
-                        setState(() {
-                          if (phoneTextController.text !=
-                              context.read<MainUser>().user!.phone) {
-                            hasChanged = true;
-                          }
-                        });
-                      },
-                      validator: (val) {
-                        return null;
-                      },
-                    ),
+                        subtitle: const Text('Still show me in nearby result'),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0)),
+                        activeColor: Colors.black,
+                        onChanged: !editingEnabled
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  locationAccess = !value!;
+                                  if (locationAccess !=
+                                      context
+                                          .read<MainUser>()
+                                          .user!
+                                          .pLocation) {
+                                    hasChanged = true;
+                                  }
+                                });
+                              }),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                  width: 500,
-                  child: CheckboxListTile(
-                      value: phoneAccess,
-                      title: const Text('Make phone number public'),
-                      subtitle: const Text(
-                          'Anyone near you can use your phone number'),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)),
-                      activeColor: Colors.black,
-                      onChanged:
-                          (phoneTextController.text == '' || !editingEnabled)
-                              ? null
-                              : (value) {
-                                  setState(() {
-                                    phoneAccess = value!;
-                                    if (phoneAccess !=
-                                        context.read<MainUser>().user!.pPhone) {
-                                      hasChanged = true;
-                                    }
-                                  });
-                                }),
-                ),
-                Container(
-                  width: 500,
-                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                  child: CheckboxListTile(
-                      value: !locationAccess,
-                      title: const Text(
-                        'Hide my exact location',
-                      ),
-                      subtitle: const Text('Still show me in nearby result'),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)),
-                      activeColor: Colors.black,
-                      onChanged: !editingEnabled
-                          ? null
-                          : (value) {
-                              setState(() {
-                                locationAccess = !value!;
-                                if (locationAccess !=
-                                    context.read<MainUser>().user!.pLocation) {
-                                  hasChanged = true;
-                                }
-                              });
-                            }),
-                ),
-                Container(
-                  width: 500,
-                  padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                  child: CheckboxListTile(
-                      value: enableZoneMonitor,
-                      title: const Text(
-                        'Enable Zone Monitor',
-                        maxLines: 2,
-                      ),
-                      subtitle: const Text(
-                          'Get notified when anyone enters your 5km zone'),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0)),
-                      activeColor: Colors.black,
-                      onChanged: !editingEnabled
-                          ? null
-                          : (value) {
-                              setState(() {
-                                enableZoneMonitor = value!;
-                                if (enableZoneMonitor !=
-                                    context.read<Settings>().zoneDetection) {
-                                  hasChanged = true;
-                                }
-                              });
-                            }),
-                ),
-              ],
-            ),
-            Container(
-              width: 500,
-              margin: const EdgeInsets.fromLTRB(100, 20, 100, 0),
-              child: ElevatedButton.icon(
-                onPressed: !(editingEnabled && hasChanged && !inProgress)
-                    ? null
-                    : () async {
-                        setState(() {
-                          inProgress = true;
-                        });
-                        if (formKey.currentState!.validate()) {
-                          String cName = cNameTextController.text;
-                          String first = cName[0];
-                          first = first.toUpperCase();
-                          cName = first + cName.substring(1);
-
-                          String fullName = '';
-                          final parts = fullNameTextController.text.split(' ');
-                          final StringBuffer fname = StringBuffer();
-                          for (final each in parts) {
-                            first = each[0];
+                  Container(
+                    width: 500,
+                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                    child: CheckboxListTile(
+                        value: enableZoneMonitor,
+                        title: const Text(
+                          'Enable Zone Monitor',
+                          maxLines: 2,
+                        ),
+                        subtitle: const Text(
+                            'Get notified when anyone enters your 5km zone'),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0)),
+                        activeColor: Colors.black,
+                        onChanged: !editingEnabled
+                            ? null
+                            : (value) {
+                                setState(() {
+                                  enableZoneMonitor = value!;
+                                  if (enableZoneMonitor !=
+                                      context.read<Settings>().zoneDetection) {
+                                    hasChanged = true;
+                                  }
+                                });
+                              }),
+                  ),
+                ],
+              ),
+              Container(
+                width: 500,
+                margin: const EdgeInsets.fromLTRB(100, 20, 100, 0),
+                child: ElevatedButton.icon(
+                  onPressed: !(editingEnabled && hasChanged && !inProgress)
+                      ? null
+                      : () async {
+                          FocusScope.of(context).unfocus();
+                          setState(() {
+                            inProgress = true;
+                          });
+                          if (formKey.currentState!.validate()) {
+                            String cName = cNameTextController.text;
+                            String first = cName[0];
                             first = first.toUpperCase();
-                            fname.write('$first${each.substring(1)} ');
-                          }
-                          fullName = fname.toString().trim();
-                          try {
-                            await HomeSetterPage.auth.currentUser!
-                                .updateDisplayName('Saim Ul Islam');
-                            await HomeSetterPage.store
-                                .collection('users')
-                                .doc(HomeSetterPage.auth.currentUser!.uid)
-                                .update({
-                              'fullname': fullName,
-                              'phone': phoneTextController.text,
-                              'email': emailTextController.text,
-                              'pphone': phoneAccess,
-                              'plocation': locationAccess,
-                              'fburl': fbTextController.text,
-                              'instaurl': instaTextController.text,
-                              'designation': designationTextController.text,
-                              'profession': profession,
-                              'address': addressTextController.text,
-                            });
+                            cName = first + cName.substring(1);
 
-                            context.read<MainUser>().user = AppUser(
-                              id: context.read<MainUser>().user!.id,
-                              cName: cName,
-                              cNumber: int.parse(cNumberTextController.text),
-                              fullName: fullName,
-                              college: college,
-                              email: emailTextController.text,
-                              intake: int.parse(intakeTextController.text),
-                              pAlways: context.read<MainUser>().user!.pAlways,
-                              pLocation: locationAccess,
-                              pMaps: context.read<MainUser>().user!.pMaps,
-                              pPhone: phoneAccess,
-                              photoUrl: context.read<MainUser>().user!.photoUrl,
-                              phone: phoneTextController.text,
-                              fbUrl: fbTextController.text,
-                              instaUrl: instaTextController.text,
-                              timeStamp:
-                                  context.read<MainUser>().user!.timeStamp,
-                              premiumTo:
-                                  context.read<MainUser>().user!.premiumTo,
-                              premium: context.read<MainUser>().user!.premium,
-                              verified: context.read<MainUser>().user!.verified,
-                              celeb: context.read<MainUser>().user!.celeb,
-                              treatHead:
-                                  context.read<MainUser>().user!.treatHead,
-                              treatHunter:
-                                  context.read<MainUser>().user!.treatHunter,
-                              designation: designationTextController.text,
-                              profession: profession,
-                              manualDp: context.read<MainUser>().user!.manualDp,
-                              treatCount:
-                                  context.read<MainUser>().user!.treatCount,
-                              sector: context.read<MainUser>().user!.sector,
-                              address: addressTextController.text,
-                              contact: context.read<MainUser>().user!.contact,
-                              coupons: context.read<MainUser>().user!.coupons,
-                            );
+                            String fullName = '';
+                            final parts =
+                                fullNameTextController.text.split(' ');
+                            final StringBuffer fname = StringBuffer();
+                            for (final each in parts) {
+                              first = each[0];
+                              first = first.toUpperCase();
+                              fname.write('$first${each.substring(1)} ');
+                            }
+                            fullName = fname.toString().trim();
+                            try {
+                              await HomeSetterPage.auth.currentUser!
+                                  .updateDisplayName('Saim Ul Islam');
+                              await HomeSetterPage.store
+                                  .collection('users')
+                                  .doc(HomeSetterPage.auth.currentUser!.uid)
+                                  .update({
+                                'fullname': fullName,
+                                'phone': phoneTextController.text,
+                                'email': emailTextController.text,
+                                'pphone': phoneAccess,
+                                'plocation': locationAccess,
+                                'fburl': fbTextController.text,
+                                'instaurl': instaTextController.text,
+                                'designation': designationTextController.text,
+                                'profession': profession,
+                                'address': addressTextController.text,
+                              });
 
-                            if (context.read<Settings>().zoneDetection !=
-                                enableZoneMonitor) {
-                              if (!enableZoneMonitor) {
-                                FlutterBackgroundService()
-                                    .sendData({'action': 'stopService'});
-                              } else {
-                                FlutterBackgroundService.initialize(onLogin);
+                              context.read<MainUser>().user = AppUser(
+                                id: context.read<MainUser>().user!.id,
+                                cName: cName,
+                                cNumber: int.parse(cNumberTextController.text),
+                                fullName: fullName,
+                                college: college,
+                                email: emailTextController.text,
+                                intake: int.parse(intakeTextController.text),
+                                pAlways: context.read<MainUser>().user!.pAlways,
+                                pLocation: locationAccess,
+                                pMaps: context.read<MainUser>().user!.pMaps,
+                                pPhone: phoneAccess,
+                                photoUrl:
+                                    context.read<MainUser>().user!.photoUrl,
+                                phone: phoneTextController.text,
+                                fbUrl: fbTextController.text,
+                                instaUrl: instaTextController.text,
+                                timeStamp:
+                                    context.read<MainUser>().user!.timeStamp,
+                                premiumTo:
+                                    context.read<MainUser>().user!.premiumTo,
+                                premium: context.read<MainUser>().user!.premium,
+                                verified:
+                                    context.read<MainUser>().user!.verified,
+                                celeb: context.read<MainUser>().user!.celeb,
+                                treatHead:
+                                    context.read<MainUser>().user!.treatHead,
+                                treatHunter:
+                                    context.read<MainUser>().user!.treatHunter,
+                                designation: designationTextController.text,
+                                profession: profession,
+                                manualDp:
+                                    context.read<MainUser>().user!.manualDp,
+                                treatCount:
+                                    context.read<MainUser>().user!.treatCount,
+                                sector: context.read<MainUser>().user!.sector,
+                                address: addressTextController.text,
+                                contact: context.read<MainUser>().user!.contact,
+                                coupons: context.read<MainUser>().user!.coupons,
+                              );
+
+                              if (context.read<Settings>().zoneDetection !=
+                                  enableZoneMonitor) {
+                                if (!enableZoneMonitor) {
+                                  FlutterBackgroundService()
+                                      .sendData({'action': 'setAsForeground'});
+                                } else {
+                                  FlutterBackgroundService.initialize(onLogin);
+                                }
+
+                                context.read<Settings>().zoneDetection =
+                                    enableZoneMonitor;
                               }
 
-                              context.read<Settings>().zoneDetection =
-                                  enableZoneMonitor;
-                            }
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Theme.of(context).primaryColor,
-                                content: const Text(
-                                  'Account settings updated',
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  content: const Text(
+                                    'Account settings updated',
+                                  ),
                                 ),
-                              ),
-                            );
-                          } catch (e) {
-                            log(e.toString());
+                              );
+                            } catch (e) {
+                              log(e.toString());
+                            }
+                            setState(() {
+                              hasChanged = false;
+                              editingEnabled = false;
+                              inProgress = false;
+                            });
+                          } else {
+                            setState(() {
+                              inProgress = false;
+                            });
                           }
-                          setState(() {
-                            hasChanged = false;
-                            editingEnabled = false;
-                            inProgress = false;
-                          });
-                        } else {
-                          setState(() {
-                            inProgress = false;
-                          });
-                        }
-                      },
-                icon: const Icon(Icons.save),
-                label: const Text('Save Changes'),
+                        },
+                  icon: const Icon(Icons.save),
+                  label: const Text('Save Changes'),
+                ),
               ),
-            ),
-            Container(
-              width: 500,
-              margin: const EdgeInsets.fromLTRB(100, 15, 100, 15),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  signOut();
-                },
-                child: const Text('Sign Out'),
+              Container(
+                width: 500,
+                margin: const EdgeInsets.fromLTRB(100, 15, 100, 15),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    signOut();
+                  },
+                  child: const Text('Sign Out'),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-          ],
+              const SizedBox(
+                height: 20.0,
+              ),
+            ],
+          ),
         ),
       ),
     );

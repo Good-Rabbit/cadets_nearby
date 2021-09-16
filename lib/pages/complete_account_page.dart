@@ -62,6 +62,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     instaTextController.dispose();
     designationTextController.dispose();
     addressTextController.dispose();
+    formKey.currentState!.dispose();
     super.dispose();
   }
 
@@ -121,605 +122,629 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
       },
       child: Form(
         key: formKey,
-        child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
-          body: SafeArea(
-            child: ListView(
-              children: [
-                Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
-                      child: Text(
-                        'Complete Account',
-                        style: TextStyle(
-                          fontSize: 30.0,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 10, 50, 40),
-                      child: Text(
-                        'Please provide us with the necessary information to set up your account.',
-                        maxLines: 3,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: TextFormField(
-                          controller: fullNameTextController,
-                          cursorColor: Colors.grey[800],
-                          decoration: const InputDecoration(
-                            hintText: 'Full Name*',
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(Icons.account_box_rounded),
-                            ),
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+            body: SafeArea(
+              child: ListView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                children: [
+                  Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+                        child: Text(
+                          'Complete Account',
+                          style: TextStyle(
+                            fontSize: 30.0,
                           ),
-                          keyboardType: TextInputType.name,
-                          validator: (val) {
-                            if (val!.trim().isEmpty) {
-                              return 'Full name is required';
-                            }
-                            return null;
-                          },
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: TextFormField(
-                          controller: cNameTextController,
-                          cursorColor: Colors.grey[800],
-                          decoration: const InputDecoration(
-                            hintText: 'Cadet Name* -e.g. Rashid',
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(Icons.perm_identity_rounded),
-                            ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(50, 10, 50, 40),
+                        child: Text(
+                          'Please provide us with the necessary information to set up your account.',
+                          maxLines: 3,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.grey[700],
                           ),
-                          keyboardType: TextInputType.name,
-                          validator: (val) {
-                            if (val!.trim().isEmpty) {
-                              return 'Cadet name is required';
-                            }
-                            return null;
-                          },
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: TextFormField(
-                          controller: cNumberTextController,
-                          cursorColor: Colors.grey[800],
-                          decoration: const InputDecoration(
-                            hintText: 'Cadet Number*',
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(Icons.book),
-                            ),
-                          ),
-                          keyboardType: TextInputType.number,
-                          validator: (val) {
-                            if (val!.isEmpty) {
-                              return 'Cadet Number is required';
-                            }
-                            if (!isInt(val)) {
-                              return 'Please enter a valid number';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: DropdownButtonFormField(
-                          decoration: const InputDecoration(
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(
-                                Icons.house,
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: TextFormField(
+                            controller: fullNameTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: const InputDecoration(
+                              hintText: 'Full Name*',
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Icon(Icons.account_box_rounded),
                               ),
                             ),
+                            keyboardType: TextInputType.name,
+                            validator: (val) {
+                              if (val!.trim().isEmpty) {
+                                return 'Full name is required';
+                              }
+                              return null;
+                            },
                           ),
-                          value: college,
-                          isDense: true,
-                          onChanged: (value) {
-                            setState(() {
-                              college = value! as String;
-                            });
-                          },
-                          items: colleges.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          validator: (value) {
-                            if (college == 'Pick your college*') {
-                              return 'Please pick your college';
-                            }
-                            return null;
-                          },
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: TextFormField(
-                          controller: intakeTextController,
-                          cursorColor: Colors.grey[800],
-                          decoration: const InputDecoration(
-                            hintText: 'Intake Year*',
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(Icons.date_range),
-                            ),
-                          ),
-                          keyboardType: TextInputType.datetime,
-                          validator: (val) {
-                            if (val!.trim().isEmpty) {
-                              return 'Intake year is required';
-                            }
-                            if (!isInt(val)) {
-                              return 'Please enter a valid number';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: DropdownButtonFormField(
-                          hint: const Text('Profession'),
-                          decoration: const InputDecoration(
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(
-                                Icons.work,
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: TextFormField(
+                            controller: cNameTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: const InputDecoration(
+                              hintText: 'Cadet Name* -e.g. Rashid',
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Icon(Icons.perm_identity_rounded),
                               ),
                             ),
+                            keyboardType: TextInputType.name,
+                            validator: (val) {
+                              if (val!.trim().isEmpty) {
+                                return 'Cadet name is required';
+                              }
+                              return null;
+                            },
                           ),
-                          value: profession,
-                          isDense: true,
-                          onChanged: (value) {
-                            setState(() {
-                              profession = value! as String;
-                            });
-                          },
-                          items: professions.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: TextFormField(
-                          controller: designationTextController,
-                          cursorColor: Colors.grey[800],
-                          decoration: const InputDecoration(
-                            hintText: 'Designation at institute',
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(Icons.location_city),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: TextFormField(
+                            controller: cNumberTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: const InputDecoration(
+                              hintText: 'Cadet Number*',
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Icon(Icons.book),
+                              ),
                             ),
+                            keyboardType: TextInputType.number,
+                            validator: (val) {
+                              if (val!.isEmpty) {
+                                return 'Cadet Number is required';
+                              }
+                              if (!isInt(val)) {
+                                return 'Please enter a valid number';
+                              }
+                              return null;
+                            },
                           ),
-                          keyboardType: TextInputType.text,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: TextFormField(
-                          controller: addressTextController,
-                          cursorColor: Colors.grey[800],
-                          decoration: const InputDecoration(
-                            hintText: 'Address*',
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(Icons.location_pin),
-                            ),
-                          ),
-                          keyboardType: TextInputType.streetAddress,
-                          validator: (val) {
-                            if (val!.trim().isEmpty) {
-                              return 'Address is required';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0),
-                      child: Text(
-                        'Contact Info',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: TextFormField(
-                          controller: emailTextController,
-                          enabled: !useRegularEmail,
-                          cursorColor: Colors.grey[800],
-                          decoration: const InputDecoration(
-                            hintText: 'Contact E-mail*',
-                            prefixIcon: Padding(
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: DropdownButtonFormField(
+                            decoration: const InputDecoration(
+                              prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
-                                  Icons.alternate_email,
-                                )),
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (val) {
-                            if (val!.trim().isEmpty) {
-                              return 'Contact e-mail is required';
-                            }
-                            if (!val.contains('@') ||
-                                !val.contains('.') ||
-                                val.endsWith('@') ||
-                                val.endsWith('.')) {
-                              return 'Please provide a valid E-mail';
-                            }
-                            final temp = val;
-                            final List a = temp.split('@');
-                            if (a.length > 2) {
-                              return 'Please provide a valid E-mail';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: CheckboxListTile(
-                            value: useRegularEmail,
-                            title: const Text(
-                              'Use login e-mail',
+                                  Icons.house,
+                                ),
+                              ),
                             ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0)),
-                            activeColor: Colors.black,
+                            value: college,
+                            isDense: true,
                             onChanged: (value) {
                               setState(() {
-                                if (value!) {
-                                  emailTextController.text =
-                                      HomeSetterPage.auth.currentUser!.email!;
-                                } else {
-                                  emailTextController.text = '';
-                                }
-                                useRegularEmail = value;
+                                college = value! as String;
                               });
-                            }),
+                            },
+                            items: colleges.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            validator: (value) {
+                              if (college == 'Pick your college*') {
+                                return 'Please pick your college';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: TextFormField(
-                          controller: fbTextController,
-                          cursorColor: Colors.grey[800],
-                          decoration: const InputDecoration(
-                            hintText: 'username e.g. "rashid.hr"',
-                            prefixIcon: Padding(
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: TextFormField(
+                            controller: intakeTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: const InputDecoration(
+                              hintText: 'Intake Year*',
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Icon(Icons.date_range),
+                              ),
+                            ),
+                            keyboardType: TextInputType.datetime,
+                            validator: (val) {
+                              if (val!.trim().isEmpty) {
+                                return 'Intake year is required';
+                              }
+                              if (!isInt(val)) {
+                                return 'Please enter a valid number';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: DropdownButtonFormField(
+                            hint: const Text('Profession'),
+                            decoration: const InputDecoration(
+                              prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
-                                  FontAwesomeIcons.facebook,
+                                  Icons.work,
+                                ),
+                              ),
+                            ),
+                            value: profession,
+                            isDense: true,
+                            onChanged: (value) {
+                              setState(() {
+                                profession = value! as String;
+                              });
+                            },
+                            items: professions.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: TextFormField(
+                            controller: designationTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: const InputDecoration(
+                              hintText: 'Designation at institute',
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Icon(Icons.location_city),
+                              ),
+                            ),
+                            keyboardType: TextInputType.text,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: TextFormField(
+                            controller: addressTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: const InputDecoration(
+                              hintText: 'Address*',
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Icon(Icons.location_pin),
+                              ),
+                            ),
+                            keyboardType: TextInputType.streetAddress,
+                            validator: (val) {
+                              if (val!.trim().isEmpty) {
+                                return 'Address is required';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 5.0),
+                        child: Text(
+                          'Contact Info',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: TextFormField(
+                            controller: emailTextController,
+                            enabled: !useRegularEmail,
+                            cursorColor: Colors.grey[800],
+                            decoration: const InputDecoration(
+                              hintText: 'Contact E-mail*',
+                              prefixIcon: Padding(
+                                  padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(
+                                    Icons.alternate_email,
+                                  )),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (val) {
+                              if (val!.trim().isEmpty) {
+                                return 'Contact e-mail is required';
+                              }
+                              if (!val.contains('@') ||
+                                  !val.contains('.') ||
+                                  val.endsWith('@') ||
+                                  val.endsWith('.')) {
+                                return 'Please provide a valid E-mail';
+                              }
+                              final temp = val;
+                              final List a = temp.split('@');
+                              if (a.length > 2) {
+                                return 'Please provide a valid E-mail';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: CheckboxListTile(
+                              value: useRegularEmail,
+                              title: const Text(
+                                'Use login e-mail',
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              activeColor: Colors.black,
+                              onChanged: (value) {
+                                setState(() {
+                                  if (value!) {
+                                    emailTextController.text =
+                                        HomeSetterPage.auth.currentUser!.email!;
+                                  } else {
+                                    emailTextController.text = '';
+                                  }
+                                  useRegularEmail = value;
+                                });
+                              }),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: TextFormField(
+                            controller: fbTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: const InputDecoration(
+                              hintText: 'username e.g. "rashid.hr"',
+                              prefixIcon: Padding(
+                                  padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(
+                                    FontAwesomeIcons.facebook,
+                                    color: Colors.blue,
+                                  )),
+                              prefix: Text(
+                                '/',
+                                style: TextStyle(
+                                  fontSize: 20,
                                   color: Colors.blue,
-                                )),
-                            prefix: Text(
-                              '/',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.blue,
+                                ),
                               ),
                             ),
+                            keyboardType: TextInputType.name,
                           ),
-                          keyboardType: TextInputType.name,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: TextFormField(
-                          controller: instaTextController,
-                          cursorColor: Colors.grey[800],
-                          decoration: const InputDecoration(
-                            hintText: 'username e.g. "harun.xt"',
-                            prefixIcon: Padding(
-                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(
-                                  FontAwesomeIcons.instagram,
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: TextFormField(
+                            controller: instaTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: const InputDecoration(
+                              hintText: 'username e.g. "harun.xt"',
+                              prefixIcon: Padding(
+                                  padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(
+                                    FontAwesomeIcons.instagram,
+                                    color: Colors.deepOrange,
+                                  )),
+                              prefix: Text(
+                                '/',
+                                style: TextStyle(
+                                  fontSize: 20,
                                   color: Colors.deepOrange,
-                                )),
-                            prefix: Text(
-                              '/',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.deepOrange,
+                                ),
                               ),
                             ),
+                            keyboardType: TextInputType.name,
                           ),
-                          keyboardType: TextInputType.name,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: TextFormField(
-                          controller: phoneTextController,
-                          cursorColor: Colors.grey[800],
-                          decoration: const InputDecoration(
-                            hintText: 'Phone',
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(Icons.phone),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: TextFormField(
+                            controller: phoneTextController,
+                            cursorColor: Colors.grey[800],
+                            decoration: const InputDecoration(
+                              hintText: 'Phone',
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                child: Icon(Icons.phone),
+                              ),
                             ),
+                            keyboardType: TextInputType.phone,
+                            onChanged: (value) {
+                              if (phoneTextController.text == '') {
+                                phoneAccess = false;
+                              }
+                              setState(() {});
+                            },
+                            validator: (val) {
+                              return null;
+                            },
                           ),
-                          keyboardType: TextInputType.phone,
-                          onChanged: (value) {
-                            if (phoneTextController.text == '') {
-                              phoneAccess = false;
-                            }
-                            setState(() {});
-                          },
-                          validator: (val) {
-                            return null;
-                          },
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: CheckboxListTile(
-                            value: phoneAccess,
-                            title: const Text('Make phone number public'),
-                            subtitle: const Text(
-                                'Anyone near you can use your phone number'),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0)),
-                            activeColor: Colors.black,
-                            onChanged: phoneTextController.text == ''
-                                ? null
-                                : (value) {
-                                    setState(() {
-                                      phoneAccess = value!;
-                                    });
-                                  }),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: CheckboxListTile(
-                            value: terms,
-                            title: Row(
-                              children: [
-                                const Text(
-                                  'I agree to the ',
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    // * Cannot scroll webview in bottom sheet
-                                    // showBottomSheetWith([
-                                    //   SizedBox(
-                                    //     height:
-                                    //         MediaQuery.of(context).size.height -
-                                    //             100,
-                                    //     child: const WebView(
-                                    //       initialUrl: 'https://google.com',
-                                    //     ),
-                                    //   ),
-                                    // ], context);
-                                    // * Opening external link
-                                    launchURL('https://privacy-policy.com/');
-                                  },
-                                  child: Text(
-                                    'terms and conditions',
-                                    style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0)),
-                            activeColor: Colors.black,
-                            onChanged: (value) {
-                              setState(() {
-                                terms = value!;
-                              });
-                            }),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: CheckboxListTile(
-                            value: privacy,
-                            title: Row(
-                              children: [
-                                const Text(
-                                  'I agree to the ',
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    // * Cannot scroll webview in bottom sheet
-                                    // showBottomSheetWith([
-                                    //   SizedBox(
-                                    //     height:
-                                    //         MediaQuery.of(context).size.height -
-                                    //             100,
-                                    //     child: const WebView(
-                                    //       initialUrl: 'https://google.com',
-                                    //     ),
-                                    //   ),
-                                    // ], context);
-                                    // * Opening to external link
-                                    launchURL('https://privacy-policy.com/');
-                                  },
-                                  child: Text(
-                                    'privacy policy',
-                                    style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0)),
-                            activeColor: Colors.black,
-                            onChanged: (value) {
-                              setState(() {
-                                privacy = value!;
-                              });
-                            }),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      child: SizedBox(
-                        width: 500,
-                        child: CheckboxListTile(
-                            value: !locationAccess,
-                            title: const Text(
-                              'Hide my exact location',
-                            ),
-                            subtitle:
-                                const Text('Still show me in nearby result'),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40.0)),
-                            activeColor: Colors.black,
-                            onChanged: (value) {
-                              setState(() {
-                                locationAccess = !value!;
-                              });
-                            }),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 20, 30, 40),
-                      child: SizedBox(
-                        width: 500,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                delLogout(context);
-                              },
-                              label: const Text('Cancel'),
-                              icon: const Icon(
-                                Icons.arrow_left_rounded,
-                                size: 20,
-                              ),
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.red),
-                              ),
-                            ),
-                            ElevatedButton.icon(
-                              onPressed: (inProgress || !(privacy && terms))
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: CheckboxListTile(
+                              value: phoneAccess,
+                              title: const Text('Make phone number public'),
+                              subtitle: const Text(
+                                  'Anyone near you can use your phone number'),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              activeColor: Colors.black,
+                              onChanged: phoneTextController.text == ''
                                   ? null
-                                  : () async {
+                                  : (value) {
                                       setState(() {
-                                        inProgress = true;
+                                        phoneAccess = value!;
                                       });
-                                      if (formKey.currentState!.validate()) {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                title: const Text(
-                                                    'Is the information correct?'),
-                                                content: const Text(
-                                                    'Some of your information cannot be changed later. e.g. Cadet name/number, college, intake year.'),
-                                                actions: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: const Text(
-                                                          'No, go back.')),
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                        completeAccount();
-                                                      },
-                                                      child:
-                                                          const Text('Yes.')),
-                                                ],
-                                              );
-                                            });
-                                      }
-                                      setState(() {
-                                        inProgress = false;
-                                      });
-                                    },
-                              label: const Text('Continue'),
-                              icon: const Icon(
-                                Icons.arrow_right_alt_rounded,
-                                size: 20,
-                              ),
-                            )
-                          ],
+                                    }),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: CheckboxListTile(
+                              value: terms,
+                              title: Row(
+                                children: [
+                                  const Text(
+                                    'I agree to the ',
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      // * Cannot scroll webview in bottom sheet
+                                      // showBottomSheetWith([
+                                      //   SizedBox(
+                                      //     height:
+                                      //         MediaQuery.of(context).size.height -
+                                      //             100,
+                                      //     child: const WebView(
+                                      //       initialUrl: 'https://google.com',
+                                      //     ),
+                                      //   ),
+                                      // ], context);
+                                      // * Opening external link
+                                      launchURL('https://privacy-policy.com/');
+                                    },
+                                    child: Text(
+                                      'terms and conditions',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              activeColor: Colors.black,
+                              onChanged: (value) {
+                                setState(() {
+                                  terms = value!;
+                                });
+                              }),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: CheckboxListTile(
+                              value: privacy,
+                              title: Row(
+                                children: [
+                                  const Text(
+                                    'I agree to the ',
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      // * Cannot scroll webview in bottom sheet
+                                      // showBottomSheetWith([
+                                      //   SizedBox(
+                                      //     height:
+                                      //         MediaQuery.of(context).size.height -
+                                      //             100,
+                                      //     child: const WebView(
+                                      //       initialUrl: 'https://google.com',
+                                      //     ),
+                                      //   ),
+                                      // ], context);
+                                      // * Opening to external link
+                                      launchURL('https://privacy-policy.com/');
+                                    },
+                                    child: Text(
+                                      'privacy policy',
+                                      style: TextStyle(
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              activeColor: Colors.black,
+                              onChanged: (value) {
+                                setState(() {
+                                  privacy = value!;
+                                });
+                              }),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: CheckboxListTile(
+                              value: !locationAccess,
+                              title: const Text(
+                                'Hide my exact location',
+                              ),
+                              subtitle:
+                                  const Text('Still show me in nearby result'),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              activeColor: Colors.black,
+                              onChanged: (value) {
+                                setState(() {
+                                  locationAccess = !value!;
+                                });
+                              }),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 20, 30, 40),
+                        child: SizedBox(
+                          width: 500,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  FocusScope.of(context).unfocus();
+                                  delLogout(context);
+                                },
+                                label: const Text('Cancel'),
+                                icon: const Icon(
+                                  Icons.arrow_left_rounded,
+                                  size: 20,
+                                ),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.red),
+                                ),
+                              ),
+                              ElevatedButton.icon(
+                                onPressed: (inProgress || !(privacy && terms))
+                                    ? null
+                                    : () async {
+                                        FocusScope.of(context).unfocus();
+                                        setState(() {
+                                          inProgress = true;
+                                        });
+                                        if (formKey.currentState!.validate()) {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Is the information correct?'),
+                                                  content: const Text(
+                                                      'Some of your information cannot be changed later. e.g. Cadet name/number, college, intake year.'),
+                                                  actions: [
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: const Text(
+                                                            'No, go back.')),
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          completeAccount();
+                                                        },
+                                                        child:
+                                                            const Text('Yes.')),
+                                                  ],
+                                                );
+                                              });
+                                        }
+                                        setState(() {
+                                          inProgress = false;
+                                        });
+                                      },
+                                label: const Text('Continue'),
+                                icon: const Icon(
+                                  Icons.arrow_right_alt_rounded,
+                                  size: 20,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

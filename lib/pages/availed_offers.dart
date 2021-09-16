@@ -20,24 +20,27 @@ class _AvailedOffersPageState extends State<AvailedOffersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Row(
-            children: const [
-              Icon(Icons.notifications),
-              SizedBox(width: 10,),
-              Text(
-                'Notifications',
-                style: TextStyle(fontSize: 20),
-              ),
-            ],
-          ),
-          titleTextStyle: const TextStyle(color: Colors.black),
-          iconTheme: const IconThemeData(color: Colors.black),
-          systemOverlayStyle: systemUiOverlayStyle,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Row(
+          children: const [
+            Icon(Icons.backpack),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              'Availed Offers',
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
         ),
+        titleTextStyle: const TextStyle(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
+        systemOverlayStyle: systemUiOverlayStyle,
+      ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
+        mainAxisAlignment:MainAxisAlignment.center,
         children: [
           FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
             future: HomeSetterPage.store
@@ -75,7 +78,7 @@ class _AvailedOffersPageState extends State<AvailedOffersPage> {
                   return Expanded(child: Center(child: noOffersAvailed()));
                 }
               }
-              return const Loading();
+              return const Expanded(child: Loading());
             },
           ),
         ],

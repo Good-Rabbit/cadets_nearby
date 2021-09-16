@@ -44,7 +44,12 @@ class _OfferCardState extends State<OfferCard> {
 
     return InkWell(
       borderRadius: BorderRadius.circular(20),
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          '/offerdetails',
+          arguments: {'e': widget.e, 'distance': distance},
+        );
+      },
       child: Card(
         color: Colors.orange[50],
         child: Padding(
@@ -146,7 +151,9 @@ class _OfferCardState extends State<OfferCard> {
                                                 'offerid':
                                                     widget.e.data()['code'],
                                                 'code':
-                                                    '${widget.e.data()['code']}${context.read<MainUser>().user!.cNumber}${DateTime.now().toString().split(':').first}',
+                                                    '${widget.e.data()['code']}${context.read<MainUser>().user!.cNumber}${DateTime.now().toString()}',
+                                                'expiry': DateTime.now().add(
+                                                    const Duration(days: 7)).toString(),
                                               });
                                               Navigator.of(context).pop();
                                               setState(() {

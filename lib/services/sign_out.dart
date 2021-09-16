@@ -10,4 +10,6 @@ void signOut() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.clear();
   FlutterBackgroundService().sendData({'action': 'stopService'});
+  FlutterBackgroundService().stopBackgroundService();
+  FlutterBackgroundService().dispose();
 }

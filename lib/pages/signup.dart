@@ -42,288 +42,294 @@ class _SignupMainPageState extends State<SignupMainPage> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Theme.of(context).backgroundColor,
-        body: SafeArea(
-          child: ListView(
-            children: [
-              Column(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
-                    child: Text(
-                      'Sign Up',
-                      style: TextStyle(
-                        fontSize: 30.0,
+        body: GestureDetector(
+          onTap:() => FocusScope.of(context).unfocus(),
+          child: SafeArea(
+            child: ListView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              children: [
+                Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          fontSize: 30.0,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
-                    child: Text(
-                      'at $appName',
-                      style: TextStyle(
-                        color: Colors.grey[800],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
+                      child: Text(
+                        'at $appName',
+                        style: TextStyle(
+                          color: Colors.grey[800],
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                    child: SizedBox(
-                      width: 500,
-                      child: Column(
-                        children: [
-                          TextFormField(
-                            controller: emailTextController,
-                            cursorColor: Colors.grey[800],
-                            decoration: const InputDecoration(
-                              hintText: 'E-mail',
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(
-                                  Icons.person,
-                                ),
-                              ),
-                            ),
-                            keyboardType: TextInputType.emailAddress,
-                            onChanged: (val) {
-                              if (invalidEmail || emailInUse) {
-                                invalidEmail = false;
-                                emailInUse = false;
-                                checkChanged();
-                              }
-                            },
-                            validator: (val) {
-                              if (emailInUse) {
-                                return 'E-mail is already in use';
-                              }
-                              if (invalidEmail) {
-                                return 'Please provide a valid E-mail';
-                              }
-                              if (val!.isEmpty) {
-                                return 'E-mail is required';
-                              }
-                              if (!val.contains('@') ||
-                                  !val.contains('.') ||
-                                  val.endsWith('@') ||
-                                  val.endsWith('.')) {
-                                return 'Please provide a valid E-mail';
-                              }
-                              final temp = val;
-                              final List a = temp.split('@');
-                              if (a.length > 2) {
-                                return 'Please provide a valid E-mail';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          TextFormField(
-                            controller: passwordTextController,
-                            obscureText: !passwordVisibility,
-                            cursorColor: Colors.grey[800],
-                            onChanged: (val) {
-                              if (weakPassword) {
-                                weakPassword = false;
-                                checkChanged();
-                              }
-                            },
-                            decoration: InputDecoration(
-                              hintText: 'Password',
-                              prefixIcon: const Padding(
-                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(
-                                  Icons.fence_rounded,
-                                ),
-                              ),
-                              suffixIcon: InkWell(
-                                onTap: () => setState(
-                                  () =>
-                                      passwordVisibility = !passwordVisibility,
-                                ),
-                                child: Icon(
-                                  passwordVisibility
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
-                                  color: const Color(0xFF757575),
-                                  size: 22,
-                                ),
-                              ),
-                            ),
-                            keyboardType: TextInputType.visiblePassword,
-                            validator: (val) {
-                              if (weakPassword) {
-                                return 'Password is weak';
-                              }
-                              if (val!.isEmpty) {
-                                return 'Password is required';
-                              }
-                              if (val.length < 6) {
-                                return 'Password must be 6 characters at least';
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          TextFormField(
-                            controller: confirmTextController,
-                            obscureText: !passwordVisibility,
-                            cursorColor: Colors.grey[800],
-                            decoration: InputDecoration(
-                              hintText: 'Confirm Password',
-                              prefixIcon: const Padding(
-                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(
-                                  Icons.fence_rounded,
-                                ),
-                              ),
-                              suffixIcon: InkWell(
-                                onTap: () => setState(
-                                  () =>
-                                      passwordVisibility = !passwordVisibility,
-                                ),
-                                child: Icon(
-                                  passwordVisibility
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
-                                  color: const Color(0xFF757575),
-                                  size: 22,
-                                ),
-                              ),
-                            ),
-                            keyboardType: TextInputType.visiblePassword,
-                            validator: (val) {
-                              if (val != passwordTextController.text) {
-                                return 'Passwords do not match';
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          label: const Text('Login'),
-                          icon: const Icon(
-                            Icons.login,
-                            size: 20,
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Theme.of(context).secondaryHeaderColor),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20.0,
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: inProgress
-                              ? null
-                              : () async {
-                                  if (formKey.currentState!.validate()) {
-                                    setState(() {
-                                      inProgress = true;
-                                    });
-                                    try {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                        content: SafeArea(
-                                          child: Text('Creating account'),
-                                        ),
-                                        
-                                      ));
-                                      HomeSetterPage.auth
-                                          .createUserWithEmailAndPassword(
-                                        email: emailTextController.text,
-                                        password: passwordTextController.text,
-                                      )
-                                          .then((value) {
-                                        HomeSetterPage.auth.currentUser!
-                                            .sendEmailVerification();
-                                        Navigator.of(context).pop();
-                                      });
-                                    } on FirebaseAuthException catch (e) {
-                                      switch (e.code) {
-                                        case 'email-already-in-use':
-                                          emailInUse = true;
-                                          break;
-                                        case 'invalid-email':
-                                          invalidEmail = true;
-                                          break;
-                                        case 'operation-not-allowed':
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              
-                                              content: Text('Please try again'),
-                                            ),
-                                          );
-                                          break;
-                                        case 'weak-password':
-                                          weakPassword = true;
-                                          break;
-                                        default:
-                                          break;
-                                      }
-                                      setState(() {
-                                        inProgress = false;
-                                      });
-                                      checkChanged();
-                                    }
-                                  }
-                                },
-                          label: const Text('Register'),
-                          icon: const Icon(
-                            Icons.how_to_reg,
-                            size: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: SizedBox(
-                      width: 220,
-                      height: 40,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          signInWithGoogle();
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color(0xFF1F1F1F)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      child: SizedBox(
+                        width: 500,
+                        child: Column(
                           children: [
-                            Container(
-                              margin: const EdgeInsets.all(5.0),
-                              width: 25.0,
-                              height: 25.0,
-                              child: Image.asset('assets/images/google.png',
-                                  fit: BoxFit.contain),
+                            TextFormField(
+                              controller: emailTextController,
+                              cursorColor: Colors.grey[800],
+                              decoration: const InputDecoration(
+                                hintText: 'E-mail',
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(
+                                    Icons.person,
+                                  ),
+                                ),
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                              onChanged: (val) {
+                                if (invalidEmail || emailInUse) {
+                                  invalidEmail = false;
+                                  emailInUse = false;
+                                  checkChanged();
+                                }
+                              },
+                              validator: (val) {
+                                if (emailInUse) {
+                                  return 'E-mail is already in use';
+                                }
+                                if (invalidEmail) {
+                                  return 'Please provide a valid E-mail';
+                                }
+                                if (val!.isEmpty) {
+                                  return 'E-mail is required';
+                                }
+                                if (!val.contains('@') ||
+                                    !val.contains('.') ||
+                                    val.endsWith('@') ||
+                                    val.endsWith('.')) {
+                                  return 'Please provide a valid E-mail';
+                                }
+                                final temp = val;
+                                final List a = temp.split('@');
+                                if (a.length > 2) {
+                                  return 'Please provide a valid E-mail';
+                                }
+                                return null;
+                              },
                             ),
-                            const Text('Sign in with Google'),
+                            const SizedBox(
+                              height: 20.0,
+                            ),
+                            TextFormField(
+                              controller: passwordTextController,
+                              obscureText: !passwordVisibility,
+                              cursorColor: Colors.grey[800],
+                              onChanged: (val) {
+                                if (weakPassword) {
+                                  weakPassword = false;
+                                  checkChanged();
+                                }
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Password',
+                                prefixIcon: const Padding(
+                                  padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(
+                                    Icons.fence_rounded,
+                                  ),
+                                ),
+                                suffixIcon: InkWell(
+                                  onTap: () => setState(
+                                    () =>
+                                        passwordVisibility = !passwordVisibility,
+                                  ),
+                                  child: Icon(
+                                    passwordVisibility
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    color: const Color(0xFF757575),
+                                    size: 22,
+                                  ),
+                                ),
+                              ),
+                              keyboardType: TextInputType.visiblePassword,
+                              validator: (val) {
+                                if (weakPassword) {
+                                  return 'Password is weak';
+                                }
+                                if (val!.isEmpty) {
+                                  return 'Password is required';
+                                }
+                                if (val.length < 6) {
+                                  return 'Password must be 6 characters at least';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20.0,
+                            ),
+                            TextFormField(
+                              controller: confirmTextController,
+                              obscureText: !passwordVisibility,
+                              cursorColor: Colors.grey[800],
+                              decoration: InputDecoration(
+                                hintText: 'Confirm Password',
+                                prefixIcon: const Padding(
+                                  padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(
+                                    Icons.fence_rounded,
+                                  ),
+                                ),
+                                suffixIcon: InkWell(
+                                  onTap: () => setState(
+                                    () =>
+                                        passwordVisibility = !passwordVisibility,
+                                  ),
+                                  child: Icon(
+                                    passwordVisibility
+                                        ? Icons.visibility_outlined
+                                        : Icons.visibility_off_outlined,
+                                    color: const Color(0xFF757575),
+                                    size: 22,
+                                  ),
+                                ),
+                              ),
+                              keyboardType: TextInputType.visiblePassword,
+                              validator: (val) {
+                                if (val != passwordTextController.text) {
+                                  return 'Passwords do not match';
+                                }
+                                return null;
+                              },
+                            ),
                           ],
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-            ],
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            label: const Text('Login'),
+                            icon: const Icon(
+                              Icons.login,
+                              size: 20,
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Theme.of(context).secondaryHeaderColor),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20.0,
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: inProgress
+                                ? null
+                                : () async {
+                                    if (formKey.currentState!.validate()) {
+                                      FocusScope.of(context).unfocus();
+                                      setState(() {
+                                        inProgress = true;
+                                      });
+                                      try {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                          content: SafeArea(
+                                            child: Text('Creating account'),
+                                          ),
+                                          
+                                        ));
+                                        HomeSetterPage.auth
+                                            .createUserWithEmailAndPassword(
+                                          email: emailTextController.text,
+                                          password: passwordTextController.text,
+                                        )
+                                            .then((value) {
+                                          HomeSetterPage.auth.currentUser!
+                                              .sendEmailVerification();
+                                          Navigator.of(context).pop();
+                                        });
+                                      } on FirebaseAuthException catch (e) {
+                                        switch (e.code) {
+                                          case 'email-already-in-use':
+                                            emailInUse = true;
+                                            break;
+                                          case 'invalid-email':
+                                            invalidEmail = true;
+                                            break;
+                                          case 'operation-not-allowed':
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                
+                                                content: Text('Please try again'),
+                                              ),
+                                            );
+                                            break;
+                                          case 'weak-password':
+                                            weakPassword = true;
+                                            break;
+                                          default:
+                                            break;
+                                        }
+                                        setState(() {
+                                          inProgress = false;
+                                        });
+                                        checkChanged();
+                                      }
+                                    }
+                                  },
+                            label: const Text('Register'),
+                            icon: const Icon(
+                              Icons.how_to_reg,
+                              size: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      child: SizedBox(
+                        width: 220,
+                        height: 40,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            FocusScope.of(context).unfocus();
+                            signInWithGoogle();
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xFF1F1F1F)),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.all(5.0),
+                                width: 25.0,
+                                height: 25.0,
+                                child: Image.asset('assets/images/google.png',
+                                    fit: BoxFit.contain),
+                              ),
+                              const Text('Sign in with Google'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
