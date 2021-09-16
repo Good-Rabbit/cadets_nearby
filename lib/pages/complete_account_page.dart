@@ -575,7 +575,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                       //   ),
                                       // ], context);
                                       // * Opening external link
-                                      launchURL('https://privacy-policy.com/');
+                                      launchURL('https://writerslawn.com/terms&conditions.html');
                                     },
                                     child: Text(
                                       'terms and conditions',
@@ -622,7 +622,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                       //   ),
                                       // ], context);
                                       // * Opening to external link
-                                      launchURL('https://privacy-policy.com/');
+                                      launchURL('https://writerslawn.com/privacypolicy.html');
                                     },
                                     child: Text(
                                       'privacy policy',
