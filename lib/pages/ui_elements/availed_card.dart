@@ -55,10 +55,16 @@ class _AvailedCardState extends State<AvailedCard> {
                   label: const Text('Scan')),
             if (!expiry.isAfter(DateTime.now()))
               const Chip(
-                label: Text('Expired'),
+                label: Text(
+                  'Expired',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
                 backgroundColor: Colors.red,
                 avatar: Icon(
                   Icons.info_rounded,
+                  color: Colors.white,
                 ),
               ),
           ],
