@@ -218,7 +218,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                 child: Icon(Icons.book),
                               ),
                             ),
-                            keyboardType: TextInputType.number,
+                            keyboardType: const TextInputType.numberWithOptions(),
                             validator: (val) {
                               if (val!.isEmpty) {
                                 return 'Cadet Number is required';
@@ -282,7 +282,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                 child: Icon(Icons.date_range),
                               ),
                             ),
-                            keyboardType: TextInputType.datetime,
+                            keyboardType: const TextInputType.numberWithOptions(),
                             validator: (val) {
                               if (val!.trim().isEmpty) {
                                 return 'Intake year is required';
@@ -338,7 +338,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               hintText: 'Designation at institute',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(Icons.location_city),
+                                child: Icon(Icons.location_city_rounded),
                               ),
                             ),
                             keyboardType: TextInputType.text,

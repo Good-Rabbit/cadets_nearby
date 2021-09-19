@@ -54,47 +54,50 @@ class _OfferDetailsPageState extends State<OfferDetailsPage> {
           const SizedBox(
             height: 10,
           ),
-          Column(
-            children: [
-              Text(
-                e!.data()['title'],
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 23),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                e!.data()['minidescription'],
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                e!.data()['description'],
-                maxLines: 7,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 18),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Code: ${e!.data()['code']}',
-                style: const TextStyle(fontSize: 15),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Distance: $distance',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+            child: Column(
+              children: [
+                Text(
+                  e!.data()['title'],
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 23),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  e!.data()['minidescription'],
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  e!.data()['description'],
+                  maxLines: 7,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Address: ${e!.data()['address']}, ${e!.data()['district']}',
+                  style: const TextStyle(fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Distance: $distance',
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+              ],
+            ),
           ),
         ],
       ),

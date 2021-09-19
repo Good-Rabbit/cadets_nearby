@@ -2,20 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cadets_nearby/data/app_data.dart';
-import 'package:cadets_nearby/pages/about.dart';
-import 'package:cadets_nearby/pages/account.dart';
-import 'package:cadets_nearby/pages/cancel.dart';
-import 'package:cadets_nearby/pages/dp_modifier.dart';
-import 'package:cadets_nearby/pages/help_post.dart';
-import 'package:cadets_nearby/pages/home_setter.dart';
-import 'package:cadets_nearby/pages/login.dart';
-import 'package:cadets_nearby/pages/notifications.dart';
-import 'package:cadets_nearby/pages/reset.dart';
-import 'package:cadets_nearby/pages/signup.dart';
-import 'package:cadets_nearby/pages/support_details.dart';
-import 'package:cadets_nearby/pages/verification.dart';
-import 'package:cadets_nearby/pages/verify_cadet.dart';
-import 'package:cadets_nearby/pages/verify_email.dart';
 import 'package:cadets_nearby/services/ad_service.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
@@ -29,9 +15,22 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'pages/about.dart';
+import 'pages/account.dart';
 import 'pages/availed_offer_code.dart';
 import 'pages/availed_offers.dart';
-import 'pages/offer_details.dart';
+import 'pages/cancel.dart';
+import 'pages/dp_modifier.dart';
+import 'pages/help_post.dart';
+import 'pages/home_setter.dart';
+import 'pages/login.dart';
+import 'pages/notifications.dart';
+import 'pages/reset.dart';
+import 'pages/signup.dart';
+import 'pages/support_details.dart';
+import 'pages/verification.dart';
+import 'pages/verify_cadet.dart';
+import 'pages/verify_email.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'important_notifications',
@@ -120,13 +119,11 @@ class _MyAppState extends State<MyApp> {
         '/dpchange': (context) => const DpPage(),
         '/verifycadet': (context) => const CadetVerificationPage(),
         '/verifyemail': (context) => const EmailVerificationPage(),
-        '/offerdetails': (context) => const OfferDetailsPage(),
         '/verification': (context) => const VerificationPage(),
         '/notifications': (context) => const NotificationPage(),
         '/supportdetails': (context) => const SupportDetailsPage(),
         '/availedoffers': (context) => const AvailedOffersPage(),
         '/availedofferdetails': (context) => const AvailedOfferDetailsPage(),
-
       },
     );
   }

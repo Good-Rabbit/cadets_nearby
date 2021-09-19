@@ -52,7 +52,15 @@ class _AvailedCardState extends State<AvailedCard> {
                         .pushNamed('/availedofferdetails', arguments: widget.e);
                   },
                   icon: const Icon(Icons.qr_code),
-                  label: const Text('Scan'))
+                  label: const Text('Scan')),
+            if (!expiry.isAfter(DateTime.now()))
+              const Chip(
+                label: Text('Expired'),
+                backgroundColor: Colors.red,
+                avatar: Icon(
+                  Icons.info_rounded,
+                ),
+              ),
           ],
         ),
       ),

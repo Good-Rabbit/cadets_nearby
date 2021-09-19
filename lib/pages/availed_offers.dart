@@ -53,18 +53,6 @@ class _AvailedOffersPageState extends State<AvailedOffersPage> {
                   return Expanded(
                     child: ListView(
                       children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              'Availed offers',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          ],
-                        ),
                         ...snapshots.data!.docs.map((e) {
                           return Container(
                             margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),

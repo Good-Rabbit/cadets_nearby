@@ -67,14 +67,21 @@ class MainUser with ChangeNotifier {
       } else {
         if (mainUser!.premiumTo.difference(DateTime.now()).inDays < 1) {
           if (mainUser!.premium) {
-            HomeSetterPage.store
-                .collection('users')
-                .doc(user.uid)
-                .update({'premium': false});
+            HomeSetterPage.store.collection('users').doc(user.uid).update({
+              'premium': false,
+              if (mainUser!.coupons > 2) 'coupons': 2,
+            });
           }
         }
         if (mainUser!.timeStamp.month != DateTime.now().month) {
-          if (mainUser!.coupons != 2) {
+          if (mainUser!.premium) {
+            if (mainUser!.coupons != 20) {
+              HomeSetterPage.store
+                  .collection('users')
+                  .doc(user.uid)
+                  .update({'coupons': 20});
+            }
+          } else if (mainUser!.coupons != 2) {
             HomeSetterPage.store
                 .collection('users')
                 .doc(user.uid)

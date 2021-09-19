@@ -43,7 +43,7 @@ class _OfferSubPageState extends State<OfferSubPage>
             ],
           ),
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: HomeSetterPage.store.collection('offers').snapshots(),
+            stream: HomeSetterPage.store.collection('offers').orderBy('priority').snapshots(),
             builder: (context, snapshots) {
               if (snapshots.hasData) {
                 if (snapshots.data!.docs.isNotEmpty) {

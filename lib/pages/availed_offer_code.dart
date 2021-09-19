@@ -59,22 +59,29 @@ class _AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              QrImage(
-                data: e!.data()['code'],
-                embeddedImage: const AssetImage('assets/images/icon.png'),
-                embeddedImageStyle: QrEmbeddedImageStyle(
-                  size: const Size(50, 50),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.orange[50],
                 ),
-                version: QrVersions.auto,
-                size: 300,
-                errorStateBuilder: (cxt, err) {
-                  return const Center(
-                    child: Text(
-                      'Uh oh! Something went wrong...',
-                      textAlign: TextAlign.center,
-                    ),
-                  );
-                },
+                child: QrImage(
+                  data: e!.data()['code'],
+                  embeddedImage: const AssetImage('assets/images/icon.png'),
+                  embeddedImageStyle: QrEmbeddedImageStyle(
+                    size: const Size(50, 50),
+                  ),
+                  version: QrVersions.auto,
+                  size: 250,
+                  errorStateBuilder: (cxt, err) {
+                    return const Center(
+                      child: Text(
+                        'Uh oh! Something went wrong...',
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),
