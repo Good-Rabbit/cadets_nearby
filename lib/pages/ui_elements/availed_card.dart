@@ -1,4 +1,3 @@
-import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
