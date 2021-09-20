@@ -223,14 +223,14 @@ class _RealHomeState extends State<RealHome> {
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
-                icon: const Icon(Icons.backpack),
+                icon: const Icon(Icons.backpack_rounded),
                 title: const Text('Offers'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.purpleAccent,
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
-                icon: const Icon(Icons.support),
+                icon: const Icon(Icons.support_rounded),
                 title: const Text('Support'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.teal,

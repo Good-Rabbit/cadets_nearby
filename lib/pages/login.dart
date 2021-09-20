@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: Theme.of(context).backgroundColor,
           body: SafeArea(
             child: ListView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              
               children: [
                 Column(
                   children: [

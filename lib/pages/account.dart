@@ -92,7 +92,7 @@ class _AccountPageState extends State<AccountPage>
         body: Form(
           key: formKey,
           child: ListView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

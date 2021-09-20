@@ -4,7 +4,7 @@ import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/data/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class MainUser with ChangeNotifier {
   AppUser? mainUser;

@@ -3,45 +3,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../main.dart';
-import 'home_setter.dart';
-import 'ui_elements/availed_card.dart';
-import 'ui_elements/loading.dart';
+import '../../home_setter.dart';
+import '../../ui_elements/availed_card.dart';
+import '../../ui_elements/loading.dart';
 
-class AvailedOffersPage extends StatefulWidget {
-  const AvailedOffersPage({Key? key}) : super(key: key);
+class AvailedOffersTab extends StatefulWidget {
+  const AvailedOffersTab({Key? key}) : super(key: key);
 
   @override
-  _AvailedOffersPageState createState() => _AvailedOffersPageState();
+  _AvailedOffersTabState createState() => _AvailedOffersTabState();
 }
 
-class _AvailedOffersPageState extends State<AvailedOffersPage> {
+class _AvailedOffersTabState extends State<AvailedOffersTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Row(
-          children: const [
-            Icon(Icons.backpack),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Availed Offers',
-              style: TextStyle(fontSize: 20),
-            ),
-          ],
-        ),
-        titleTextStyle: const TextStyle(color: Colors.black),
-        iconTheme: const IconThemeData(color: Colors.black),
-        systemOverlayStyle: systemUiOverlayStyle,
-      ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
         mainAxisAlignment:MainAxisAlignment.center,
         children: [
+          const SizedBox(height: 10,),
           FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
             future: HomeSetterPage.store
                 .collection('codes')

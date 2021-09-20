@@ -46,7 +46,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
           onTap:() => FocusScope.of(context).unfocus(),
           child: SafeArea(
             child: ListView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              
               children: [
                 Column(
                   children: [

@@ -1,7 +1,8 @@
-import 'package:cadets_nearby/pages/home_setter.dart';
-import 'package:cadets_nearby/pages/ui_elements/offer_card.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cadets_nearby/pages/sub_pages/offer_tabs/availed_offers.dart';
 import 'package:flutter/material.dart';
+
+import 'offer_tabs/all_offers.dart';
+import 'offer_tabs/nearby_offers.dart';
 
 class OfferSubPage extends StatefulWidget {
   const OfferSubPage({Key? key}) : super(key: key);
@@ -16,84 +17,60 @@ class _OfferSubPageState extends State<OfferSubPage>
   Widget build(BuildContext context) {
     super.build(context);
     return SafeArea(
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(
-                width: 40,
-              ),
-              const Text(
-                'Ongoing offers',
-                style: TextStyle(fontSize: 20),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/availedoffers');
-                  },
-                  icon: Icon(
-                    Icons.backpack_rounded,
-                    color: Theme.of(context).primaryColor,
+      child: DefaultTabController(
+        length: 3,
+        child: Column(
+          children: [
+            TabBar(
+              tabs: [
+                Tab(
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.all_inclusive_rounded,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      Text('All Offers',style: TextStyle(color: Theme.of(context).primaryColor),),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: HomeSetterPage.store.collection('offers').orderBy('priority').snapshots(),
-            builder: (context, snapshots) {
-              if (snapshots.hasData) {
-                if (snapshots.data!.docs.isNotEmpty) {
-                  return Expanded(
-                    child: ListView(
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        ...snapshots.data!.docs.map((e) {
-                          return Container(
-                            margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            child: OfferCard(e: e),
-                          );
-                        }),
-                      ],
-                    ),
-                  );
-                } else {
-                  return noOffersOngoing();
-                }
-              }
-              return const SizedBox();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget noOffersOngoing() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 1 / 2,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.backpack,
-            size: 70.0,
-            color: Theme.of(context).primaryColor,
-          ),
-          Text(
-            'No offers ongoing',
-            style: TextStyle(
-              fontSize: 25,
-              color: Theme.of(context).primaryColor,
+                Tab(
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.near_me_rounded,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      Text('Nearby Offers',style: TextStyle(color: Theme.of(context).primaryColor),),
+                    ],
+                  ),
+                ),
+                Tab(
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.backpack_rounded,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      Text('Availed Offers',style: TextStyle(color: Theme.of(context).primaryColor),),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
+            const Expanded(
+              child: TabBarView(
+                children: [
+                  AllOffersTab(),
+                  NearbyOffersTab(),
+                  AvailedOffersTab(),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
+      // allOffers(context),
     );
   }
 

@@ -71,7 +71,7 @@ class _PostHelpPageState extends State<PostHelpPage> {
           systemOverlayStyle: systemUiOverlayStyle,
         ),
         body: ListView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          
           children: [
             Form(
               key: formKey,
