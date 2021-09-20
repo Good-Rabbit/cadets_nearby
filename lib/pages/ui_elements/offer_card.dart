@@ -35,13 +35,13 @@ class _OfferCardState extends State<OfferCard> {
     int distanceM = distanceD.toInt();
     bool isKm = false;
     double distanceKm = 0;
+    if (distanceM < 7000) {
+      context.read<NearbyOffers>().add(widget.e);
+    } 
+    // else {
+    //   context.read<NearbyOffers>().remove(widget.e);
+    // }
     if (distanceM > 1000) {
-      if (distanceM < 7000) {
-        context.read<NearbyOffers>().add(widget.e);
-      } 
-      // else {
-      //   context.read<NearbyOffers>().remove(widget.e);
-      // }
       isKm = true;
       distanceKm = distanceD.roundToDouble() - distanceD.roundToDouble() % 10;
       distanceKm /= 1000;
