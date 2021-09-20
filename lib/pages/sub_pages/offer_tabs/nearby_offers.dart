@@ -4,11 +4,17 @@ import 'package:cadets_nearby/services/nearby_offers_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class NearbyOffersTab extends StatelessWidget {
+class NearbyOffersTab extends StatefulWidget {
   const NearbyOffersTab({Key? key}) : super(key: key);
 
   @override
+  State<NearbyOffersTab> createState() => _NearbyOffersTabState();
+}
+
+class _NearbyOffersTabState extends State<NearbyOffersTab> with AutomaticKeepAliveClientMixin{
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       children: [
         if (context.watch<NearbyOffers>().nearbyOffers.isEmpty)
@@ -32,4 +38,7 @@ class NearbyOffersTab extends StatelessWidget {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

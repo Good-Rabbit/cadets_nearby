@@ -14,15 +14,19 @@ class AvailedOffersTab extends StatefulWidget {
   _AvailedOffersTabState createState() => _AvailedOffersTabState();
 }
 
-class _AvailedOffersTabState extends State<AvailedOffersTab> {
+class _AvailedOffersTabState extends State<AvailedOffersTab>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
-        mainAxisAlignment:MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
             future: HomeSetterPage.store
                 .collection('codes')
@@ -77,4 +81,7 @@ class _AvailedOffersTabState extends State<AvailedOffersTab> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -38,9 +38,10 @@ class _OfferCardState extends State<OfferCard> {
     if (distanceM > 1000) {
       if (distanceM < 7000) {
         context.read<NearbyOffers>().add(widget.e);
-      } else {
-        context.read<NearbyOffers>().remove(widget.e);
-      }
+      } 
+      // else {
+      //   context.read<NearbyOffers>().remove(widget.e);
+      // }
       isKm = true;
       distanceKm = distanceD.roundToDouble() - distanceD.roundToDouble() % 10;
       distanceKm /= 1000;
@@ -63,16 +64,13 @@ class _OfferCardState extends State<OfferCard> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(10),
-                  child: CircleAvatar(
-                    radius: 70.0,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(140),
-                      child: Image.network(
-                        widget.e.data()['imageurl'],
-                        fit: BoxFit.cover,
-                        width: 140,
-                        height: 140,
-                      ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      widget.e.data()['imageurl'],
+                      fit: BoxFit.cover,
+                      width: 340,
+                      height: 190,
                     ),
                   ),
                 ),

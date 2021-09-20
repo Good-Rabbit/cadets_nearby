@@ -14,12 +14,14 @@ class NearbyOffers with ChangeNotifier {
     }
     if (!contains) {
       nearbyOffers.add(offer);
+      notifyListeners();
     }
-    notifyListeners();
   }
 
-  void remove(QueryDocumentSnapshot<Map<String, dynamic>> offer) {
-    nearbyOffers.remove(offer);
-    notifyListeners();
-  }
+  // void remove(QueryDocumentSnapshot<Map<String, dynamic>> offer) {
+  //   if (nearbyOffers.contains(offer)) {
+  //     nearbyOffers.remove(offer);
+  //   }
+  //   notifyListeners();
+  // }
 }

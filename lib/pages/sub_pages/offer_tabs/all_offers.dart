@@ -5,30 +5,34 @@ import 'package:flutter/material.dart';
 
 import '../../home_setter.dart';
 
-class AllOffersTab extends StatelessWidget {
+class AllOffersTab extends StatefulWidget {
   const AllOffersTab({Key? key}) : super(key: key);
 
   @override
+  State<AllOffersTab> createState() => _AllOffersTabState();
+}
+
+class _AllOffersTabState extends State<AllOffersTab> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: HomeSetterPage.store.collection('offers').orderBy('priority').snapshots(),
       builder: (context, snapshots) {
         if (snapshots.hasData) {
           if (snapshots.data!.docs.isNotEmpty) {
-            return Expanded(
-              child: ListView(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ...snapshots.data!.docs.map((e) {
-                    return Container(
-                      margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      child: OfferCard(e: e),
-                    );
-                  }),
-                ],
-              ),
+            return ListView(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                ...snapshots.data!.docs.map((e) {
+                  return Container(
+                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: OfferCard(e: e),
+                  );
+                }),
+              ],
             );
           } else {
             return noOffersOngoing(context);
@@ -38,5 +42,8 @@ class AllOffersTab extends StatelessWidget {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
