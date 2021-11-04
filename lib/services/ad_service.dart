@@ -8,8 +8,9 @@ class AdService {
   static String get bannerAdUnitId {
     if (Platform.isAndroid) {
       return 
-      // 'ca-app-pub-3940256099942544/6300978111';
-      'ca-app-pub-1177190482374537/9223095462';
+      //? TEST
+      'ca-app-pub-3940256099942544/6300978111';
+      // 'ca-app-pub-8617418968381981/4637456929';
     } else if (Platform.isIOS) {
       return '<YOUR_IOS_BANNER_AD_UNIT_ID>';
     } else {
@@ -30,8 +31,9 @@ class AdService {
   static String get rewardedAdUnitId {
     if (Platform.isAndroid) {
       return 
-      // 'ca-app-pub-3940256099942544/5224354917';
-      'ca-app-pub-1177190482374537/1920509884';
+      //? TEST
+      'ca-app-pub-3940256099942544/5224354917';
+      // 'ca-app-pub-8617418968381981/3482489059';
     } else if (Platform.isIOS) {
       return '<YOUR_IOS_INTERSTITIAL_AD_UNIT_ID>';
     } else {

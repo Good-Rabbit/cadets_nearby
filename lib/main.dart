@@ -4,8 +4,8 @@ import 'dart:developer';
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/services/ad_service.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
+import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
-import 'package:cadets_nearby/services/nearby_offers_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -89,7 +89,7 @@ Future<void> main() async {
         create: (context) => Settings(),
       ),
       ChangeNotifierProvider(
-        create: (context) => NearbyOffers(),
+        create: (context) => LocationStatus(),
       ),
     ],
     child: const MyApp(),

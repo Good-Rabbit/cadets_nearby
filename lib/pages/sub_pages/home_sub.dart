@@ -3,6 +3,7 @@ import 'dart:developer' as dev;
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/data/menu_item.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/pages/ui_elements/ad_card.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/filter_range.dart';
 import 'package:cadets_nearby/pages/ui_elements/loading.dart';
@@ -13,6 +14,7 @@ import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
 import 'package:cadets_nearby/data/user.dart';
+import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -46,6 +48,7 @@ class _HomeSubPageState extends State<HomeSubPage>
   double latMin = 0;
 
   String? quote;
+  String? rateLink;
   String college = 'Select college';
 
   double min = 0;
@@ -151,9 +154,10 @@ class _HomeSubPageState extends State<HomeSubPage>
     }
   }
 
-  Future<void> getQuote() async {
-    final doc = await HomeSetterPage.store.collection('quotes').doc('1').get();
+  Future<void> getData() async {
+    final doc = await HomeSetterPage.store.collection('data').doc('1').get();
     quote = doc.data()!['quote'] as String;
+    rateLink = doc.data()!['ratelink'] as String;
   }
 
   @override
@@ -170,9 +174,10 @@ class _HomeSubPageState extends State<HomeSubPage>
     //   max = 15;
     // }
 
-    if (quote == null) {
-      getQuote();
+    if (quote == null || rateLink == null) {
+      getData();
     }
+
     if (!rejected && !updateFlag) {
       getLocation();
     }
@@ -259,6 +264,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                           case MenuItems.itemSignOut:
                             signOut();
                             break;
+                          case MenuItems.itemRateUs:
+                            launchURL(rateLink!);
+                            break;
                           default:
                             break;
                         }
@@ -289,7 +297,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                       : () {
                           showFilter(context);
                         },
-                  icon: const Icon(Icons.filter_alt),
+                  icon: const Icon(Icons.filter_alt_rounded),
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all(Colors.transparent),
@@ -313,15 +321,13 @@ class _HomeSubPageState extends State<HomeSubPage>
                 ),
             ],
           ),
-          // if (locationData != null &&
-          //     !(rejected || !locationEnabled || !permissionGranted) &&
-          //     !context.read<MainUser>().user!.premium)
-          //   Container(
-          //     margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0),
-          //     child: AdCard(
-          //       ad: AdService.createBannerAd()..load(),
-          //     ),
-          //   ),
+          if (locationData != null && !context.read<MainUser>().user!.premium)
+            Container(
+              margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 0),
+              child: AdCard(
+                ad: AdService.createBannerAd()..load(),
+              ),
+            ),
           if (locationData != null &&
               !(rejected || !locationEnabled || !permissionGranted))
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(

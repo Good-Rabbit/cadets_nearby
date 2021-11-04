@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Settings with ChangeNotifier {
   bool zoneDetectionBool;
-  bool rewardGained;
+  bool rewardGained = false;
 
   Settings({this.zoneDetectionBool = true, this.rewardGained = false}) {
     initialize();

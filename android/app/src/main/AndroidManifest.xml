@@ -47,7 +47,7 @@
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
     <meta-data android:name="flutterEmbedding" android:value="2" />
     <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" 
-    android:value="ca-app-pub-1177190482374537~5838190704"/>
+    android:value="ca-app-pub-8617418968381981~9502082432"/>
     <!-- android:value="ca-app-pub-3940256099942544~3347511713"/> -->
   </application>
 </manifest>

@@ -2,11 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +25,7 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
 
   Future<void> getImage(ImageSource source) async {
     image =
-        await picker.pickImage(source: source, imageQuality: 30).then((value) {
+        await picker.pickImage(source: source, imageQuality: 25).then((value) {
       filename = File(value!.path).path.split('/').last;
       stringImage = base64Encode(File(value.path).readAsBytesSync());
       return value;
@@ -35,28 +34,23 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
   }
 
   Future<void> uploadImage() async {
-    final Uri uri = Uri.parse('$siteAddress/uploadVp.php');
-    http.post(
-      uri,
-      body: {
-        'image': stringImage,
-        'name': filename,
-      },
-    ).then((value) {
+    FirebaseStorage.instance
+        .ref('VPs/$filename')
+        .putString(stringImage!, format: PutStringFormat.base64)
+        .then((value) async {
+      final String url = await FirebaseStorage.instance.ref('VPs/$filename').getDownloadURL();
       //Update verification requests
-      if (value.statusCode == 200) {
-        HomeSetterPage.store
-            .collection('users')
-            .doc(context.read<MainUser>().user!.id)
-            .update({
-          'verifyurl': '$siteAddress/VPs/${filename!}',
-          'verified': 'waiting',
-        });
-        // context.read<MainUser>().user!.verified = 'waiting';
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Uploaded Successfully')));
-        Navigator.of(context).pop();
-      }
+      HomeSetterPage.store
+          .collection('users')
+          .doc(context.read<MainUser>().user!.id)
+          .update({
+        'verifyurl': url,
+        'verified': 'waiting',
+      });
+      // context.read<MainUser>().user!.verified = 'waiting';
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Uploaded Successfully')));
+      Navigator.of(context).pop();
     }).catchError((e) {
       log(e.toString());
     });

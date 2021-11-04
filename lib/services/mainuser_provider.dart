@@ -62,14 +62,14 @@ class MainUser with ChangeNotifier {
           mainUser!.timeStamp.month != DateTime.now().month) {
         HomeSetterPage.store.collection('users').doc(user.uid).update({
           'premium': false,
-          'coupons': 2,
+          'coupons': 3,
         });
       } else {
         if (mainUser!.premiumTo.difference(DateTime.now()).inDays < 1) {
           if (mainUser!.premium) {
             HomeSetterPage.store.collection('users').doc(user.uid).update({
               'premium': false,
-              if (mainUser!.coupons > 2) 'coupons': 2,
+              if (mainUser!.coupons > 3) 'coupons': 3,
             });
           }
         }
@@ -81,11 +81,11 @@ class MainUser with ChangeNotifier {
                   .doc(user.uid)
                   .update({'coupons': 20});
             }
-          } else if (mainUser!.coupons != 2) {
+          } else if (mainUser!.coupons != 3) {
             HomeSetterPage.store
                 .collection('users')
                 .doc(user.uid)
-                .update({'coupons': 2});
+                .update({'coupons': 3});
           }
         }
       }

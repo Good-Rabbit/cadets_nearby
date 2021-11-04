@@ -2,11 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -41,72 +40,56 @@ class _DpPageState extends State<DpPage> {
   }
 
   Future<void> uploadImage() async {
-    final Uri uri = Uri.parse('$siteAddress/uploadDp.php');
-    http.post(
-      uri,
-      body: {
-        'image': stringImage,
-        'name': filename,
-      },
-    ).then((value) {
-      //Delete previous if manual
+    FirebaseStorage.instance
+        .ref('DPs/$filename')
+        .putString(stringImage!, format: PutStringFormat.base64)
+        .then((value) async {
+      //!Delete previous if manual
       if (context.read<MainUser>().user!.manualDp) {
-        final Uri uri = Uri.parse('$siteAddress/deleteDp.php');
-        final String delFilename =
-            context.read<MainUser>().user!.photoUrl.split('/').last;
-        http.post(
-          uri,
-          body: {
-            'name': delFilename,
-          },
-        );
+        FirebaseStorage.instance
+            .refFromURL(context.read<MainUser>().user!.photoUrl)
+            .delete();
       }
-      //Update locally
-      if (value.statusCode == 200) {
-        HomeSetterPage.store
-            .collection('users')
-            .doc(context.read<MainUser>().user!.id)
-            .update({
-          'photourl': '$siteAddress/DPs/${filename!}',
-          'manualdp': true,
-        });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            content: const Text('Updated Successfully')));
-        // context.read<MainUser>().user!.manualDp = true;
-        // context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
-        Navigator.of(context).pop();
-      } else {}
+      //!Update account
+      final String url =
+          await FirebaseStorage.instance.ref('DPs/$filename').getDownloadURL();
+      HomeSetterPage.store
+          .collection('users')
+          .doc(context.read<MainUser>().user!.id)
+          .update({
+        'photourl': url,
+        'manualdp': true,
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          content: const Text('Updated Successfully')));
+      // context.read<MainUser>().user!.manualDp = true;
+      // context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
+      Navigator.of(context).pop();
     }).catchError((e) {
       log(e.toString());
     });
   }
 
   Future<void> deleteImage() async {
-    final Uri uri = Uri.parse('$siteAddress/deleteDp.php');
-    filename = context.read<MainUser>().user!.photoUrl.split('/').last;
-    http.post(
-      uri,
-      body: {
-        'name': filename,
-      },
-    ).then((value) {
-      //Do something
-      if (value.statusCode == 200) {
-        HomeSetterPage.store
-            .collection('users')
-            .doc(context.read<MainUser>().user!.id)
-            .update({
-          'photourl': '',
-          'manualdp': false,
-        });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            content: const Text('Deleted Successfully')));
-        // context.read<MainUser>().user!.manualDp = false;
-        // context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
-        Navigator.of(context).pop();
-      }
+    FirebaseStorage.instance
+        .refFromURL(context.read<MainUser>().user!.photoUrl)
+        .delete()
+        .then((value) {
+      //!Update account
+      HomeSetterPage.store
+          .collection('users')
+          .doc(context.read<MainUser>().user!.id)
+          .update({
+        'photourl': '',
+        'manualdp': false,
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          content: const Text('Deleted Successfully')));
+      // context.read<MainUser>().user!.manualDp = false;
+      // context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
+      Navigator.of(context).pop();
     }).catchError((e) {
       log(e.toString());
     });

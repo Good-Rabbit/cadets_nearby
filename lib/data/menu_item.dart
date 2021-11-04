@@ -16,6 +16,7 @@ class MenuItems {
 
     static const List<MenuItem> second = [
     itemSignOut,
+    itemRateUs,
   ];
 
   static const itemAccount = MenuItem(
@@ -29,5 +30,9 @@ class MenuItems {
   static const itemSignOut = MenuItem(
     name: 'Sign Out',
     icon: Icon(Icons.logout),
+  );
+    static const itemRateUs = MenuItem(
+    name: 'Rate Us',
+    icon: Icon(Icons.star_rounded),
   );
 }

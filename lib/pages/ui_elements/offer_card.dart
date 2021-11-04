@@ -1,19 +1,19 @@
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
-import 'package:cadets_nearby/services/calculations.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
-import 'package:cadets_nearby/services/nearby_offers_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OfferCard extends StatefulWidget {
   const OfferCard({
     Key? key,
     required this.e,
+    required this.distanceM,
   }) : super(key: key);
 
   final QueryDocumentSnapshot<Map<String, dynamic>> e;
+  final int distanceM;
 
   @override
   State<OfferCard> createState() => _OfferCardState();
@@ -24,30 +24,16 @@ class _OfferCardState extends State<OfferCard> {
 
   @override
   Widget build(BuildContext context) {
-    // * Distancde in m
-    double distanceD = calculateDistance(
-            context.read<MainUser>().user!.lat,
-            context.read<MainUser>().user!.long,
-            double.parse(widget.e.data()['lat']),
-            double.parse(widget.e.data()['long'])) *
-        1000;
-    // * Distance in meter rounded to tens
-    int distanceM = distanceD.toInt();
+    
     bool isKm = false;
     double distanceKm = 0;
-    if (distanceM < 7000) {
-      context.read<NearbyOffers>().add(widget.e);
-    } 
-    // else {
-    //   context.read<NearbyOffers>().remove(widget.e);
-    // }
-    if (distanceM > 1000) {
+    int distanceM = widget.distanceM;
+    if (widget.distanceM > 1000) {
       isKm = true;
-      distanceKm = distanceD.roundToDouble() - distanceD.roundToDouble() % 10;
-      distanceKm /= 1000;
+      distanceKm = (widget.distanceM - widget.distanceM % 10)/1000;
       distanceKm = double.parse(distanceKm.toStringAsFixed(2));
-    } else if (distanceM >= 10) {
-      distanceM = distanceM - distanceM % 10;
+    } else if (widget.distanceM >= 10) {
+      distanceM = widget.distanceM - widget.distanceM % 10;
     }
     String distance = '${isKm ? distanceKm : distanceM} ${isKm ? 'km' : 'm'}';
 

@@ -139,13 +139,14 @@ class UserProfile extends StatelessWidget {
                 width: 150,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // launchWithCheck('https://fb.com/${e.fbUrl}', context);
-                    launchURL('https://fb.com/${e.fbUrl}');
+                    launchWithCheck('https://fb.com/${e.fbUrl}', context);
+                    // launchURL('https://fb.com/${e.fbUrl}');
                   },
                   icon: const Icon(Icons.facebook),
                   label: const Text('Facebook'),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue[600]),
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.blue[600]),
                   ),
                 ),
               ),
@@ -158,8 +159,9 @@ class UserProfile extends StatelessWidget {
                 width: 150,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // launchWithCheck('https://instagr.am/${e.instaUrl}', context);
-                    launchURL('https://instagr.am/${e.instaUrl}');
+                    launchWithCheck(
+                        'https://instagr.am/${e.instaUrl}', context);
+                    // launchURL('https://instagr.am/${e.instaUrl}');
                   },
                   icon: const Icon(FontAwesomeIcons.instagram),
                   label: const Text('Instagram'),
@@ -186,7 +188,8 @@ class UserProfile extends StatelessWidget {
                     icon: const Icon(Icons.phone),
                     label: const Text('Phone'),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.green[600]),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.green[600]),
                     ),
                   ),
                 ),
@@ -198,8 +201,8 @@ class UserProfile extends StatelessWidget {
                 width: 150,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // launchWithCheck(emailAddress, context);
-                    launchURL(emailAddress);
+                    launchWithCheck(emailAddress, context);
+                    // launchURL(emailAddress);
                   },
                   icon: const Icon(Icons.alternate_email),
                   label: const Text('E-mail'),
@@ -215,11 +218,12 @@ class UserProfile extends StatelessWidget {
     );
   }
 
-  void launchWithCheck(String url,BuildContext context) {
-    if (context.watch<MainUser>().user!.premium ||
-        context.watch<Settings>().reward) {
+  void launchWithCheck(String url, BuildContext context) async {
+    if (context.read<MainUser>().user!.premium ||
+        context.read<Settings>().reward) {
       launchURL(url);
     } else {
+      AdService.loadRewardedAd();
       final bool ready = AdService.isRewardedAdReady;
       showDialog(
           context: context,
@@ -232,12 +236,9 @@ class UserProfile extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
-                      AdService.rewardedAd.show(onUserEarnedReward: (ad, item) {
-                        context.read<Settings>().reward = true;
-                        Future.delayed(const Duration(minutes: 30)).then((e) {
-                          context.read<Settings>().reward = false;
-                        });
-                        launchURL(url);
+                      AdService.rewardedAd.show(
+                          onUserEarnedReward: (ad, item) async {
+                        onReward(url, context);
                       });
                     },
                     child: const Text('Watch ad'),
@@ -262,4 +263,13 @@ class UserProfile extends StatelessWidget {
     }
   }
 
+  onReward(url, context) {
+    Future.delayed(const Duration(seconds: 3)).then((e) {
+      launchURL(url);
+      context.read<Settings>().reward(true);
+      Future.delayed(const Duration(minutes: 10)).then((e) {
+        context.read<Settings>().reward(false);
+      });
+    });
+  }
 }

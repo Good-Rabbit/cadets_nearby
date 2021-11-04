@@ -1,9 +1,10 @@
-
 import 'package:cadets_nearby/pages/complete_account_page.dart';
 import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/login.dart';
+import 'package:cadets_nearby/pages/not_granted.dart';
 import 'package:cadets_nearby/pages/ui_elements/loading.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
+import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
@@ -24,7 +25,6 @@ class HomeSetterPage extends StatefulWidget {
 
 class _HomeSetterPageState extends State<HomeSetterPage> {
   User? user;
-
 
   void loggedInNotifier() {
     Navigator.of(context).pushReplacementNamed('/');
@@ -107,48 +107,60 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (user != null) {
-      return FutureBuilder(
-        future: HomeSetterPage.store.collection('users').doc(user!.uid).get(),
-        builder: (context,
-            AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasData) {
-              if (snapshot.data!.data() == null) {
-                if (!HomeSetterPage.auth.currentUser!.emailVerified) {
-                  verifyEmail();
-                  return Scaffold(
-                    backgroundColor: Theme.of(context).backgroundColor,
-                  );
-                }
-                return CompleteAccountPage(
-                  loggedInNotifier: loggedInNotifier,
-                );
-              } else {
-                if (context.watch<MainUser>().user == null) {
-                  context.read<MainUser>().setWithUser(user!);
-                }
+    if (context.watch<LocationStatus>().serviceEnabled &&
+        context.watch<LocationStatus>().permissionGranted) {
+      if (user != null) {
+        return FutureBuilder(
+          future: HomeSetterPage.store.collection('users').doc(user!.uid).get(),
+          builder: (context,
+              AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.data() == null) {
+                  if (!HomeSetterPage.auth.currentUser!.emailVerified) {
+                    verifyEmail();
+                    return Scaffold(
+                      backgroundColor: Theme.of(context).backgroundColor,
+                    );
+                  }
+                  context.read<LocationStatus>().checkPermissions();
 
-                if (!HomeSetterPage.auth.currentUser!.emailVerified) {
-                  verifyEmail();
-                  return Scaffold(
-                    backgroundColor: Theme.of(context).backgroundColor,
+                  return CompleteAccountPage(
+                    loggedInNotifier: loggedInNotifier,
                   );
+                } else {
+                  if (context.watch<MainUser>().user == null) {
+                    context.read<MainUser>().setWithUser(user!);
+                  }
+
+                  if (!HomeSetterPage.auth.currentUser!.emailVerified) {
+                    verifyEmail();
+                    return Scaffold(
+                      backgroundColor: Theme.of(context).backgroundColor,
+                    );
+                  }
+                  context.read<LocationStatus>().checkPermissions();
+
+                  // Display home
+                  return const RealHome();
                 }
-                // Display home
-                return const RealHome();
               }
             }
-          }
-          return Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
-            body: const Center(child: Loading()),
-          );
-        },
-      );
+            context.read<LocationStatus>().checkPermissions();
+
+            return Scaffold(
+              backgroundColor: Theme.of(context).backgroundColor,
+              body: const Center(child: Loading()),
+            );
+          },
+        );
+      } else {
+        context.read<LocationStatus>().checkPermissions();
+
+        return const LoginPage();
+      }
     } else {
-      // return RealHome();
-      return const LoginPage();
+      return const NotGranted();
     }
   }
 

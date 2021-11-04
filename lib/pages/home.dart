@@ -6,11 +6,14 @@ import 'package:cadets_nearby/pages/sub_pages/support_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/home_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/offer_sub.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
+import 'package:cadets_nearby/services/location_provider.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -164,6 +167,29 @@ class _RealHomeState extends State<RealHome> {
   final pageController = PageController(initialPage: 0);
 
   void setSelectedIndex(int index) {
+    context.read<LocationStatus>().checkPermissions();
+
+    if (index == 1) {
+      if (context.read<MainUser>().user!.verified != 'yes') {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Get verified first'),
+                content: const Text(
+                    'You have to get verified first to be able to use this'),
+                actions: [
+                  TextButton(
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Ok.')),
+                ],
+              );
+            });
+        return;
+      }
+    }
     selectedIndex = index;
     pageController.animateToPage(index,
         duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
