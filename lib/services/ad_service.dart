@@ -9,8 +9,8 @@ class AdService {
     if (Platform.isAndroid) {
       return 
       //? TEST
-      'ca-app-pub-3940256099942544/6300978111';
-      // 'ca-app-pub-8617418968381981/4637456929';
+      // 'ca-app-pub-3940256099942544/6300978111';
+      'ca-app-pub-8617418968381981/4637456929';
     } else if (Platform.isIOS) {
       return '<YOUR_IOS_BANNER_AD_UNIT_ID>';
     } else {
@@ -32,8 +32,8 @@ class AdService {
     if (Platform.isAndroid) {
       return 
       //? TEST
-      'ca-app-pub-3940256099942544/5224354917';
-      // 'ca-app-pub-8617418968381981/3482489059';
+      // 'ca-app-pub-3940256099942544/5224354917';
+      'ca-app-pub-8617418968381981/3482489059';
     } else if (Platform.isIOS) {
       return '<YOUR_IOS_INTERSTITIAL_AD_UNIT_ID>';
     } else {
