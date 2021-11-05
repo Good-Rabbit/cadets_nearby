@@ -10,6 +10,7 @@ import 'package:cadets_nearby/pages/ui_elements/loading.dart';
 import 'package:cadets_nearby/pages/ui_elements/nearby_card.dart';
 import 'package:cadets_nearby/services/ad_service.dart';
 import 'package:cadets_nearby/services/calculations.dart';
+import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
@@ -47,8 +48,6 @@ class _HomeSubPageState extends State<HomeSubPage>
   double latMax = 0;
   double latMin = 0;
 
-  String? quote;
-  String? rateLink;
   String college = 'Select college';
 
   double min = 0;
@@ -154,17 +153,13 @@ class _HomeSubPageState extends State<HomeSubPage>
     }
   }
 
-  Future<void> getData() async {
-    final doc = await HomeSetterPage.store.collection('data').doc('1').get();
-    quote = doc.data()!['quote'] as String;
-    rateLink = doc.data()!['ratelink'] as String;
-  }
-
   @override
   void dispose() {
     intakeTextController.dispose();
     super.dispose();
   }
+
+  bool onceCheck = true;
 
   @override
   Widget build(BuildContext context) {
@@ -174,11 +169,7 @@ class _HomeSubPageState extends State<HomeSubPage>
     //   max = 15;
     // }
 
-    if (quote == null || rateLink == null) {
-      getData();
-    }
-
-    if (!rejected && !updateFlag) {
+    if (!rejected && !updateFlag && onceCheck) {
       getLocation();
     }
     if (updateFlag) {
@@ -229,14 +220,9 @@ class _HomeSubPageState extends State<HomeSubPage>
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const UserNameRow(),
-                        Text(
-                          quote ?? '',
-                          style: const TextStyle(
-                            fontSize: 15,
-                          ),
-                        ),
+                      children: const [
+                        UserNameRow(),
+                        Quote(),
                       ],
                     ),
                   ),
@@ -265,7 +251,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                             signOut();
                             break;
                           case MenuItems.itemRateUs:
-                            launchURL(rateLink!);
+                            launchURL(context.read<Data>().rateLink);
                             break;
                           default:
                             break;
@@ -697,6 +683,22 @@ class _HomeSubPageState extends State<HomeSubPage>
             Text(e.name),
           ],
         ));
+  }
+}
+
+class Quote extends StatelessWidget {
+  const Quote({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      context.watch<Data>().quote ?? '',
+      style: const TextStyle(
+        fontSize: 15,
+      ),
+    );
   }
 }
 

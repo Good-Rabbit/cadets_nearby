@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cadets_nearby/pages/sub_pages/contact_sub.dart';
-import 'package:cadets_nearby/pages/sub_pages/support_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/home_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/offer_sub.dart';
+import 'package:cadets_nearby/pages/sub_pages/support_sub.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
@@ -19,8 +19,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 
 Future<void> onLogin() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.reload();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -39,11 +37,13 @@ Future<void> onLogin() async {
   bool zoneOnce = false;
   bool supportOnce = false;
 
-  service.onDataReceived.listen((event) {
+  service.onDataReceived.listen((event) async {
     if (event!['action'] == 'setAsForeground') {
       if (event['latitude'] != null) {
         zoneCount = 0;
         zoneOnce = false;
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.reload();
         if (prefs.getBool('zoneDetection')!) {
           service.setNotificationInfo(
             title: 'Starting zone detection',
@@ -204,8 +204,10 @@ class _RealHomeState extends State<RealHome> {
 
   @override
   void initState() {
-    startService();
     super.initState();
+    Future.delayed(const Duration(seconds: 1)).then((value) {
+      startService();
+    });
   }
 
   @override

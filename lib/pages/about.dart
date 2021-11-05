@@ -1,5 +1,9 @@
 import 'package:cadets_nearby/main.dart';
+import 'package:cadets_nearby/services/data_provider.dart';
+import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({Key? key}) : super(key: key);
@@ -34,7 +38,7 @@ class AboutPage extends StatelessWidget {
               height: 10,
             ),
             const Icon(
-              Icons.info_outline_rounded,
+              FontAwesomeIcons.cookieBite,
               size: 100,
               color: Colors.red,
             ),
@@ -46,6 +50,42 @@ class AboutPage extends StatelessWidget {
                   fontSize: 15,
                 ),
               ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(15),
+              child: const Text(
+                'Like our facebook page to stay up to date with the latest info',
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                launchURL(context.read<Data>().cnLink ?? '');
+              },
+              icon: const Icon(Icons.facebook_rounded),
+              label: const Text('Cadets Nearby'),
+            ),
+            Container(
+              margin: const EdgeInsets.all(15),
+              child: Text(
+                'Developed and maintained by',
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                launchURL(context.read<Data>().grLink ?? '');
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.pink[800]),
+              ),
+              icon: const Icon(Icons.facebook_rounded),
+              label: const Text('Good RabbIT'),
             ),
           ],
         ),

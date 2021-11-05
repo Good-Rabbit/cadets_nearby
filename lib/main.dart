@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/services/ad_service.dart';
+import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
@@ -90,6 +91,9 @@ Future<void> main() async {
       ),
       ChangeNotifierProvider(
         create: (context) => LocationStatus(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Data(),
       ),
     ],
     child: const MyApp(),

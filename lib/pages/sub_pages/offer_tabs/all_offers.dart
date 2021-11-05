@@ -39,28 +39,7 @@ class _AllOffersTabState extends State<AllOffersTab> {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            showFilter(context);
-                          },
-                          icon: Icon(
-                            Icons.filter_alt_rounded,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const CouponCount(),
-                  ],
-                ),
+                topRow(context),
                 ...snapshots.data!.docs.map((e) {
                   // * Distancde in m
                   double distanceD = calculateDistance(
@@ -91,12 +70,42 @@ class _AllOffersTabState extends State<AllOffersTab> {
               ],
             );
           } else {
-            return noOffersOngoing(context);
+            return Column(
+              children: [
+                topRow(context),
+                Expanded(child: noOffersOngoing(context)),
+              ],
+            );
           }
         }
         return const SizedBox();
       },
     );
+  }
+
+  Row topRow(BuildContext context) {
+    return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          showFilter(context);
+                        },
+                        icon: Icon(
+                          Icons.filter_alt_rounded,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const CouponCount(),
+                ],
+              );
   }
 
   Future<dynamic> showFilter(BuildContext context) {

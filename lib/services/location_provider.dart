@@ -29,7 +29,7 @@ class LocationStatus with ChangeNotifier {
 
     serviceEnabled = await location.requestService();
     permissionGranted =
-        await location.requestPermission() == PermissionStatus.granted;
+        (await location.requestPermission()) == PermissionStatus.granted;
     if (sTemp != serviceEnabled || pTemp != permissionGranted) {
       notifyListeners();
     }

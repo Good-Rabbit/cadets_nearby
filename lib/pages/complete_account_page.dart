@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/services/data_provider.dart';
+import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:cadets_nearby/data/user.dart';
@@ -62,33 +64,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     instaTextController.dispose();
     designationTextController.dispose();
     addressTextController.dispose();
-    formKey.currentState!.dispose();
+    formKey.currentState == null ? true : formKey.currentState!.dispose();
     super.dispose();
   }
 
   Future<void> getLocations() async {
     try {
       final Location location = Location();
-
-      bool _serviceEnabled;
-      PermissionStatus _permissionGranted;
-
-      _serviceEnabled = await location.serviceEnabled();
-      if (!_serviceEnabled) {
-        _serviceEnabled = await location.requestService();
-        if (!_serviceEnabled) {
-          return;
-        }
-      }
-
-      _permissionGranted = await location.hasPermission();
-      if (_permissionGranted == PermissionStatus.denied) {
-        _permissionGranted = await location.requestPermission();
-        if (!(_permissionGranted == PermissionStatus.granted ||
-            _permissionGranted == PermissionStatus.grantedLimited)) {
-          return;
-        }
-      }
 
       locationData = await location.getLocation();
 
@@ -109,8 +91,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
 
   @override
   void initState() {
-    getLocations();
     super.initState();
+    getLocations();
   }
 
   @override
@@ -218,7 +200,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                 child: Icon(Icons.book),
                               ),
                             ),
-                            keyboardType: const TextInputType.numberWithOptions(),
+                            keyboardType:
+                                const TextInputType.numberWithOptions(),
                             validator: (val) {
                               if (val!.isEmpty) {
                                 return 'Cadet Number is required';
@@ -282,7 +265,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                 child: Icon(Icons.date_range),
                               ),
                             ),
-                            keyboardType: const TextInputType.numberWithOptions(),
+                            keyboardType:
+                                const TextInputType.numberWithOptions(),
                             validator: (val) {
                               if (val!.trim().isEmpty) {
                                 return 'Intake year is required';
@@ -575,10 +559,12 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                       //   ),
                                       // ], context);
                                       // * Opening external link
-                                      launchURL('https://writerslawn.com/terms&conditions.html');
+                                      launchURL(
+                                          context.read<Data>().termsConditions);
                                     },
                                     child: Text(
                                       'terms and conditions',
+                                      maxLines: 2,
                                       style: TextStyle(
                                         color: Theme.of(context).primaryColor,
                                       ),
@@ -622,10 +608,12 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                       //   ),
                                       // ], context);
                                       // * Opening to external link
-                                      launchURL('https://writerslawn.com/privacypolicy.html');
+                                      launchURL(
+                                          context.read<Data>().termsConditions);
                                     },
                                     child: Text(
                                       'privacy policy',
+                                      maxLines: 2,
                                       style: TextStyle(
                                         color: Theme.of(context).primaryColor,
                                       ),
@@ -716,10 +704,14 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                                         child: const Text(
                                                             'No, go back.')),
                                                     TextButton(
-                                                        onPressed: () {
+                                                        onPressed: () async {
+                                                          await context
+                                                              .read<
+                                                                  LocationStatus>()
+                                                              .checkPermissions();
+                                                          await completeAccount();
                                                           Navigator.of(context)
                                                               .pop();
-                                                          completeAccount();
                                                         },
                                                         child:
                                                             const Text('Yes.')),
@@ -796,8 +788,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           'premium': false,
           'verified': 'no',
           'photourl': HomeSetterPage.auth.currentUser!.photoURL ?? '',
-          'lat': 0,
-          'long': 0,
+          'lat': locationData == null ? 0 : locationData!.latitude,
+          'long': locationData == null ? 0 : locationData!.longitude,
           'sector': 0,
           'celeb': false,
           'treatcount': 0,
@@ -825,8 +817,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
         pAlways: alwaysAccess,
         pLocation: locationAccess,
         pPhone: phoneAccess,
-        lat: locationData!.latitude ?? 0,
-        long: locationData!.longitude ?? 0,
+        lat: locationData == null ? 0 : locationData!.latitude ?? 0,
+        long: locationData == null ? 0 : locationData!.longitude ?? 0,
         photoUrl: HomeSetterPage.auth.currentUser!.photoURL ?? '',
         phone: phoneTextController.text,
         premium: false,

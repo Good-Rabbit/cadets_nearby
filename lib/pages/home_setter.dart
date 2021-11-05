@@ -110,50 +110,92 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
     if (context.watch<LocationStatus>().serviceEnabled &&
         context.watch<LocationStatus>().permissionGranted) {
       if (user != null) {
-        return FutureBuilder(
-          future: HomeSetterPage.store.collection('users').doc(user!.uid).get(),
-          builder: (context,
-              AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasData) {
-                if (snapshot.data!.data() == null) {
-                  if (!HomeSetterPage.auth.currentUser!.emailVerified) {
-                    verifyEmail();
-                    return Scaffold(
-                      backgroundColor: Theme.of(context).backgroundColor,
-                    );
+        //!Verify e-mail if not done
+        if (!user!.emailVerified) {
+          verifyEmail();
+          return Scaffold(
+            backgroundColor: Theme.of(context).backgroundColor,
+          );
+        }
+        //!Check if account is complete
+        else if (context.watch<MainUser>().user == null) {
+          return FutureBuilder(
+              future:
+                  HomeSetterPage.store.collection('users').doc(user!.uid).get(),
+              builder: (context,
+                  AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>>
+                      snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.data() == null) {
+                      return CompleteAccountPage(
+                        loggedInNotifier: loggedInNotifier,
+                      );
+                    } else {
+                      context.read<MainUser>().setWithUser(user!);
+                    }
                   }
                   context.read<LocationStatus>().checkPermissions();
 
-                  return CompleteAccountPage(
-                    loggedInNotifier: loggedInNotifier,
+                  return Scaffold(
+                    backgroundColor: Theme.of(context).backgroundColor,
+                    body: const Center(child: Loading()),
                   );
-                } else {
-                  if (context.watch<MainUser>().user == null) {
-                    context.read<MainUser>().setWithUser(user!);
-                  }
-
-                  if (!HomeSetterPage.auth.currentUser!.emailVerified) {
-                    verifyEmail();
-                    return Scaffold(
-                      backgroundColor: Theme.of(context).backgroundColor,
-                    );
-                  }
-                  context.read<LocationStatus>().checkPermissions();
-
-                  // Display home
-                  return const RealHome();
                 }
-              }
-            }
-            context.read<LocationStatus>().checkPermissions();
+                return Scaffold(
+                  backgroundColor: Theme.of(context).backgroundColor,
+                  body: const Center(child: Loading()),
+                );
+              });
+        }
+        //!If incomplete account
+        else {
+          return const RealHome();
+        }
+        // return FutureBuilder(
+        //   future: HomeSetterPage.store.collection('users').doc(user!.uid).get(),
+        //   builder: (context,
+        //       AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.done) {
+        //       if (snapshot.hasData) {
+        //         if (snapshot.data!.data() == null) {
+        //           if (!HomeSetterPage.auth.currentUser!.emailVerified) {
+        //             verifyEmail();
+        //             return Scaffold(
+        //               backgroundColor: Theme.of(context).backgroundColor,
+        //             );
+        //           }
+        //           context.read<LocationStatus>().checkPermissions();
 
-            return Scaffold(
-              backgroundColor: Theme.of(context).backgroundColor,
-              body: const Center(child: Loading()),
-            );
-          },
-        );
+        //           return CompleteAccountPage(
+        //             loggedInNotifier: loggedInNotifier,
+        //           );
+        //         } else {
+        //           if (context.watch<MainUser>().user == null) {
+        //             context.read<MainUser>().setWithUser(user!);
+        //           }
+
+        //           if (!HomeSetterPage.auth.currentUser!.emailVerified) {
+        //             verifyEmail();
+        //             return Scaffold(
+        //               backgroundColor: Theme.of(context).backgroundColor,
+        //             );
+        //           }
+        //           context.read<LocationStatus>().checkPermissions();
+
+        //           // Display home
+        //           return const RealHome();
+        //         }
+        //       }
+        //     }
+        //     context.read<LocationStatus>().checkPermissions();
+
+        //     return Scaffold(
+        //       backgroundColor: Theme.of(context).backgroundColor,
+        //       body: const Center(child: Loading()),
+        //     );
+        //   },
+        // );
       } else {
         context.read<LocationStatus>().checkPermissions();
 
