@@ -54,9 +54,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                     padding: const EdgeInsets.fromLTRB(0, 10, 0, 40),
                     child: Text(
                       'to delete your account',
-                      style: TextStyle(
-                        color: Colors.grey[800],
-                      ),
+                      style: TextStyle(color: Theme.of(context).disabledColor),
                     ),
                   ),
                   //TextFields
@@ -174,8 +172,8 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
-                                          content: Text(
-                                              'Account has been deleted'),
+                                          content:
+                                              Text('Account has been deleted'),
                                         ),
                                       );
                                       // ignore: use_build_context_synchronously

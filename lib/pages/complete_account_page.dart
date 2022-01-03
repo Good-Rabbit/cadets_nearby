@@ -14,10 +14,10 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class CompleteAccountPage extends StatefulWidget {
-  const CompleteAccountPage({Key? key, 
-  // required this.loggedInNotifier
-  })
-      : super(key: key);
+  const CompleteAccountPage({
+    Key? key,
+    // required this.loggedInNotifier
+  }) : super(key: key);
 
   // final Function loggedInNotifier;
 
@@ -131,7 +131,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           maxLines: 3,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Colors.grey[700],
+                            color: Theme.of(context).disabledColor,
                           ),
                         ),
                       ),
@@ -519,11 +519,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           child: CheckboxListTile(
                               value: phoneAccess,
                               title: const Text('Make phone number public'),
-                              subtitle: const Text(
-                                  'Anyone near you can use your phone number'),
+                              subtitle: Text(
+                                'Anyone near you can use your phone number',
+                                style: TextStyle(
+                                    color: Theme.of(context).disabledColor),
+                              ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0)),
-                              activeColor: Colors.black,
                               onChanged: phoneTextController.text == ''
                                   ? null
                                   : (value) {
@@ -644,11 +646,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               title: const Text(
                                 'Hide my exact location',
                               ),
-                              subtitle:
-                                  const Text('Still show me in nearby result'),
+                              subtitle: Text(
+                                'Still show me in nearby result',
+                                style: TextStyle(
+                                    color: Theme.of(context).disabledColor),
+                              ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0)),
-                              activeColor: Colors.black,
                               onChanged: (value) {
                                 setState(() {
                                   locationAccess = !value!;

@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         'to $appName',
                         style: TextStyle(
-                          color: Colors.grey[800],
+                          color: Theme.of(context).disabledColor,
                         ),
                       ),
                     ),

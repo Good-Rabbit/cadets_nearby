@@ -43,10 +43,9 @@ class _SignupMainPageState extends State<SignupMainPage> {
         key: scaffoldKey,
         backgroundColor: Theme.of(context).backgroundColor,
         body: GestureDetector(
-          onTap:() => FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: SafeArea(
             child: ListView(
-              
               children: [
                 Column(
                   children: [
@@ -64,7 +63,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
                       child: Text(
                         'at $appName',
                         style: TextStyle(
-                          color: Colors.grey[800],
+                          color: Theme.of(context).disabledColor,
                         ),
                       ),
                     ),
@@ -141,8 +140,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                 ),
                                 suffixIcon: InkWell(
                                   onTap: () => setState(
-                                    () =>
-                                        passwordVisibility = !passwordVisibility,
+                                    () => passwordVisibility =
+                                        !passwordVisibility,
                                   ),
                                   child: Icon(
                                     passwordVisibility
@@ -184,8 +183,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                 ),
                                 suffixIcon: InkWell(
                                   onTap: () => setState(
-                                    () =>
-                                        passwordVisibility = !passwordVisibility,
+                                    () => passwordVisibility =
+                                        !passwordVisibility,
                                   ),
                                   child: Icon(
                                     passwordVisibility
@@ -245,7 +244,6 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                           content: SafeArea(
                                             child: Text('Creating account'),
                                           ),
-                                          
                                         ));
                                         HomeSetterPage.auth
                                             .createUserWithEmailAndPassword(
@@ -269,8 +267,8 @@ class _SignupMainPageState extends State<SignupMainPage> {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               const SnackBar(
-                                                
-                                                content: Text('Please try again'),
+                                                content:
+                                                    Text('Please try again'),
                                               ),
                                             );
                                             break;
