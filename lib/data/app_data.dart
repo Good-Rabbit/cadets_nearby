@@ -60,6 +60,16 @@ final ThemeData lightTheme = ThemeData(
       borderRadius: BorderRadius.circular(20.0),
     ),
   ),
+  chipTheme: ChipThemeData(
+    brightness: Brightness.light,
+    backgroundColor: Colors.orange[100]!,
+    disabledColor: Colors.orange[100]!,
+    labelStyle: TextStyle(color: Colors.grey[800]!),
+    padding: EdgeInsets.zero,
+    secondaryLabelStyle: TextStyle(color: Colors.grey[800]!),
+    secondarySelectedColor: Colors.orange[100]!,
+    selectedColor: Colors.orange[100]!,
+  ),
   inputDecorationTheme: InputDecorationTheme(
     fillColor: Colors.white,
     filled: true,
@@ -76,6 +86,7 @@ final ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  iconTheme: const IconThemeData(color: Colors.black),
   snackBarTheme: const SnackBarThemeData(
     backgroundColor: Colors.deepOrange,
   ),
@@ -91,13 +102,14 @@ final ThemeData darkTheme = ThemeData(
   ),
   primarySwatch: Colors.deepOrange,
   primaryColor: Colors.deepOrange,
+  disabledColor: Colors.grey[400],
   secondaryHeaderColor: Colors.orange,
   backgroundColor: Colors.grey[900],
   checkboxTheme: CheckboxThemeData(
     checkColor: MaterialStateProperty.all(Colors.black),
     fillColor: MaterialStateProperty.all(Colors.white),
   ),
-  bottomAppBarColor: Colors.grey[800],
+  bottomAppBarColor: Colors.grey[850],
   textTheme: const TextTheme(
     bodyText1: textStyleDark,
     bodyText2: textStyleDark,
@@ -109,6 +121,16 @@ final ThemeData darkTheme = ThemeData(
     headline4: textStyleDark,
     headline5: textStyleDark,
     headline6: textStyleDark,
+  ),
+    chipTheme: ChipThemeData(
+    brightness: Brightness.light,
+    backgroundColor: Colors.grey[800]!,
+    disabledColor: Colors.grey[800]!,
+    labelStyle: const TextStyle(color: Colors.white),
+    padding: EdgeInsets.zero,
+    secondaryLabelStyle: const TextStyle(color: Colors.white),
+    secondarySelectedColor: Colors.grey[800]!,
+    selectedColor: Colors.grey[800]!,
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
@@ -123,19 +145,45 @@ final ThemeData darkTheme = ThemeData(
           color: Colors.white,
         ),
       ),
+      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.pressed)) {
+            return Colors.deepOrange;
+          } else if (states.contains(MaterialState.disabled)) {
+            return Colors.grey;
+          }
+          return Colors.deepOrange; // Use the component's default.
+        },
+      ),
       minimumSize: MaterialStateProperty.all(const Size(70, 40)),
       elevation: MaterialStateProperty.all(0),
     ),
   ),
   cardTheme: CardTheme(
     elevation: 0,
-    color: Colors.orange[50],
+    color: Colors.grey[800],
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),
     ),
   ),
+  dialogTheme: DialogTheme(backgroundColor: Colors.grey[850]),
+  iconTheme: const IconThemeData(color: Colors.white),
+  primaryTextTheme: const TextTheme(
+    bodyText1: textStyleDark,
+    bodyText2: textStyleDark,
+    button: textStyleDark,
+    subtitle1: textStyleDark,
+    subtitle2: textStyleDark,
+    headline1: textStyleDark,
+    headline2: textStyleDark,
+    headline3: textStyleDark,
+    headline4: textStyleDark,
+  ),
   inputDecorationTheme: InputDecorationTheme(
-    fillColor: Colors.white,
+    fillColor: Colors.grey[700],
+    hintStyle: TextStyle(color: Colors.grey[300]),
+    iconColor: Colors.grey[200],
+    labelStyle: const TextStyle(color: Colors.white),
     filled: true,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(40.0),

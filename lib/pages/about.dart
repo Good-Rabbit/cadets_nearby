@@ -28,7 +28,6 @@ class AboutPage extends StatelessWidget {
           ],
         ),
         titleTextStyle: const TextStyle(color: Colors.black),
-        iconTheme: const IconThemeData(color: Colors.black),
         systemOverlayStyle: systemUiOverlayStyle,
       ),
       body: Center(

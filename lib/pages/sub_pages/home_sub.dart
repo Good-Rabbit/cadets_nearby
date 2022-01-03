@@ -259,6 +259,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                         const PopupMenuDivider(height: 10),
                         ...MenuItems.second.map(buildItem),
                       ],
+                      color: Theme.of(context).chipTheme.backgroundColor,
                       icon: Icon(
                         Icons.more_vert_rounded,
                         color: Theme.of(context).primaryColor,
@@ -294,7 +295,6 @@ class _HomeSubPageState extends State<HomeSubPage>
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                   child: Chip(
-                    backgroundColor: Colors.orange[50],
                     avatar: Icon(
                       Icons.circle,
                       color: accuracyColor,
@@ -574,7 +574,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                 //       ),
                 //     ],
                 //   ),
-                
+
                 const Text(
                   'By College',
                   style: TextStyle(
@@ -584,28 +584,33 @@ class _HomeSubPageState extends State<HomeSubPage>
                 Container(
                   margin: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
                   width: 500,
-                  child: DropdownButtonFormField(
-                    decoration: const InputDecoration(
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                        child: Icon(
-                          Icons.house,
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      canvasColor: Theme.of(context).bottomAppBarColor,
+                    ),
+                    child: DropdownButtonFormField(
+                      decoration: const InputDecoration(
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                          child: Icon(
+                            Icons.house,
+                          ),
                         ),
                       ),
+                      value: college,
+                      isDense: true,
+                      onChanged: (value) {
+                        setState(() {
+                          college = value! as String;
+                        });
+                      },
+                      items: filterColleges.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
                     ),
-                    value: college,
-                    isDense: true,
-                    onChanged: (value) {
-                      setState(() {
-                        college = value! as String;
-                      });
-                    },
-                    items: filterColleges.map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
                   ),
                 ),
                 const Text(
@@ -621,7 +626,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                     controller: intakeTextController,
                     cursorColor: Colors.grey[800],
                     decoration: const InputDecoration(
-                      hintText: 'Intake Year',
+                      hintText: 'Joining Year',
                       prefixIcon: Padding(
                         padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                         child: Icon(Icons.date_range),
@@ -774,7 +779,7 @@ class _HomeSubPageState extends State<HomeSubPage>
     //             controller: intakeTextController,
     //             cursorColor: Colors.grey[800],
     //             decoration: const InputDecoration(
-    //               hintText: 'Intake Year',
+    //               hintText: 'Joining Year',
     //               prefixIcon: Padding(
     //                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
     //                 child: Icon(Icons.date_range),

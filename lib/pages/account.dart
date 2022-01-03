@@ -85,14 +85,12 @@ class _AccountPageState extends State<AccountPage>
           backgroundColor: Colors.transparent,
           elevation: 0,
           titleTextStyle: const TextStyle(color: Colors.black),
-          iconTheme: const IconThemeData(color: Colors.black),
           systemOverlayStyle: systemUiOverlayStyle,
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         body: Form(
           key: formKey,
           child: ListView(
-            
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -255,7 +253,7 @@ class _AccountPageState extends State<AccountPage>
                           ),
                         ),
                         style: TextStyle(
-                          color: editingEnabled ? Colors.black : Colors.grey,
+                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
                         ),
                         keyboardType: TextInputType.name,
                         onChanged: (value) {
@@ -374,7 +372,7 @@ class _AccountPageState extends State<AccountPage>
                         enabled: false,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Intake Year*',
+                          hintText: 'Joining Year*',
                           prefixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.date_range),
@@ -386,7 +384,7 @@ class _AccountPageState extends State<AccountPage>
                         keyboardType: const TextInputType.numberWithOptions(),
                         validator: (val) {
                           if (val!.trim().isEmpty) {
-                            return 'Intake year is required';
+                            return 'Joining year is required';
                           }
                           if (!isInt(val)) {
                             return 'Please enter a valid number';
@@ -400,38 +398,43 @@ class _AccountPageState extends State<AccountPage>
                     padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                     child: SizedBox(
                       width: 500,
-                      child: DropdownButtonFormField(
-                        hint: const Text('Profession'),
-                        decoration: const InputDecoration(
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                            child: Icon(
-                              Icons.work,
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                          canvasColor: Theme.of(context).bottomAppBarColor,
+                        ),
+                        child: DropdownButtonFormField(
+                          hint: const Text('Profession'),
+                          decoration: const InputDecoration(
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(
+                                Icons.work,
+                              ),
                             ),
                           ),
+                          value: profession,
+                          isDense: true,
+                          onChanged: !editingEnabled
+                              ? null
+                              : (value) {
+                                  setState(() {
+                                    profession = value! as String;
+                                    if (profession !=
+                                        context
+                                            .read<MainUser>()
+                                            .user!
+                                            .profession) {
+                                      hasChanged = true;
+                                    }
+                                  });
+                                },
+                          items: professions.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
                         ),
-                        value: profession,
-                        isDense: true,
-                        onChanged: !editingEnabled
-                            ? null
-                            : (value) {
-                                setState(() {
-                                  profession = value! as String;
-                                  if (profession !=
-                                      context
-                                          .read<MainUser>()
-                                          .user!
-                                          .profession) {
-                                    hasChanged = true;
-                                  }
-                                });
-                              },
-                        items: professions.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
                       ),
                     ),
                   ),
@@ -459,7 +462,7 @@ class _AccountPageState extends State<AccountPage>
                           });
                         },
                         style: TextStyle(
-                          color: editingEnabled ? Colors.black : Colors.grey,
+                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
                         ),
                         keyboardType: TextInputType.text,
                       ),
@@ -481,7 +484,7 @@ class _AccountPageState extends State<AccountPage>
                           ),
                         ),
                         style: TextStyle(
-                          color: editingEnabled ? Colors.black : Colors.grey,
+                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
                         ),
                         onChanged: (value) {
                           setState(() {
@@ -527,7 +530,7 @@ class _AccountPageState extends State<AccountPage>
                               )),
                         ),
                         style: TextStyle(
-                          color: editingEnabled ? Colors.black : Colors.grey,
+                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
                         ),
                         keyboardType: TextInputType.emailAddress,
                         onChanged: (value) {
@@ -569,7 +572,6 @@ class _AccountPageState extends State<AccountPage>
                         ),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)),
-                        activeColor: Colors.black,
                         onChanged: !editingEnabled
                             ? null
                             : (value) {
@@ -624,7 +626,7 @@ class _AccountPageState extends State<AccountPage>
                           });
                         },
                         style: TextStyle(
-                          color: editingEnabled ? Colors.black : Colors.grey,
+                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
                         ),
                         keyboardType: TextInputType.name,
                       ),
@@ -668,7 +670,7 @@ class _AccountPageState extends State<AccountPage>
                           });
                         },
                         style: TextStyle(
-                          color: editingEnabled ? Colors.black : Colors.grey,
+                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
                         ),
                         keyboardType: TextInputType.name,
                       ),
@@ -690,7 +692,7 @@ class _AccountPageState extends State<AccountPage>
                           ),
                         ),
                         style: TextStyle(
-                          color: editingEnabled ? Colors.black : Colors.grey,
+                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
                         ),
                         keyboardType: TextInputType.phone,
                         onChanged: (value) {
@@ -716,8 +718,11 @@ class _AccountPageState extends State<AccountPage>
                     child: CheckboxListTile(
                         value: phoneAccess,
                         title: const Text('Make phone number public'),
-                        subtitle: const Text(
-                            'Anyone near you can use your phone number'),
+                        subtitle: Text(
+                          'Anyone near you can use your phone number',
+                          style:
+                              TextStyle(color: Theme.of(context).disabledColor),
+                        ),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)),
                         onChanged: (phoneTextController.text == '' ||
@@ -741,7 +746,11 @@ class _AccountPageState extends State<AccountPage>
                         title: const Text(
                           'Hide my exact location',
                         ),
-                        subtitle: const Text('Still show me in nearby result'),
+                        subtitle: Text(
+                          'Still show me in nearby result',
+                          style:
+                              TextStyle(color: Theme.of(context).disabledColor),
+                        ),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)),
                         onChanged: !editingEnabled
@@ -768,8 +777,11 @@ class _AccountPageState extends State<AccountPage>
                           'Enable Zone Monitor',
                           maxLines: 2,
                         ),
-                        subtitle: const Text(
-                            'Get notified when anyone enters your 5km zone'),
+                        subtitle: Text(
+                          'Get notified when anyone enters your 5km zone',
+                          style:
+                              TextStyle(color: Theme.of(context).disabledColor),
+                        ),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)),
                         onChanged: !editingEnabled
@@ -832,47 +844,6 @@ class _AccountPageState extends State<AccountPage>
                                 'address': addressTextController.text,
                               });
 
-                              // context.read<MainUser>().user = AppUser(
-                              //   id: context.read<MainUser>().user!.id,
-                              //   cName: cName,
-                              //   cNumber: int.parse(cNumberTextController.text),
-                              //   fullName: fullName,
-                              //   college: college,
-                              //   email: emailTextController.text,
-                              //   intake: int.parse(intakeTextController.text),
-                              //   pAlways: context.read<MainUser>().user!.pAlways,
-                              //   pLocation: locationAccess,
-                              //   pMaps: context.read<MainUser>().user!.pMaps,
-                              //   pPhone: phoneAccess,
-                              //   photoUrl:
-                              //       context.read<MainUser>().user!.photoUrl,
-                              //   phone: phoneTextController.text,
-                              //   fbUrl: fbTextController.text,
-                              //   instaUrl: instaTextController.text,
-                              //   timeStamp:
-                              //       context.read<MainUser>().user!.timeStamp,
-                              //   premiumTo:
-                              //       context.read<MainUser>().user!.premiumTo,
-                              //   premium: context.read<MainUser>().user!.premium,
-                              //   verified:
-                              //       context.read<MainUser>().user!.verified,
-                              //   celeb: context.read<MainUser>().user!.celeb,
-                              //   treatHead:
-                              //       context.read<MainUser>().user!.treatHead,
-                              //   treatHunter:
-                              //       context.read<MainUser>().user!.treatHunter,
-                              //   designation: designationTextController.text,
-                              //   profession: profession,
-                              //   manualDp:
-                              //       context.read<MainUser>().user!.manualDp,
-                              //   treatCount:
-                              //       context.read<MainUser>().user!.treatCount,
-                              //   sector: context.read<MainUser>().user!.sector,
-                              //   address: addressTextController.text,
-                              //   contact: context.read<MainUser>().user!.contact,
-                              //   coupons: context.read<MainUser>().user!.coupons,
-                              // );
-
                               if (context.read<Settings>().zoneDetection !=
                                   enableZoneMonitor) {
                                 if (!enableZoneMonitor) {
@@ -884,8 +855,10 @@ class _AccountPageState extends State<AccountPage>
 
                                 context.read<Settings>().zoneDetection =
                                     enableZoneMonitor;
-                                final SharedPreferences prefs = await SharedPreferences.getInstance();
-                                prefs.setBool('zoneDetection', enableZoneMonitor);
+                                final SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setBool(
+                                    'zoneDetection', enableZoneMonitor);
                               }
 
                               ScaffoldMessenger.of(context).showSnackBar(

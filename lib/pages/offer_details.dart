@@ -46,7 +46,6 @@ class _OfferDetailsPageState extends State<OfferDetailsPage> {
           ],
         ),
         titleTextStyle: const TextStyle(color: Colors.black),
-        iconTheme: const IconThemeData(color: Colors.black),
         systemOverlayStyle: systemUiOverlayStyle,
       ),
       body: ListView(

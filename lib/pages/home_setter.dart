@@ -26,10 +26,6 @@ class HomeSetterPage extends StatefulWidget {
 class _HomeSetterPageState extends State<HomeSetterPage> {
   User? user;
 
-  // void loggedInNotifier() {
-  //   Navigator.of(context).pushReplacementNamed('/');
-  // }
-
   @override
   void initState() {
     LocalNotificationService.initialize(context);
@@ -128,9 +124,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.data() == null) {
-                      return const CompleteAccountPage(
-                        // loggedInNotifier: loggedInNotifier,
-                      );
+                      return const CompleteAccountPage();
                     } else {
                       context.read<MainUser>().setWithUser(user!);
                     }

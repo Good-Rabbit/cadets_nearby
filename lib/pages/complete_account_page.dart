@@ -259,7 +259,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: intakeTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Intake Year*',
+                              hintText: 'Joining Year*',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.date_range),
@@ -269,7 +269,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                 const TextInputType.numberWithOptions(),
                             validator: (val) {
                               if (val!.trim().isEmpty) {
-                                return 'Intake year is required';
+                                return 'Joining year is required';
                               }
                               if (!isInt(val)) {
                                 return 'Please enter a valid number';
@@ -694,7 +694,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                                   title: const Text(
                                                       'Is the information correct?'),
                                                   content: const Text(
-                                                      'Some of your information cannot be changed later. e.g. Cadet name/number, college, intake year.'),
+                                                      'Some of your information cannot be changed later. e.g. Cadet name/number, college, joining year.'),
                                                   actions: [
                                                     TextButton(
                                                         onPressed: () {
@@ -805,41 +805,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           'coupons': (DateTime.now().day > 14 ? 2 : 3),
         },
       );
-      // // ignore: use_build_context_synchronously
-      // context.read<MainUser>().user = AppUser(
-      //   id: HomeSetterPage.auth.currentUser!.uid,
-      //   cName: cName,
-      //   cNumber: int.parse(cNumberTextController.text),
-      //   fullName: fullName,
-      //   college: college,
-      //   email: FirebaseAuth.instance.currentUser!.email!,
-      //   intake: int.parse(intakeTextController.text),
-      //   pAlways: alwaysAccess,
-      //   pLocation: locationAccess,
-      //   pPhone: phoneAccess,
-      //   lat: locationData == null ? 0 : locationData!.latitude ?? 0,
-      //   long: locationData == null ? 0 : locationData!.longitude ?? 0,
-      //   photoUrl: HomeSetterPage.auth.currentUser!.photoURL ?? '',
-      //   phone: phoneTextController.text,
-      //   premium: false,
-      //   verified: 'no',
-      //   timeStamp: DateTime.now(),
-      //   premiumTo: DateTime.now(),
-      //   celeb: false,
-      //   treatHead: true,
-      //   fbUrl: fbTextController.text,
-      //   instaUrl: instaTextController.text,
-      //   treatHunter: true,
-      //   treatCount: 0,
-      //   designation: designationTextController.text,
-      //   profession: profession,
-      //   address: addressTextController.text,
-      //   manualDp: false,
-      //   sector: sector,
-      //   contact: false,
-      //   coupons: (DateTime.now().day > 14 ? 2 : 3),
-      // );
-      // widget.loggedInNotifier();
     } catch (e) {
       log(e.toString());
     }

@@ -11,6 +11,7 @@ import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +52,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   prefs.setStringList('notifications', notifications);
 }
 
-const systemUiOverlayStyle = SystemUiOverlayStyle(
+SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark);
 
@@ -75,8 +76,6 @@ Future<void> main() async {
     badge: true,
     sound: true,
   );
-
-  SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 
   runApp(MultiProvider(
     providers: [
@@ -110,12 +109,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    bool isDark = brightness == Brightness.dark;
+    systemUiOverlayStyle = SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cadets Nearby',
       theme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.system,
       routes: {
         '/': (context) => const HomeSetterPage(),
         '/about': (context) => const AboutPage(),

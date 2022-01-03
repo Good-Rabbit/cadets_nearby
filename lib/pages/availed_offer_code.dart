@@ -35,7 +35,6 @@ class _AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
           ],
         ),
         titleTextStyle: const TextStyle(color: Colors.black),
-        iconTheme: const IconThemeData(color: Colors.black),
         systemOverlayStyle: systemUiOverlayStyle,
       ),
       backgroundColor: Theme.of(context).backgroundColor,

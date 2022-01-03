@@ -7,7 +7,7 @@ class VerificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange[50],
+      backgroundColor: Theme.of(context).backgroundColor,
       body: SafeArea(
           child: ListView(
         children: const [

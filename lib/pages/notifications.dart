@@ -39,7 +39,6 @@ class _NotificationPageState extends State<NotificationPage>
             ],
           ),
           titleTextStyle: const TextStyle(color: Colors.black),
-          iconTheme: const IconThemeData(color: Colors.black),
           systemOverlayStyle: systemUiOverlayStyle,
         ),
         body: Center(

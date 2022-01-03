@@ -67,7 +67,6 @@ class _PostHelpPageState extends State<PostHelpPage> {
             ],
           ),
           titleTextStyle: const TextStyle(color: Colors.black),
-          iconTheme: const IconThemeData(color: Colors.black),
           systemOverlayStyle: systemUiOverlayStyle,
         ),
         body: ListView(

@@ -57,7 +57,6 @@ Future<void> onLogin() async {
             zoneStreamSubscription!.cancel();
           }
           final double latitude = event['latitude'];
-          // final double longitude = event['longitude'];
 
           zoneStream = FirebaseFirestore.instance
               .collection('users')
