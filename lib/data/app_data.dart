@@ -6,6 +6,11 @@ const TextStyle textStyle = TextStyle(
   fontWeight: FontWeight.w300,
 );
 
+const TextStyle textStyleDark = TextStyle(
+  fontWeight: FontWeight.w300,
+  color: Colors.white,
+);
+
 final ThemeData lightTheme = ThemeData(
   fontFamily: 'DMSans',
   popupMenuTheme: PopupMenuThemeData(
@@ -76,6 +81,80 @@ final ThemeData lightTheme = ThemeData(
   ),
 );
 
+final ThemeData darkTheme = ThemeData(
+  fontFamily: 'DMSans',
+  popupMenuTheme: PopupMenuThemeData(
+    color: Colors.orange,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
+  ),
+  primarySwatch: Colors.deepOrange,
+  primaryColor: Colors.deepOrange,
+  secondaryHeaderColor: Colors.orange,
+  backgroundColor: Colors.grey[900],
+  checkboxTheme: CheckboxThemeData(
+    checkColor: MaterialStateProperty.all(Colors.black),
+    fillColor: MaterialStateProperty.all(Colors.white),
+  ),
+  bottomAppBarColor: Colors.grey[800],
+  textTheme: const TextTheme(
+    bodyText1: textStyleDark,
+    bodyText2: textStyleDark,
+    subtitle1: textStyleDark,
+    subtitle2: textStyleDark,
+    headline1: textStyleDark,
+    headline2: textStyleDark,
+    headline3: textStyleDark,
+    headline4: textStyleDark,
+    headline5: textStyleDark,
+    headline6: textStyleDark,
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+      ),
+      textStyle: MaterialStateProperty.all(
+        const TextStyle(
+          fontFamily: 'DMSans',
+          color: Colors.white,
+        ),
+      ),
+      minimumSize: MaterialStateProperty.all(const Size(70, 40)),
+      elevation: MaterialStateProperty.all(0),
+    ),
+  ),
+  cardTheme: CardTheme(
+    elevation: 0,
+    color: Colors.orange[50],
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.0),
+    ),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    fillColor: Colors.white,
+    filled: true,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(40.0),
+      borderSide: const BorderSide(
+        color: Colors.white,
+      ),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(40.0),
+      borderSide: const BorderSide(
+        color: Colors.white,
+      ),
+    ),
+  ),
+  snackBarTheme: const SnackBarThemeData(
+    backgroundColor: Colors.deepOrange,
+  ),
+);
+
 const List<String> colleges = [
   'Pick your college*',
   'MGCC',
@@ -85,6 +164,7 @@ const List<String> colleges = [
   'CCC',
   'PCC',
   'RCC',
+  'BCC',
   'JCC',
   'FCC',
   'CCR',

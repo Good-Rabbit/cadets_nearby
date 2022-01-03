@@ -26,9 +26,9 @@ class HomeSetterPage extends StatefulWidget {
 class _HomeSetterPageState extends State<HomeSetterPage> {
   User? user;
 
-  void loggedInNotifier() {
-    Navigator.of(context).pushReplacementNamed('/');
-  }
+  // void loggedInNotifier() {
+  //   Navigator.of(context).pushReplacementNamed('/');
+  // }
 
   @override
   void initState() {
@@ -128,8 +128,8 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.data() == null) {
-                      return CompleteAccountPage(
-                        loggedInNotifier: loggedInNotifier,
+                      return const CompleteAccountPage(
+                        // loggedInNotifier: loggedInNotifier,
                       );
                     } else {
                       context.read<MainUser>().setWithUser(user!);
@@ -152,50 +152,6 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
         else {
           return const RealHome();
         }
-        // return FutureBuilder(
-        //   future: HomeSetterPage.store.collection('users').doc(user!.uid).get(),
-        //   builder: (context,
-        //       AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.done) {
-        //       if (snapshot.hasData) {
-        //         if (snapshot.data!.data() == null) {
-        //           if (!HomeSetterPage.auth.currentUser!.emailVerified) {
-        //             verifyEmail();
-        //             return Scaffold(
-        //               backgroundColor: Theme.of(context).backgroundColor,
-        //             );
-        //           }
-        //           context.read<LocationStatus>().checkPermissions();
-
-        //           return CompleteAccountPage(
-        //             loggedInNotifier: loggedInNotifier,
-        //           );
-        //         } else {
-        //           if (context.watch<MainUser>().user == null) {
-        //             context.read<MainUser>().setWithUser(user!);
-        //           }
-
-        //           if (!HomeSetterPage.auth.currentUser!.emailVerified) {
-        //             verifyEmail();
-        //             return Scaffold(
-        //               backgroundColor: Theme.of(context).backgroundColor,
-        //             );
-        //           }
-        //           context.read<LocationStatus>().checkPermissions();
-
-        //           // Display home
-        //           return const RealHome();
-        //         }
-        //       }
-        //     }
-        //     context.read<LocationStatus>().checkPermissions();
-
-        //     return Scaffold(
-        //       backgroundColor: Theme.of(context).backgroundColor,
-        //       body: const Center(child: Loading()),
-        //     );
-        //   },
-        // );
       } else {
         context.read<LocationStatus>().checkPermissions();
 

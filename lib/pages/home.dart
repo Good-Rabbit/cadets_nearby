@@ -22,6 +22,11 @@ Future<void> onLogin() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  if(prefs.getBool('zoneDetection')==null){
+    prefs.setBool('zoneDetection', true);
+  }
+
   final service = FlutterBackgroundService();
   // * Send to background
   service.setForegroundMode(false);
@@ -42,7 +47,6 @@ Future<void> onLogin() async {
       if (event['latitude'] != null) {
         zoneCount = 0;
         zoneOnce = false;
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.reload();
         if (prefs.getBool('zoneDetection')!) {
           service.setNotificationInfo(
@@ -81,7 +85,7 @@ Future<void> onLogin() async {
                   android: AndroidNotificationDetails(
                     channel.id,
                     channel.name,
-                    channel.description,
+                    channelDescription: channel.description,
                     importance: Importance.max,
                     icon: '@mipmap/ic_launcher',
                     priority: Priority.high,
@@ -117,7 +121,7 @@ Future<void> onLogin() async {
                   android: AndroidNotificationDetails(
                     channel.id,
                     channel.name,
-                    channel.description,
+                    channelDescription: channel.description,
                     importance: Importance.max,
                     icon: '@mipmap/ic_launcher',
                     priority: Priority.high,
@@ -167,8 +171,6 @@ class _RealHomeState extends State<RealHome> {
   final pageController = PageController(initialPage: 0);
 
   void setSelectedIndex(int index) {
-    context.read<LocationStatus>().checkPermissions();
-
     if (index == 1) {
       if (context.read<MainUser>().user!.verified != 'yes') {
         showDialog(
@@ -190,9 +192,12 @@ class _RealHomeState extends State<RealHome> {
         return;
       }
     }
+    context.read<LocationStatus>().checkPermissions();
     selectedIndex = index;
-    pageController.animateToPage(index,
-        duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
+    pageController.jumpToPage(
+      index,
+      // duration: const Duration(milliseconds: 300), curve: Curves.decelerate
+    );
   }
 
   Future<void> startService() async {
@@ -212,6 +217,13 @@ class _RealHomeState extends State<RealHome> {
 
   @override
   Widget build(BuildContext context) {
+    //! Load Video Ads
+    // if (!(context.read<MainUser>().user!.premium ||
+    //     context.read<s_provider.Settings>().reward)) {
+    //   if (!AdService.isRewardedAdReady) {
+    //     AdService.loadRewardedAd();
+    //   }
+    // }
     return WillPopScope(
       onWillPop: () async {
         if (selectedIndex != 0) {
@@ -225,6 +237,30 @@ class _RealHomeState extends State<RealHome> {
           body: PageView(
             controller: pageController,
             onPageChanged: (index) {
+              if (index == 1) {
+                if (context.read<MainUser>().user!.verified != 'yes') {
+                  pageController.animateToPage(selectedIndex,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.decelerate);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Get verified first'),
+                          content: const Text(
+                              'You have to get verified first to be able to use this'),
+                          actions: [
+                            TextButton(
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('Ok.')),
+                          ],
+                        );
+                      });
+                  return;
+                }
+              }
               setState(() {
                 selectedIndex = index;
               });

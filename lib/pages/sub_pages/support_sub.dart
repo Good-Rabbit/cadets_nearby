@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/support_card.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';

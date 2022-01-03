@@ -48,84 +48,187 @@ class UserProfile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              width: 30,
+              width: 15,
             ),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Name:',
-                  ),
-                  if (e.premium) const Text(''),
-                  const Text(
-                    'Cadet No:',
-                  ),
-                  const Text(
-                    'College:',
-                  ),
-                  const Text(
-                    'Profession:',
-                  ),
-                  const Text(
-                    'Designation:',
-                  ),
-                  const Text(
-                    'Address:',
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        e.fullName,
-                      ),
                       const SizedBox(
-                        width: 5,
+                        width: 100,
+                        child: Text(
+                          'Name:',
+                        ),
                       ),
-                      if (e.celeb)
-                        const Icon(
-                          Icons.verified,
-                          size: 15,
-                          color: Colors.green,
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Text(
+                              e.fullName,
+                              maxLines: 2,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            if (e.celeb)
+                              const Icon(
+                                Icons.verified,
+                                size: 15,
+                                color: Colors.green,
+                              ),
+                            if (e.verified != 'yes')
+                              const Icon(
+                                Icons.info_rounded,
+                                size: 15,
+                                color: Colors.redAccent,
+                              ),
+                          ],
                         ),
-                      if (e.verified != 'yes')
-                        const Icon(
-                          Icons.info_rounded,
-                          size: 15,
-                          color: Colors.redAccent,
-                        ),
+                      ),
                     ],
                   ),
-                  Text(
-                    e.cNumber.toString(),
-                    maxLines: 1,
+                  // if (e.premium) const Text(''),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        width: 100,
+                        child: Text(
+                          'Cadet No:',
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          e.cNumber.toString(),
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    '${e.college} (${e.intake}) ',
-                    maxLines: 1,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        width: 100,
+                        child: Text(
+                          'College:',
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${e.college} (${e.intake}) ',
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    e.profession != '' ? e.profession : '-',
-                    maxLines: 1,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        width: 100,
+                        child: Text(
+                          'Profession:',
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          e.profession != '' ? e.profession : '-',
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    e.designation != '' ? e.designation : '-',
-                    maxLines: 1,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        width: 100,
+                        child: Text(
+                          'Designation:',
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          e.designation != '' ? e.designation : '-',
+                          maxLines: 2,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    e.address,
-                    maxLines: 3,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        width: 100,
+                        child: Text(
+                          'Address:',
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          e.address,
+                          maxLines: 5,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
+            // Expanded(
+            //   flex: 2,
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Row(
+            //         children: [
+            //           Text(
+            //             e.fullName,
+            //           ),
+            //           const SizedBox(
+            //             width: 5,
+            //           ),
+            //           if (e.celeb)
+            //             const Icon(
+            //               Icons.verified,
+            //               size: 15,
+            //               color: Colors.green,
+            //             ),
+            //           if (e.verified != 'yes')
+            //             const Icon(
+            //               Icons.info_rounded,
+            //               size: 15,
+            //               color: Colors.redAccent,
+            //             ),
+            //         ],
+            //       ),
+            //       Text(
+            //         e.cNumber.toString(),
+            //         maxLines: 1,
+            //       ),
+            //       Text(
+            //         '${e.college} (${e.intake}) ',
+            //         maxLines: 1,
+            //       ),
+            //       Text(
+            //         e.profession != '' ? e.profession : '-',
+            //         maxLines: 1,
+            //       ),
+            //       Text(
+            //         e.designation != '' ? e.designation : '-',
+            //         maxLines: 1,
+            //       ),
+            //       Text(
+            //         e.address,
+            //         maxLines: 3,
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
         const SizedBox(
@@ -136,11 +239,11 @@ class UserProfile extends StatelessWidget {
           children: [
             if (e.fbUrl != '')
               SizedBox(
-                width: 150,
+                width: 140,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    launchWithCheck('https://fb.com/${e.fbUrl}', context);
-                    // launchURL('https://fb.com/${e.fbUrl}');
+                    // launchWithCheck('https://fb.com/${e.fbUrl}', context);
+                    launchURL('https://fb.com/${e.fbUrl}');
                   },
                   icon: const Icon(Icons.facebook),
                   label: const Text('Facebook'),
@@ -152,16 +255,16 @@ class UserProfile extends StatelessWidget {
               ),
             if (e.instaUrl != '' && e.fbUrl != '')
               const SizedBox(
-                width: 20,
+                width: 10,
               ),
             if (e.instaUrl != '')
               SizedBox(
-                width: 150,
+                width: 140,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    launchWithCheck(
-                        'https://instagr.am/${e.instaUrl}', context);
-                    // launchURL('https://instagr.am/${e.instaUrl}');
+                    // launchWithCheck(
+                        // 'https://instagr.am/${e.instaUrl}', context);
+                    launchURL('https://instagr.am/${e.instaUrl}');
                   },
                   icon: const Icon(FontAwesomeIcons.instagram),
                   label: const Text('Instagram'),
@@ -179,7 +282,7 @@ class UserProfile extends StatelessWidget {
             children: [
               if (e.pPhone)
                 SizedBox(
-                  width: 150,
+                  width: 130,
                   child: ElevatedButton.icon(
                     onPressed: () {
                       // launchWithCheck(phoneNumber, context);
@@ -195,14 +298,14 @@ class UserProfile extends StatelessWidget {
                 ),
               if (e.pPhone)
                 const SizedBox(
-                  width: 20,
+                  width: 10,
                 ),
               SizedBox(
-                width: 150,
+                width: 130,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    launchWithCheck(emailAddress, context);
-                    // launchURL(emailAddress);
+                    // launchWithCheck(emailAddress, context);
+                    launchURL(emailAddress);
                   },
                   icon: const Icon(Icons.alternate_email),
                   label: const Text('E-mail'),
@@ -223,7 +326,6 @@ class UserProfile extends StatelessWidget {
         context.read<Settings>().reward) {
       launchURL(url);
     } else {
-      AdService.loadRewardedAd();
       final bool ready = AdService.isRewardedAdReady;
       showDialog(
           context: context,

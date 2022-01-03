@@ -5,9 +5,7 @@ import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
-import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
-import 'package:cadets_nearby/data/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,10 +14,12 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class CompleteAccountPage extends StatefulWidget {
-  const CompleteAccountPage({Key? key, required this.loggedInNotifier})
+  const CompleteAccountPage({Key? key, 
+  // required this.loggedInNotifier
+  })
       : super(key: key);
 
-  final Function loggedInNotifier;
+  // final Function loggedInNotifier;
 
   @override
   _CompleteAccountPageState createState() => _CompleteAccountPageState();
@@ -766,6 +766,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
         content: const SafeArea(child: Text('Updating account info')),
         backgroundColor: Theme.of(context).primaryColor,
       ));
+      int sector = 0;
+      sector = ((locationData!.latitude! - 20.56666) / (0.046)).ceil();
       HomeSetterPage.store
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -790,7 +792,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           'photourl': HomeSetterPage.auth.currentUser!.photoURL ?? '',
           'lat': locationData == null ? 0 : locationData!.latitude,
           'long': locationData == null ? 0 : locationData!.longitude,
-          'sector': 0,
+          'sector': sector,
           'celeb': false,
           'treatcount': 0,
           'treathead': true,
@@ -800,46 +802,44 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           'address': addressTextController.text,
           'manualdp': false,
           'contact': false,
-          'coupons': (DateTime.now().day > 14 ? 1 : 2),
+          'coupons': (DateTime.now().day > 14 ? 2 : 3),
         },
       );
-      int sector = 0;
-      sector = ((locationData!.latitude! - 20.56666) / (0.046)).ceil();
-      // ignore: use_build_context_synchronously
-      context.read<MainUser>().user = AppUser(
-        id: HomeSetterPage.auth.currentUser!.uid,
-        cName: cName,
-        cNumber: int.parse(cNumberTextController.text),
-        fullName: fullName,
-        college: college,
-        email: FirebaseAuth.instance.currentUser!.email!,
-        intake: int.parse(intakeTextController.text),
-        pAlways: alwaysAccess,
-        pLocation: locationAccess,
-        pPhone: phoneAccess,
-        lat: locationData == null ? 0 : locationData!.latitude ?? 0,
-        long: locationData == null ? 0 : locationData!.longitude ?? 0,
-        photoUrl: HomeSetterPage.auth.currentUser!.photoURL ?? '',
-        phone: phoneTextController.text,
-        premium: false,
-        verified: 'no',
-        timeStamp: DateTime.now(),
-        premiumTo: DateTime.now(),
-        celeb: false,
-        treatHead: true,
-        fbUrl: fbTextController.text,
-        instaUrl: instaTextController.text,
-        treatHunter: true,
-        treatCount: 0,
-        designation: designationTextController.text,
-        profession: profession,
-        address: addressTextController.text,
-        manualDp: false,
-        sector: sector,
-        contact: false,
-        coupons: (DateTime.now().day > 14 ? 1 : 2),
-      );
-      widget.loggedInNotifier();
+      // // ignore: use_build_context_synchronously
+      // context.read<MainUser>().user = AppUser(
+      //   id: HomeSetterPage.auth.currentUser!.uid,
+      //   cName: cName,
+      //   cNumber: int.parse(cNumberTextController.text),
+      //   fullName: fullName,
+      //   college: college,
+      //   email: FirebaseAuth.instance.currentUser!.email!,
+      //   intake: int.parse(intakeTextController.text),
+      //   pAlways: alwaysAccess,
+      //   pLocation: locationAccess,
+      //   pPhone: phoneAccess,
+      //   lat: locationData == null ? 0 : locationData!.latitude ?? 0,
+      //   long: locationData == null ? 0 : locationData!.longitude ?? 0,
+      //   photoUrl: HomeSetterPage.auth.currentUser!.photoURL ?? '',
+      //   phone: phoneTextController.text,
+      //   premium: false,
+      //   verified: 'no',
+      //   timeStamp: DateTime.now(),
+      //   premiumTo: DateTime.now(),
+      //   celeb: false,
+      //   treatHead: true,
+      //   fbUrl: fbTextController.text,
+      //   instaUrl: instaTextController.text,
+      //   treatHunter: true,
+      //   treatCount: 0,
+      //   designation: designationTextController.text,
+      //   profession: profession,
+      //   address: addressTextController.text,
+      //   manualDp: false,
+      //   sector: sector,
+      //   contact: false,
+      //   coupons: (DateTime.now().day > 14 ? 2 : 3),
+      // );
+      // widget.loggedInNotifier();
     } catch (e) {
       log(e.toString());
     }

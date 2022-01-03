@@ -22,7 +22,6 @@ showBottomSheetWith(List<Widget> child, BuildContext context) {
                     top: Radius.circular(15.0),
                   ),
                 ),
-                padding: const EdgeInsets.fromLTRB(15, 10, 10, 10),
                 child: ListView(
                   controller: controller,
                   children: child,

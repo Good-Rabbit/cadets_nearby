@@ -12,7 +12,12 @@ class Settings with ChangeNotifier {
   Future<void> initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.reload();
-    zoneDetectionBool = prefs.getBool('zoneDetection') ?? true;
+    if (prefs.getBool('zoneDetection') == null) {
+      prefs.setBool('zoneDetection', true);
+      zoneDetection = true;
+    } else {
+      zoneDetectionBool = prefs.getBool('zoneDetection') ?? true;
+    }
   }
 
   bool get zoneDetection => zoneDetectionBool;

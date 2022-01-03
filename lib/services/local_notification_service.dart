@@ -67,7 +67,7 @@ class LocalNotificationService {
           android: AndroidNotificationDetails(
             channel.id,
             channel.name,
-            channel.description,
+            channelDescription: channel.description,
             importance: Importance.max,
             icon: '@mipmap/ic_launcher',
             priority: Priority.high,

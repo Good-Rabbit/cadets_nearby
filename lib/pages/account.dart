@@ -9,11 +9,11 @@ import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
-import 'package:cadets_nearby/data/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
@@ -720,7 +720,6 @@ class _AccountPageState extends State<AccountPage>
                             'Anyone near you can use your phone number'),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)),
-                        activeColor: Colors.black,
                         onChanged: (phoneTextController.text == '' ||
                                 !editingEnabled)
                             ? null
@@ -745,7 +744,6 @@ class _AccountPageState extends State<AccountPage>
                         subtitle: const Text('Still show me in nearby result'),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)),
-                        activeColor: Colors.black,
                         onChanged: !editingEnabled
                             ? null
                             : (value) {
@@ -774,7 +772,6 @@ class _AccountPageState extends State<AccountPage>
                             'Get notified when anyone enters your 5km zone'),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)),
-                        activeColor: Colors.black,
                         onChanged: !editingEnabled
                             ? null
                             : (value) {
@@ -835,46 +832,46 @@ class _AccountPageState extends State<AccountPage>
                                 'address': addressTextController.text,
                               });
 
-                              context.read<MainUser>().user = AppUser(
-                                id: context.read<MainUser>().user!.id,
-                                cName: cName,
-                                cNumber: int.parse(cNumberTextController.text),
-                                fullName: fullName,
-                                college: college,
-                                email: emailTextController.text,
-                                intake: int.parse(intakeTextController.text),
-                                pAlways: context.read<MainUser>().user!.pAlways,
-                                pLocation: locationAccess,
-                                pMaps: context.read<MainUser>().user!.pMaps,
-                                pPhone: phoneAccess,
-                                photoUrl:
-                                    context.read<MainUser>().user!.photoUrl,
-                                phone: phoneTextController.text,
-                                fbUrl: fbTextController.text,
-                                instaUrl: instaTextController.text,
-                                timeStamp:
-                                    context.read<MainUser>().user!.timeStamp,
-                                premiumTo:
-                                    context.read<MainUser>().user!.premiumTo,
-                                premium: context.read<MainUser>().user!.premium,
-                                verified:
-                                    context.read<MainUser>().user!.verified,
-                                celeb: context.read<MainUser>().user!.celeb,
-                                treatHead:
-                                    context.read<MainUser>().user!.treatHead,
-                                treatHunter:
-                                    context.read<MainUser>().user!.treatHunter,
-                                designation: designationTextController.text,
-                                profession: profession,
-                                manualDp:
-                                    context.read<MainUser>().user!.manualDp,
-                                treatCount:
-                                    context.read<MainUser>().user!.treatCount,
-                                sector: context.read<MainUser>().user!.sector,
-                                address: addressTextController.text,
-                                contact: context.read<MainUser>().user!.contact,
-                                coupons: context.read<MainUser>().user!.coupons,
-                              );
+                              // context.read<MainUser>().user = AppUser(
+                              //   id: context.read<MainUser>().user!.id,
+                              //   cName: cName,
+                              //   cNumber: int.parse(cNumberTextController.text),
+                              //   fullName: fullName,
+                              //   college: college,
+                              //   email: emailTextController.text,
+                              //   intake: int.parse(intakeTextController.text),
+                              //   pAlways: context.read<MainUser>().user!.pAlways,
+                              //   pLocation: locationAccess,
+                              //   pMaps: context.read<MainUser>().user!.pMaps,
+                              //   pPhone: phoneAccess,
+                              //   photoUrl:
+                              //       context.read<MainUser>().user!.photoUrl,
+                              //   phone: phoneTextController.text,
+                              //   fbUrl: fbTextController.text,
+                              //   instaUrl: instaTextController.text,
+                              //   timeStamp:
+                              //       context.read<MainUser>().user!.timeStamp,
+                              //   premiumTo:
+                              //       context.read<MainUser>().user!.premiumTo,
+                              //   premium: context.read<MainUser>().user!.premium,
+                              //   verified:
+                              //       context.read<MainUser>().user!.verified,
+                              //   celeb: context.read<MainUser>().user!.celeb,
+                              //   treatHead:
+                              //       context.read<MainUser>().user!.treatHead,
+                              //   treatHunter:
+                              //       context.read<MainUser>().user!.treatHunter,
+                              //   designation: designationTextController.text,
+                              //   profession: profession,
+                              //   manualDp:
+                              //       context.read<MainUser>().user!.manualDp,
+                              //   treatCount:
+                              //       context.read<MainUser>().user!.treatCount,
+                              //   sector: context.read<MainUser>().user!.sector,
+                              //   address: addressTextController.text,
+                              //   contact: context.read<MainUser>().user!.contact,
+                              //   coupons: context.read<MainUser>().user!.coupons,
+                              // );
 
                               if (context.read<Settings>().zoneDetection !=
                                   enableZoneMonitor) {
@@ -887,6 +884,8 @@ class _AccountPageState extends State<AccountPage>
 
                                 context.read<Settings>().zoneDetection =
                                     enableZoneMonitor;
+                                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                prefs.setBool('zoneDetection', enableZoneMonitor);
                               }
 
                               ScaffoldMessenger.of(context).showSnackBar(

@@ -51,6 +51,29 @@ class AboutPage extends StatelessWidget {
                 ),
               ),
             ),
+            Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.fromLTRB(15, 15, 0, 15),
+                  child: const Text(
+                    'This project is funded by',
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(17),
+                  child: Text(
+                    'EX-CADETS',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Container(
               margin: const EdgeInsets.all(15),
               child: const Text(
@@ -66,6 +89,16 @@ class AboutPage extends StatelessWidget {
               },
               icon: const Icon(Icons.facebook_rounded),
               label: const Text('Cadets Nearby'),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                launchURL('mailto:info.cadetsnearby@gmail.com');
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.green[600]),
+              ),
+              icon: const Icon(Icons.alternate_email_rounded),
+              label: const Text('Contact Us'),
             ),
             Container(
               margin: const EdgeInsets.all(15),
@@ -85,7 +118,7 @@ class AboutPage extends StatelessWidget {
                 backgroundColor: MaterialStateProperty.all(Colors.pink[800]),
               ),
               icon: const Icon(Icons.facebook_rounded),
-              label: const Text('Good RabbIT'),
+              label: const Text('Good Rabbit'),
             ),
           ],
         ),

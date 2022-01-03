@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cadets_nearby/data/app_data.dart';
-import 'package:cadets_nearby/services/ad_service.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
@@ -36,7 +35,7 @@ import 'pages/verify_email.dart';
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'important_notifications',
   'Important notifications',
-  'Important notifications show up in this channel',
+  description: 'Important notifications show up in this channel',
   importance: Importance.max,
 );
 
@@ -59,7 +58,8 @@ const systemUiOverlayStyle = SystemUiOverlayStyle(
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  AdService.initialize();
+  //! Initialize Ad service
+  // AdService.initialize();
 
   try {
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
@@ -114,6 +114,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Cadets Nearby',
       theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.light,
       routes: {
         '/': (context) => const HomeSetterPage(),
         '/about': (context) => const AboutPage(),

@@ -39,7 +39,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         backgroundColor: Theme.of(context).backgroundColor,
         body: SafeArea(
           child: Center(
-            child: Column(
+            child: ListView(
               children: [
                 const SizedBox(
                   height: 50,
