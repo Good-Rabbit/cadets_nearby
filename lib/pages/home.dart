@@ -4,7 +4,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cadets_nearby/pages/sub_pages/contact_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/home_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/offer_sub.dart';
-import 'package:cadets_nearby/pages/sub_pages/support_sub.dart';
+import 'package:cadets_nearby/pages/sub_pages/feed_sub.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
@@ -267,7 +267,7 @@ class _RealHomeState extends State<RealHome> {
             children: const [
               HomeSubPage(),
               OfferSubPage(),
-              SupportSubPage(),
+              FeedSubPage(),
               ContactSubPage(),
             ],
           ),
@@ -293,8 +293,8 @@ class _RealHomeState extends State<RealHome> {
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
               BottomNavyBarItem(
-                icon: const Icon(Icons.support_rounded),
-                title: const Text('Support'),
+                icon: const Icon(Icons.feed_rounded),
+                title: const Text('Feed'),
                 textAlign: TextAlign.center,
                 activeColor: Colors.teal,
                 inactiveColor: Theme.of(context).secondaryHeaderColor,

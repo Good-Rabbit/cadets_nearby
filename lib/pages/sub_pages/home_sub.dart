@@ -4,12 +4,14 @@ import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/data/menu_item.dart';
 import 'package:cadets_nearby/data/user.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
+import 'package:cadets_nearby/pages/ui_elements/filter_days.dart';
 import 'package:cadets_nearby/pages/ui_elements/filter_range.dart';
 import 'package:cadets_nearby/pages/ui_elements/loading.dart';
 import 'package:cadets_nearby/pages/ui_elements/nearby_card.dart';
 import 'package:cadets_nearby/services/calculations.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
+import 'package:cadets_nearby/services/nearby_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
@@ -45,16 +47,12 @@ class _HomeSubPageState extends State<HomeSubPage>
   double latMax = 0;
   double latMin = 0;
 
-  String college = 'Select college';
-
   double min = 0;
   double max = 15;
   int divisions = 3;
   RangeValues range = const RangeValues(0, 15);
 
   int shown = 0;
-
-  TextEditingController intakeTextController = TextEditingController();
 
   @override
   void initState() {
@@ -148,12 +146,6 @@ class _HomeSubPageState extends State<HomeSubPage>
     } catch (e) {
       dev.log(e.toString());
     }
-  }
-
-  @override
-  void dispose() {
-    intakeTextController.dispose();
-    super.dispose();
   }
 
   bool onceCheck = true;
@@ -387,8 +379,6 @@ class _HomeSubPageState extends State<HomeSubPage>
                             } else if (e
                                 .equals(context.read<MainUser>().user!)) {
                               dontShow = true;
-                            } else if (timeDiff.inDays > 30) {
-                              dontShow = true;
                             }
 
                             // * Distance in km
@@ -404,17 +394,27 @@ class _HomeSubPageState extends State<HomeSubPage>
                               dontShow = true;
                             }
                             // * College Check
-                            if (college != filterColleges.elementAt(0)) {
-                              if (e.college != college) {
+                            if (context.read<Nearby>().collegeName !=
+                                filterColleges.elementAt(0)) {
+                              if (e.college !=
+                                  context.read<Nearby>().collegeName) {
                                 dontShow = true;
                               }
                             }
                             // * Intake Check
-                            if (intakeTextController.text != '') {
+                            if (context
+                                    .read<Nearby>()
+                                    .intakeTextController
+                                    .text !=
+                                '') {
                               if (e.intake !=
-                                  int.parse(intakeTextController.text)) {
+                                  context.read<Nearby>().intakeYear) {
                                 dontShow = true;
                               }
+                            }
+                            // * Time Check
+                            if (timeDiff.inDays > context.read<Nearby>().days) {
+                              dontShow = true;
                             }
 
                             if (!dontShow) shown++;
@@ -489,156 +489,175 @@ class _HomeSubPageState extends State<HomeSubPage>
           return AlertDialog(
             backgroundColor: Theme.of(context).bottomAppBarColor,
             title: const Text('Filter'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  'By Distance',
-                  style: TextStyle(
-                    fontSize: 20,
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    height: 10,
                   ),
-                ),
-                FilterRange(
-                  range: range,
-                  divisions: divisions,
-                  min: min.floorToDouble(),
-                  max: max.ceilToDouble(),
-                  onChanged: (value) {
-                    setState(() {
-                      range = value;
-                    });
-                  },
-                ),
-                //! Filter Range With Ads
-                // if (max < 15)
-                //   Row(
-                //     mainAxisAlignment: MainAxisAlignment.end,
-                //     children: [
-                //       ElevatedButton.icon(
-                //         onPressed: () {
-                //           final bool ready = AdService.isRewardedAdReady;
-                //           showDialog(
-                //               context: context,
-                //               builder: (context) {
-                //                 return AlertDialog(
-                //                   title: Text(ready
-                //                       ? 'Watch ad?'
-                //                       : 'Sorry, no ad available'),
-                //                   actions: [
-                //                     if (ready)
-                //                       TextButton(
-                //                         onPressed: () {
-                //                           Navigator.of(context).pop();
-                //                           Navigator.of(context).pop();
-                //                           AdService.rewardedAd.show(
-                //                               onUserEarnedReward: (ad, item) {
-                //                             setState(() {
-                //                               max = 15;
-                //                               Future.delayed(const Duration(
-                //                                       seconds: 10))
-                //                                   .then((value) {
-                //                                 setState(() {
-                //                                   range =
-                //                                       const RangeValues(0, 5);
-                //                                   max = 5;
-                //                                 });
-                //                               });
-                //                             });
-                //                           });
-                //                         },
-                //                         child: const Text('Watch ad'),
-                //                       ),
-                //                     if (ready)
-                //                       TextButton(
-                //                         onPressed: () {
-                //                           Navigator.of(context).pop();
-                //                         },
-                //                         child: const Text('Cancel'),
-                //                       ),
-                //                     if (!ready)
-                //                       TextButton(
-                //                         onPressed: () {
-                //                           Navigator.of(context).pop();
-                //                         },
-                //                         child: const Text('Ok'),
-                //                       ),
-                //                   ],
-                //                 );
-                //               });
-                //         },
-                //         icon: const Icon(Icons.play_arrow),
-                //         label: const Text('Unlock range'),
-                //       ),
-                //     ],
-                //   ),
-
-                const Text(
-                  'By College',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
-                  width: 500,
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                      canvasColor: Theme.of(context).bottomAppBarColor,
-                    ),
-                    child: DropdownButtonFormField(
-                      decoration: const InputDecoration(
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(
-                            Icons.house,
-                          ),
-                        ),
-                      ),
-                      value: college,
-                      isDense: true,
-                      onChanged: (value) {
-                        setState(() {
-                          college = value! as String;
-                        });
-                      },
-                      items: filterColleges.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                  const Text(
+                    'By Distance',
+                    style: TextStyle(
+                      fontSize: 20,
                     ),
                   ),
-                ),
-                const Text(
-                  'By Intake',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
-                  width: 500,
-                  child: TextFormField(
-                    controller: intakeTextController,
-                    cursorColor: Colors.grey[800],
-                    decoration: const InputDecoration(
-                      hintText: 'Joining Year',
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                        child: Icon(Icons.date_range),
-                      ),
-                    ),
-                    keyboardType: TextInputType.datetime,
+                  FilterRange(
+                    range: range,
+                    divisions: divisions,
+                    min: min.floorToDouble(),
+                    max: max.ceilToDouble(),
                     onChanged: (value) {
-                      setState(() {});
+                      setState(() {
+                        range = value;
+                      });
                     },
                   ),
-                )
-              ],
+                  const Text(
+                    'By Last Active Time',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  FilterDays(
+                      value: context.read<Nearby>().days,
+                      min: 1.0,
+                      max: 30.0,
+                      divisions: 29,
+                      onChanged: (value) {
+                        setState(() {
+                          context.read<Nearby>().days = value.toInt();
+                        });
+                      }),
+                  //! Filter Range With Ads
+                  // if (max < 15)
+                  //   Row(
+                  //     mainAxisAlignment: MainAxisAlignment.end,
+                  //     children: [
+                  //       ElevatedButton.icon(
+                  //         onPressed: () {
+                  //           final bool ready = AdService.isRewardedAdReady;
+                  //           showDialog(
+                  //               context: context,
+                  //               builder: (context) {
+                  //                 return AlertDialog(
+                  //                   title: Text(ready
+                  //                       ? 'Watch ad?'
+                  //                       : 'Sorry, no ad available'),
+                  //                   actions: [
+                  //                     if (ready)
+                  //                       TextButton(
+                  //                         onPressed: () {
+                  //                           Navigator.of(context).pop();
+                  //                           Navigator.of(context).pop();
+                  //                           AdService.rewardedAd.show(
+                  //                               onUserEarnedReward: (ad, item) {
+                  //                             setState(() {
+                  //                               max = 15;
+                  //                               Future.delayed(const Duration(
+                  //                                       seconds: 10))
+                  //                                   .then((value) {
+                  //                                 setState(() {
+                  //                                   range =
+                  //                                       const RangeValues(0, 5);
+                  //                                   max = 5;
+                  //                                 });
+                  //                               });
+                  //                             });
+                  //                           });
+                  //                         },
+                  //                         child: const Text('Watch ad'),
+                  //                       ),
+                  //                     if (ready)
+                  //                       TextButton(
+                  //                         onPressed: () {
+                  //                           Navigator.of(context).pop();
+                  //                         },
+                  //                         child: const Text('Cancel'),
+                  //                       ),
+                  //                     if (!ready)
+                  //                       TextButton(
+                  //                         onPressed: () {
+                  //                           Navigator.of(context).pop();
+                  //                         },
+                  //                         child: const Text('Ok'),
+                  //                       ),
+                  //                   ],
+                  //                 );
+                  //               });
+                  //         },
+                  //         icon: const Icon(Icons.play_arrow),
+                  //         label: const Text('Unlock range'),
+                  //       ),
+                  //     ],
+                  //   ),
+
+                  const Text(
+                    'By College',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                    width: 500,
+                    child: Theme(
+                      data: Theme.of(context).copyWith(
+                        canvasColor: Theme.of(context).bottomAppBarColor,
+                      ),
+                      child: DropdownButtonFormField(
+                        decoration: const InputDecoration(
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(
+                              Icons.house,
+                            ),
+                          ),
+                        ),
+                        value: context.read<Nearby>().college,
+                        isDense: true,
+                        onChanged: (value) {
+                          setState(() {
+                            context.read<Nearby>().collegeName =
+                                value! as String;
+                          });
+                        },
+                        items: filterColleges.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                  const Text(
+                    'By Intake',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                    width: 500,
+                    child: TextFormField(
+                      controller: context.read<Nearby>().intakeTextController,
+                      cursorColor: Colors.grey[800],
+                      decoration: const InputDecoration(
+                        hintText: 'Joining Year',
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                          child: Icon(Icons.date_range),
+                        ),
+                      ),
+                      keyboardType: TextInputType.datetime,
+                      onChanged: (value) {
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
             actions: [
               TextButton(

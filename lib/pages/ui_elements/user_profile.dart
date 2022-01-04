@@ -245,11 +245,20 @@ class UserProfile extends StatelessWidget {
                     // launchWithCheck('https://fb.com/${e.fbUrl}', context);
                     launchURL('https://fb.com/${e.fbUrl}');
                   },
-                  icon: const Icon(Icons.facebook),
-                  label: const Text('Facebook'),
+                  icon: const Icon(
+                    Icons.facebook,
+                    color: Colors.blue,
+                  ),
+                  label: const Text(
+                    'Facebook',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.blue[600]),
+                    backgroundColor: MaterialStateProperty.all(
+                        Colors.blue[600]!.withAlpha(70)),
                   ),
                 ),
               ),
@@ -263,13 +272,23 @@ class UserProfile extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     // launchWithCheck(
-                        // 'https://instagr.am/${e.instaUrl}', context);
+                    // 'https://instagr.am/${e.instaUrl}', context);
                     launchURL('https://instagr.am/${e.instaUrl}');
                   },
-                  icon: const Icon(FontAwesomeIcons.instagram),
-                  label: const Text('Instagram'),
+                  icon: const Icon(
+                    FontAwesomeIcons.instagram,
+                    color: Colors.red,
+                  ),
+                  label: const Text(
+                    'Instagram',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.red.withAlpha(70)),
                   ),
                 ),
               ),
@@ -288,11 +307,20 @@ class UserProfile extends StatelessWidget {
                       // launchWithCheck(phoneNumber, context);
                       launchURL(phoneNumber);
                     },
-                    icon: const Icon(Icons.phone),
-                    label: const Text('Phone'),
+                    icon: const Icon(
+                      Icons.phone,
+                      color: Colors.green,
+                    ),
+                    label: const Text(
+                      'Phone',
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all(Colors.green[600]),
+                          MaterialStateProperty.all(Colors.green.withAlpha(70)),
                     ),
                   ),
                 ),
@@ -307,10 +335,20 @@ class UserProfile extends StatelessWidget {
                     // launchWithCheck(emailAddress, context);
                     launchURL(emailAddress);
                   },
-                  icon: const Icon(Icons.alternate_email),
-                  label: const Text('E-mail'),
+                  icon: const Icon(
+                    Icons.alternate_email,
+                    color: Colors.purple,
+                  ),
+                  label: const Text(
+                    'E-mail',
+                    style: TextStyle(
+                      color: Colors.purple,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.purple),
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.purple.withAlpha(70)),
                   ),
                 ),
               ),

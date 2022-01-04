@@ -413,7 +413,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0)),
-                              activeColor: Colors.black,
+                              
                               onChanged: (value) {
                                 setState(() {
                                   if (value!) {
@@ -576,7 +576,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0)),
-                              activeColor: Colors.black,
+                              
                               onChanged: (value) {
                                 setState(() {
                                   terms = value!;
@@ -625,7 +625,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0)),
-                              activeColor: Colors.black,
+                              
                               onChanged: (value) {
                                 setState(() {
                                   privacy = value!;
@@ -722,6 +722,21 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                                   ],
                                                 );
                                               });
+                                        }
+                                        else{
+                                          showDialog(context: context, builder: (context){
+                                            return AlertDialog(
+                                              title: const Text('Error'),
+                                              content: const Text('Please fill up all the fields.'),
+                                              actions: [
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                    child: const Text('Okay')),
+                                              ],
+                                            );
+                                          });
                                         }
                                         setState(() {
                                           inProgress = false;

@@ -226,6 +226,7 @@ const List<String> filterColleges = [
   'FGCC',
   'SCC',
   'CCC',
+  'BCC',
   'PCC',
   'RCC',
   'JCC',

@@ -6,6 +6,7 @@ import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
+import 'package:cadets_nearby/services/nearby_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -81,6 +82,9 @@ Future<void> main() async {
     providers: [
       ChangeNotifierProvider(
         create: (context) => GlobalNotifications(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Nearby(),
       ),
       ChangeNotifierProvider(
         create: (context) => MainUser(),

@@ -1,49 +1,49 @@
 
 import 'package:flutter/material.dart';
 
-class FilterRange extends StatefulWidget {
-  const FilterRange({
+class FilterDays extends StatefulWidget {
+  const FilterDays({
     Key? key,
-    required this.range,
+    required this.value,
     required this.max,
     required this.min,
     required this.onChanged,
-    this.divisions = 5,
+    this.divisions = 30,
   }) : super(key: key);
-  final RangeValues range;
+  final int value;
   final double min;
   final double max;
   final int divisions;
-  final ValueChanged<RangeValues> onChanged;
+  final ValueChanged<double> onChanged;
 
   @override
-  _FilterRangeState createState() => _FilterRangeState();
+  _FilterDaysState createState() => _FilterDaysState();
 }
 
-class _FilterRangeState extends State<FilterRange> {
+class _FilterDaysState extends State<FilterDays> {
   bool once = true;
-  RangeValues range = const RangeValues(0, 5);
+  double days = 30;
 
   @override
   Widget build(BuildContext context) {
     if (once) {
       once = false;
-      range = widget.range;
+      days = widget.value.toDouble();
     }
     return Column(
       children: [
-        RangeSlider(
-          values: range,
+        Slider(
+          value: days,
           onChanged: (value) {
             widget.onChanged(value);
             setState(() {
-              range = value;
+              days = value;
             });
           },
           min: widget.min,
           max: widget.max,
           divisions: widget.divisions,
-          labels: RangeLabels('${range.start.floor()}', '${range.end.ceil()}'),
+          label: '${days.toInt()}',
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
@@ -51,11 +51,9 @@ class _FilterRangeState extends State<FilterRange> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Min: ${range.start.ceil()}',
+                'Upto: ${days.toInt()} days ago',
               ),
-              Text(
-                'Max: ${range.end.ceil()}',
-              ),
+              const SizedBox(),
             ],
           ),
         ),

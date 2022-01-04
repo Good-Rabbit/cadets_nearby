@@ -113,30 +113,32 @@ class _AllOffersTabState extends State<AllOffersTab> {
           return AlertDialog(
             backgroundColor: Theme.of(context).bottomAppBarColor,
             title: const Text('Filter'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  'By Distance',
-                  style: TextStyle(
-                    fontSize: 20,
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                FilterRange(
-                  range: range,
-                  divisions: 15,
-                  min: 0.floorToDouble(),
-                  max: 150.ceilToDouble(),
-                  onChanged: (value) {
-                    setState(() {
-                      range = value;
-                    });
-                  },
-                ),
-              ],
+                  const Text(
+                    'By Distance',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                  FilterRange(
+                    range: range,
+                    divisions: 15,
+                    min: 0.floorToDouble(),
+                    max: 150.ceilToDouble(),
+                    onChanged: (value) {
+                      setState(() {
+                        range = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
             actions: [
               TextButton(

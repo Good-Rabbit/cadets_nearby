@@ -70,7 +70,6 @@ class _PostHelpPageState extends State<PostHelpPage> {
           systemOverlayStyle: systemUiOverlayStyle,
         ),
         body: ListView(
-          
           children: [
             Form(
               key: formKey,
@@ -97,7 +96,6 @@ class _PostHelpPageState extends State<PostHelpPage> {
                               'This will bypass verification, but will be reviewed later.'),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(40.0)),
-                          activeColor: Colors.black,
                           onChanged: (value) {
                             setState(() {
                               emergency = value!;
@@ -192,7 +190,6 @@ class _PostHelpPageState extends State<PostHelpPage> {
                             ),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40.0)),
-                            activeColor: Colors.black,
                             onChanged: (value) {
                               setState(() {
                                 fromAccount = value!;

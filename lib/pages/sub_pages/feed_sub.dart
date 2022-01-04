@@ -5,14 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SupportSubPage extends StatefulWidget {
-  const SupportSubPage({Key? key}) : super(key: key);
+class FeedSubPage extends StatefulWidget {
+  const FeedSubPage({Key? key}) : super(key: key);
 
   @override
-  _SupportSubPageState createState() => _SupportSubPageState();
+  _FeedSubPageState createState() => _FeedSubPageState();
 }
 
-class _SupportSubPageState extends State<SupportSubPage>
+class _FeedSubPageState extends State<FeedSubPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
