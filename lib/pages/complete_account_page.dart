@@ -42,7 +42,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   bool locationAccess = true;
   bool alwaysAccess = false;
   bool phoneAccess = false;
-  bool useRegularEmail = false;
+  bool useRegularEmail = true;
   bool inProgress = false;
   bool terms = false;
   bool privacy = false;
@@ -91,6 +91,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
 
   @override
   void initState() {
+    emailTextController.text = HomeSetterPage.auth.currentUser!.email!;
     super.initState();
     getLocations();
   }
@@ -169,7 +170,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: cNameTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Cadet Name* -e.g. Rashid',
+                              hintText: 'Cadet Name* e.g. Rashid',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.perm_identity_rounded),
@@ -194,7 +195,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: cNumberTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Cadet Number*',
+                              hintText: 'Cadet Number* e.g. 2129',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.book),
@@ -219,34 +220,39 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                         child: SizedBox(
                           width: 500,
-                          child: DropdownButtonFormField(
-                            decoration: const InputDecoration(
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(
-                                  Icons.house,
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              canvasColor: Theme.of(context).bottomAppBarColor,
+                            ),
+                            child: DropdownButtonFormField(
+                              decoration: const InputDecoration(
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(
+                                    Icons.house,
+                                  ),
                                 ),
                               ),
+                              value: college,
+                              isDense: true,
+                              onChanged: (value) {
+                                setState(() {
+                                  college = value! as String;
+                                });
+                              },
+                              items: colleges.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              validator: (value) {
+                                if (college == 'Pick your college*') {
+                                  return 'Please pick your college';
+                                }
+                                return null;
+                              },
                             ),
-                            value: college,
-                            isDense: true,
-                            onChanged: (value) {
-                              setState(() {
-                                college = value! as String;
-                              });
-                            },
-                            items: colleges.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            validator: (value) {
-                              if (college == 'Pick your college*') {
-                                return 'Please pick your college';
-                              }
-                              return null;
-                            },
                           ),
                         ),
                       ),
@@ -259,7 +265,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: intakeTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Joining Year*',
+                              hintText: 'Joining Year* e.g. 2016',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.date_range),
@@ -284,29 +290,34 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                         child: SizedBox(
                           width: 500,
-                          child: DropdownButtonFormField(
-                            hint: const Text('Profession'),
-                            decoration: const InputDecoration(
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                                child: Icon(
-                                  Icons.work,
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              canvasColor: Theme.of(context).bottomAppBarColor,
+                            ),
+                            child: DropdownButtonFormField(
+                              hint: const Text('Profession'),
+                              decoration: const InputDecoration(
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                                  child: Icon(
+                                    Icons.work,
+                                  ),
                                 ),
                               ),
+                              value: profession,
+                              isDense: true,
+                              onChanged: (value) {
+                                setState(() {
+                                  profession = value! as String;
+                                });
+                              },
+                              items: professions.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                             ),
-                            value: profession,
-                            isDense: true,
-                            onChanged: (value) {
-                              setState(() {
-                                profession = value! as String;
-                              });
-                            },
-                            items: professions.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
                           ),
                         ),
                       ),
@@ -365,6 +376,31 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                       ),
                       Padding(
                         padding:
+                            const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                        child: SizedBox(
+                          width: 500,
+                          child: CheckboxListTile(
+                              value: useRegularEmail,
+                              title: const Text(
+                                'Use login e-mail',
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0)),
+                              onChanged: (value) {
+                                setState(() {
+                                  if (value!) {
+                                    emailTextController.text =
+                                        HomeSetterPage.auth.currentUser!.email!;
+                                  } else {
+                                    emailTextController.text = '';
+                                  }
+                                  useRegularEmail = value;
+                                });
+                              }),
+                        ),
+                      ),
+                      Padding(
+                        padding:
                             const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
                         child: SizedBox(
                           width: 500,
@@ -401,30 +437,17 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                        child: SizedBox(
-                          width: 500,
-                          child: CheckboxListTile(
-                              value: useRegularEmail,
-                              title: const Text(
-                                'Use login e-mail',
-                              ),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40.0)),
-                              
-                              onChanged: (value) {
-                                setState(() {
-                                  if (value!) {
-                                    emailTextController.text =
-                                        HomeSetterPage.auth.currentUser!.email!;
-                                  } else {
-                                    emailTextController.text = '';
-                                  }
-                                  useRegularEmail = value;
-                                });
-                              }),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: Text(
+                          'P.S. The username and regular name are not the same thing for facebook and instagram. If you are unsure about the username, please leave the following 2 fields blank.',
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: Text(
+                          'For "https://fb.com/cadetsnearby.bd" -',
+                          style: TextStyle(color: Colors.blue),
                         ),
                       ),
                       Padding(
@@ -436,7 +459,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: fbTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'username e.g. "rashid.hr"',
+                              hintText: 'username e.g. "cadetsnearby.bd"',
                               prefixIcon: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -455,6 +478,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           ),
                         ),
                       ),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                        child: Text(
+                          'For "https://instagr.am/cadetsnearby.bd" -',
+                          style: TextStyle(color: Colors.deepOrange),
+                        ),
+                      ),
                       Padding(
                         padding:
                             const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
@@ -464,7 +494,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: instaTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'username e.g. "harun.xt"',
+                              hintText: 'username e.g. "cadetsnearby.bd"',
                               prefixIcon: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -483,6 +513,9 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        height: 30,
+                      ),
                       Padding(
                         padding:
                             const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
@@ -492,7 +525,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: phoneTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Phone',
+                              hintText: 'Phone e.g +8801*********',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.phone),
@@ -502,6 +535,9 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                             onChanged: (value) {
                               if (phoneTextController.text == '') {
                                 phoneAccess = false;
+                              }
+                              if(phoneTextController.text.length == 1){
+                                phoneAccess = true;
                               }
                               setState(() {});
                             },
@@ -576,7 +612,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0)),
-                              
                               onChanged: (value) {
                                 setState(() {
                                   terms = value!;
@@ -625,7 +660,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               ),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(40.0)),
-                              
                               onChanged: (value) {
                                 setState(() {
                                   privacy = value!;
@@ -722,21 +756,25 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                                   ],
                                                 );
                                               });
-                                        }
-                                        else{
-                                          showDialog(context: context, builder: (context){
-                                            return AlertDialog(
-                                              title: const Text('Error'),
-                                              content: const Text('Please fill up all the fields.'),
-                                              actions: [
-                                                TextButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context).pop();
-                                                    },
-                                                    child: const Text('Okay')),
-                                              ],
-                                            );
-                                          });
+                                        } else {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text('Error'),
+                                                  content: const Text(
+                                                      'Please fill up all the fields.'),
+                                                  actions: [
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child:
+                                                            const Text('Okay')),
+                                                  ],
+                                                );
+                                              });
                                         }
                                         setState(() {
                                           inProgress = false;

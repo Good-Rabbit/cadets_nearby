@@ -100,7 +100,7 @@ class _HomeSubPageState extends State<HomeSubPage>
               ),
             ),
           ),
-          Expanded(child: NearbyList()),
+          const Expanded(child: NearbyList()),
         ],
       ),
     );

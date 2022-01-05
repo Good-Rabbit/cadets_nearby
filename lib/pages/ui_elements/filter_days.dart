@@ -8,7 +8,7 @@ class FilterDays extends StatefulWidget {
     required this.max,
     required this.min,
     required this.onChanged,
-    this.divisions = 30,
+    this.divisions = 10,
   }) : super(key: key);
   final int value;
   final double min;

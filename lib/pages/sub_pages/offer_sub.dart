@@ -19,7 +19,7 @@ class _OfferSubPageState extends State<OfferSubPage>
         length: 2,
         child: Column(
           children: [
-            const SizedBox(height:15,),
+            const SizedBox(height:10,),
             TabBar(
               tabs: [
                 Tab(

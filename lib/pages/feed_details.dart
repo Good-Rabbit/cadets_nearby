@@ -11,14 +11,14 @@ import 'package:provider/provider.dart';
 import '../main.dart';
 import 'ui_elements/contact_card.dart';
 
-class SupportDetailsPage extends StatefulWidget {
-  const SupportDetailsPage({Key? key}) : super(key: key);
+class FeedDetailsPage extends StatefulWidget {
+  const FeedDetailsPage({Key? key}) : super(key: key);
 
   @override
-  _SupportDetailsPageState createState() => _SupportDetailsPageState();
+  _FeedDetailsPageState createState() => _FeedDetailsPageState();
 }
 
-class _SupportDetailsPageState extends State<SupportDetailsPage> {
+class _FeedDetailsPageState extends State<FeedDetailsPage> {
   String phoneNumber = '';
   Map<String, dynamic>? data;
   QueryDocumentSnapshot<Map<String, dynamic>>? e;

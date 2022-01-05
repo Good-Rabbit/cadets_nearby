@@ -8,6 +8,7 @@ import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/nearby_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
+import 'package:cadets_nearby/services/offers_provider.dart';
 import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -29,7 +30,7 @@ import 'pages/login.dart';
 import 'pages/notifications.dart';
 import 'pages/reset.dart';
 import 'pages/signup.dart';
-import 'pages/support_details.dart';
+import 'pages/feed_details.dart';
 import 'pages/verification.dart';
 import 'pages/verify_cadet.dart';
 import 'pages/verify_email.dart';
@@ -82,6 +83,9 @@ Future<void> main() async {
     providers: [
       ChangeNotifierProvider(
         create: (context) => GlobalNotifications(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Offers(),
       ),
       ChangeNotifierProvider(
         create: (context) => Nearby(),
@@ -140,7 +144,7 @@ class _MyAppState extends State<MyApp> {
         '/verifyemail': (context) => const EmailVerificationPage(),
         '/verification': (context) => const VerificationPage(),
         '/notifications': (context) => const NotificationPage(),
-        '/supportdetails': (context) => const SupportDetailsPage(),
+        '/supportdetails': (context) => const FeedDetailsPage(),
         '/availedofferdetails': (context) => const AvailedOfferDetailsPage(),
       },
     );

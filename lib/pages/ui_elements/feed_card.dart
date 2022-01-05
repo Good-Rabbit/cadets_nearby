@@ -6,8 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SupportCard extends StatefulWidget {
-  const SupportCard({
+class FeedCard extends StatefulWidget {
+  const FeedCard({
     Key? key,
     required this.e,
   }) : super(key: key);
@@ -15,10 +15,10 @@ class SupportCard extends StatefulWidget {
   final QueryDocumentSnapshot<Map<String, dynamic>> e;
 
   @override
-  State<SupportCard> createState() => _SupportCardState();
+  State<FeedCard> createState() => _FeedCardState();
 }
 
-class _SupportCardState extends State<SupportCard> {
+class _FeedCardState extends State<FeedCard> {
   String timeAgo = '';
 
   void updateTime() {

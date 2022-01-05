@@ -38,8 +38,8 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         body: SafeArea(
-          child: Center(
-            child: ListView(
+          child: SingleChildScrollView(
+            child: Column(
               children: [
                 const SizedBox(
                   height: 50,

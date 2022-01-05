@@ -27,7 +27,6 @@ class AboutPage extends StatelessWidget {
             ),
           ],
         ),
-        titleTextStyle: const TextStyle(color: Colors.black),
         systemOverlayStyle: systemUiOverlayStyle,
       ),
       body: Center(
@@ -86,18 +85,36 @@ class AboutPage extends StatelessWidget {
               onPressed: () {
                 launchURL(context.read<Data>().cnLink ?? '');
               },
-              icon: const Icon(Icons.facebook_rounded),
-              label: const Text('Cadets Nearby'),
+              icon: const Icon(
+                Icons.facebook_rounded,
+                color: Colors.deepOrange,
+              ),
+              label: const Text(
+                'Cadets Nearby',
+                style: TextStyle(
+                    color: Colors.deepOrange, fontWeight: FontWeight.bold),
+              ),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      Colors.deepOrange.withAlpha(60))),
             ),
             ElevatedButton.icon(
               onPressed: () {
                 launchURL('mailto:info.cadetsnearby@gmail.com');
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.green[600]),
+                backgroundColor:
+                    MaterialStateProperty.all(Colors.green.withAlpha(60)),
               ),
-              icon: const Icon(Icons.alternate_email_rounded),
-              label: const Text('Contact Us'),
+              icon: const Icon(
+                Icons.alternate_email_rounded,
+                color: Colors.green,
+              ),
+              label: const Text(
+                'Contact Us',
+                style:
+                    TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+              ),
             ),
             Container(
               margin: const EdgeInsets.all(15),
@@ -114,10 +131,13 @@ class AboutPage extends StatelessWidget {
                 launchURL(context.read<Data>().grLink ?? '');
               },
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.pink[800]),
+                backgroundColor:
+                    MaterialStateProperty.all(Colors.pink.withAlpha(60)),
               ),
-              icon: const Icon(Icons.facebook_rounded),
-              label: const Text('Good Rabbit'),
+              icon: const Icon(Icons.facebook_rounded, color: Colors.pink),
+              label: const Text('Good Rabbit',
+                  style: TextStyle(
+                      color: Colors.pink, fontWeight: FontWeight.bold)),
             ),
           ],
         ),

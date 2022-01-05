@@ -17,7 +17,7 @@ import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 class NearbyList extends StatefulWidget {
-  NearbyList({Key? key}) : super(key: key);
+  const NearbyList({Key? key}) : super(key: key);
 
   @override
   _NearbyListState createState() => _NearbyListState();
@@ -42,7 +42,6 @@ class _NearbyListState extends State<NearbyList> {
   double min = 0;
   double max = 15;
   int divisions = 3;
-  RangeValues range = const RangeValues(0, 15);
 
   int shown = 0;
 
@@ -234,7 +233,8 @@ class _NearbyListState extends State<NearbyList> {
                               final AppUser e = AppUser(
                                 id: u.data()['id'] as String,
                                 cName: u.data()['cname'] as String,
-                                cNumber: int.parse(u.data()['cnumber'] as String),
+                                cNumber:
+                                    int.parse(u.data()['cnumber'] as String),
                                 fullName: u.data()['fullname'] as String,
                                 college: u.data()['college'] as String,
                                 email: u.data()['email'] as String,
@@ -269,10 +269,10 @@ class _NearbyListState extends State<NearbyList> {
                                 contact: u.data()['contact'] as bool,
                                 coupons: u.data()['coupons'] as int,
                               );
-                      
+
                               Duration timeDiff;
                               timeDiff = DateTime.now().difference(e.timeStamp);
-                      
+
                               if (e.equals(context.read<MainUser>().user!) &&
                                   snapshots.data!.docs.length == 1) {
                                 return noOneNearby();
@@ -280,17 +280,19 @@ class _NearbyListState extends State<NearbyList> {
                                   .equals(context.read<MainUser>().user!)) {
                                 dontShow = true;
                               }
-                      
+
                               // * Distance in km
                               var distanceD = calculateDistance(
                                   locationData!.latitude!,
                                   locationData!.longitude!,
                                   e.lat,
                                   e.long);
-                      
+
                               // * Range Check
-                              if (distanceD > range.end ||
-                                  distanceD < range.start) {
+                              if (distanceD >
+                                      context.read<Nearby>().range.end ||
+                                  distanceD <
+                                      context.read<Nearby>().range.start) {
                                 dontShow = true;
                               }
                               // * College Check
@@ -313,23 +315,24 @@ class _NearbyListState extends State<NearbyList> {
                                 }
                               }
                               // * Time Check
-                              if (timeDiff.inDays > context.read<Nearby>().days) {
+                              if (timeDiff.inDays >
+                                  context.read<Nearby>().days) {
                                 dontShow = true;
                               }
-                      
+
                               if (!dontShow) shown++;
-                      
+
                               if (counter == snapshots.data!.docs.length) {
                                 counter = 0;
                                 if (shown == 0) {
                                   return noOneNearby();
                                 }
                               }
-                      
+
                               if (dontShow) {
                                 return const SizedBox();
                               }
-                      
+
                               // * Distance in meter
                               distanceD *= 1000;
                               // * Distance in meter rounded to tens
@@ -346,10 +349,10 @@ class _NearbyListState extends State<NearbyList> {
                               } else if (distanceM >= 10) {
                                 distanceM = distanceM - distanceM % 10;
                               }
-                      
+
                               return Container(
-                                margin:
-                                    const EdgeInsets.fromLTRB(10.0, 0, 10.0, 5.0),
+                                margin: const EdgeInsets.fromLTRB(
+                                    10.0, 0, 10.0, 5.0),
                                 child: NearbyCard(
                                     e: e,
                                     isKm: isKm,
@@ -362,13 +365,7 @@ class _NearbyListState extends State<NearbyList> {
                       ),
                     );
                   } else {
-                    return Expanded(
-                      child: ListView(
-                        children: [
-                          noOneNearby(),
-                        ],
-                      ),
-                    );
+                    return noOneNearby();
                   }
                 }
                 return const Expanded(child: Loading());
@@ -404,16 +401,17 @@ class _NearbyListState extends State<NearbyList> {
                     ),
                   ),
                   FilterRange(
-                    range: range,
+                    range: context.read<Nearby>().range,
                     divisions: divisions,
                     min: min.floorToDouble(),
                     max: max.ceilToDouble(),
                     onChanged: (value) {
                       setState(() {
-                        range = value;
+                        context.read<Nearby>().range = value;
                       });
                     },
                   ),
+                  const SavePrefsCheck(),
                   const Text(
                     'By Last Active Time',
                     style: TextStyle(
@@ -421,15 +419,17 @@ class _NearbyListState extends State<NearbyList> {
                     ),
                   ),
                   FilterDays(
-                      value: context.read<Nearby>().days,
-                      min: 1.0,
-                      max: 30.0,
-                      divisions: 29,
-                      onChanged: (value) {
-                        setState(() {
-                          context.read<Nearby>().days = value.toInt();
-                        });
-                      }),
+                    value: context.read<Nearby>().days,
+                    min: 1.0,
+                    max: 30.0,
+                    divisions: 10,
+                    onChanged: (value) {
+                      setState(() {
+                        context.read<Nearby>().days = value.toInt();
+                      });
+                    },
+                  ),
+
                   //! Filter Range With Ads
                   // if (max < 15)
                   //   Row(
@@ -519,8 +519,7 @@ class _NearbyListState extends State<NearbyList> {
                         isDense: true,
                         onChanged: (value) {
                           setState(() {
-                            context.read<Nearby>().collegeName =
-                                value! as String;
+                            context.read<Nearby>().college = value! as String;
                           });
                         },
                         items: filterColleges.map((String value) {
@@ -573,9 +572,10 @@ class _NearbyListState extends State<NearbyList> {
 
   Widget noOneNearby() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 3 / 5,
+      height: MediaQuery.of(context).size.height *3/4,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: [
           Icon(
             Icons.no_accounts,
@@ -614,6 +614,23 @@ class _NearbyListState extends State<NearbyList> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class SavePrefsCheck extends StatelessWidget {
+  const SavePrefsCheck({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxListTile(
+      value: context.watch<Nearby>().saveFilter,
+      title: const Text('Save Range Preferences'),
+      onChanged: (value) {
+        context.read<Nearby>().saveFilter = value!;
+      },
     );
   }
 }

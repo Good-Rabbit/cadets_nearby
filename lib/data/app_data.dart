@@ -240,7 +240,7 @@ const List<String> professions = [
   'Doctor',
   'Engineer',
   'Government Service Holder',
-  'Others',
+  'Other',
   'Police Forces',
   'Student'
 ];
