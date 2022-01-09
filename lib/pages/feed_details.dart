@@ -55,10 +55,14 @@ class _FeedDetailsPageState extends State<FeedDetailsPage> {
       ),
       body: ListView(
         children: [
-          Text(
-            e!.data()['title'],
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 20),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              e!.data()['title'],
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 20),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -77,18 +81,26 @@ class _FeedDetailsPageState extends State<FeedDetailsPage> {
           ),
           Column(
             children: [
-              Text(
-                e!.data()['minidescription'],
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 18),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  e!.data()['minidescription'],
+                  maxLines: 30,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 18),
+                ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                e!.data()['body'],
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 15),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  e!.data()['body'],
+                  maxLines: 100,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 15),
+                ),
               ),
               const SizedBox(
                 height: 10,
