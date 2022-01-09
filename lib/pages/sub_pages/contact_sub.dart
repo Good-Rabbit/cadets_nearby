@@ -22,11 +22,11 @@ class _ContactSubPageState extends State<ContactSubPage>
         child: Column(
           children: [
             const SizedBox(
-              height: 30,
+              height: 20,
             ),
             const Text(
               'Contacts',
-              style: TextStyle(fontSize: 20.0),
+              style: TextStyle(fontSize: 25.0),
             ),
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: HomeSetterPage.store

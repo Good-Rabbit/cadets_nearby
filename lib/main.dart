@@ -140,11 +140,11 @@ class _MyAppState extends State<MyApp> {
         '/account': (context) => const AccountPage(),
         '/posthelp': (context) => const PostHelpPage(),
         '/dpchange': (context) => const DpPage(),
+        '/feeddetails': (context) => const FeedDetailsPage(),
         '/verifycadet': (context) => const CadetVerificationPage(),
         '/verifyemail': (context) => const EmailVerificationPage(),
         '/verification': (context) => const VerificationPage(),
         '/notifications': (context) => const NotificationPage(),
-        '/supportdetails': (context) => const FeedDetailsPage(),
         '/availedofferdetails': (context) => const AvailedOfferDetailsPage(),
       },
     );

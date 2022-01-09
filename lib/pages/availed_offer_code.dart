@@ -20,6 +20,8 @@ class _AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
         as QueryDocumentSnapshot<Map<String, dynamic>>;
     return Scaffold(
       appBar: AppBar(
+        titleTextStyle: Theme.of(context).textTheme.headline6,
+        iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Row(
@@ -34,7 +36,6 @@ class _AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
             ),
           ],
         ),
-        titleTextStyle: const TextStyle(color: Colors.black),
         systemOverlayStyle: systemUiOverlayStyle,
       ),
       backgroundColor: Theme.of(context).backgroundColor,

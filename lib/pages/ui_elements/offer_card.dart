@@ -112,7 +112,6 @@ class _OfferCardState extends State<OfferCard> {
         // );
       },
       child: Card(
-        color: Colors.orange[50],
         child: Padding(
             padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
             child: Row(

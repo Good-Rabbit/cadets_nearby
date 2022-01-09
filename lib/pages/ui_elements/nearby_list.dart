@@ -94,6 +94,7 @@ class _NearbyListState extends State<NearbyList> {
         }
 
         locationData = await location.getLocation();
+        log(locationData!.latitude.toString() + locationData!.longitude.toString());
         //Calculate minimum and maximum for other distances
         // ignore: use_build_context_synchronously
         calculateMinMax(context);

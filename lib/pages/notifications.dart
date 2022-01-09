@@ -25,7 +25,7 @@ class _NotificationPageState extends State<NotificationPage>
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
+        appBar: AppBar(titleTextStyle: Theme.of(context).textTheme.headline6,iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Row(

@@ -1,9 +1,7 @@
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/feed_card.dart';
-import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class FeedSubPage extends StatefulWidget {
   const FeedSubPage({Key? key}) : super(key: key);

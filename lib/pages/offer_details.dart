@@ -28,6 +28,8 @@ class _OfferDetailsPageState extends State<OfferDetailsPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
+        titleTextStyle: Theme.of(context).textTheme.headline6,
+        iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Row(
@@ -45,7 +47,6 @@ class _OfferDetailsPageState extends State<OfferDetailsPage> {
             ),
           ],
         ),
-        titleTextStyle: const TextStyle(color: Colors.black),
         systemOverlayStyle: systemUiOverlayStyle,
       ),
       body: ListView(

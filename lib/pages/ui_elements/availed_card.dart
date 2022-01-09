@@ -21,7 +21,6 @@ class _AvailedCardState extends State<AvailedCard> {
       delCode();
     }
     return Card(
-      color: Colors.orange[50],
       child: Padding(
         padding: const EdgeInsets.fromLTRB(15, 12, 15, 12),
         child: Row(

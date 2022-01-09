@@ -81,10 +81,10 @@ class _AccountPageState extends State<AccountPage>
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppBar(titleTextStyle: Theme.of(context).textTheme.headline6,iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Colors.transparent,
           elevation: 0,
-          titleTextStyle: const TextStyle(color: Colors.black),
+
           systemOverlayStyle: systemUiOverlayStyle,
         ),
         backgroundColor: Theme.of(context).backgroundColor,

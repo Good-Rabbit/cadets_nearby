@@ -51,7 +51,7 @@ class _PostHelpPageState extends State<PostHelpPage> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
+        appBar: AppBar(titleTextStyle: Theme.of(context).textTheme.headline6,iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Row(
@@ -66,7 +66,6 @@ class _PostHelpPageState extends State<PostHelpPage> {
               ),
             ],
           ),
-          titleTextStyle: const TextStyle(color: Colors.black),
           systemOverlayStyle: systemUiOverlayStyle,
         ),
         body: ListView(
