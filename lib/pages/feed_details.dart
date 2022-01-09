@@ -51,18 +51,15 @@ class _FeedDetailsPageState extends State<FeedDetailsPage> {
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Expanded(
-          child: Text(
-            e!.data()['title'],
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 20),
-          ),
-        ),
         systemOverlayStyle: systemUiOverlayStyle,
       ),
       body: ListView(
         children: [
+          Text(
+            e!.data()['title'],
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 20),
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ClipRRect(
@@ -82,18 +79,16 @@ class _FeedDetailsPageState extends State<FeedDetailsPage> {
             children: [
               Text(
                 e!.data()['minidescription'],
-                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 18),
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
                 e!.data()['body'],
-                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 15),
               ),
               const SizedBox(
                 height: 10,

@@ -24,11 +24,11 @@ dependencies:
   font_awesome_flutter: ^9.1.0
   geocode: ^1.0.1
   geolocator: ^8.0.1
-  google_mobile_ads: ^1.0.1
+  #google_mobile_ads: ^1.0.1
   google_sign_in: ^5.0.7
   http: ^0.13.3
   image_picker: ^0.8.3+2
-  intl: ^0.17.0
+  #intl: ^0.17.0
   location: ^4.3.0
   page_transition: ^2.0.2
   provider: ^6.0.0

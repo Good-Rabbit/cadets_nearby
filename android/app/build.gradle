@@ -60,7 +60,7 @@ android {
    }
    buildTypes {
        release {
-           signingConfig signingConfigs.debug
+           signingConfig signingConfigs.release
        }
    }
 }
@@ -73,5 +73,5 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
 //    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.google.android.gms:play-services-ads:20.3.0"
+    implementation "com.google.android.gms:play-services-auth:19.2.0"
 }
