@@ -1,7 +1,6 @@
 import 'package:cadets_nearby/pages/complete_account_page.dart';
 import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/login.dart';
-import 'package:cadets_nearby/pages/not_granted.dart';
 import 'package:cadets_nearby/pages/ui_elements/loading.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
@@ -28,6 +27,8 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
 
   @override
   void initState() {
+
+    context.read<LocationStatus>().checkPermissions();
     LocalNotificationService.initialize(context);
     user = HomeSetterPage.auth.currentUser;
     if (user != null) {
@@ -103,8 +104,8 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (context.watch<LocationStatus>().serviceEnabled &&
-        context.watch<LocationStatus>().permissionGranted) {
+    // if (context.read<LocationStatus>().serviceEnabled &&
+    //     context.read<LocationStatus>().permissionGranted) {
       if (user != null) {
         //!Verify e-mail if not done
         if (!user!.emailVerified) {
@@ -151,9 +152,10 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
 
         return const LoginPage();
       }
-    } else {
-      return const NotGranted();
-    }
+    // } else {
+    //   context.read<LocationStatus>().checkPermissions();
+    //   return const NotGranted();
+    // }
   }
 
   void verifyEmail() {

@@ -67,7 +67,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     super.dispose();
   }
 
-  Future<void> getLocations() async {
+  Future<void> getLocation() async {
     try {
       await context.read<LocationStatus>().getLocation();
 
@@ -80,7 +80,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
         addressTextController.text =
             '${address.streetAddress!}, ${address.region!}';
       }
-      setState(() {});
+      // setState(() {});
     } catch (e) {
       log(e.toString());
     }
@@ -90,7 +90,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   void initState() {
     emailTextController.text = HomeSetterPage.auth.currentUser!.email!;
     super.initState();
-    getLocations();
+    getLocation();
   }
 
   @override
