@@ -2,18 +2,14 @@ import 'dart:developer';
 
 import 'package:animate_icons/animate_icons.dart';
 import 'package:cadets_nearby/data/app_data.dart';
-import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
-import 'package:cadets_nearby/services/settings_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
@@ -44,7 +40,6 @@ class _AccountPageState extends State<AccountPage>
   bool locationAccess = true;
   bool phoneAccess = false;
   bool useRegularEmail = false;
-  bool enableZoneMonitor = true;
 
   bool inProgress = false;
 
@@ -768,34 +763,6 @@ class _AccountPageState extends State<AccountPage>
                                 });
                               }),
                   ),
-                  Container(
-                    width: 500,
-                    padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                    child: CheckboxListTile(
-                        value: enableZoneMonitor,
-                        title: const Text(
-                          'Enable Zone Monitor',
-                          maxLines: 2,
-                        ),
-                        subtitle: Text(
-                          'Get notified when anyone enters your 5km zone',
-                          style:
-                              TextStyle(color: Theme.of(context).disabledColor),
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0)),
-                        onChanged: !editingEnabled
-                            ? null
-                            : (value) {
-                                setState(() {
-                                  enableZoneMonitor = value!;
-                                  if (enableZoneMonitor !=
-                                      context.read<Settings>().zoneDetection) {
-                                    hasChanged = true;
-                                  }
-                                });
-                              }),
-                  ),
                 ],
               ),
               Container(
@@ -843,23 +810,6 @@ class _AccountPageState extends State<AccountPage>
                                 'profession': profession,
                                 'address': addressTextController.text,
                               });
-
-                              if (context.read<Settings>().zoneDetection !=
-                                  enableZoneMonitor) {
-                                if (!enableZoneMonitor) {
-                                  FlutterBackgroundService()
-                                      .sendData({'action': 'setAsForeground'});
-                                } else {
-                                  FlutterBackgroundService.initialize(onLogin);
-                                }
-
-                                context.read<Settings>().zoneDetection =
-                                    enableZoneMonitor;
-                                final SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.setBool(
-                                    'zoneDetection', enableZoneMonitor);
-                              }
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -936,7 +886,6 @@ class _AccountPageState extends State<AccountPage>
     college = context.read<MainUser>().user!.college;
     useRegularEmail = context.read<MainUser>().user!.email ==
         HomeSetterPage.auth.currentUser!.email;
-    enableZoneMonitor = context.read<Settings>().zoneDetection;
     if (formKey.currentState != null) {
       formKey.currentState!.validate();
     }
