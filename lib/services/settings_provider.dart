@@ -1,4 +1,15 @@
 import 'package:flutter/material.dart';
 
-class Settings with ChangeNotifier {
+class AppSettings with ChangeNotifier {
+  bool _warningGiven = false;
+
+  bool get warningGiven => _warningGiven;
+
+  set warningGiven(bool warningGiven) {
+    _warningGiven = warningGiven;
+  }
+
+  giveWarning() {
+    warningGiven = true;
+  }
 }

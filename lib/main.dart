@@ -94,7 +94,7 @@ Future<void> main() async {
         create: (context) => MainUser(),
       ),
       ChangeNotifierProvider(
-        create: (context) => Settings(),
+        create: (context) => AppSettings(),
       ),
       ChangeNotifierProvider(
         create: (context) => LocationStatus(),
