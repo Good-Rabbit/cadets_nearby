@@ -43,7 +43,7 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
 );
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.reload();

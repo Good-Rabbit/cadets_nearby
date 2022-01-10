@@ -1,160 +1,36 @@
-import 'dart:async';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cadets_nearby/pages/sub_pages/contact_sub.dart';
+import 'package:cadets_nearby/pages/sub_pages/feed_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/home_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/offer_sub.dart';
-import 'package:cadets_nearby/pages/sub_pages/feed_sub.dart';
-import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../main.dart';
+//? Background Service
+// Future<void> onLogin() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   final service = FlutterBackgroundService();
+//   service.setForegroundMode(false);
 
-Future<void> onLogin() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+//   service.onDataReceived.listen((event) async {
+//     if (event!['action'] == 'setAsForeground') {
+//       service.setForegroundMode(true);
+//     }
 
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  if(prefs.getBool('zoneDetection')==null){
-    prefs.setBool('zoneDetection', true);
-  }
+//     if (event['action'] == 'setAsBackground') {
+//       service.setForegroundMode(false);
+//     }
 
-  final service = FlutterBackgroundService();
-  // * Send to background
-  service.setForegroundMode(false);
-  Stream? zoneStream;
-  StreamSubscription<dynamic>? zoneStreamSubscription;
-
-  Stream? supportStream;
-  StreamSubscription<dynamic>? supportStreamSubscription;
-
-  int zoneCount = 0;
-  int supportCount = 0;
-
-  bool zoneOnce = false;
-  bool supportOnce = false;
-
-  service.onDataReceived.listen((event) async {
-    if (event!['action'] == 'setAsForeground') {
-      if (event['latitude'] != null) {
-        zoneCount = 0;
-        zoneOnce = false;
-        await prefs.reload();
-        if (prefs.getBool('zoneDetection')!) {
-          service.setNotificationInfo(
-            title: 'Starting zone detection',
-            content: '',
-          );
-          if (zoneStreamSubscription != null) {
-            zoneStreamSubscription!.cancel();
-          }
-          final double latitude = event['latitude'];
-
-          zoneStream = FirebaseFirestore.instance
-              .collection('users')
-              .where('lat',
-                  isLessThan: latitude + 0.046, isGreaterThan: latitude - 0.046)
-              .where('sector', whereIn: [
-            event['sector'] - 1,
-            event['sector'],
-            event['sector'] + 1,
-          ]).snapshots();
-
-          zoneStreamSubscription = zoneStream!.listen((value) {
-            final QuerySnapshot<Map<String, dynamic>> snap =
-                value as QuerySnapshot<Map<String, dynamic>>;
-            if (!zoneOnce) {
-              zoneCount = snap.docs.length;
-              zoneOnce = true;
-            } else if (zoneCount < snap.docs.length) {
-              zoneCount = snap.docs.length;
-              LocalNotificationService.notificationsPlugin.show(
-                DateTime.now().hashCode,
-                'Someone has entered your zone!',
-                'Check who it is and fix your rendezvous!',
-                NotificationDetails(
-                  android: AndroidNotificationDetails(
-                    channel.id,
-                    channel.name,
-                    channelDescription: channel.description,
-                    importance: Importance.max,
-                    icon: '@mipmap/ic_launcher',
-                    priority: Priority.high,
-                  ),
-                ),
-              );
-            } else {
-              zoneCount = snap.docs.length;
-            }
-          });
-        }
-
-        if (supportStreamSubscription == null) {
-          supportStream = FirebaseFirestore.instance
-              .collection('support')
-              .where('id', isNotEqualTo: event['id'])
-              .where(
-            'status',
-            whereIn: ['approved', 'emergency'],
-          ).snapshots();
-          supportStreamSubscription = supportStream!.listen((value) {
-            final QuerySnapshot<Map<String, dynamic>> snap = value;
-            if (!supportOnce) {
-              supportCount = snap.docs.length;
-              supportOnce = true;
-            } else if (supportCount < snap.docs.length) {
-              supportCount = snap.docs.length;
-              LocalNotificationService.notificationsPlugin.show(
-                DateTime.now().hashCode,
-                'Someone needs your support',
-                'There is a new support request. See if you can help',
-                NotificationDetails(
-                  android: AndroidNotificationDetails(
-                    channel.id,
-                    channel.name,
-                    channelDescription: channel.description,
-                    importance: Importance.max,
-                    icon: '@mipmap/ic_launcher',
-                    priority: Priority.high,
-                  ),
-                ),
-              );
-            } else {
-              supportCount = snap.docs.length;
-            }
-          });
-        }
-
-        service.setForegroundMode(false);
-      }
-      return;
-    }
-
-    if (event['action'] == 'setAsBackground') {
-      service.setForegroundMode(false);
-    }
-
-    if (event['action'] == 'stopService') {
-      service.stopBackgroundService();
-      if (zoneStreamSubscription != null) {
-        zoneStreamSubscription!.cancel();
-        zoneStreamSubscription = null;
-      }
-      if (supportStreamSubscription != null) {
-        supportStreamSubscription!.cancel();
-        supportStreamSubscription = null;
-      }
-    }
-  });
-}
+//     if (event['action'] == 'stopService') {
+//       service.stopBackgroundService();
+//     }
+//   });
+// }
+//? Background Service
 
 class RealHome extends StatefulWidget {
   const RealHome({
@@ -199,30 +75,23 @@ class _RealHomeState extends State<RealHome> {
     );
   }
 
-  Future<void> startService() async {
-    FlutterBackgroundService.initialize(
-      onLogin,
-      foreground: false,
-    );
-  }
+  // Future<void> startService() async {
+  //   FlutterBackgroundService.initialize(
+  //     onLogin,
+  //     foreground: false,
+  //   );
+  // }
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1)).then((value) {
-      startService();
-    });
+    // Future.delayed(const Duration(seconds: 1)).then((value) {
+    //   startService();
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    //! Load Video Ads
-    // if (!(context.read<MainUser>().user!.premium ||
-    //     context.read<s_provider.Settings>().reward)) {
-    //   if (!AdService.isRewardedAdReady) {
-    //     AdService.loadRewardedAd();
-    //   }
-    // }
     return WillPopScope(
       onWillPop: () async {
         if (selectedIndex != 0) {
