@@ -27,11 +27,11 @@ class _AvailedOffersTabState extends State<AvailedOffersTab>
           const SizedBox(
             height: 10,
           ),
-          FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            future: HomeSetterPage.store
+          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            stream: HomeSetterPage.store
                 .collection('codes')
                 .where('id', isEqualTo: context.read<MainUser>().user!.id)
-                .get(),
+                .snapshots(),
             builder: (context, snapshots) {
               if (snapshots.hasData) {
                 if (snapshots.data!.docs.isNotEmpty) {
