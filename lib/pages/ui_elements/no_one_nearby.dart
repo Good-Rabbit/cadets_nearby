@@ -6,6 +6,7 @@ Widget noOneNearby(context) {
       height: MediaQuery.of(context).size.height * 3 / 5,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: [
           Icon(
             Icons.no_accounts,

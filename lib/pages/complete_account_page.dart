@@ -50,7 +50,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
   String college = 'Pick your college*';
   String profession = 'Student';
 
-  LocationData? locationData;
 
   @override
   void dispose() {
@@ -70,15 +69,13 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
 
   Future<void> getLocations() async {
     try {
-      final Location location = Location();
-
-      locationData = await location.getLocation();
+      await context.read<LocationStatus>().getLocation();
 
       final GeoCode geoCode = GeoCode(apiKey: geoCodeApiKey);
-      if (locationData != null) {
+      if (context.read<LocationStatus>().locationData != null) {
         final Address address = await geoCode.reverseGeocoding(
-          latitude: locationData!.latitude!,
-          longitude: locationData!.longitude!,
+          latitude: context.read<LocationStatus>().locationData!.latitude!,
+          longitude: context.read<LocationStatus>().locationData!.longitude!,
         );
         addressTextController.text =
             '${address.streetAddress!}, ${address.region!}';
@@ -824,42 +821,43 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
         backgroundColor: Theme.of(context).primaryColor,
       ));
       int sector = 0;
-      sector = ((locationData!.latitude! - 20.56666) / (0.046)).ceil();
+      sector = ((context.read<LocationStatus>().locationData!.latitude! - 20.56666) / (0.046)).ceil();
       HomeSetterPage.store
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set(
         {
           'id': HomeSetterPage.auth.currentUser!.uid,
-          'fullname': fullName,
-          'intake': intakeTextController.text,
+          'address': addressTextController.text,
+          'contact': false,
+          'coupons': (DateTime.now().day > 14 ? 2 : 3),
           'college': college,
+          'celeb': false,
           'cname': cName,
           'cnumber': cNumberTextController.text,
-          'phone': phoneTextController.text,
-          'fburl': fbTextController.text,
-          'instaurl': instaTextController.text,
+          'designation': designationTextController.text,
           'email': emailTextController.text,
+          'fullname': fullName,
+          'fburl': fbTextController.text,
+          'intake': intakeTextController.text,
+          'instaurl': instaTextController.text,
+          'lastonline': DateTime.now().toString(),
+          'lat': context.read<LocationStatus>().locationData == null ? 0 : context.read<LocationStatus>().locationData!.latitude,
+          'long': context.read<LocationStatus>().locationData == null ? 0 : context.read<LocationStatus>().locationData!.longitude,
+          'manualdp': false,
+          'phone': phoneTextController.text,
           'pphone': phoneAccess,
           'plocation': locationAccess,
+          'profession': profession,
           'palways': alwaysAccess,
           'pmaps': false,
           'premium': false,
-          'verified': 'no',
           'photourl': HomeSetterPage.auth.currentUser!.photoURL ?? '',
-          'lat': locationData == null ? 0 : locationData!.latitude,
-          'long': locationData == null ? 0 : locationData!.longitude,
           'sector': sector,
-          'celeb': false,
           'treatcount': 0,
           'treathead': true,
           'treathunter': true,
-          'profession': profession,
-          'designation': designationTextController.text,
-          'address': addressTextController.text,
-          'manualdp': false,
-          'contact': false,
-          'coupons': (DateTime.now().day > 14 ? 2 : 3),
+          'verified': 'no',
         },
       );
     } catch (e) {
