@@ -1,6 +1,6 @@
 
 import 'package:cadets_nearby/data/menu_item.dart';
-import 'package:cadets_nearby/pages/ui_elements/nearby_list.dart';
+import 'package:cadets_nearby/pages/ui_elements/nearby_list_holder.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
@@ -100,7 +100,7 @@ class _HomeSubPageState extends State<HomeSubPage>
               ),
             ),
           ),
-          const Expanded(child: NearbyList()),
+          const Expanded(child: NearbyListHolder()),
         ],
       ),
     );

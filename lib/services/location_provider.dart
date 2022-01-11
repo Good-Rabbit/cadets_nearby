@@ -44,7 +44,7 @@ class LocationStatus with ChangeNotifier {
 
   void uploadLocation(LocationData locationData) {
     int sector = 0;
-    sector = ((locationData.latitude! - 20.56666) / (0.046)).ceil();
+    sector = ((locationData.latitude! - 20.56666) / (0.0181)).ceil();
     final String timeStamp = DateTime.now().toString();
     try {
       HomeSetterPage.store

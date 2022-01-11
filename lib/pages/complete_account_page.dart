@@ -5,6 +5,7 @@ import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
+import 'package:cadets_nearby/services/nearby_provider.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocode/geocode.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CompleteAccountPage extends StatefulWidget {
   const CompleteAccountPage({
@@ -49,7 +51,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
 
   String college = 'Pick your college*';
   String profession = 'Student';
-
 
   @override
   void dispose() {
@@ -533,7 +534,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                               if (phoneTextController.text == '') {
                                 phoneAccess = false;
                               }
-                              if(phoneTextController.text.length == 1){
+                              if (phoneTextController.text.length == 1) {
                                 phoneAccess = true;
                               }
                               setState(() {});
@@ -717,39 +718,96 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                 onPressed: (inProgress || !(privacy && terms))
                                     ? null
                                     : () async {
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
                                         FocusScope.of(context).unfocus();
                                         setState(() {
                                           inProgress = true;
                                         });
                                         if (formKey.currentState!.validate()) {
+                                          prefs.setString(
+                                                                  'range',
+                                                                  '2000 m');
                                           showDialog(
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
                                                   title: const Text(
-                                                      'Is the information correct?'),
-                                                  content: const Text(
-                                                      'Some of your information cannot be changed later. e.g. Cadet name/number, college, joining year.'),
+                                                      'Select your default range in meters (you can change it later)'),
+                                                  content: Padding(
+                                                    padding: const EdgeInsets
+                                                            .fromLTRB(
+                                                        0.0, 10.0, 0.0, 0.0),
+                                                    child: SizedBox(
+                                                      width: 500,
+                                                      child: Theme(
+                                                        data: Theme.of(context)
+                                                            .copyWith(
+                                                          canvasColor: Theme.of(
+                                                                  context)
+                                                              .bottomAppBarColor,
+                                                        ),
+                                                        child:
+                                                            DropdownButtonFormField(
+                                                          hint: const Text(
+                                                              'Distance Control'),
+                                                          decoration:
+                                                              const InputDecoration(
+                                                            prefixIcon: Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .fromLTRB(
+                                                                          10.0,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .location_pin,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          value: context
+                                                              .read<Nearby>()
+                                                              .range,
+                                                          isDense: true,
+                                                          onChanged: (value) {
+                                                            setState(() {
+                                                              context
+                                                                      .read<
+                                                                          Nearby>()
+                                                                      .range =
+                                                                  value!
+                                                                      as String;
+                                                              prefs.setString(
+                                                                  'range',
+                                                                  value as String);
+                                                            });
+                                                          },
+                                                          items: nearbyRange
+                                                              .map((String
+                                                                  value) {
+                                                            return DropdownMenuItem<
+                                                                String>(
+                                                              value: value,
+                                                              child: Text(value
+                                                                  .toString()),
+                                                            );
+                                                          }).toList(),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
                                                   actions: [
                                                     TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                        child: const Text(
-                                                            'No, go back.')),
-                                                    TextButton(
                                                         onPressed: () async {
-                                                          await context
-                                                              .read<
-                                                                  LocationStatus>()
-                                                              .checkPermissions();
-                                                          await completeAccount();
                                                           Navigator.of(context)
                                                               .pop();
+                                                          completionDialog();
                                                         },
                                                         child:
-                                                            const Text('Yes.')),
+                                                            const Text('Ok.')),
                                                   ],
                                                 );
                                               });
@@ -798,6 +856,32 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     );
   }
 
+  completionDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Is the information correct?'),
+            content: const Text(
+                'Some of your information cannot be changed later. e.g. Cadet name/number, college, joining year.'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('No, go back.')),
+              TextButton(
+                  onPressed: () async {
+                    await context.read<LocationStatus>().checkPermissions();
+                    await completeAccount();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Yes.')),
+            ],
+          );
+        });
+  }
+
   Future<void> completeAccount() async {
     String cName = cNameTextController.text;
     String first = cName[0];
@@ -821,7 +905,10 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
         backgroundColor: Theme.of(context).primaryColor,
       ));
       int sector = 0;
-      sector = ((context.read<LocationStatus>().locationData!.latitude! - 20.56666) / (0.046)).ceil();
+      sector =
+          ((context.read<LocationStatus>().locationData!.latitude! - 20.56666) /
+                  (0.0181))
+              .ceil();
       HomeSetterPage.store
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -842,8 +929,12 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           'intake': intakeTextController.text,
           'instaurl': instaTextController.text,
           'lastonline': DateTime.now().toString(),
-          'lat': context.read<LocationStatus>().locationData == null ? 0 : context.read<LocationStatus>().locationData!.latitude,
-          'long': context.read<LocationStatus>().locationData == null ? 0 : context.read<LocationStatus>().locationData!.longitude,
+          'lat': context.read<LocationStatus>().locationData == null
+              ? 0
+              : context.read<LocationStatus>().locationData!.latitude,
+          'long': context.read<LocationStatus>().locationData == null
+              ? 0
+              : context.read<LocationStatus>().locationData!.longitude,
           'manualdp': false,
           'phone': phoneTextController.text,
           'pphone': phoneAccess,

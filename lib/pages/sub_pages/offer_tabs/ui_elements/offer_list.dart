@@ -1,10 +1,10 @@
+import 'package:cadets_nearby/pages/ui_elements/filter_days.dart';
 import 'package:cadets_nearby/services/calculations.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/offers_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../ui_elements/filter_range.dart';
 import '../../../ui_elements/no_offers.dart';
 import '../../../ui_elements/offer_card.dart';
 import 'coupon_count.dart';
@@ -32,8 +32,7 @@ class OfferList extends StatelessWidget {
           // * Distance in meter rounded to tens
           int distanceM = distanceD.toInt();
           double distanceKm = distanceM / 1000;
-          if (distanceKm >= context.read<Offers>().range.start &&
-              distanceKm <= context.read<Offers>().range.end) {
+          if (distanceKm <= context.read<Offers>().range ) {
             context.read<Offers>().count++;
             return Container(
               margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
@@ -98,13 +97,14 @@ class OfferList extends StatelessWidget {
                     fontSize: 20,
                   ),
                 ),
-                FilterRange(
-                  range: context.read<Offers>().range,
+                FilterSlider(
+                  value: context.read<Offers>().range,
                   divisions: 15,
+                  unit: 'km',
                   min: 0.floorToDouble(),
                   max: 150.ceilToDouble(),
                   onChanged: (value) {
-                    context.read<Offers>().range = value;
+                    context.read<Offers>().range = value.toInt();
                   },
                 ),
               ],

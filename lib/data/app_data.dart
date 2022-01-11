@@ -220,7 +220,7 @@ const List<String> colleges = [
 ];
 
 const List<String> filterColleges = [
-  'Select college',
+  'All Colleges',
   'MGCC',
   'JGCC',
   'FGCC',
@@ -243,6 +243,14 @@ const List<String> professions = [
   'Other',
   'Police Forces',
   'Student'
+];
+
+const List<String> nearbyRange = [
+  '500 m',
+  '1000 m',
+  '2000 m',
+  '4000 m',
+  '8000 m - Expensive!',
 ];
 
 // const List<String> districts = [

@@ -9,11 +9,11 @@ class Offers extends ChangeNotifier{
   Stream? offerStream;
   StreamSubscription<dynamic>? offerSubscription;
   int count = 0;
-  RangeValues _range = const RangeValues(0, 150);
+  int _range = 150;
 
-  RangeValues get range => _range;
+  int get range => _range;
 
-  set range(RangeValues range) {
+  set range(int range) {
     _range = range;
     _offers = _offers;
     notifyListeners();

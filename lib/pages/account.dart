@@ -6,10 +6,12 @@ import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
+import 'package:cadets_nearby/services/nearby_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
@@ -46,6 +48,8 @@ class _AccountPageState extends State<AccountPage>
   String college = 'Pick your college*';
   String profession = 'Doctor';
 
+  SharedPreferences? prefs;
+
   @override
   void dispose() {
     fullNameTextController.dispose();
@@ -61,8 +65,13 @@ class _AccountPageState extends State<AccountPage>
     super.dispose();
   }
 
+  loadPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
   @override
   void initState() {
+    loadPrefs();
     resetEdits();
     super.initState();
   }
@@ -76,10 +85,11 @@ class _AccountPageState extends State<AccountPage>
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(titleTextStyle: Theme.of(context).textTheme.headline6,iconTheme: Theme.of(context).iconTheme,
+        appBar: AppBar(
+          titleTextStyle: Theme.of(context).textTheme.headline6,
+          iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Colors.transparent,
           elevation: 0,
-
           systemOverlayStyle: systemUiOverlayStyle,
         ),
         backgroundColor: Theme.of(context).backgroundColor,
@@ -248,7 +258,9 @@ class _AccountPageState extends State<AccountPage>
                           ),
                         ),
                         style: TextStyle(
-                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
+                          color: editingEnabled
+                              ? Theme.of(context).textTheme.subtitle1!.color
+                              : Colors.grey,
                         ),
                         keyboardType: TextInputType.name,
                         onChanged: (value) {
@@ -457,7 +469,9 @@ class _AccountPageState extends State<AccountPage>
                           });
                         },
                         style: TextStyle(
-                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
+                          color: editingEnabled
+                              ? Theme.of(context).textTheme.subtitle1!.color
+                              : Colors.grey,
                         ),
                         keyboardType: TextInputType.text,
                       ),
@@ -479,7 +493,9 @@ class _AccountPageState extends State<AccountPage>
                           ),
                         ),
                         style: TextStyle(
-                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
+                          color: editingEnabled
+                              ? Theme.of(context).textTheme.subtitle1!.color
+                              : Colors.grey,
                         ),
                         onChanged: (value) {
                           setState(() {
@@ -525,7 +541,9 @@ class _AccountPageState extends State<AccountPage>
                               )),
                         ),
                         style: TextStyle(
-                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
+                          color: editingEnabled
+                              ? Theme.of(context).textTheme.subtitle1!.color
+                              : Colors.grey,
                         ),
                         keyboardType: TextInputType.emailAddress,
                         onChanged: (value) {
@@ -594,7 +612,7 @@ class _AccountPageState extends State<AccountPage>
                         enabled: editingEnabled,
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
-                          hintText: 'username e.g. "rashid.hr"',
+                          hintText: 'username e.g. "cadetsnearby.bd"',
                           prefixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(
@@ -621,7 +639,9 @@ class _AccountPageState extends State<AccountPage>
                           });
                         },
                         style: TextStyle(
-                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
+                          color: editingEnabled
+                              ? Theme.of(context).textTheme.subtitle1!.color
+                              : Colors.grey,
                         ),
                         keyboardType: TextInputType.name,
                       ),
@@ -636,7 +656,7 @@ class _AccountPageState extends State<AccountPage>
                         enabled: editingEnabled,
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
-                          hintText: 'username e.g. "harun.xt"',
+                          hintText: 'username e.g. "cadetsnearby.bd"',
                           prefixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(
@@ -665,7 +685,9 @@ class _AccountPageState extends State<AccountPage>
                           });
                         },
                         style: TextStyle(
-                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
+                          color: editingEnabled
+                              ? Theme.of(context).textTheme.subtitle1!.color
+                              : Colors.grey,
                         ),
                         keyboardType: TextInputType.name,
                       ),
@@ -687,7 +709,9 @@ class _AccountPageState extends State<AccountPage>
                           ),
                         ),
                         style: TextStyle(
-                          color: editingEnabled ? Theme.of(context).textTheme.subtitle1!.color : Colors.grey,
+                          color: editingEnabled
+                              ? Theme.of(context).textTheme.subtitle1!.color
+                              : Colors.grey,
                         ),
                         keyboardType: TextInputType.phone,
                         onChanged: (value) {
@@ -764,6 +788,45 @@ class _AccountPageState extends State<AccountPage>
                               }),
                   ),
                 ],
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                child: SizedBox(
+                  width: 500,
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                      canvasColor: Theme.of(context).bottomAppBarColor,
+                    ),
+                    child: DropdownButtonFormField(
+                      hint: const Text('Distance Control'),
+                      decoration: const InputDecoration(
+                        prefixIcon: Padding(
+                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                          child: Icon(
+                            Icons.location_pin,
+                          ),
+                        ),
+                      ),
+                      value: context.read<Nearby>().range,
+                      isDense: true,
+                      onChanged: !editingEnabled
+                          ? null
+                          : (value) {
+                              setState(() {
+                                context.read<Nearby>().range = value! as String;
+                                prefs!.setString('range', value as String);
+                                hasChanged = true;
+                              });
+                            },
+                      items: nearbyRange.map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value.toString()),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
               ),
               Container(
                 width: 500,

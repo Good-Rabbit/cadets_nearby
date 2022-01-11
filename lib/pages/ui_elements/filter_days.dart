@@ -1,26 +1,28 @@
 
 import 'package:flutter/material.dart';
 
-class FilterDays extends StatefulWidget {
-  const FilterDays({
+class FilterSlider extends StatefulWidget {
+  const FilterSlider({
     Key? key,
     required this.value,
-    required this.max,
+    required this.unit,
     required this.min,
+    required this.max,
+    required this.divisions,
     required this.onChanged,
-    this.divisions = 10,
   }) : super(key: key);
   final int value;
+  final String unit;
   final double min;
   final double max;
   final int divisions;
   final ValueChanged<double> onChanged;
 
   @override
-  _FilterDaysState createState() => _FilterDaysState();
+  _FilterSliderState createState() => _FilterSliderState();
 }
 
-class _FilterDaysState extends State<FilterDays> {
+class _FilterSliderState extends State<FilterSlider> {
   bool once = true;
   double days = 30;
 
@@ -51,7 +53,7 @@ class _FilterDaysState extends State<FilterDays> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Upto: ${days.toInt()} days ago',
+                'Upto: ${days.toInt()} ${widget.unit}',
               ),
               const SizedBox(),
             ],

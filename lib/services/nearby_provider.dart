@@ -7,29 +7,16 @@ class Nearby with ChangeNotifier {
   TextEditingController intakeTextController = TextEditingController();
   int intakeYear = 0;
   int daysRange = 30;
-  String collegeName = 'Select college';
-  RangeValues _range = const RangeValues(0, 5);
+  String collegeName = 'All Colleges';
+  String range = '2000 m';
 
-  bool _saveFilter = false;
   SharedPreferences? prefs;
-
-  bool get saveFilter => _saveFilter;
-
-  set saveFilter(bool value) {
-    _saveFilter = value;
-    prefs!.setBool('saveFilter', _saveFilter);
-    if (value) {
-      saveFilterToPref();
-    }
-    notifyListeners();
-  }
 
   Nearby() {
     initiatePref();
     intakeTextController.addListener(() {
       if (intakeTextController.text != '') {
         intakeYear = int.parse(intakeTextController.text);
-        saveFilterToPref();
       }
     });
   }
@@ -40,22 +27,7 @@ class Nearby with ChangeNotifier {
   }
 
   void loadFilterFromPref() {
-    _saveFilter = prefs!.getBool('saveFilter') ?? false;
-    if (_saveFilter) {
-      //! Load filters
-      range = prefs!.getInt('rangeStart') != null
-          ? RangeValues(prefs!.getInt('rangeStart')!.toDouble(),
-              prefs!.getInt('rangeEnd')!.toDouble())
-          : range;
-    }
-  }
-
-  void saveFilterToPref() {
-    //! Save filters
-    if (_saveFilter) {
-      prefs!.setInt('rangeStart', range.start.toInt());
-      prefs!.setInt('rangeEnd', range.end.toInt());
-    }
+      range = (prefs!.getString('range') ?? range);
   }
 
   int get days => daysRange;
@@ -71,11 +43,4 @@ class Nearby with ChangeNotifier {
   }
 
   get college => collegeName;
-
-  RangeValues get range => _range;
-
-  set range(RangeValues range) {
-    _range = range;
-    saveFilterToPref();
-  }
 }
