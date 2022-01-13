@@ -47,7 +47,7 @@ class _VerificationStepsState extends State<VerificationSteps> {
             ),
             label: const Expanded(child: Text('E-mail verification')),
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.grey[800]),
+              backgroundColor: MaterialStateProperty.all(Colors.green[800]),
             ),
           ),
           const SizedBox(height: 10),
