@@ -48,6 +48,17 @@ class NearbyListHolder extends StatelessWidget {
           context.read<MainUser>().user!.sector - 2,
         ];
         break;
+      case '6000 m':
+        whereIn = [
+          context.read<MainUser>().user!.sector + 3,
+          context.read<MainUser>().user!.sector + 2,
+          context.read<MainUser>().user!.sector + 1,
+          context.read<MainUser>().user!.sector,
+          context.read<MainUser>().user!.sector - 1,
+          context.read<MainUser>().user!.sector - 2,
+          context.read<MainUser>().user!.sector - 3,
+        ];
+        break;
       case '8000 m - Expensive!':
         whereIn = [
           context.read<MainUser>().user!.sector + 4,

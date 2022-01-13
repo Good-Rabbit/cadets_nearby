@@ -28,6 +28,25 @@ class _ContactSubPageState extends State<ContactSubPage>
               'Contacts',
               style: TextStyle(fontSize: 25.0),
             ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/find');
+              },
+              icon: Icon(Icons.search_rounded,
+                  color: Theme.of(context).primaryColor),
+              label: Text(
+                'Find someone',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Theme.of(context).primaryColor.withAlpha(60),
+                ),
+              ),
+            ),
             StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: HomeSetterPage.store
                   .collection('users')

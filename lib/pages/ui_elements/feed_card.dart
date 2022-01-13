@@ -55,7 +55,6 @@ class _FeedCardState extends State<FeedCard> {
 
   @override
   Widget build(BuildContext context) {
-
     return InkWell(
       onTap: () {
         if (context.read<MainUser>().user!.verified == 'yes') {
@@ -93,6 +92,18 @@ class _FeedCardState extends State<FeedCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        widget.e.data()['imageurl'],
+                        height: 170,
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Row(
                       children: [
                         Expanded(
@@ -104,18 +115,6 @@ class _FeedCardState extends State<FeedCard> {
                           ),
                         ),
                       ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        widget.e.data()['imageurl'],
-                        height: 170,
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width,
-                      ),
                     ),
                     const SizedBox(
                       height: 10,

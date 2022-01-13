@@ -89,7 +89,7 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
                 const Padding(
                   padding: EdgeInsets.all(30.0),
                   child: Text(
-                    'Submit a document bearing proof that you are a present or an ex cadet. Please note that it might take some time to get verified, you can still use the app while waiting for verification.',
+                    'Submit a document -e.g.Cadet ID card,Pic in cadet uniform- bearing proof that you are a present or an ex cadet. Please note that it might take some time to get verified, you can still use the app while waiting for verification.',
                     style: TextStyle(
                       fontSize: 15,
                     ),

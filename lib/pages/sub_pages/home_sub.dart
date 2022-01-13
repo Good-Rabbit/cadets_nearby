@@ -1,4 +1,3 @@
-
 import 'package:cadets_nearby/data/menu_item.dart';
 import 'package:cadets_nearby/pages/ui_elements/nearby_list_holder.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
@@ -6,6 +5,7 @@ import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +20,6 @@ class HomeSubPage extends StatefulWidget {
 
 class _HomeSubPageState extends State<HomeSubPage>
     with AutomaticKeepAliveClientMixin {
-  
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -100,6 +99,21 @@ class _HomeSubPageState extends State<HomeSubPage>
               ),
             ),
           ),
+          // FutureBuilder(
+          //     future: FirebaseFirestore.instance.collection('users').get(),
+          //     builder: (context,
+          //         AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          //       if (snapshot.hasData) {
+          //         for (var doc in snapshot.data!.docs) {
+          //           int sector =
+          //               ((doc.data()['lat'] - 20.56666) / (0.0181)).ceil();
+          //           doc.reference.update({'sector': sector});
+          //         }
+          //         return const Text('Done');
+          //       } else {
+          //         return Container();
+          //       }
+          //     }),
           const Expanded(child: NearbyListHolder()),
         ],
       ),

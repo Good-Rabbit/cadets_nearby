@@ -8,7 +8,14 @@ class Nearby with ChangeNotifier {
   int intakeYear = 0;
   int daysRange = 30;
   String collegeName = 'All Colleges';
-  String range = '2000 m';
+  String _range = '2000 m';
+
+  String get range => _range;
+
+  set range(String range) {
+    _range = range;
+    notifyListeners();
+  }
 
   SharedPreferences? prefs;
 

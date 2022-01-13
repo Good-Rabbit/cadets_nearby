@@ -250,6 +250,7 @@ const List<String> nearbyRange = [
   '1000 m',
   '2000 m',
   '4000 m',
+  '6000 m',
   '8000 m - Expensive!',
 ];
 

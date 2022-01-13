@@ -29,8 +29,77 @@ class _NearbyListState extends State<NearbyList> {
   double max = 8;
   int divisions = 4;
 
+  List<AppUser> celebs = [];
+  List<AppUser> batchMates = [];
+  List<AppUser> collegeMates = [];
+  List<AppUser> others = [];
+
+  List<AppUser> all = [];
+
   @override
   Widget build(BuildContext context) {
+    celebs = [];
+    batchMates = [];
+    collegeMates = [];
+    others = [];
+    all = [];
+
+    for (var u in widget.docs) {
+      final AppUser e = AppUser(
+        id: u.data()['id'] as String,
+        cName: u.data()['cname'] as String,
+        cNumber: int.parse(u.data()['cnumber'] as String),
+        fullName: u.data()['fullname'] as String,
+        college: u.data()['college'] as String,
+        email: u.data()['email'] as String,
+        intake: int.parse(u.data()['intake'] as String),
+        lat: u.data()['lat'] as double,
+        long: u.data()['long'] as double,
+        timeStamp: u.data()['lastonline'] == null
+            ? DateTime(2000)
+            : DateTime.parse(u.data()['lastonline']),
+        premiumTo: u.data()['premiumto'] == null
+            ? DateTime.now()
+            : DateTime.parse(u.data()['premiumto'] as String),
+        photoUrl: u.data()['photourl'] as String,
+        pAlways: u.data()['palways'] as bool,
+        pLocation: u.data()['plocation'] as bool,
+        pMaps: u.data()['pmaps'] as bool,
+        pPhone: u.data()['pphone'] as bool,
+        phone: u.data()['phone'] as String,
+        premium: u.data()['premium'] as bool,
+        verified: u.data()['verified'] as String,
+        fbUrl: u.data()['fburl'] as String,
+        instaUrl: u.data()['instaurl'] as String,
+        celeb: u.data()['celeb'] as bool,
+        treatHead: u.data()['treathead'] as bool,
+        treatHunter: u.data()['treathunter'] as bool,
+        designation: u.data()['designation'] as String,
+        profession: u.data()['profession'] as String,
+        manualDp: u.data()['manualdp'] as bool,
+        treatCount: u.data()['treatcount'] as int,
+        sector: u.data()['sector'] as int,
+        address: u.data()['address'] as String,
+        contact: u.data()['contact'] as bool,
+        coupons: u.data()['coupons'] as int,
+      );
+      if (e.celeb) {
+        celebs.add(e);
+        continue;
+      } else if (e.intake == context.read<MainUser>().user!.intake) {
+        batchMates.add(e);
+        continue;
+      } else if (e.college == context.read<MainUser>().user!.college) {
+        collegeMates.add(e);
+        continue;
+      } else {
+        others.add(e);
+        continue;
+      }
+    }
+
+    all = [...celebs, ...batchMates, ...collegeMates, ...others];
+
     shown = 0;
     counter = 0;
 
@@ -79,50 +148,10 @@ class _NearbyListState extends State<NearbyList> {
             ],
           ),
           Column(
-            children: widget.docs.map(
-              (u) {
+            children: all.map(
+              (e) {
                 counter++;
                 bool dontShow = false;
-                // Make a user object
-                final AppUser e = AppUser(
-                  id: u.data()['id'] as String,
-                  cName: u.data()['cname'] as String,
-                  cNumber: int.parse(u.data()['cnumber'] as String),
-                  fullName: u.data()['fullname'] as String,
-                  college: u.data()['college'] as String,
-                  email: u.data()['email'] as String,
-                  intake: int.parse(u.data()['intake'] as String),
-                  lat: u.data()['lat'] as double,
-                  long: u.data()['long'] as double,
-                  timeStamp: u.data()['lastonline'] == null
-                      ? DateTime(2000)
-                      : DateTime.parse(u.data()['lastonline']),
-                  premiumTo: u.data()['premiumto'] == null
-                      ? DateTime.now()
-                      : DateTime.parse(u.data()['premiumto'] as String),
-                  photoUrl: u.data()['photourl'] as String,
-                  pAlways: u.data()['palways'] as bool,
-                  pLocation: u.data()['plocation'] as bool,
-                  pMaps: u.data()['pmaps'] as bool,
-                  pPhone: u.data()['pphone'] as bool,
-                  phone: u.data()['phone'] as String,
-                  premium: u.data()['premium'] as bool,
-                  verified: u.data()['verified'] as String,
-                  fbUrl: u.data()['fburl'] as String,
-                  instaUrl: u.data()['instaurl'] as String,
-                  celeb: u.data()['celeb'] as bool,
-                  treatHead: u.data()['treathead'] as bool,
-                  treatHunter: u.data()['treathunter'] as bool,
-                  designation: u.data()['designation'] as String,
-                  profession: u.data()['profession'] as String,
-                  manualDp: u.data()['manualdp'] as bool,
-                  treatCount: u.data()['treatcount'] as int,
-                  sector: u.data()['sector'] as int,
-                  address: u.data()['address'] as String,
-                  contact: u.data()['contact'] as bool,
-                  coupons: u.data()['coupons'] as int,
-                );
-
                 Duration timeDiff;
                 timeDiff = DateTime.now().difference(e.timeStamp);
 
@@ -135,13 +164,16 @@ class _NearbyListState extends State<NearbyList> {
 
                 // * Distance in meters
                 var distanceD = calculateDistance(
-                    context.read<LocationStatus>().locationData!.latitude!,
-                    context.read<LocationStatus>().locationData!.longitude!,
-                    e.lat,
-                    e.long)*1000;
+                        context.read<LocationStatus>().locationData!.latitude!,
+                        context.read<LocationStatus>().locationData!.longitude!,
+                        e.lat,
+                        e.long) *
+                    1000;
 
                 // * Range Check
-                if (distanceD > int.parse(context.read<Nearby>().range.substring(0,4).trim())) {
+                if (distanceD >
+                    int.parse(
+                        context.read<Nearby>().range.substring(0, 4).trim())) {
                   dontShow = true;
                 }
                 // * College Check
@@ -234,7 +266,7 @@ class _NearbyListState extends State<NearbyList> {
                     divisions: 10,
                     onChanged: (value) {
                       // setState(() {
-                        context.read<Nearby>().days = value.toInt();
+                      context.read<Nearby>().days = value.toInt();
                       // });
                     },
                   ),
@@ -264,7 +296,7 @@ class _NearbyListState extends State<NearbyList> {
                         isDense: true,
                         onChanged: (value) {
                           // setState(() {
-                            context.read<Nearby>().college = value! as String;
+                          context.read<Nearby>().college = value! as String;
                           // });
                         },
                         items: filterColleges.map((String value) {
@@ -304,13 +336,10 @@ class _NearbyListState extends State<NearbyList> {
                 ],
               ),
             ),
-            
             actions: [
               TextButton(
                   onPressed: () async {
-                    setState(() {
-                      
-                    });
+                    setState(() {});
                     Navigator.of(context).pop();
                   },
                   child: const Text('Done')),

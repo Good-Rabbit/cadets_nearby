@@ -57,15 +57,6 @@ class _FeedDetailsPageState extends State<FeedDetailsPage> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              e!.data()['title'],
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 20),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
@@ -76,40 +67,44 @@ class _FeedDetailsPageState extends State<FeedDetailsPage> {
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  e!.data()['title'],
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
                   e!.data()['minidescription'],
                   maxLines: 30,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 15),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
                   e!.data()['body'],
                   maxLines: 100,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 15),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Posted: $timeAgo',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Posted: $timeAgo',
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+              ],
+            ),
           ),
         ],
       ),

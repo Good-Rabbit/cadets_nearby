@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cadets_nearby/data/app_data.dart';
+import 'package:cadets_nearby/pages/find_page.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
@@ -132,6 +133,7 @@ class _MyAppState extends State<MyApp> {
       themeMode: ThemeMode.system,
       routes: {
         '/': (context) => const HomeSetterPage(),
+        '/find': (context) => const FindPage(),
         '/about': (context) => const AboutPage(),
         '/login': (context) => const LoginPage(),
         '/reset': (context) => const ResetPage(),
