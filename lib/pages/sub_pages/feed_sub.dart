@@ -37,16 +37,18 @@ class _FeedSubPageState extends State<FeedSubPage>
             builder: (context, snapshots) {
               if (snapshots.hasData) {
                 if (snapshots.data!.docs.isNotEmpty) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        ...snapshots.data!.docs.map((e) {
-                          return Container(
-                            margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                            child: FeedCard(e: e),
-                          );
-                        }),
-                      ],
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ...snapshots.data!.docs.map((e) {
+                            return Container(
+                              margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              child: FeedCard(e: e),
+                            );
+                          }).toList(),
+                        ],
+                      ),
                     ),
                   );
                 } else {

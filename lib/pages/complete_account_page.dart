@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:cadets_nearby/data/app_data.dart';
-import 'package:cadets_nearby/data/data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
@@ -10,7 +9,6 @@ import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:geocode/geocode.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,30 +66,10 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     super.dispose();
   }
 
-  Future<void> getLocation() async {
-    try {
-      await context.read<LocationStatus>().getLocation();
-
-      final GeoCode geoCode = GeoCode(apiKey: geoCodeApiKey);
-      if (context.read<LocationStatus>().locationData != null) {
-        final Address address = await geoCode.reverseGeocoding(
-          latitude: context.read<LocationStatus>().locationData!.latitude!,
-          longitude: context.read<LocationStatus>().locationData!.longitude!,
-        );
-        addressTextController.text =
-            '${address.streetAddress!}, ${address.region!}';
-      }
-      // setState(() {});
-    } catch (e) {
-      log(e.toString());
-    }
-  }
-
   @override
   void initState() {
     emailTextController.text = HomeSetterPage.auth.currentUser!.email!;
     super.initState();
-    getLocation();
   }
 
   @override
@@ -900,6 +878,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
 
     try {
       await FirebaseAuth.instance.currentUser!.updateDisplayName(fullName);
+      await context.read<LocationStatus>().getLocation();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const SafeArea(child: Text('Updating account info')),
         backgroundColor: Theme.of(context).primaryColor,
