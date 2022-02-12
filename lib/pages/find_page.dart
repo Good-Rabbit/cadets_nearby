@@ -98,7 +98,7 @@ class _FindPageState extends State<FindPage> {
                   if (snapshot.data!.docs.isEmpty) {
                     return Expanded(child: Center(child: noOneFound(context)));
                   } else {
-                    return SingleChildScrollView(
+                    return Expanded(SingleChildScrollView(
                       child: Column(
                         children: snapshot.data!.docs.map((u) {
                           final AppUser e = AppUser(
@@ -146,7 +146,7 @@ class _FindPageState extends State<FindPage> {
                           );
                         }).toList(),
                       ),
-                    );
+                    ),);
                   }
                 }
                 return Container();
