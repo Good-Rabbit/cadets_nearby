@@ -42,6 +42,14 @@ class RealHome extends StatefulWidget {
 }
 
 class _RealHomeState extends State<RealHome> {
+
+  final pages =  const [
+              HomeSubPage(),
+              OfferSubPage(),
+              FeedSubPage(),
+              ContactSubPage(),
+            ];
+
   int selectedIndex = 0;
   final pageController = PageController(initialPage: 0);
 
@@ -133,12 +141,7 @@ class _RealHomeState extends State<RealHome> {
                 selectedIndex = index;
               });
             },
-            children: const [
-              HomeSubPage(),
-              OfferSubPage(),
-              FeedSubPage(),
-              ContactSubPage(),
-            ],
+            children: pages,
           ),
           bottomNavigationBar: BottomNavyBar(
             selectedIndex: selectedIndex,
