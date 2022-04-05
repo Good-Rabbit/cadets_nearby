@@ -7,18 +7,13 @@ import 'package:location/location.dart';
 class LocationStatus with ChangeNotifier {
   bool serviceEnabled;
   bool permissionGranted;
-  double latMax = 0;
-  double latMin = 0;
+  double longMax = 0;
+  double longMin = 0;
   LocationData? locationData;
   final Location location = Location();
 
   LocationStatus({this.serviceEnabled = true, this.permissionGranted = false}) {
     checkPermissions();
-  }
-
-  void calculateMinMax() {
-    latMax = locationData!.latitude! + 0.138;
-    latMin = locationData!.latitude! - 0.138;
   }
 
   Future<void> getLocation() async {
@@ -34,7 +29,6 @@ class LocationStatus with ChangeNotifier {
           locationData!.longitude.toString());
       //Calculate minimum and maximum for other distances
       // ignore: use_build_context_synchronously
-      calculateMinMax();
       uploadLocation(locationData!);
       notifyListeners();
     } catch (e) {
@@ -45,8 +39,6 @@ class LocationStatus with ChangeNotifier {
   void uploadLocation(LocationData locationData) {
     int latSector = 0;
     latSector = (locationData.latitude! / (0.0181)).ceil();
-    int  longSector = 0;
-    longSector = (locationData.longitude! / (0.0181)).ceil();
     final String timeStamp = DateTime.now().toString();
     try {
       HomeSetterPage.store
@@ -56,7 +48,6 @@ class LocationStatus with ChangeNotifier {
         'lat': locationData.latitude,
         'long': locationData.longitude,
         'latsector': latSector,
-        'longsector': longSector,
         'lastonline': timeStamp,
       });
     } catch (e) {

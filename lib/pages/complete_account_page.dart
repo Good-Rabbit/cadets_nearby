@@ -889,12 +889,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           (context.read<LocationStatus>().locationData!.latitude! / (0.0181))
               .ceil();
 
-      int longSector = 0;
-      longSector =
-          (context.read<LocationStatus>().locationData!.longitude! / (0.0181))
-              .ceil();
-
-
       HomeSetterPage.store
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -931,7 +925,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           'premium': false,
           'photourl': HomeSetterPage.auth.currentUser!.photoURL ?? '',
           'latsector': latSector,
-          'longsector': longSector,
+          
           'treatcount': 0,
           'treathead': true,
           'treathunter': true,

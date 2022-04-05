@@ -5,7 +5,6 @@ import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
 import 'package:cadets_nearby/services/url_launcher.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -106,8 +105,8 @@ class _HomeSubPageState extends State<HomeSubPage>
           //       if (snapshot.hasData) {
           //         for (var doc in snapshot.data!.docs) {
           //           int sector =
-          //               ((doc.data()['lat'] - 20.56666) / (0.0181)).ceil();
-          //           doc.reference.update({'sector': sector});
+          //               (doc.data()['lat'] / (0.0181)).ceil();
+          //           doc.reference.update({'latsector': sector});
           //         }
           //         return const Text('Done');
           //       } else {

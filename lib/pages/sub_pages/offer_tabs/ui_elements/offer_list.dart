@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../home_setter.dart';
 import '../../../ui_elements/no_offers.dart';
 import '../../../ui_elements/offer_card.dart';
+import 'coupon_count.dart';
 
 class OfferList extends StatelessWidget {
   const OfferList({Key? key}) : super(key: key);
@@ -22,15 +23,6 @@ class OfferList extends StatelessWidget {
       context.read<MainUser>().user!.latSector - 2,
       context.read<MainUser>().user!.latSector - 3,
     ];
-    List<int> whereInLong = [
-      context.read<MainUser>().user!.longSector + 3,
-      context.read<MainUser>().user!.longSector + 2,
-      context.read<MainUser>().user!.longSector + 1,
-      context.read<MainUser>().user!.longSector,
-      context.read<MainUser>().user!.longSector - 1,
-      context.read<MainUser>().user!.longSector - 2,
-      context.read<MainUser>().user!.longSector - 3,
-    ];
 
     return Column(
       children: [
@@ -40,23 +32,30 @@ class OfferList extends StatelessWidget {
         StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: HomeSetterPage.store
                 .collection('offers')
-                .orderBy('priority')
+                .where('long',
+                    isLessThan: context.read<MainUser>().user!.long +
+                        0.0543,
+                    isGreaterThan: context.read<MainUser>().user!.long -
+                        0.0543)
                 .where('latsector', whereIn: whereInLat)
-                .where('longsector', whereIn: whereInLong)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                List<QueryDocumentSnapshot<Map<String, dynamic>>> offers = snapshot.data!.docs;
+                // Sort offers by priority
+                offers.sort((a, b) => a.data()['priority'] - b.data()['priority']);
+
                 return SingleChildScrollView(
                   child: Column(
                     children: snapshot.data!.docs.map((e) {
-
                       // * Distance in meter rounded to tens
                       int distanceM = (calculateDistance(
-                              context.read<MainUser>().user!.lat,
-                              context.read<MainUser>().user!.long,
-                              double.parse(e.data()['lat']),
-                              double.parse(e.data()['long'])) *
-                          1000).toInt();
+                                  context.read<MainUser>().user!.lat,
+                                  context.read<MainUser>().user!.long,
+                                  double.parse(e.data()['lat']),
+                                  double.parse(e.data()['long'])) *
+                              1000)
+                          .toInt();
                       double distanceKm = distanceM / 1000;
 
                       if (distanceKm <= 6) {
@@ -82,74 +81,12 @@ class OfferList extends StatelessWidget {
     );
   }
 
-  // Row topRow(BuildContext context) {
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     children: [
-  //       Row(
-  //         children: [
-  //           const SizedBox(
-  //             width: 20,
-  //           ),
-  //           IconButton(
-  //             onPressed: () {
-  //               showFilter(context);
-  //             },
-  //             icon: Icon(
-  //               Icons.filter_alt_rounded,
-  //               color: Theme.of(context).primaryColor,
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //       const CouponCount(),
-  //     ],
-  //   );
-  // }
-
-  // Future<dynamic> showFilter(BuildContext context) {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         backgroundColor: Theme.of(context).bottomAppBarColor,
-  //         title: const Text('Filter'),
-  //         content: SingleChildScrollView(
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               const SizedBox(
-  //                 height: 20,
-  //               ),
-  //               const Text(
-  //                 'By Distance',
-  //                 style: TextStyle(
-  //                   fontSize: 20,
-  //                 ),
-  //               ),
-  //               FilterSlider(
-  //                 value: context.read<Offers>().range,
-  //                 divisions: 15,
-  //                 unit: 'km',
-  //                 min: 0.floorToDouble(),
-  //                 max: 150.ceilToDouble(),
-  //                 onChanged: (value) {
-  //                   context.read<Offers>().range = value.toInt();
-  //                 },
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //               onPressed: () async {
-  //                 Navigator.of(context).pop();
-  //               },
-  //               child: const Text('Done')),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
+  Row topRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: const [
+        CouponCount(),
+      ],
+    );
+  }
 }

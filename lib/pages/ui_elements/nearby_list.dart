@@ -22,9 +22,6 @@ class NearbyList extends StatefulWidget {
 }
 
 class _NearbyListState extends State<NearbyList> {
-  int shown = 0;
-  int counter = 0;
-
   double min = 0;
   double max = 8;
   int divisions = 4;
@@ -33,6 +30,12 @@ class _NearbyListState extends State<NearbyList> {
   List<AppUser> batchMates = [];
   List<AppUser> collegeMates = [];
   List<AppUser> others = [];
+
+  List<AppUser> oldCelebs = [];
+  List<AppUser> oldBatchMates = [];
+  List<AppUser> oldCollegeMates = [];
+  List<AppUser> oldOthers = [];
+  List<AppUser> tooOld = [];
 
   List<AppUser> all = [];
 
@@ -45,6 +48,11 @@ class _NearbyListState extends State<NearbyList> {
     all = [];
 
     for (var u in widget.docs) {
+      //* Check if main user is in the list
+      if (u.data()['id'] == context.read<MainUser>().user!.id) {
+        continue;
+      }
+
       final AppUser e = AppUser(
         id: u.data()['id'] as String,
         cName: u.data()['cname'] as String,
@@ -79,30 +87,64 @@ class _NearbyListState extends State<NearbyList> {
         manualDp: u.data()['manualdp'] as bool,
         treatCount: u.data()['treatcount'] as int,
         latSector: (u.data()['latsector'] ?? 0) as int,
-        longSector: (u.data()['longsector'] ?? 0) as int,
         address: u.data()['address'] as String,
         contact: u.data()['contact'] as bool,
         coupons: u.data()['coupons'] as int,
       );
-      if (e.celeb) {
-        celebs.add(e);
+
+      // * Distance in meters
+      var distanceD = calculateDistance(
+              context.read<LocationStatus>().locationData!.latitude!,
+              context.read<LocationStatus>().locationData!.longitude!,
+              e.lat,
+              e.long) *
+          1000;
+
+      // * Range Filter Check
+      if (distanceD >
+          int.parse(context.read<Nearby>().range.substring(0, 4).trim())) {
         continue;
-      } else if (e.intake == context.read<MainUser>().user!.intake) {
-        batchMates.add(e);
-        continue;
-      } else if (e.college == context.read<MainUser>().user!.college) {
-        collegeMates.add(e);
-        continue;
+      }
+      // * College Filter Check
+      if (context.read<Nearby>().collegeName != filterColleges.elementAt(0)) {
+        if (e.college != context.read<Nearby>().collegeName) {
+          continue;
+        }
+      }
+      // * Intake Filter Check
+      if (context.read<Nearby>().intakeTextController.text != '') {
+        if (e.intake != context.read<Nearby>().intakeYear) {
+          continue;
+        }
+      }
+
+      Duration timeDiff;
+      timeDiff = DateTime.now().difference(e.timeStamp);
+      if (timeDiff.inDays < 60) {
+        if (e.celeb) {
+          celebs.add(e);
+        } else if (e.treatHead) {
+          batchMates.add(e);
+        } else if (e.treatHunter) {
+          collegeMates.add(e);
+        } else {
+          others.add(e);
+        }
       } else {
-        others.add(e);
-        continue;
+        if (e.celeb) {
+          oldCelebs.add(e);
+        } else if (e.treatHead) {
+          oldBatchMates.add(e);
+        } else if (e.treatHunter) {
+          oldCollegeMates.add(e);
+        } else {
+          oldOthers.add(e);
+        }
       }
     }
 
     all = [...celebs, ...batchMates, ...collegeMates, ...others];
-
-    shown = 0;
-    counter = 0;
+    tooOld = [...oldCelebs, ...oldBatchMates, ...oldCollegeMates, ...oldOthers];
 
     Color accuracyColor = Colors.white;
     if (context.read<LocationStatus>().locationData != null) {
@@ -148,21 +190,70 @@ class _NearbyListState extends State<NearbyList> {
                 ),
             ],
           ),
+          if (all.isNotEmpty)
+            Column(
+              children: all.map(
+                (e) {
+                  // * Distance in meters
+                  var distanceD = calculateDistance(
+                          context
+                              .read<LocationStatus>()
+                              .locationData!
+                              .latitude!,
+                          context
+                              .read<LocationStatus>()
+                              .locationData!
+                              .longitude!,
+                          e.lat,
+                          e.long) *
+                      1000;
+
+                  // * Distance in meter
+                  // * Distance in meter rounded to tens
+                  int distanceM = distanceD.toInt();
+                  bool isKm = false;
+                  double distanceKm = 0;
+                  if (distanceM > 1000) {
+                    isKm = true;
+                    distanceKm = distanceD.roundToDouble() -
+                        distanceD.roundToDouble() % 10;
+                    distanceKm /= 1000;
+                    distanceKm = double.parse(distanceKm.toStringAsFixed(2));
+                  } else if (distanceM >= 10) {
+                    distanceM = distanceM - distanceM % 10;
+                  }
+
+                  return Container(
+                    margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 5.0),
+                    child: NearbyCard(
+                        e: e,
+                        isKm: isKm,
+                        distanceKm: distanceKm,
+                        distanceM: distanceM),
+                  );
+                },
+              ).toList(),
+            ),
+          if (tooOld.isNotEmpty)
+            const SizedBox(
+              height: 10,
+            ),
+          if (tooOld.isNotEmpty)
+            const Text(
+              'Long time ago',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          if (tooOld.isNotEmpty)
+            if (tooOld.isNotEmpty)
+              const SizedBox(
+                height: 10,
+              ),
           Column(
-            children: all.map(
+            children: tooOld.map(
               (e) {
-                counter++;
-                bool dontShow = false;
-                Duration timeDiff;
-                timeDiff = DateTime.now().difference(e.timeStamp);
-
-                if (e.equals(context.read<MainUser>().user!) &&
-                    widget.docs.length == 1) {
-                  return noOneNearby(context);
-                } else if (e.equals(context.read<MainUser>().user!)) {
-                  dontShow = true;
-                }
-
                 // * Distance in meters
                 var distanceD = calculateDistance(
                         context.read<LocationStatus>().locationData!.latitude!,
@@ -170,43 +261,6 @@ class _NearbyListState extends State<NearbyList> {
                         e.lat,
                         e.long) *
                     1000;
-
-                // * Range Check
-                if (distanceD >
-                    int.parse(
-                        context.read<Nearby>().range.substring(0, 4).trim())) {
-                  dontShow = true;
-                }
-                // * College Check
-                if (context.read<Nearby>().collegeName !=
-                    filterColleges.elementAt(0)) {
-                  if (e.college != context.read<Nearby>().collegeName) {
-                    dontShow = true;
-                  }
-                }
-                // * Intake Check
-                if (context.read<Nearby>().intakeTextController.text != '') {
-                  if (e.intake != context.read<Nearby>().intakeYear) {
-                    dontShow = true;
-                  }
-                }
-                // * Time Check
-                if (timeDiff.inDays > context.read<Nearby>().days) {
-                  dontShow = true;
-                }
-
-                if (!dontShow) shown++;
-
-                if (counter == widget.docs.length) {
-                  counter = 0;
-                  if (shown == 0) {
-                    return noOneNearby(context);
-                  }
-                }
-
-                if (dontShow) {
-                  return const SizedBox();
-                }
 
                 // * Distance in meter
                 // * Distance in meter rounded to tens
@@ -234,6 +288,7 @@ class _NearbyListState extends State<NearbyList> {
               },
             ).toList(),
           ),
+          if (all.isEmpty && tooOld.isEmpty) noOneNearby(context),
         ]),
       ),
     );

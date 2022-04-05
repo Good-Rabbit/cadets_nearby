@@ -35,7 +35,7 @@ class _FeedCardState extends State<FeedCard> {
       timeAgo = '${lastOnline.inDays} days ago';
     } else if (lastOnline.inDays > 30) {
       timeAgo =
-          '${(lastOnline.inDays / 30).floor()} ${(lastOnline.inDays / 30).floor() == 1 ? 'month' : 'months'}ago';
+          '${(lastOnline.inDays / 30).floor()} ${(lastOnline.inDays / 30).floor() == 1 ? 'month' : 'months'} ago';
     }
   }
 

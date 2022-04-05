@@ -37,7 +37,6 @@ class NearbyListHolder extends StatelessWidget {
     }
 
     List<Object?>? whereInLat;
-    List<Object?>? whereInLong;
 
     switch (context.watch<Nearby>().range) {
       case '4000 m':
@@ -48,13 +47,10 @@ class NearbyListHolder extends StatelessWidget {
           context.read<MainUser>().user!.latSector - 1,
           context.read<MainUser>().user!.latSector - 2,
         ];
-        whereInLong = [
-          context.read<MainUser>().user!.longSector + 2,
-          context.read<MainUser>().user!.longSector + 1,
-          context.read<MainUser>().user!.longSector,
-          context.read<MainUser>().user!.longSector - 1,
-          context.read<MainUser>().user!.longSector - 2,
-        ];
+        context.read<LocationStatus>().longMax =
+            context.read<MainUser>().user!.long + 0.0362;
+        context.read<LocationStatus>().longMin =
+            context.read<MainUser>().user!.long - 0.0362;
         break;
       case '6000 m':
         whereInLat = [
@@ -66,15 +62,10 @@ class NearbyListHolder extends StatelessWidget {
           context.read<MainUser>().user!.latSector - 2,
           context.read<MainUser>().user!.latSector - 3,
         ];
-        whereInLong = [
-          context.read<MainUser>().user!.longSector + 3,
-          context.read<MainUser>().user!.longSector + 2,
-          context.read<MainUser>().user!.longSector + 1,
-          context.read<MainUser>().user!.longSector,
-          context.read<MainUser>().user!.longSector - 1,
-          context.read<MainUser>().user!.longSector - 2,
-          context.read<MainUser>().user!.longSector - 3,
-        ];
+        context.read<LocationStatus>().longMax =
+            context.read<MainUser>().user!.long + 0.0543;
+        context.read<LocationStatus>().longMin =
+            context.read<MainUser>().user!.long - 0.0543;
         break;
       case '8000 m - Expensive!':
         whereInLat = [
@@ -88,17 +79,10 @@ class NearbyListHolder extends StatelessWidget {
           context.read<MainUser>().user!.latSector - 3,
           context.read<MainUser>().user!.latSector - 4,
         ];
-        whereInLong = [
-          context.read<MainUser>().user!.longSector + 4,
-          context.read<MainUser>().user!.longSector + 3,
-          context.read<MainUser>().user!.longSector + 2,
-          context.read<MainUser>().user!.longSector + 1,
-          context.read<MainUser>().user!.longSector,
-          context.read<MainUser>().user!.longSector - 1,
-          context.read<MainUser>().user!.longSector - 2,
-          context.read<MainUser>().user!.longSector - 3,
-          context.read<MainUser>().user!.longSector - 4,
-        ];
+        context.read<LocationStatus>().longMax =
+            context.read<MainUser>().user!.long + 0.0724;
+        context.read<LocationStatus>().longMin =
+            context.read<MainUser>().user!.long - 0.0724;
         break;
       case '500 m':
       case '1000 m':
@@ -109,11 +93,10 @@ class NearbyListHolder extends StatelessWidget {
           context.read<MainUser>().user!.latSector,
           context.read<MainUser>().user!.latSector - 1,
         ];
-        whereInLong = [
-          context.read<MainUser>().user!.longSector + 1,
-          context.read<MainUser>().user!.longSector,
-          context.read<MainUser>().user!.longSector - 1,
-        ];
+        context.read<LocationStatus>().longMax =
+            context.read<MainUser>().user!.long + 0.0181;
+        context.read<LocationStatus>().longMin =
+            context.read<MainUser>().user!.long - 0.0181;
         break;
     }
 
@@ -125,7 +108,9 @@ class NearbyListHolder extends StatelessWidget {
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: HomeSetterPage.store
                 .collection('users')
-                .where('longsectro', whereIn: whereInLong)
+                .where('long',
+                    isLessThan: context.read<LocationStatus>().longMax,
+                    isGreaterThan: context.read<LocationStatus>().longMin)
                 .where('latsector', whereIn: whereInLat)
                 .snapshots(),
             builder: (context, snapshots) {

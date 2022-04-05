@@ -136,7 +136,6 @@ class _FindPageState extends State<FindPage> {
                               manualDp: u.data()['manualdp'] as bool,
                               treatCount: u.data()['treatcount'] as int,
                               latSector: (u.data()['latsector'] ?? 0) as int,
-                              longSector: (u.data()['longsector'] ?? 0) as int,
                               address: u.data()['address'] as String,
                               contact: u.data()['contact'] as bool,
                               coupons: u.data()['coupons'] as int,
