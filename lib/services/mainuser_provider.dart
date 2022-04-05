@@ -39,7 +39,8 @@ class MainUser with ChangeNotifier {
           pPhone: u.data()!['pphone'] as bool,
           photoUrl: u.data()!['photourl'] as String,
           phone: u.data()!['phone'] as String,
-          timeStamp: DateTime.parse(u.data()!['lastonline'] ?? DateTime.now().toString()),
+          timeStamp: DateTime.parse(
+              u.data()!['lastonline'] ?? DateTime.now().toString()),
           premiumTo: u.data()!['premiumto'] == null
               ? DateTime.now()
               : DateTime.parse(u.data()!['premiumto'] as String),
@@ -54,7 +55,8 @@ class MainUser with ChangeNotifier {
           profession: u.data()!['profession'] as String,
           manualDp: u.data()!['manualdp'] as bool,
           treatCount: u.data()!['treatcount'] as int,
-          sector: u.data()!['sector'] as int,
+          latSector: (u.data()!['latsector'] ?? 0) as int,
+          longSector: (u.data()!['longsector'] ?? 0) as int,
           address: u.data()!['address'] as String,
           contact: u.data()!['contact'] as bool,
           coupons: u.data()!['coupons'] as int,
@@ -91,8 +93,7 @@ class MainUser with ChangeNotifier {
           }
         }
         notifyListeners();
-      }
-      else{
+      } else {
         mainUser = null;
         notifyListeners();
       }

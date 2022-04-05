@@ -2,7 +2,8 @@ class AppUser {
   int cNumber;
   int intake;
   int treatCount;
-  int sector;
+  int latSector;
+  int longSector;
   int coupons;
   double lat;
   double long;
@@ -54,11 +55,12 @@ class AppUser {
     required this.profession,
     required this.manualDp,
     required this.treatCount,
-    required this.sector,
+    required this.latSector,
     required this.address,
     required this.contact,
     required this.coupons,
     required this.premiumTo,
+    required this.longSector,
     this.photoUrl = '',
     this.lat = 0,
     this.long = 0,

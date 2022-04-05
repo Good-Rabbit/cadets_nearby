@@ -43,8 +43,10 @@ class LocationStatus with ChangeNotifier {
   }
 
   void uploadLocation(LocationData locationData) {
-    int sector = 0;
-    sector = ((locationData.latitude! - 20.56666) / (0.0181)).ceil();
+    int latSector = 0;
+    latSector = (locationData.latitude! / (0.0181)).ceil();
+    int  longSector = 0;
+    longSector = (locationData.longitude! / (0.0181)).ceil();
     final String timeStamp = DateTime.now().toString();
     try {
       HomeSetterPage.store
@@ -53,7 +55,8 @@ class LocationStatus with ChangeNotifier {
           .update({
         'lat': locationData.latitude,
         'long': locationData.longitude,
-        'sector': sector,
+        'latsector': latSector,
+        'longsector': longSector,
         'lastonline': timeStamp,
       });
     } catch (e) {

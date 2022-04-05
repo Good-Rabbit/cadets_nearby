@@ -36,50 +36,83 @@ class NearbyListHolder extends StatelessWidget {
       });
     }
 
-    List<Object?>? whereIn;
+    List<Object?>? whereInLat;
+    List<Object?>? whereInLong;
 
     switch (context.watch<Nearby>().range) {
       case '4000 m':
-        whereIn = [
-          context.read<MainUser>().user!.sector + 2,
-          context.read<MainUser>().user!.sector + 1,
-          context.read<MainUser>().user!.sector,
-          context.read<MainUser>().user!.sector - 1,
-          context.read<MainUser>().user!.sector - 2,
+        whereInLat = [
+          context.read<MainUser>().user!.latSector + 2,
+          context.read<MainUser>().user!.latSector + 1,
+          context.read<MainUser>().user!.latSector,
+          context.read<MainUser>().user!.latSector - 1,
+          context.read<MainUser>().user!.latSector - 2,
+        ];
+        whereInLong = [
+          context.read<MainUser>().user!.longSector + 2,
+          context.read<MainUser>().user!.longSector + 1,
+          context.read<MainUser>().user!.longSector,
+          context.read<MainUser>().user!.longSector - 1,
+          context.read<MainUser>().user!.longSector - 2,
         ];
         break;
       case '6000 m':
-        whereIn = [
-          context.read<MainUser>().user!.sector + 3,
-          context.read<MainUser>().user!.sector + 2,
-          context.read<MainUser>().user!.sector + 1,
-          context.read<MainUser>().user!.sector,
-          context.read<MainUser>().user!.sector - 1,
-          context.read<MainUser>().user!.sector - 2,
-          context.read<MainUser>().user!.sector - 3,
+        whereInLat = [
+          context.read<MainUser>().user!.latSector + 3,
+          context.read<MainUser>().user!.latSector + 2,
+          context.read<MainUser>().user!.latSector + 1,
+          context.read<MainUser>().user!.latSector,
+          context.read<MainUser>().user!.latSector - 1,
+          context.read<MainUser>().user!.latSector - 2,
+          context.read<MainUser>().user!.latSector - 3,
+        ];
+        whereInLong = [
+          context.read<MainUser>().user!.longSector + 3,
+          context.read<MainUser>().user!.longSector + 2,
+          context.read<MainUser>().user!.longSector + 1,
+          context.read<MainUser>().user!.longSector,
+          context.read<MainUser>().user!.longSector - 1,
+          context.read<MainUser>().user!.longSector - 2,
+          context.read<MainUser>().user!.longSector - 3,
         ];
         break;
       case '8000 m - Expensive!':
-        whereIn = [
-          context.read<MainUser>().user!.sector + 4,
-          context.read<MainUser>().user!.sector + 3,
-          context.read<MainUser>().user!.sector + 2,
-          context.read<MainUser>().user!.sector + 1,
-          context.read<MainUser>().user!.sector,
-          context.read<MainUser>().user!.sector - 1,
-          context.read<MainUser>().user!.sector - 2,
-          context.read<MainUser>().user!.sector - 3,
-          context.read<MainUser>().user!.sector - 4,
+        whereInLat = [
+          context.read<MainUser>().user!.latSector + 4,
+          context.read<MainUser>().user!.latSector + 3,
+          context.read<MainUser>().user!.latSector + 2,
+          context.read<MainUser>().user!.latSector + 1,
+          context.read<MainUser>().user!.latSector,
+          context.read<MainUser>().user!.latSector - 1,
+          context.read<MainUser>().user!.latSector - 2,
+          context.read<MainUser>().user!.latSector - 3,
+          context.read<MainUser>().user!.latSector - 4,
+        ];
+        whereInLong = [
+          context.read<MainUser>().user!.longSector + 4,
+          context.read<MainUser>().user!.longSector + 3,
+          context.read<MainUser>().user!.longSector + 2,
+          context.read<MainUser>().user!.longSector + 1,
+          context.read<MainUser>().user!.longSector,
+          context.read<MainUser>().user!.longSector - 1,
+          context.read<MainUser>().user!.longSector - 2,
+          context.read<MainUser>().user!.longSector - 3,
+          context.read<MainUser>().user!.longSector - 4,
         ];
         break;
       case '500 m':
       case '1000 m':
       case '2000 m':
       default:
-        whereIn = [
-          context.read<MainUser>().user!.sector + 1,
-          context.read<MainUser>().user!.sector,
-          context.read<MainUser>().user!.sector - 1,
+        whereInLat = [
+          context.read<MainUser>().user!.latSector + 1,
+          context.read<MainUser>().user!.latSector,
+          context.read<MainUser>().user!.latSector - 1,
+        ];
+        whereInLong = [
+          context.read<MainUser>().user!.longSector + 1,
+          context.read<MainUser>().user!.longSector,
+          context.read<MainUser>().user!.longSector - 1,
         ];
         break;
     }
@@ -92,10 +125,8 @@ class NearbyListHolder extends StatelessWidget {
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: HomeSetterPage.store
                 .collection('users')
-                .where('lat',
-                    isLessThan: context.read<LocationStatus>().latMax,
-                    isGreaterThan: context.read<LocationStatus>().latMin)
-                .where('sector', whereIn: whereIn)
+                .where('longsectro', whereIn: whereInLong)
+                .where('latsector', whereIn: whereInLat)
                 .snapshots(),
             builder: (context, snapshots) {
               if (snapshots.hasData) {

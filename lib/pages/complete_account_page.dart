@@ -704,9 +704,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                           inProgress = true;
                                         });
                                         if (formKey.currentState!.validate()) {
-                                          prefs.setString(
-                                                                  'range',
-                                                                  '2000 m');
+                                          prefs.setString('range', '2000 m');
                                           showDialog(
                                               context: context,
                                               builder: (context) {
@@ -760,7 +758,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                                                       as String;
                                                               prefs.setString(
                                                                   'range',
-                                                                  value as String);
+                                                                  value
+                                                                      as String);
                                                             });
                                                           },
                                                           items: nearbyRange
@@ -883,11 +882,19 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
         content: const SafeArea(child: Text('Updating account info')),
         backgroundColor: Theme.of(context).primaryColor,
       ));
-      int sector = 0;
-      sector =
-          ((context.read<LocationStatus>().locationData!.latitude! - 20.56666) /
-                  (0.0181))
+
+      //* Calculating sector
+      int latSector = 0;
+      latSector =
+          (context.read<LocationStatus>().locationData!.latitude! / (0.0181))
               .ceil();
+
+      int longSector = 0;
+      longSector =
+          (context.read<LocationStatus>().locationData!.longitude! / (0.0181))
+              .ceil();
+
+
       HomeSetterPage.store
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -923,7 +930,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           'pmaps': false,
           'premium': false,
           'photourl': HomeSetterPage.auth.currentUser!.photoURL ?? '',
-          'sector': sector,
+          'latsector': latSector,
+          'longsector': longSector,
           'treatcount': 0,
           'treathead': true,
           'treathunter': true,

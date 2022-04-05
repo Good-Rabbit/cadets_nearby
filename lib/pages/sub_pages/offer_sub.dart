@@ -1,7 +1,6 @@
 import 'package:cadets_nearby/pages/sub_pages/offer_tabs/availed_offers.dart';
+import 'package:cadets_nearby/pages/sub_pages/offer_tabs/ui_elements/offer_list.dart';
 import 'package:flutter/material.dart';
-
-import 'offer_tabs/all_offers.dart';
 
 class OfferSubPage extends StatefulWidget {
   const OfferSubPage({Key? key}) : super(key: key);
@@ -10,8 +9,7 @@ class OfferSubPage extends StatefulWidget {
   _OfferSubPageState createState() => _OfferSubPageState();
 }
 
-class _OfferSubPageState extends State<OfferSubPage>
-    {
+class _OfferSubPageState extends State<OfferSubPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -19,7 +17,9 @@ class _OfferSubPageState extends State<OfferSubPage>
         length: 2,
         child: Column(
           children: [
-            const SizedBox(height:10,),
+            const SizedBox(
+              height: 10,
+            ),
             TabBar(
               tabs: [
                 Tab(
@@ -29,7 +29,10 @@ class _OfferSubPageState extends State<OfferSubPage>
                         Icons.all_inclusive_rounded,
                         color: Theme.of(context).primaryColor,
                       ),
-                      Text('All Offers',style: TextStyle(color: Theme.of(context).primaryColor),),
+                      Text(
+                        'All Offers',
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
                     ],
                   ),
                 ),
@@ -40,7 +43,10 @@ class _OfferSubPageState extends State<OfferSubPage>
                         Icons.backpack_rounded,
                         color: Theme.of(context).primaryColor,
                       ),
-                      Text('Availed Offers',style: TextStyle(color: Theme.of(context).primaryColor),),
+                      Text(
+                        'Availed Offers',
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
                     ],
                   ),
                 ),
@@ -49,7 +55,7 @@ class _OfferSubPageState extends State<OfferSubPage>
             const Expanded(
               child: TabBarView(
                 children: [
-                  AllOffersTab(),
+                  OfferList(),
                   AvailedOffersTab(),
                 ],
               ),
@@ -60,5 +66,4 @@ class _OfferSubPageState extends State<OfferSubPage>
       // allOffers(context),
     );
   }
-
 }
