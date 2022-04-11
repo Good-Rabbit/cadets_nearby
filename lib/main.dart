@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/pages/find_page.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
+import 'package:cadets_nearby/services/global_offers_provider.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
@@ -31,6 +32,7 @@ import 'pages/login.dart';
 import 'pages/notifications.dart';
 import 'pages/reset.dart';
 import 'pages/signup.dart';
+import 'pages/sub_pages/offer_tabs/availed_offers_page.dart';
 import 'pages/verification.dart';
 import 'pages/verify_cadet.dart';
 import 'pages/verify_email.dart';
@@ -99,6 +101,9 @@ Future<void> main() async {
       ChangeNotifierProvider(
         create: (context) => Data(),
       ),
+      ChangeNotifierProvider(
+        create: (context) => GlobalOffers(),
+      ),
     ],
     child: const MyApp(),
   ));
@@ -143,6 +148,7 @@ class _MyAppState extends State<MyApp> {
         '/verifyemail': (context) => const EmailVerificationPage(),
         '/verification': (context) => const VerificationPage(),
         '/notifications': (context) => const NotificationPage(),
+        '/availedoffers':(context) => const AvailedOffersPage(),
         '/availedofferdetails': (context) => const AvailedOfferDetailsPage(),
       },
     );

@@ -1,5 +1,5 @@
-import 'package:cadets_nearby/pages/sub_pages/offer_tabs/availed_offers.dart';
-import 'package:cadets_nearby/pages/sub_pages/offer_tabs/ui_elements/offer_list.dart';
+import 'package:cadets_nearby/pages/sub_pages/offer_tabs/global_offer_list.dart';
+import 'package:cadets_nearby/pages/sub_pages/offer_tabs/offer_list.dart';
 import 'package:flutter/material.dart';
 
 class OfferSubPage extends StatefulWidget {
@@ -30,8 +30,10 @@ class _OfferSubPageState extends State<OfferSubPage> {
                         color: Theme.of(context).primaryColor,
                       ),
                       Text(
-                        'All Offers',
-                        style: TextStyle(color: Theme.of(context).primaryColor),
+                        'Regional Offers',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     ],
                   ),
@@ -44,8 +46,10 @@ class _OfferSubPageState extends State<OfferSubPage> {
                         color: Theme.of(context).primaryColor,
                       ),
                       Text(
-                        'Availed Offers',
-                        style: TextStyle(color: Theme.of(context).primaryColor),
+                        'All Offers',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                        ),
                       ),
                     ],
                   ),
@@ -56,7 +60,7 @@ class _OfferSubPageState extends State<OfferSubPage> {
               child: TabBarView(
                 children: [
                   OfferList(),
-                  AvailedOffersTab(),
+                  GlobalOfferList(),
                 ],
               ),
             )

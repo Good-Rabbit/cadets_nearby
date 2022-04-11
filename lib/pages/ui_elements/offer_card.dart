@@ -1,7 +1,6 @@
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +11,7 @@ class OfferCard extends StatefulWidget {
     required this.distanceM,
   }) : super(key: key);
 
-  final QueryDocumentSnapshot<Map<String, dynamic>> e;
+  final Map<String, dynamic> e;
   final int distanceM;
 
   @override
@@ -53,7 +52,7 @@ class _OfferCardState extends State<OfferCard> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
-                      widget.e.data()['imageurl'],
+                      widget.e['imageurl'],
                       fit: BoxFit.cover,
                       width: 340,
                       height: 190,
@@ -61,7 +60,7 @@ class _OfferCardState extends State<OfferCard> {
                   ),
                 ),
                 Text(
-                  widget.e.data()['title'],
+                  widget.e['title'],
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 23),
@@ -70,7 +69,7 @@ class _OfferCardState extends State<OfferCard> {
                   height: 10,
                 ),
                 Text(
-                  widget.e.data()['minidescription'],
+                  widget.e['minidescription'],
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 18),
@@ -79,7 +78,7 @@ class _OfferCardState extends State<OfferCard> {
                   height: 10,
                 ),
                 Text(
-                  widget.e.data()['description'],
+                  widget.e['description'],
                   maxLines: 7,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 18),
@@ -88,7 +87,7 @@ class _OfferCardState extends State<OfferCard> {
                   height: 10,
                 ),
                 Text(
-                  'Address: ${widget.e.data()['address']}, ${widget.e.data()['district']}',
+                  'Address: ${widget.e['address']}, ${widget.e['district']}',
                   style: const TextStyle(fontSize: 15),
                 ),
                 const SizedBox(
@@ -123,7 +122,7 @@ class _OfferCardState extends State<OfferCard> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(70),
                       child: Image.network(
-                        widget.e.data()['imageurl'],
+                        widget.e['imageurl'],
                         fit: BoxFit.cover,
                         width: 70,
                         height: 70,
@@ -136,13 +135,13 @@ class _OfferCardState extends State<OfferCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.e.data()['title'],
+                        widget.e['title'],
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 18),
                       ),
                       Text(
-                        widget.e.data()['minidescription'],
+                        widget.e['minidescription'],
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(fontSize: 15),
@@ -204,10 +203,10 @@ class _OfferCardState extends State<OfferCard> {
                                   .collection('codes')
                                   .add({
                                 'id': context.read<MainUser>().user!.id,
-                                'title': widget.e.data()['title'],
-                                'offerid': widget.e.data()['code'],
+                                'title': widget.e['title'],
+                                'offerid': widget.e['code'],
                                 'code':
-                                    '${widget.e.data()['code']}${context.read<MainUser>().user!.cNumber}${DateTime.now().toString()}',
+                                    '${widget.e['code']}${context.read<MainUser>().user!.cNumber}${DateTime.now().toString()}',
                                 'expiry': DateTime.now()
                                     .add(const Duration(days: 7))
                                     .toString(),

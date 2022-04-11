@@ -11,20 +11,10 @@ const TextStyle textStyleDark = TextStyle(
   color: Colors.white,
 );
 
-final ThemeData lightTheme = ThemeData(
-  fontFamily: 'DMSans',
-  popupMenuTheme: PopupMenuThemeData(
-    color: Colors.orange,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20),
-    ),
-  ),
-  primarySwatch: Colors.deepOrange,
-  primaryColor: Colors.deepOrange,
-  secondaryHeaderColor: Colors.orange,
-  backgroundColor: Colors.orange[200],
-  bottomAppBarColor: Colors.orange[100],
-  textTheme: const TextTheme(
+const Color errorColor = Colors.deepOrange;
+const MaterialColor primarySwatchColor = Colors.deepOrange;
+const MaterialColor secondarySwatchColor = Colors.orange;
+const TextTheme textTheme = TextTheme(
     bodyText1: textStyle,
     bodyText2: textStyle,
     subtitle1: textStyle,
@@ -35,7 +25,23 @@ final ThemeData lightTheme = ThemeData(
     headline4: textStyle,
     headline5: textStyle,
     headline6: textStyle,
+  );
+
+final ThemeData lightTheme = ThemeData(
+  fontFamily: 'DMSans',
+  errorColor: errorColor,
+  popupMenuTheme: PopupMenuThemeData(
+    color: Colors.orange,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
   ),
+  primarySwatch: primarySwatchColor,
+  primaryColor: primarySwatchColor,
+  secondaryHeaderColor: secondarySwatchColor,
+  backgroundColor: Colors.orange[200],
+  bottomAppBarColor: Colors.orange[100],
+  textTheme: textTheme,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
       shape: MaterialStateProperty.all(
@@ -93,6 +99,7 @@ final ThemeData lightTheme = ThemeData(
 );
 
 final ThemeData darkTheme = ThemeData(
+  errorColor: errorColor,
   fontFamily: 'DMSans',
   popupMenuTheme: PopupMenuThemeData(
     color: Colors.orange,

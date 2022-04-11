@@ -43,7 +43,7 @@ class _FeedSubPageState extends State<FeedSubPage>
                         children: [
                           ...snapshots.data!.docs.map((e) {
                             return Container(
-                              margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                              margin: const EdgeInsets.fromLTRB(5, 5, 5, 0),
                               child: FeedCard(e: e),
                             );
                           }).toList(),

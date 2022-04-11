@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:cadets_nearby/pages/complete_account_page.dart';
 import 'package:cadets_nearby/pages/home.dart';
 import 'package:cadets_nearby/pages/login.dart';
 import 'package:cadets_nearby/pages/ui_elements/loading.dart';
+import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
@@ -12,6 +15,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class HomeSetterPage extends StatefulWidget {
   const HomeSetterPage({Key? key}) : super(key: key);
@@ -25,9 +29,17 @@ class HomeSetterPage extends StatefulWidget {
 class _HomeSetterPageState extends State<HomeSetterPage> {
   User? user;
 
+  int localBuild = 0;
+
+  void getBuildNumber() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    localBuild = int.parse(packageInfo.buildNumber);
+    log('Version: ' + localBuild.toString());
+  }
+
   @override
   void initState() {
-
+    getBuildNumber();
     context.read<LocationStatus>().checkPermissions();
     LocalNotificationService.initialize(context);
     user = HomeSetterPage.auth.currentUser;
@@ -106,6 +118,29 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
   Widget build(BuildContext context) {
     // if (context.read<LocationStatus>().serviceEnabled &&
     //     context.read<LocationStatus>().permissionGranted) {
+    if (context.watch<Data>().buildNumber > localBuild) {
+      return Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'A new version of Cadets Nearby is available. Please update to the latest version.',
+                style: TextStyle(
+                    fontSize: 25, color: Theme.of(context).primaryColor),
+              ),
+              ElevatedButton.icon(
+                  onPressed: () {
+                    launchURL(context.read<Data>().rateLinkData!);
+                  },
+                  icon: const Icon(Icons.upgrade_rounded),
+                  label: const Text('Update Now'))
+            ],
+          ),
+        ),
+      );
+    } else {
       if (user != null) {
         //!Verify e-mail if not done
         if (!user!.emailVerified) {
@@ -130,7 +165,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
                       context.read<MainUser>().setWithUser(user!);
                     }
                   }
-                  context.read<LocationStatus>().checkPermissions();
+                  // context.read<LocationStatus>().checkPermissions();
 
                   return Scaffold(
                     backgroundColor: Theme.of(context).backgroundColor,
@@ -152,6 +187,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
 
         return const LoginPage();
       }
+    }
     // } else {
     //   context.read<LocationStatus>().checkPermissions();
     //   return const NotGranted();

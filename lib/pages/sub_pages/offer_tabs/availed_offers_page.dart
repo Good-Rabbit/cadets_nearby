@@ -1,3 +1,4 @@
+import 'package:cadets_nearby/main.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -7,20 +8,37 @@ import '../../home_setter.dart';
 import '../../ui_elements/availed_card.dart';
 import '../../ui_elements/loading.dart';
 
-class AvailedOffersTab extends StatefulWidget {
-  const AvailedOffersTab({Key? key}) : super(key: key);
+class AvailedOffersPage extends StatefulWidget {
+  const AvailedOffersPage({Key? key}) : super(key: key);
 
   @override
-  _AvailedOffersTabState createState() => _AvailedOffersTabState();
+  _AvailedOffersPageState createState() => _AvailedOffersPageState();
 }
 
-class _AvailedOffersTabState extends State<AvailedOffersTab>
+class _AvailedOffersPageState extends State<AvailedOffersPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(iconTheme: Theme.of(context).iconTheme,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Row(
+          children: const [
+            Icon(Icons.backpack_rounded),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              'Availed Offers',
+              style: TextStyle(fontSize: 20),
+            ),
+          ],
+        ),
+        systemOverlayStyle: systemUiOverlayStyle,
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -48,7 +66,7 @@ class _AvailedOffersTabState extends State<AvailedOffersTab>
                     ),
                   );
                 } else {
-                  return Expanded(child: Center(child: noOffersAvailed()));
+                  return Expanded(child: noOffersAvailed());
                 }
               }
               return const Expanded(child: Loading());
@@ -60,8 +78,7 @@ class _AvailedOffersTabState extends State<AvailedOffersTab>
   }
 
   Widget noOffersAvailed() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 1 / 2,
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

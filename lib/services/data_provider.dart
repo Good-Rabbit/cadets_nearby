@@ -10,6 +10,7 @@ class Data with ChangeNotifier {
   String? cnLinkData;
   String? privacyPolicyData;
   String? termsConditionsData;
+  int buildNumber = 0;
 
   Stream<DocumentSnapshot<Map<String, dynamic>>>? dataStream;
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? dataSubscription;
@@ -28,6 +29,7 @@ class Data with ChangeNotifier {
       grLinkData = event.data()!['grlink'];
       termsConditionsData = event.data()!['termsconditions'];
       privacyPolicyData = event.data()!['privacypolicy'];
+      buildNumber = event.data()!['build'];
       notifyListeners();
     });
   }
