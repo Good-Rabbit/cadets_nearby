@@ -28,7 +28,7 @@ class CouponCount extends StatelessWidget {
             child: Row(
               children: [
                 Icon(
-                  FontAwesomeIcons.ticketAlt,
+                  FontAwesomeIcons.ticketSimple,
                   color: Theme.of(context).primaryColor,
                 ),
                 const SizedBox(

@@ -43,7 +43,7 @@ class _VerificationStepsState extends State<VerificationSteps> {
           ElevatedButton.icon(
             onPressed: () {},
             icon: Icon(
-              emailV ? FontAwesomeIcons.check : FontAwesomeIcons.times,
+              emailV ? FontAwesomeIcons.check : FontAwesomeIcons.xmark,
             ),
             label: const Expanded(child: Text('E-mail verification')),
             style: ButtonStyle(
@@ -69,7 +69,7 @@ class _VerificationStepsState extends State<VerificationSteps> {
               }
             },
             icon: Icon(
-              cadetV ? FontAwesomeIcons.check : FontAwesomeIcons.times,
+              cadetV ? FontAwesomeIcons.check : FontAwesomeIcons.xmark,
               // color: cadetV ? Colors.green : Colors.red,
             ),
             label: Expanded(

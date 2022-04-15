@@ -19,7 +19,7 @@ class GlobalOfferList extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        if (context.read<GlobalOffers>().offers.isNotEmpty)
+        if (context.watch<GlobalOffers>().offers.isNotEmpty)
           SingleChildScrollView(
             child: Column(
               children: context.read<GlobalOffers>().offers.map((e) {
@@ -31,18 +31,14 @@ class GlobalOfferList extends StatelessWidget {
                             double.parse(e['long'])) *
                         1000)
                     .toInt();
-                double distanceKm = distanceM / 1000;
 
-                if (distanceKm <= 6) {
-                  return Container(
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: OfferCard(
-                      e: e,
-                      distanceM: distanceM,
-                    ),
-                  );
-                }
-                return const SizedBox();
+                return Container(
+                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: OfferCard(
+                    e: e,
+                    distanceM: distanceM,
+                  ),
+                );
               }).toList(),
             ),
           ),
@@ -51,5 +47,4 @@ class GlobalOfferList extends StatelessWidget {
       ],
     );
   }
-
 }

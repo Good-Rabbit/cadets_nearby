@@ -9,6 +9,7 @@ class LocationStatus with ChangeNotifier {
   bool permissionGranted;
   double longMax = 0;
   double longMin = 0;
+  bool alreadyRequested = false;
   LocationData? locationData;
   final Location location = Location();
 
@@ -25,7 +26,8 @@ class LocationStatus with ChangeNotifier {
       checkPermissions();
 
       locationData = await location.getLocation();
-      log(locationData!.latitude.toString() +'  '+
+      log(locationData!.latitude.toString() +
+          '  ' +
           locationData!.longitude.toString());
       //Calculate minimum and maximum for other distances
       // ignore: use_build_context_synchronously
@@ -56,22 +58,28 @@ class LocationStatus with ChangeNotifier {
   }
 
   checkPermissions() async {
-    bool sTemp = serviceEnabled;
-    bool pTemp = permissionGranted;
+    if (!alreadyRequested) {
+      alreadyRequested = true;
+      bool sTemp = serviceEnabled;
+      bool pTemp = permissionGranted;
 
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-    }
-    permissionGranted =
-        await location.hasPermission() == PermissionStatus.granted;
-    if (!permissionGranted) {
+      serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await location.requestService();
+      }
       permissionGranted =
-          await location.requestPermission() == PermissionStatus.granted;
-    }
+          await location.hasPermission() == PermissionStatus.granted;
+      if (!permissionGranted) {
+        permissionGranted =
+            await location.requestPermission() == PermissionStatus.granted;
+      }
 
-    if (sTemp != serviceEnabled || pTemp != permissionGranted) {
-      notifyListeners();
+      if (sTemp != serviceEnabled || pTemp != permissionGranted) {
+        notifyListeners();
+      }
+      Future.delayed(const Duration(seconds: 10), () {
+        alreadyRequested = false;
+      });
     }
   }
 

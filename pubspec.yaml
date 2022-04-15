@@ -1,6 +1,6 @@
 name: cadets_nearby
 description: Stay in touch with cadets nearby you.
-version: 1.5.0+15
+version: 1.5.3+16
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -18,9 +18,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_local_notifications: ^9.0.2
-  flutter_native_splash: ^1.2.1
+  flutter_native_splash: ^2.1.5
   flutter_spinkit: ^5.0.0
-  font_awesome_flutter: ^9.1.0
+  font_awesome_flutter: ^10.1.0
   #google_mobile_ads: ^1.0.1
   google_sign_in: ^5.0.7
   http: ^0.13.3
