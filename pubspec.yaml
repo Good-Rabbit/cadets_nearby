@@ -1,6 +1,6 @@
 name: cadets_nearby
 description: Stay in touch with cadets nearby you.
-version: 1.5.3+16
+version: 1.5.4+17
 
 environment:
   sdk: '>=2.12.0 <3.0.0'

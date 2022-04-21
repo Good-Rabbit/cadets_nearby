@@ -14,6 +14,7 @@ const TextStyle textStyleDark = TextStyle(
 const Color errorColor = Colors.deepOrange;
 const MaterialColor primarySwatchColor = Colors.deepOrange;
 const MaterialColor secondarySwatchColor = Colors.orange;
+const MaterialColor popupColor = Colors.orange;
 const TextTheme textTheme = TextTheme(
     bodyText1: textStyle,
     bodyText2: textStyle,
@@ -31,7 +32,7 @@ final ThemeData lightTheme = ThemeData(
   fontFamily: 'DMSans',
   errorColor: errorColor,
   popupMenuTheme: PopupMenuThemeData(
-    color: Colors.orange,
+    color: popupColor,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20),
     ),
@@ -102,13 +103,13 @@ final ThemeData darkTheme = ThemeData(
   errorColor: errorColor,
   fontFamily: 'DMSans',
   popupMenuTheme: PopupMenuThemeData(
-    color: Colors.orange,
+    color: popupColor,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20),
     ),
   ),
-  primarySwatch: Colors.deepOrange,
-  primaryColor: Colors.deepOrange,
+  primarySwatch: primarySwatchColor,
+  primaryColor: primarySwatchColor,
   disabledColor: Colors.grey[400],
   secondaryHeaderColor: Colors.orange,
   backgroundColor: Colors.grey[900],

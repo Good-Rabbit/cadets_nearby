@@ -56,7 +56,7 @@ class GlobalNotifications with ChangeNotifier {
     final List<String> notificationsString =
         prefs.getStringList('notifications') ?? [];
     notificationsString.add(
-      '${message.notification!.title!}~${message.notification!.body!}~u~${message.sentTime!.toString()}~${message.data['url']}',
+      '${message.notification!.title!}~${message.notification!.body!}~u~${message.sentTime!.toString()}~${message.data['url'] ?? ''}',
     );
     prefs.setStringList('notifications', notificationsString);
 
