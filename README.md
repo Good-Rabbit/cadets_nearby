@@ -4,7 +4,7 @@
 [![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 # Cadets Nearby
 
-An open source flutter project for finding nearby cadets in Bangladesh.
+A flutter project for finding nearby cadets in Bangladesh.
 
 ## Platforms
 [![](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)]()
