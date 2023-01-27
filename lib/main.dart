@@ -71,10 +71,17 @@ Future<void> main() async {
   } catch (e) {
     log(e.toString());
   }
+
+  // Building notification base
+  LocalNotificationService.notificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()!
+      .requestPermission();
   await LocalNotificationService.notificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()!
       .createNotificationChannel(channel);
+
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
@@ -113,13 +120,13 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  MyAppState createState() => MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    var brightness = SchedulerBinding.instance!.window.platformBrightness;
+    var brightness = SchedulerBinding.instance.window.platformBrightness;
     bool isDark = brightness == Brightness.dark;
     systemUiOverlayStyle = SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -148,7 +155,7 @@ class _MyAppState extends State<MyApp> {
         '/verifyemail': (context) => const EmailVerificationPage(),
         '/verification': (context) => const VerificationPage(),
         '/notifications': (context) => const NotificationPage(),
-        '/availedoffers':(context) => const AvailedOffersPage(),
+        '/availedoffers': (context) => const AvailedOffersPage(),
         '/availedofferdetails': (context) => const AvailedOfferDetailsPage(),
       },
     );

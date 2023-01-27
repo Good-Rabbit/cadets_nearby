@@ -13,10 +13,10 @@ class CadetVerificationPage extends StatefulWidget {
   const CadetVerificationPage({Key? key}) : super(key: key);
 
   @override
-  _CadetVerificationPageState createState() => _CadetVerificationPageState();
+  CadetVerificationPageState createState() => CadetVerificationPageState();
 }
 
-class _CadetVerificationPageState extends State<CadetVerificationPage> {
+class CadetVerificationPageState extends State<CadetVerificationPage> {
   final ImagePicker picker = ImagePicker();
 
   XFile? image;
@@ -38,7 +38,8 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
         .ref('VPs/$filename')
         .putString(stringImage!, format: PutStringFormat.base64)
         .then((value) async {
-      final String url = await FirebaseStorage.instance.ref('VPs/$filename').getDownloadURL();
+      final String url =
+          await FirebaseStorage.instance.ref('VPs/$filename').getDownloadURL();
       //Update verification requests
       HomeSetterPage.store
           .collection('users')
@@ -64,7 +65,7 @@ class _CadetVerificationPageState extends State<CadetVerificationPage> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(

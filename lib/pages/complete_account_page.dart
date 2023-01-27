@@ -22,10 +22,10 @@ class CompleteAccountPage extends StatefulWidget {
   // final Function loggedInNotifier;
 
   @override
-  _CompleteAccountPageState createState() => _CompleteAccountPageState();
+  CompleteAccountPageState createState() => CompleteAccountPageState();
 }
 
-class _CompleteAccountPageState extends State<CompleteAccountPage> {
+class CompleteAccountPageState extends State<CompleteAccountPage> {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController fullNameTextController = TextEditingController();
@@ -84,7 +84,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Theme.of(context).colorScheme.background,
             body: SafeArea(
               child: ListView(
                 keyboardDismissBehavior:
@@ -198,7 +198,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           width: 500,
                           child: Theme(
                             data: Theme.of(context).copyWith(
-                              canvasColor: Theme.of(context).bottomAppBarColor,
+                              canvasColor:
+                                  Theme.of(context).bottomAppBarTheme.color,
                             ),
                             child: DropdownButtonFormField(
                               decoration: const InputDecoration(
@@ -268,7 +269,8 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                           width: 500,
                           child: Theme(
                             data: Theme.of(context).copyWith(
-                              canvasColor: Theme.of(context).bottomAppBarColor,
+                              canvasColor:
+                                  Theme.of(context).bottomAppBarTheme.color,
                             ),
                             child: DropdownButtonFormField(
                               hint: const Text('Profession'),
@@ -722,7 +724,7 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
                                                             .copyWith(
                                                           canvasColor: Theme.of(
                                                                   context)
-                                                              .bottomAppBarColor,
+                                                              .bottomAppBarTheme.color,
                                                         ),
                                                         child:
                                                             DropdownButtonFormField(
@@ -925,7 +927,6 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
           'premium': false,
           'photourl': HomeSetterPage.auth.currentUser!.photoURL ?? '',
           'latsector': latSector,
-          
           'treatcount': 0,
           'treathead': true,
           'treathunter': true,
@@ -973,23 +974,23 @@ class _CompleteAccountPageState extends State<CompleteAccountPage> {
     try {
       final Location location = Location();
 
-      bool _serviceEnabled;
-      PermissionStatus _permissionGranted;
+      bool serviceEnabled;
+      PermissionStatus permissionGranted;
 
-      _serviceEnabled = await location.serviceEnabled();
-      if (!_serviceEnabled) {
-        _serviceEnabled = await location.requestService();
-        if (!_serviceEnabled) {
+      serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await location.requestService();
+        if (!serviceEnabled) {
           setState(() {});
           return;
         }
       }
 
-      _permissionGranted = await location.hasPermission();
-      if (_permissionGranted == PermissionStatus.denied) {
-        _permissionGranted = await location.requestPermission();
-        if (!(_permissionGranted == PermissionStatus.granted ||
-            _permissionGranted == PermissionStatus.grantedLimited)) {
+      permissionGranted = await location.hasPermission();
+      if (permissionGranted == PermissionStatus.denied) {
+        permissionGranted = await location.requestPermission();
+        if (!(permissionGranted == PermissionStatus.granted ||
+            permissionGranted == PermissionStatus.grantedLimited)) {
           setState(() {});
           return;
         }

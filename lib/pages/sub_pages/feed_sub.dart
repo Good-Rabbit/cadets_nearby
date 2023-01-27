@@ -7,10 +7,10 @@ class FeedSubPage extends StatefulWidget {
   const FeedSubPage({Key? key}) : super(key: key);
 
   @override
-  _FeedSubPageState createState() => _FeedSubPageState();
+  FeedSubPageState createState() => FeedSubPageState();
 }
 
-class _FeedSubPageState extends State<FeedSubPage>
+class FeedSubPageState extends State<FeedSubPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {

@@ -9,11 +9,10 @@ class AvailedOfferDetailsPage extends StatefulWidget {
   const AvailedOfferDetailsPage({Key? key}) : super(key: key);
 
   @override
-  _AvailedOfferDetailsPageState createState() =>
-      _AvailedOfferDetailsPageState();
+  AvailedOfferDetailsPageState createState() => AvailedOfferDetailsPageState();
 }
 
-class _AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
+class AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
   QueryDocumentSnapshot<Map<String, dynamic>>? e;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class _AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
         as QueryDocumentSnapshot<Map<String, dynamic>>;
     return Scaffold(
       appBar: AppBar(
-        titleTextStyle: Theme.of(context).textTheme.headline6,
+        titleTextStyle: Theme.of(context).textTheme.titleLarge,
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -39,7 +38,7 @@ class _AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
         ),
         systemOverlayStyle: systemUiOverlayStyle,
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -94,8 +93,8 @@ class _AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
               onPressed: () {
                 copyToClipboard();
               },
-              icon:
-                  Icon(Icons.copy_rounded, color: Theme.of(context).primaryColor),
+              icon: Icon(Icons.copy_rounded,
+                  color: Theme.of(context).primaryColor),
               label: Text(
                 'Copy code',
                 style: TextStyle(

@@ -6,16 +6,16 @@ class NotGranted extends StatefulWidget {
   const NotGranted({Key? key}) : super(key: key);
 
   @override
-  _NotGrantedState createState() => _NotGrantedState();
+  NotGrantedState createState() => NotGrantedState();
 }
 
-class _NotGrantedState extends State<NotGranted> {
+class NotGrantedState extends State<NotGranted> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
           child: Center(
             child: Padding(
@@ -25,17 +25,19 @@ class _NotGrantedState extends State<NotGranted> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(
-                      Icons.warning_rounded,
-                      size: 100,
-                      color: Colors.red,
-                    ),
+                    Icons.warning_rounded,
+                    size: 100,
+                    color: Colors.red,
+                  ),
                   const SizedBox(height: 30),
                   Text(
                     !context.read<LocationStatus>().serviceEnabled
                         ? 'Location Disabled'
                         : 'Location permission not granted',
-                        textAlign:TextAlign.center,
-                    style: const TextStyle(fontSize: 25,),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 25,
+                    ),
                   ),
                   const SizedBox(height: 50),
                   ElevatedButton(
@@ -46,8 +48,7 @@ class _NotGrantedState extends State<NotGranted> {
                         !context.read<LocationStatus>().serviceEnabled
                             ? 'Enable Location'
                             : 'Grant permission',
-                        textAlign:TextAlign.center,
-
+                        textAlign: TextAlign.center,
                       ))
                 ],
               ),

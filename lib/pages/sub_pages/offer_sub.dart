@@ -6,10 +6,10 @@ class OfferSubPage extends StatefulWidget {
   const OfferSubPage({Key? key}) : super(key: key);
 
   @override
-  _OfferSubPageState createState() => _OfferSubPageState();
+  OfferSubPageState createState() => OfferSubPageState();
 }
 
-class _OfferSubPageState extends State<OfferSubPage> {
+class OfferSubPageState extends State<OfferSubPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(

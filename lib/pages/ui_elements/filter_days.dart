@@ -19,10 +19,10 @@ class FilterSlider extends StatefulWidget {
   final ValueChanged<double> onChanged;
 
   @override
-  _FilterSliderState createState() => _FilterSliderState();
+  FilterSliderState createState() => FilterSliderState();
 }
 
-class _FilterSliderState extends State<FilterSlider> {
+class FilterSliderState extends State<FilterSlider> {
   bool once = true;
   double days = 30;
 

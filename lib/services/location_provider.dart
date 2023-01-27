@@ -26,9 +26,7 @@ class LocationStatus with ChangeNotifier {
       checkPermissions();
 
       locationData = await location.getLocation();
-      log(locationData!.latitude.toString() +
-          '  ' +
-          locationData!.longitude.toString());
+      log('${locationData!.latitude}  ${locationData!.longitude}');
       //Calculate minimum and maximum for other distances
       // ignore: use_build_context_synchronously
       uploadLocation(locationData!);

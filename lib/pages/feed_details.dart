@@ -7,10 +7,10 @@ class FeedDetailsPage extends StatefulWidget {
   const FeedDetailsPage({Key? key}) : super(key: key);
 
   @override
-  _FeedDetailsPageState createState() => _FeedDetailsPageState();
+  FeedDetailsPageState createState() => FeedDetailsPageState();
 }
 
-class _FeedDetailsPageState extends State<FeedDetailsPage> {
+class FeedDetailsPageState extends State<FeedDetailsPage> {
   Map<String, dynamic>? data;
   QueryDocumentSnapshot<Map<String, dynamic>>? e;
   String timeAgo = '';
@@ -45,9 +45,9 @@ class _FeedDetailsPageState extends State<FeedDetailsPage> {
     e = data!['e'] as QueryDocumentSnapshot<Map<String, dynamic>>;
     updateTime();
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        titleTextStyle: Theme.of(context).textTheme.headline6,
+        titleTextStyle: Theme.of(context).textTheme.titleLarge,
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,

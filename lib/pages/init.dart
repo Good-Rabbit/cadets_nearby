@@ -4,16 +4,16 @@ class InitPage extends StatefulWidget {
   const InitPage({Key? key}) : super(key: key);
 
   @override
-  _InitPageState createState() => _InitPageState();
+  InitPageState createState() => InitPageState();
 }
 
-class _InitPageState extends State<InitPage> {
+class InitPageState extends State<InitPage> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 1))
         .then((value) => Navigator.of(context).pushReplacementNamed('/home'));
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Center(
           child: Image.asset(

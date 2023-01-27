@@ -6,10 +6,10 @@ class EmailVerificationPage extends StatefulWidget {
   const EmailVerificationPage({Key? key}) : super(key: key);
 
   @override
-  _EmailVerificationPageState createState() => _EmailVerificationPageState();
+  EmailVerificationPageState createState() => EmailVerificationPageState();
 }
 
-class _EmailVerificationPageState extends State<EmailVerificationPage> {
+class EmailVerificationPageState extends State<EmailVerificationPage> {
   bool disabled = false;
   bool exit = false;
 
@@ -36,7 +36,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(

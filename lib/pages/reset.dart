@@ -5,10 +5,10 @@ class ResetPage extends StatefulWidget {
   const ResetPage({Key? key}) : super(key: key);
 
   @override
-  _ResetPageState createState() => _ResetPageState();
+  ResetPageState createState() => ResetPageState();
 }
 
-class _ResetPageState extends State<ResetPage> {
+class ResetPageState extends State<ResetPage> {
   final formKey = GlobalKey<FormState>();
   TextEditingController emailTextController = TextEditingController();
 
@@ -16,7 +16,7 @@ class _ResetPageState extends State<ResetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           const Padding(
@@ -117,7 +117,6 @@ class _ResetPageState extends State<ResetPage> {
                             .then((value) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              
                               content: Text('Reset E-mail sent'),
                             ),
                           );

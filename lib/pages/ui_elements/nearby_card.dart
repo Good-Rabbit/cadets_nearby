@@ -22,24 +22,30 @@ class NearbyCard extends StatefulWidget {
   final int distanceM;
 
   @override
-  _NearbyCardState createState() => _NearbyCardState();
+  NearbyCardState createState() => NearbyCardState();
 }
 
-class _NearbyCardState extends State<NearbyCard> {
+class NearbyCardState extends State<NearbyCard> {
   String timeAgo = '';
 
   void updateTime() {
     final Duration lastOnline = DateTime.now().difference(widget.e.timeStamp);
-    if (lastOnline.inSeconds <= 20) {
+    if (lastOnline.inSeconds <= 60) {
       timeAgo = 'active now';
     } else if (lastOnline.inMinutes < 60) {
-      timeAgo = '${lastOnline.inMinutes} mins ago';
+      int mins = lastOnline.inHours;
+      timeAgo = '$mins ${mins == 1 ? 'min' : 'mins'} ago';
     } else if (lastOnline.inHours < 24) {
-      timeAgo = '${lastOnline.inHours} hrs ago';
+      int hours = lastOnline.inHours;
+      timeAgo = '$hours ${hours == 1 ? 'hour' : 'hours'} ago';
     } else if (lastOnline.inHours < 47) {
       timeAgo = 'Yesterday';
+    } else if (lastOnline.inDays < 365) {
+      int days = lastOnline.inDays;
+      timeAgo = '$days ${days == 1 ? 'day' : 'days'} ago';
     } else {
-      timeAgo = '${lastOnline.inDays} days ago';
+      int years = (lastOnline.inDays ~/ 365);
+      timeAgo = '$years ${years == 1 ? 'year' : 'years'} ago';
     }
     //  else if (lastOnline.inDays == 7) {
     //   timeAgo = 'A week ago';
@@ -154,6 +160,13 @@ class _NearbyCardState extends State<NearbyCard> {
                       ),
                     Text('Last update: $timeAgo'),
                   ],
+                ),
+              ),
+              Transform(
+                transform: Matrix4.identity()..scale(0.8),
+                child: Chip(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  label: Text(widget.e.intake.toString()),
                 ),
               ),
             ],

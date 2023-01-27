@@ -11,10 +11,10 @@ class FindPage extends StatefulWidget {
   const FindPage({Key? key}) : super(key: key);
 
   @override
-  _FindPageState createState() => _FindPageState();
+  FindPageState createState() => FindPageState();
 }
 
-class _FindPageState extends State<FindPage> {
+class FindPageState extends State<FindPage> {
   TextEditingController fullNameTextController = TextEditingController();
 
   GlobalKey<FormState> key = GlobalKey<FormState>();
@@ -27,14 +27,14 @@ class _FindPageState extends State<FindPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        titleTextStyle: Theme.of(context).textTheme.headline6,
+        titleTextStyle: Theme.of(context).textTheme.titleLarge,
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         title: const Text('Find someone'),
         elevation: 0,
         systemOverlayStyle: systemUiOverlayStyle,
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           Form(

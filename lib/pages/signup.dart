@@ -8,10 +8,10 @@ class SignupMainPage extends StatefulWidget {
   const SignupMainPage({Key? key}) : super(key: key);
 
   @override
-  _SignupMainPageState createState() => _SignupMainPageState();
+  SignupMainPageState createState() => SignupMainPageState();
 }
 
-class _SignupMainPageState extends State<SignupMainPage> {
+class SignupMainPageState extends State<SignupMainPage> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
   TextEditingController confirmTextController = TextEditingController();
@@ -41,7 +41,7 @@ class _SignupMainPageState extends State<SignupMainPage> {
       key: formKey,
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: SafeArea(

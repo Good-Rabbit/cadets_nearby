@@ -9,10 +9,10 @@ class NotificationPage extends StatefulWidget {
   const NotificationPage({Key? key}) : super(key: key);
 
   @override
-  _NotificationPageState createState() => _NotificationPageState();
+  NotificationPageState createState() => NotificationPageState();
 }
 
-class _NotificationPageState extends State<NotificationPage>
+class NotificationPageState extends State<NotificationPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
@@ -24,14 +24,18 @@ class _NotificationPageState extends State<NotificationPage>
         return;
       },
       child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(titleTextStyle: Theme.of(context).textTheme.headline6,iconTheme: Theme.of(context).iconTheme,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        appBar: AppBar(
+          titleTextStyle: Theme.of(context).textTheme.titleLarge,
+          iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Row(
             children: const [
               Icon(Icons.notifications),
-              SizedBox(width: 10,),
+              SizedBox(
+                width: 10,
+              ),
               Text(
                 'Notifications',
                 style: TextStyle(fontSize: 20),

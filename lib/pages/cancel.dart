@@ -8,10 +8,10 @@ class CancelVerificationPage extends StatefulWidget {
   const CancelVerificationPage({Key? key}) : super(key: key);
 
   @override
-  _CancelVerificationPageState createState() => _CancelVerificationPageState();
+  CancelVerificationPageState createState() => CancelVerificationPageState();
 }
 
-class _CancelVerificationPageState extends State<CancelVerificationPage> {
+class CancelVerificationPageState extends State<CancelVerificationPage> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
 
@@ -34,7 +34,7 @@ class _CancelVerificationPageState extends State<CancelVerificationPage> {
     return Form(
       key: formKey,
       child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SafeArea(
           child: ListView(
             children: [

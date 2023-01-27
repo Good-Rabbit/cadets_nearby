@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 
-class MenuItem {
+class CustomMenuItem {
   final String name;
   final Icon icon;
 
-  const MenuItem({required this.name, required this.icon});
+  const CustomMenuItem({required this.name, required this.icon});
 }
 
 class MenuItems {
 
-  static const List<MenuItem> first = [
+  static const List<CustomMenuItem> first = [
     itemAccount,
     itemAbout,
   ];
 
-    static const List<MenuItem> second = [
+    static const List<CustomMenuItem> second = [
     itemSignOut,
     itemRateUs,
   ];
 
-  static const itemAccount = MenuItem(
+  static const itemAccount = CustomMenuItem(
     name: 'Account',
     icon: Icon(Icons.account_circle_rounded),
   );
-  static const itemAbout = MenuItem(
+  static const itemAbout = CustomMenuItem(
     name: 'About',
     icon: Icon(Icons.info),
   );
-  static const itemSignOut = MenuItem(
+  static const itemSignOut = CustomMenuItem(
     name: 'Sign Out',
     icon: Icon(Icons.logout),
   );
-    static const itemRateUs = MenuItem(
+    static const itemRateUs = CustomMenuItem(
     name: 'Rate Us',
     icon: Icon(Icons.star_rounded),
   );

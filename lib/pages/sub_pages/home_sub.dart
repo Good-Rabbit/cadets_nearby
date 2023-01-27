@@ -14,10 +14,10 @@ class HomeSubPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _HomeSubPageState createState() => _HomeSubPageState();
+  HomeSubPageState createState() => HomeSubPageState();
 }
 
-class _HomeSubPageState extends State<HomeSubPage>
+class HomeSubPageState extends State<HomeSubPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class _HomeSubPageState extends State<HomeSubPage>
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-                    child: PopupMenuButton<MenuItem>(
+                    child: PopupMenuButton<CustomMenuItem>(
                       onSelected: (e) {
                         switch (e) {
                           case MenuItems.itemAccount:
@@ -122,8 +122,8 @@ class _HomeSubPageState extends State<HomeSubPage>
   @override
   bool get wantKeepAlive => true;
 
-  PopupMenuEntry<MenuItem> buildItem(MenuItem e) {
-    return PopupMenuItem<MenuItem>(
+  PopupMenuEntry<CustomMenuItem> buildItem(CustomMenuItem e) {
+    return PopupMenuItem<CustomMenuItem>(
         value: e,
         child: Row(
           children: [

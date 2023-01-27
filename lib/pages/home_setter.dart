@@ -23,10 +23,10 @@ class HomeSetterPage extends StatefulWidget {
   static FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
-  _HomeSetterPageState createState() => _HomeSetterPageState();
+  HomeSetterPageState createState() => HomeSetterPageState();
 }
 
-class _HomeSetterPageState extends State<HomeSetterPage> {
+class HomeSetterPageState extends State<HomeSetterPage> {
   User? user;
 
   int localBuild = 0;
@@ -34,14 +34,17 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
   void getBuildNumber() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     localBuild = int.parse(packageInfo.buildNumber);
-    log('Version: ' + localBuild.toString());
+    log('Version: $localBuild');
   }
 
   @override
   void initState() {
     getBuildNumber();
     context.read<LocationStatus>().checkPermissions();
+
+    // Init Notifications
     LocalNotificationService.initialize(context);
+
     user = HomeSetterPage.auth.currentUser;
     if (user != null) {
       context.read<MainUser>().setWithUser(user!);
@@ -146,7 +149,7 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
         if (!user!.emailVerified) {
           verifyEmail();
           return Scaffold(
-            backgroundColor: Theme.of(context).backgroundColor,
+            backgroundColor: Theme.of(context).colorScheme.background,
           );
         }
         //!Check if account is complete
@@ -168,12 +171,12 @@ class _HomeSetterPageState extends State<HomeSetterPage> {
                   // context.read<LocationStatus>().checkPermissions();
 
                   return Scaffold(
-                    backgroundColor: Theme.of(context).backgroundColor,
+                    backgroundColor: Theme.of(context).colorScheme.background,
                     body: const Center(child: Loading()),
                   );
                 }
                 return Scaffold(
-                  backgroundColor: Theme.of(context).backgroundColor,
+                  backgroundColor: Theme.of(context).colorScheme.background,
                   body: const Center(child: Loading()),
                 );
               });

@@ -9,10 +9,10 @@ class PostHelpPage extends StatefulWidget {
   const PostHelpPage({Key? key}) : super(key: key);
 
   @override
-  _PostHelpPageState createState() => _PostHelpPageState();
+  PostHelpPageState createState() => PostHelpPageState();
 }
 
-class _PostHelpPageState extends State<PostHelpPage> {
+class PostHelpPageState extends State<PostHelpPage> {
   TextEditingController titleController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -50,8 +50,10 @@ class _PostHelpPageState extends State<PostHelpPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(titleTextStyle: Theme.of(context).textTheme.headline6,iconTheme: Theme.of(context).iconTheme,
+        backgroundColor: Theme.of(context).colorScheme.background,
+        appBar: AppBar(
+          titleTextStyle: Theme.of(context).textTheme.titleLarge,
+          iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Row(

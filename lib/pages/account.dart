@@ -19,10 +19,10 @@ class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
 
   @override
-  _AccountPageState createState() => _AccountPageState();
+  AccountPageState createState() => AccountPageState();
 }
 
-class _AccountPageState extends State<AccountPage>
+class AccountPageState extends State<AccountPage>
     with AutomaticKeepAliveClientMixin {
   final formKey = GlobalKey<FormState>();
 
@@ -86,13 +86,13 @@ class _AccountPageState extends State<AccountPage>
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          titleTextStyle: Theme.of(context).textTheme.headline6,
+          titleTextStyle: Theme.of(context).textTheme.titleLarge,
           iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Colors.transparent,
           elevation: 0,
           systemOverlayStyle: systemUiOverlayStyle,
         ),
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Form(
           key: formKey,
           child: ListView(
@@ -259,7 +259,7 @@ class _AccountPageState extends State<AccountPage>
                         ),
                         style: TextStyle(
                           color: editingEnabled
-                              ? Theme.of(context).textTheme.subtitle1!.color
+                              ? Theme.of(context).textTheme.titleMedium!.color
                               : Colors.grey,
                         ),
                         keyboardType: TextInputType.name,
@@ -407,7 +407,8 @@ class _AccountPageState extends State<AccountPage>
                       width: 500,
                       child: Theme(
                         data: Theme.of(context).copyWith(
-                          canvasColor: Theme.of(context).bottomAppBarColor,
+                          canvasColor:
+                              Theme.of(context).bottomAppBarTheme.color,
                         ),
                         child: DropdownButtonFormField(
                           hint: const Text('Profession'),
@@ -470,7 +471,7 @@ class _AccountPageState extends State<AccountPage>
                         },
                         style: TextStyle(
                           color: editingEnabled
-                              ? Theme.of(context).textTheme.subtitle1!.color
+                              ? Theme.of(context).textTheme.titleMedium!.color
                               : Colors.grey,
                         ),
                         keyboardType: TextInputType.text,
@@ -494,7 +495,7 @@ class _AccountPageState extends State<AccountPage>
                         ),
                         style: TextStyle(
                           color: editingEnabled
-                              ? Theme.of(context).textTheme.subtitle1!.color
+                              ? Theme.of(context).textTheme.titleMedium!.color
                               : Colors.grey,
                         ),
                         onChanged: (value) {
@@ -542,7 +543,7 @@ class _AccountPageState extends State<AccountPage>
                         ),
                         style: TextStyle(
                           color: editingEnabled
-                              ? Theme.of(context).textTheme.subtitle1!.color
+                              ? Theme.of(context).textTheme.titleMedium!.color
                               : Colors.grey,
                         ),
                         keyboardType: TextInputType.emailAddress,
@@ -640,7 +641,7 @@ class _AccountPageState extends State<AccountPage>
                         },
                         style: TextStyle(
                           color: editingEnabled
-                              ? Theme.of(context).textTheme.subtitle1!.color
+                              ? Theme.of(context).textTheme.titleMedium!.color
                               : Colors.grey,
                         ),
                         keyboardType: TextInputType.name,
@@ -686,7 +687,7 @@ class _AccountPageState extends State<AccountPage>
                         },
                         style: TextStyle(
                           color: editingEnabled
-                              ? Theme.of(context).textTheme.subtitle1!.color
+                              ? Theme.of(context).textTheme.titleMedium!.color
                               : Colors.grey,
                         ),
                         keyboardType: TextInputType.name,
@@ -710,7 +711,7 @@ class _AccountPageState extends State<AccountPage>
                         ),
                         style: TextStyle(
                           color: editingEnabled
-                              ? Theme.of(context).textTheme.subtitle1!.color
+                              ? Theme.of(context).textTheme.titleMedium!.color
                               : Colors.grey,
                         ),
                         keyboardType: TextInputType.phone,
@@ -795,7 +796,7 @@ class _AccountPageState extends State<AccountPage>
                   width: 500,
                   child: Theme(
                     data: Theme.of(context).copyWith(
-                      canvasColor: Theme.of(context).bottomAppBarColor,
+                      canvasColor: Theme.of(context).bottomAppBarTheme.color,
                     ),
                     child: DropdownButtonFormField(
                       hint: const Text('Distance Control'),

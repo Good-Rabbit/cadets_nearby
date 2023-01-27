@@ -22,16 +22,21 @@ class LocalNotificationService {
     prefs.setStringList('notifications', notifications);
   }
 
+  @pragma('vm:entry-point')
+  void notificationTapBackground(NotificationResponse notificationResponse) {
+    // handle action
+  }
+
   static void initialize(BuildContext context) {
     const InitializationSettings initializationSettings =
         InitializationSettings(
             android: AndroidInitializationSettings('@mipmap/ic_launcher'));
 
     notificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: (String? payload) async {
-      final Noti notification = Noti(notificationString: payload!);
+        onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {
+      final Noti notification = Noti(notificationString: notificationResponse.payload!);
 
-      markRead(payload);
+      markRead(notificationResponse.payload!);
       showDialog(
         context: context,
         builder: (context) {
@@ -54,7 +59,8 @@ class LocalNotificationService {
           );
         },
       );
-    });
+    },
+    );
   }
 
   static dynamic display(RemoteMessage message) async {

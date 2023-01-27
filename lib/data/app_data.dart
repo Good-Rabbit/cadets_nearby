@@ -11,26 +11,56 @@ const TextStyle textStyleDark = TextStyle(
   color: Colors.white,
 );
 
-const Color errorColor = Colors.deepOrange;
+final ColorScheme lightScheme = ColorScheme(
+    brightness: Brightness.light,
+    primary: Colors.deepOrange,
+    onPrimary: Colors.deepOrangeAccent,
+    secondary: Colors.orange,
+    onSecondary: Colors.orangeAccent,
+    error: Colors.red,
+    onError: Colors.redAccent,
+    background: Colors.orange.shade200,
+    onBackground: Colors.orange.shade100,
+    surface: Colors.transparent,
+    onSurface: Colors.transparent);
+  
+final BottomAppBarTheme lightAppBarTheme = BottomAppBarTheme(color: Colors.orange.shade100);
+
+final ColorScheme darkScheme = ColorScheme(
+    brightness: Brightness.dark,
+    primary: Colors.deepOrange,
+    onPrimary: Colors.deepOrangeAccent,
+    secondary: Colors.orange,
+    onSecondary: Colors.orangeAccent,
+    error: Colors.red,
+    onError: Colors.redAccent,
+    background: Colors.grey.shade900,
+    onBackground: Colors.grey.shade800,
+    surface: Colors.transparent,
+    onSurface: Colors.transparent);
+
+final BottomAppBarTheme darkAppBarTheme = BottomAppBarTheme(color: Colors.grey.shade800);
+  
 const MaterialColor primarySwatchColor = Colors.deepOrange;
 const MaterialColor secondarySwatchColor = Colors.orange;
 const MaterialColor popupColor = Colors.orange;
-const TextTheme textTheme = TextTheme(
-    bodyText1: textStyle,
-    bodyText2: textStyle,
-    subtitle1: textStyle,
-    subtitle2: textStyle,
-    headline1: textStyle,
-    headline2: textStyle,
-    headline3: textStyle,
-    headline4: textStyle,
-    headline5: textStyle,
-    headline6: textStyle,
-  );
+
+TextTheme textTheme = const TextTheme(
+  bodyLarge: textStyle,
+  bodyMedium: textStyle,
+  titleLarge: textStyle,
+  titleMedium: textStyle,
+  titleSmall: textStyle,
+  displayLarge: textStyle,
+  displayMedium: textStyle,
+  displaySmall: textStyle,
+  headlineMedium: textStyle,
+  headlineSmall: textStyle,
+);
 
 final ThemeData lightTheme = ThemeData(
   fontFamily: 'DMSans',
-  errorColor: errorColor,
+  colorScheme: lightScheme,
   popupMenuTheme: PopupMenuThemeData(
     color: popupColor,
     shape: RoundedRectangleBorder(
@@ -40,8 +70,7 @@ final ThemeData lightTheme = ThemeData(
   primarySwatch: primarySwatchColor,
   primaryColor: primarySwatchColor,
   secondaryHeaderColor: secondarySwatchColor,
-  backgroundColor: Colors.orange[200],
-  bottomAppBarColor: Colors.orange[100],
+  bottomAppBarTheme: lightAppBarTheme,
   textTheme: textTheme,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
@@ -100,7 +129,7 @@ final ThemeData lightTheme = ThemeData(
 );
 
 final ThemeData darkTheme = ThemeData(
-  errorColor: errorColor,
+  colorScheme: darkScheme,
   fontFamily: 'DMSans',
   popupMenuTheme: PopupMenuThemeData(
     color: popupColor,
@@ -112,25 +141,24 @@ final ThemeData darkTheme = ThemeData(
   primaryColor: primarySwatchColor,
   disabledColor: Colors.grey[400],
   secondaryHeaderColor: Colors.orange,
-  backgroundColor: Colors.grey[900],
   checkboxTheme: CheckboxThemeData(
     checkColor: MaterialStateProperty.all(Colors.black),
     fillColor: MaterialStateProperty.all(Colors.white),
   ),
-  bottomAppBarColor: Colors.grey[850],
+  bottomAppBarTheme: darkAppBarTheme,
   textTheme: const TextTheme(
-    bodyText1: textStyleDark,
-    bodyText2: textStyleDark,
-    subtitle1: textStyleDark,
-    subtitle2: textStyleDark,
-    headline1: textStyleDark,
-    headline2: textStyleDark,
-    headline3: textStyleDark,
-    headline4: textStyleDark,
-    headline5: textStyleDark,
-    headline6: textStyleDark,
+    bodyLarge: textStyleDark,
+    bodyMedium: textStyleDark,
+    titleLarge: textStyleDark,
+    titleMedium: textStyleDark,
+    titleSmall: textStyleDark,
+    displayLarge: textStyleDark,
+    displayMedium: textStyleDark,
+    displaySmall: textStyleDark,
+    headlineMedium: textStyleDark,
+    headlineSmall: textStyleDark,
   ),
-    chipTheme: ChipThemeData(
+  chipTheme: ChipThemeData(
     brightness: Brightness.light,
     backgroundColor: Colors.grey[800]!,
     disabledColor: Colors.grey[800]!,
@@ -177,15 +205,15 @@ final ThemeData darkTheme = ThemeData(
   dialogTheme: DialogTheme(backgroundColor: Colors.grey[850]),
   iconTheme: const IconThemeData(color: Colors.white),
   primaryTextTheme: const TextTheme(
-    bodyText1: textStyleDark,
-    bodyText2: textStyleDark,
-    button: textStyleDark,
-    subtitle1: textStyleDark,
-    subtitle2: textStyleDark,
-    headline1: textStyleDark,
-    headline2: textStyleDark,
-    headline3: textStyleDark,
-    headline4: textStyleDark,
+    bodyLarge: textStyleDark,
+    bodyMedium: textStyleDark,
+    labelLarge: textStyleDark,
+    titleMedium: textStyleDark,
+    titleSmall: textStyleDark,
+    displayLarge: textStyleDark,
+    displayMedium: textStyleDark,
+    displaySmall: textStyleDark,
+    headlineMedium: textStyleDark,
   ),
   inputDecorationTheme: InputDecorationTheme(
     fillColor: Colors.grey[700],

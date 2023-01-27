@@ -17,7 +17,7 @@ showBottomSheetWith(List<Widget> child, BuildContext context) {
               minChildSize: 0.5,
               builder: (_, controller) => Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).bottomAppBarColor,
+                  color: Theme.of(context).bottomAppBarTheme.color,
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(15.0),
                   ),

@@ -1,4 +1,3 @@
-
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cadets_nearby/pages/sub_pages/contact_sub.dart';
 import 'package:cadets_nearby/pages/sub_pages/feed_sub.dart';
@@ -38,17 +37,16 @@ class RealHome extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RealHomeState createState() => _RealHomeState();
+  RealHomeState createState() => RealHomeState();
 }
 
-class _RealHomeState extends State<RealHome> {
-
-  final pages =  const [
-              HomeSubPage(),
-              OfferSubPage(),
-              FeedSubPage(),
-              ContactSubPage(),
-            ];
+class RealHomeState extends State<RealHome> {
+  final pages = const [
+    HomeSubPage(),
+    OfferSubPage(),
+    FeedSubPage(),
+    ContactSubPage(),
+  ];
 
   int selectedIndex = 0;
   final pageController = PageController(initialPage: 0);
@@ -109,7 +107,7 @@ class _RealHomeState extends State<RealHome> {
         return true;
       },
       child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.background,
           body: PageView(
             controller: pageController,
             onPageChanged: (index) {
@@ -145,7 +143,7 @@ class _RealHomeState extends State<RealHome> {
           ),
           bottomNavigationBar: BottomNavyBar(
             selectedIndex: selectedIndex,
-            backgroundColor: Theme.of(context).bottomAppBarColor,
+            backgroundColor: Theme.of(context).bottomAppBarTheme.color,
             onItemSelected: (index) => setState(() {
               setSelectedIndex(index);
             }),

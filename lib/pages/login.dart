@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,10 +9,10 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   TextEditingController emailTextController = TextEditingController();
   TextEditingController passwordTextController = TextEditingController();
 
@@ -37,12 +38,11 @@ class _LoginPageState extends State<LoginPage> {
     return Form(
       key: formKey,
       child: GestureDetector(
-        onTap:() => FocusScope.of(context).unfocus(),
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor: Theme.of(context).colorScheme.background,
           body: SafeArea(
             child: ListView(
-              
               children: [
                 Column(
                   children: [
@@ -145,8 +145,8 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 suffixIcon: InkWell(
                                   onTap: () => setState(
-                                    () =>
-                                        passwordVisibility = !passwordVisibility,
+                                    () => passwordVisibility =
+                                        !passwordVisibility,
                                   ),
                                   child: Icon(
                                     passwordVisibility
@@ -202,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: inProgress
                                 ? null
                                 : () async {
-                                  FocusScope.of(context).unfocus();
+                                    FocusScope.of(context).unfocus();
                                     if (formKey.currentState!.validate()) {
                                       setState(() {
                                         inProgress = true;
@@ -217,11 +217,11 @@ class _LoginPageState extends State<LoginPage> {
                                       } on FirebaseAuthException catch (e) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
-                                                content: const SafeArea(
-                                                    child: Text('Login Failed')),
-                                                backgroundColor: Theme.of(context)
-                                                    .primaryColor,
-                                                ));
+                                          content: const SafeArea(
+                                              child: Text('Login Failed')),
+                                          backgroundColor:
+                                              Theme.of(context).primaryColor,
+                                        ));
                                         switch (e.code) {
                                           case 'invalid-email':
                                             invalidEmail = true;
@@ -305,7 +305,17 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
-    final GoogleSignInAccount googleUser = (await GoogleSignIn().signIn())!;
+    final GoogleSignInAccount googleUser =
+        (await GoogleSignIn().signIn().catchError(
+      // ignore: body_might_complete_normally_catch_error
+      (err) {
+        if (err
+            .toString()
+            .contains('com.google.android.gms.common.api.ApiException: 10:')) {
+          log('App SHA1 key not registered');
+        }
+      },
+    ))!;
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication googleAuth =

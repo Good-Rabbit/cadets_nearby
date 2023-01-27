@@ -7,10 +7,10 @@ class OfferDetailsPage extends StatefulWidget {
   const OfferDetailsPage({Key? key}) : super(key: key);
 
   @override
-  _OfferDetailsPageState createState() => _OfferDetailsPageState();
+  OfferDetailsPageState createState() => OfferDetailsPageState();
 }
 
-class _OfferDetailsPageState extends State<OfferDetailsPage> {
+class OfferDetailsPageState extends State<OfferDetailsPage> {
   Map<String, dynamic>? data;
   QueryDocumentSnapshot<Map<String, dynamic>>? e;
   String distance = '';
@@ -26,9 +26,9 @@ class _OfferDetailsPageState extends State<OfferDetailsPage> {
     e = data!['e'] as QueryDocumentSnapshot<Map<String, dynamic>>;
     distance = data!['distance'];
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        titleTextStyle: Theme.of(context).textTheme.headline6,
+        titleTextStyle: Theme.of(context).textTheme.titleLarge,
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,

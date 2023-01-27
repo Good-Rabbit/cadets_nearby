@@ -12,17 +12,18 @@ class AvailedOffersPage extends StatefulWidget {
   const AvailedOffersPage({Key? key}) : super(key: key);
 
   @override
-  _AvailedOffersPageState createState() => _AvailedOffersPageState();
+  AvailedOffersPageState createState() => AvailedOffersPageState();
 }
 
-class _AvailedOffersPageState extends State<AvailedOffersPage>
+class AvailedOffersPageState extends State<AvailedOffersPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(iconTheme: Theme.of(context).iconTheme,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppBar(
+        iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Row(

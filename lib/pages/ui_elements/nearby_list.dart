@@ -18,10 +18,10 @@ class NearbyList extends StatefulWidget {
   final List<QueryDocumentSnapshot<Map<String, dynamic>>> docs;
 
   @override
-  _NearbyListState createState() => _NearbyListState();
+  NearbyListState createState() => NearbyListState();
 }
 
-class _NearbyListState extends State<NearbyList> {
+class NearbyListState extends State<NearbyList> {
   double min = 0;
   double max = 8;
   int divisions = 4;
@@ -299,7 +299,7 @@ class _NearbyListState extends State<NearbyList> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            backgroundColor: Theme.of(context).bottomAppBarColor,
+            backgroundColor: Theme.of(context).bottomAppBarTheme.color,
             title: const Text('Filter'),
             content: SingleChildScrollView(
               child: Column(
@@ -337,7 +337,7 @@ class _NearbyListState extends State<NearbyList> {
                     width: 500,
                     child: Theme(
                       data: Theme.of(context).copyWith(
-                        canvasColor: Theme.of(context).bottomAppBarColor,
+                        canvasColor: Theme.of(context).bottomAppBarTheme.color,
                       ),
                       child: DropdownButtonFormField(
                         decoration: const InputDecoration(

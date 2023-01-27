@@ -9,10 +9,10 @@ class ContactSubPage extends StatefulWidget {
   const ContactSubPage({Key? key}) : super(key: key);
 
   @override
-  _ContactSubPageState createState() => _ContactSubPageState();
+  ContactSubPageState createState() => ContactSubPageState();
 }
 
-class _ContactSubPageState extends State<ContactSubPage>
+class ContactSubPageState extends State<ContactSubPage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {

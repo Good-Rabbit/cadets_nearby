@@ -8,10 +8,10 @@ class VerificationSteps extends StatefulWidget {
   const VerificationSteps({Key? key}) : super(key: key);
 
   @override
-  _VerificationStepsState createState() => _VerificationStepsState();
+  VerificationStepsState createState() => VerificationStepsState();
 }
 
-class _VerificationStepsState extends State<VerificationSteps> {
+class VerificationStepsState extends State<VerificationSteps> {
   bool emailV = false;
   bool cadetV = false;
   bool emailFirst = false;

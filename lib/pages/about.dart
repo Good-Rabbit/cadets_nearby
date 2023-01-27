@@ -11,8 +11,10 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(titleTextStyle: Theme.of(context).textTheme.headline6,iconTheme: Theme.of(context).iconTheme,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      appBar: AppBar(
+        titleTextStyle: Theme.of(context).textTheme.titleLarge,
+        iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Row(

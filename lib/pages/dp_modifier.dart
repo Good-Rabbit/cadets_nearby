@@ -13,10 +13,10 @@ class DpPage extends StatefulWidget {
   const DpPage({Key? key}) : super(key: key);
 
   @override
-  _DpPageState createState() => _DpPageState();
+  DpPageState createState() => DpPageState();
 }
 
-class _DpPageState extends State<DpPage> {
+class DpPageState extends State<DpPage> {
   final ImagePicker picker = ImagePicker();
   XFile? image;
   String? stringImage;
@@ -98,7 +98,7 @@ class _DpPageState extends State<DpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SafeArea(
         child: Center(
           child: ListView(

@@ -68,7 +68,7 @@ class ContactCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '${e.cName} - ${e.intake.toString()}',
+                          '$e.cName',
                         ),
                         if (e.celeb)
                           const Icon(
@@ -88,6 +88,13 @@ class ContactCard extends StatelessWidget {
                     Text(
                         'Designation: ${e.designation == '' ? '-' : e.designation}'),
                   ],
+                ),
+              ),
+              Transform(
+                transform: Matrix4.identity()..scale(0.8),
+                child: Chip(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  label: Text(e.intake.toString()),
                 ),
               ),
             ],
