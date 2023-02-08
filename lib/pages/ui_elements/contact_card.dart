@@ -18,7 +18,7 @@ class ContactCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (context.read<MainUser>().user!.verified == 'yes') {
-        showBottomSheetWith([UserProfile(e: e)], context);
+          showBottomSheetWith([UserProfile(e: e)], context);
         } else {
           showDialog(
               context: context,
@@ -68,7 +68,7 @@ class ContactCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '$e.cName',
+                          e.cName,
                         ),
                         if (e.celeb)
                           const Icon(
@@ -94,7 +94,10 @@ class ContactCard extends StatelessWidget {
                 transform: Matrix4.identity()..scale(0.8),
                 child: Chip(
                   backgroundColor: Theme.of(context).primaryColor,
-                  label: Text(e.intake.toString()),
+                  label: Text(
+                    e.intake.toString(),
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],

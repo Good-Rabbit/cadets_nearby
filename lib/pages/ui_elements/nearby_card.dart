@@ -40,9 +40,12 @@ class NearbyCardState extends State<NearbyCard> {
       timeAgo = '$hours ${hours == 1 ? 'hour' : 'hours'} ago';
     } else if (lastOnline.inHours < 47) {
       timeAgo = 'Yesterday';
-    } else if (lastOnline.inDays < 365) {
+    } else if (lastOnline.inDays < 30) {
       int days = lastOnline.inDays;
       timeAgo = '$days ${days == 1 ? 'day' : 'days'} ago';
+    } else if (lastOnline.inDays < 365) {
+      int months = lastOnline.inDays ~/ 30;
+      timeAgo = '$months ${months == 1 ? 'month' : 'months'} ago';
     } else {
       int years = (lastOnline.inDays ~/ 365);
       timeAgo = '$years ${years == 1 ? 'year' : 'years'} ago';
@@ -166,7 +169,10 @@ class NearbyCardState extends State<NearbyCard> {
                 transform: Matrix4.identity()..scale(0.8),
                 child: Chip(
                   backgroundColor: Theme.of(context).primaryColor,
-                  label: Text(widget.e.intake.toString()),
+                  label: Text(
+                    widget.e.intake.toString(),
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],

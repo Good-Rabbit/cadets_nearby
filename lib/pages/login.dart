@@ -287,7 +287,10 @@ class LoginPageState extends State<LoginPage> {
                                 child: Image.asset('assets/images/google.png',
                                     fit: BoxFit.contain),
                               ),
-                              const Text('Sign in with Google'),
+                              const Text(
+                                'Sign in with Google',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ],
                           ),
                         ),

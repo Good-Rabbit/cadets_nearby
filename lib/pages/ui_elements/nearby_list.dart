@@ -47,6 +47,12 @@ class NearbyListState extends State<NearbyList> {
     others = [];
     all = [];
 
+    oldCelebs = [];
+    oldBatchMates = [];
+    oldCollegeMates = [];
+    oldOthers = [];
+    tooOld = [];
+
     for (var u in widget.docs) {
       //* Check if main user is in the list
       if (u.data()['id'] == context.read<MainUser>().user!.id) {
@@ -236,7 +242,7 @@ class NearbyListState extends State<NearbyList> {
             ),
           if (tooOld.isNotEmpty)
             const SizedBox(
-              height: 10,
+              height: 14,
             ),
           if (tooOld.isNotEmpty)
             const Text(
@@ -249,7 +255,7 @@ class NearbyListState extends State<NearbyList> {
           if (tooOld.isNotEmpty)
             if (tooOld.isNotEmpty)
               const SizedBox(
-                height: 10,
+                height: 14,
               ),
           Column(
             children: tooOld.map(

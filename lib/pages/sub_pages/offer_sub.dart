@@ -21,6 +21,7 @@ class OfferSubPageState extends State<OfferSubPage> {
               height: 10,
             ),
             TabBar(
+              indicatorColor: Theme.of(context).colorScheme.primary,
               tabs: [
                 Tab(
                   child: Column(

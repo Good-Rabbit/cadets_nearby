@@ -173,7 +173,7 @@ class RealHomeState extends State<RealHome> {
                 icon: const Icon(Icons.contacts_rounded),
                 title: const Text('Contacts'),
                 textAlign: TextAlign.center,
-                activeColor: Colors.brown,
+                activeColor: Colors.blueAccent,
                 inactiveColor: Theme.of(context).secondaryHeaderColor,
               ),
             ],

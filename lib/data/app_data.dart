@@ -14,24 +14,25 @@ const TextStyle textStyleDark = TextStyle(
 final ColorScheme lightScheme = ColorScheme(
     brightness: Brightness.light,
     primary: Colors.deepOrange,
-    onPrimary: Colors.deepOrangeAccent,
+    onPrimary: Colors.white,
     secondary: Colors.orange,
-    onSecondary: Colors.orangeAccent,
+    onSecondary: Colors.white,
     error: Colors.red,
     onError: Colors.redAccent,
     background: Colors.orange.shade200,
     onBackground: Colors.orange.shade100,
     surface: Colors.transparent,
     onSurface: Colors.transparent);
-  
-final BottomAppBarTheme lightAppBarTheme = BottomAppBarTheme(color: Colors.orange.shade100);
+
+final BottomAppBarTheme lightAppBarTheme =
+    BottomAppBarTheme(color: Colors.orange.shade100);
 
 final ColorScheme darkScheme = ColorScheme(
     brightness: Brightness.dark,
     primary: Colors.deepOrange,
-    onPrimary: Colors.deepOrangeAccent,
+    onPrimary: Colors.white,
     secondary: Colors.orange,
-    onSecondary: Colors.orangeAccent,
+    onSecondary: Colors.white,
     error: Colors.red,
     onError: Colors.redAccent,
     background: Colors.grey.shade900,
@@ -39,8 +40,9 @@ final ColorScheme darkScheme = ColorScheme(
     surface: Colors.transparent,
     onSurface: Colors.transparent);
 
-final BottomAppBarTheme darkAppBarTheme = BottomAppBarTheme(color: Colors.grey.shade800);
-  
+final BottomAppBarTheme darkAppBarTheme =
+    BottomAppBarTheme(color: Colors.grey.shade800);
+
 const MaterialColor primarySwatchColor = Colors.deepOrange;
 const MaterialColor secondarySwatchColor = Colors.orange;
 const MaterialColor popupColor = Colors.orange;
@@ -59,6 +61,7 @@ TextTheme textTheme = const TextTheme(
 );
 
 final ThemeData lightTheme = ThemeData(
+  buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
   fontFamily: 'DMSans',
   colorScheme: lightScheme,
   popupMenuTheme: PopupMenuThemeData(
@@ -129,6 +132,7 @@ final ThemeData lightTheme = ThemeData(
 );
 
 final ThemeData darkTheme = ThemeData(
+  buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
   colorScheme: darkScheme,
   fontFamily: 'DMSans',
   popupMenuTheme: PopupMenuThemeData(
