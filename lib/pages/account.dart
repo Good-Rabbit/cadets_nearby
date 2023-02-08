@@ -27,9 +27,9 @@ class AccountPageState extends State<AccountPage>
   final formKey = GlobalKey<FormState>();
 
   TextEditingController fullNameTextController = TextEditingController();
-  TextEditingController cNumberTextController = TextEditingController();
-  TextEditingController cNameTextController = TextEditingController();
-  TextEditingController intakeTextController = TextEditingController();
+  String? cNumber;
+  String? cName;
+  String? intake;
   TextEditingController phoneTextController = TextEditingController();
   TextEditingController emailTextController = TextEditingController();
   TextEditingController fbTextController = TextEditingController();
@@ -45,7 +45,7 @@ class AccountPageState extends State<AccountPage>
 
   bool inProgress = false;
 
-  String college = 'Pick your college*';
+  String? college;
   String profession = 'Doctor';
 
   SharedPreferences? prefs;
@@ -53,9 +53,6 @@ class AccountPageState extends State<AccountPage>
   @override
   void dispose() {
     fullNameTextController.dispose();
-    cNumberTextController.dispose();
-    cNameTextController.dispose();
-    intakeTextController.dispose();
     phoneTextController.dispose();
     emailTextController.dispose();
     fbTextController.dispose();
@@ -285,11 +282,9 @@ class AccountPageState extends State<AccountPage>
                     child: SizedBox(
                       width: 500,
                       child: TextFormField(
-                        controller: cNameTextController,
+                        initialValue: cName,
                         enabled: false,
-                        cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Cadet Name* -e.g. Rashid',
                           prefixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.perm_identity_rounded),
@@ -298,13 +293,6 @@ class AccountPageState extends State<AccountPage>
                         style: const TextStyle(
                           color: Colors.grey,
                         ),
-                        keyboardType: TextInputType.name,
-                        validator: (val) {
-                          if (val!.trim().isEmpty) {
-                            return 'Cadet name is required';
-                          }
-                          return null;
-                        },
                       ),
                     ),
                   ),
@@ -313,11 +301,9 @@ class AccountPageState extends State<AccountPage>
                     child: SizedBox(
                       width: 500,
                       child: TextFormField(
-                        controller: cNumberTextController,
+                        initialValue: cNumber,
                         enabled: false,
-                        cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Cadet Number*',
                           prefixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.book),
@@ -326,47 +312,6 @@ class AccountPageState extends State<AccountPage>
                         style: const TextStyle(
                           color: Colors.grey,
                         ),
-                        keyboardType: const TextInputType.numberWithOptions(),
-                        validator: (val) {
-                          if (val!.isEmpty) {
-                            return 'Cadet Number is required';
-                          }
-                          if (!isInt(val)) {
-                            return 'Please enter a valid number';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                    child: SizedBox(
-                      width: 500,
-                      child: DropdownButtonFormField(
-                        decoration: const InputDecoration(
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                            child: Icon(
-                              Icons.house,
-                            ),
-                          ),
-                        ),
-                        value: college,
-                        isDense: true,
-                        onChanged: null,
-                        items: colleges.map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                        validator: (value) {
-                          if (college == 'Pick your college') {
-                            return 'Please pick your college';
-                          }
-                          return null;
-                        },
                       ),
                     ),
                   ),
@@ -375,7 +320,26 @@ class AccountPageState extends State<AccountPage>
                     child: SizedBox(
                       width: 500,
                       child: TextFormField(
-                        controller: intakeTextController,
+                        initialValue: college,
+                        enabled: false,
+                        decoration: const InputDecoration(
+                          prefixIcon: Padding(
+                            padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                            child: Icon(Icons.house),
+                          ),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: TextFormField(
+                        initialValue: intake,
                         enabled: false,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
@@ -841,7 +805,7 @@ class AccountPageState extends State<AccountPage>
                             inProgress = true;
                           });
                           if (formKey.currentState!.validate()) {
-                            String cName = cNameTextController.text;
+                            String cName = this.cName ?? '';
                             String first = cName[0];
                             first = first.toUpperCase();
                             cName = first + cName.substring(1);
@@ -935,11 +899,9 @@ class AccountPageState extends State<AccountPage>
     locationAccess = context.read<MainUser>().user!.pLocation;
     phoneAccess = context.read<MainUser>().user!.pPhone;
     fullNameTextController.text = context.read<MainUser>().user!.fullName;
-    cNameTextController.text = context.read<MainUser>().user!.cName;
-    cNumberTextController.text =
-        context.read<MainUser>().user!.cNumber.toString();
-    intakeTextController.text =
-        context.read<MainUser>().user!.intake.toString();
+    cName = context.read<MainUser>().user!.cName;
+    cNumber = context.read<MainUser>().user!.cNumber.toString();
+    intake = context.read<MainUser>().user!.intake.toString();
     phoneTextController.text = context.read<MainUser>().user!.phone;
     emailTextController.text = context.read<MainUser>().user!.email;
     fbTextController.text = context.read<MainUser>().user!.fbUrl;

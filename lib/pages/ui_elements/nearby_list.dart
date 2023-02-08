@@ -126,6 +126,14 @@ class NearbyListState extends State<NearbyList> {
 
       Duration timeDiff;
       timeDiff = DateTime.now().difference(e.timeStamp);
+
+      // * Time Filter Check
+      if (timeDiff.inDays > context.read<Nearby>().daysRange) {
+        if (e.intake != context.read<Nearby>().intakeYear) {
+          continue;
+        }
+      }
+
       if (timeDiff.inDays < 60) {
         if (e.celeb) {
           celebs.add(e);
@@ -321,11 +329,13 @@ class NearbyListState extends State<NearbyList> {
                     ),
                   ),
                   FilterSlider(
-                    value: context.read<Nearby>().days,
+                    value: context.read<Nearby>().days > 60
+                        ? 60
+                        : context.read<Nearby>().days,
                     unit: 'Days ago',
                     min: 1.0,
-                    max: 30.0,
-                    divisions: 10,
+                    max: 60.0,
+                    divisions: 15,
                     onChanged: (value) {
                       // setState(() {
                       context.read<Nearby>().days = value.toInt();
