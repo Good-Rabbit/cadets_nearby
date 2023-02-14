@@ -88,12 +88,58 @@ class CadetVerificationPageState extends State<CadetVerificationPage> {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.all(30.0),
+                  padding: EdgeInsets.fromLTRB(30, 30, 30, 5),
                   child: Text(
-                    'Submit a document -e.g.Cadet ID card,Pic in cadet uniform- bearing proof that you are a present or an ex cadet. Please note that it might take some time to get verified, you can still use the app while waiting for verification.',
+                    'Submit a document bearing proof that you are a present or an ex cadet. Please note that it might take some time to get verified, you can still use the app while waiting for verification. e.g.-',
                     style: TextStyle(
                       fontSize: 15,
                     ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(
+                          '• Cadet ID card',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(
+                          '• Pic in cadet uniform',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(
+                          '• Something like that',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(30, 5, 30, 20),
+                  child: Text(
+                    'P.S.- DO NOT SUBMIT ANYTHING THAT CAN\'T PROVE THAT YOU ARE A CADET. YOUR ACCOUNT MIGHT BE DELETED. CONTACT US IF YOU DON\'T HAVE ANYTHING.',
+                    style: TextStyle(fontSize: 15, color: Colors.red),
                   ),
                 ),
                 Container(
@@ -158,6 +204,9 @@ class CadetVerificationPageState extends State<CadetVerificationPage> {
                   icon: const Icon(Icons.arrow_left_rounded),
                   label: const Text('Later'),
                 ),
+                const SizedBox(
+                  height: 20,
+                )
               ],
             ),
           ),

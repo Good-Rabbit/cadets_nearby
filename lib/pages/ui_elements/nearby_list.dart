@@ -127,22 +127,18 @@ class NearbyListState extends State<NearbyList> {
       Duration timeDiff;
       timeDiff = DateTime.now().difference(e.timeStamp);
 
-      // * Time Filter Check
-      if (timeDiff.inDays > context.read<Nearby>().daysRange) {
-        if (e.intake != context.read<Nearby>().intakeYear) {
-          continue;
-        }
-      }
-
-      if (timeDiff.inDays < 60) {
-        if (e.celeb) {
-          celebs.add(e);
-        } else if (e.treatHead) {
-          batchMates.add(e);
-        } else if (e.treatHunter) {
-          collegeMates.add(e);
-        } else {
-          others.add(e);
+      if (timeDiff.inDays <= 60) {
+        // * Time Filter Check
+        if (timeDiff.inDays <= context.read<Nearby>().daysRange) {
+          if (e.celeb) {
+            celebs.add(e);
+          } else if (e.treatHead) {
+            batchMates.add(e);
+          } else if (e.treatHunter) {
+            collegeMates.add(e);
+          } else {
+            others.add(e);
+          }
         }
       } else {
         if (e.celeb) {
@@ -183,6 +179,7 @@ class NearbyListState extends State<NearbyList> {
                   },
                   icon: const Icon(Icons.filter_alt_rounded),
                   style: ButtonStyle(
+                    elevation: MaterialStateProperty.all(0),
                     backgroundColor:
                         MaterialStateProperty.all(Colors.transparent),
                     foregroundColor:

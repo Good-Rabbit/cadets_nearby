@@ -60,6 +60,9 @@ TextTheme textTheme = const TextTheme(
   headlineSmall: textStyle,
 );
 
+const double cardElevation = 10;
+const double buttonElevation = 15;
+
 final ThemeData lightTheme = ThemeData(
   buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
   fontFamily: 'DMSans',
@@ -89,11 +92,11 @@ final ThemeData lightTheme = ThemeData(
         ),
       ),
       minimumSize: MaterialStateProperty.all(const Size(70, 40)),
-      elevation: MaterialStateProperty.all(0),
+      elevation: MaterialStateProperty.all(buttonElevation),
     ),
   ),
   cardTheme: CardTheme(
-    elevation: 0,
+    elevation: cardElevation,
     color: Colors.orange[50],
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),
@@ -196,11 +199,11 @@ final ThemeData darkTheme = ThemeData(
         },
       ),
       minimumSize: MaterialStateProperty.all(const Size(70, 40)),
-      elevation: MaterialStateProperty.all(0),
+      elevation: MaterialStateProperty.all(buttonElevation),
     ),
   ),
   cardTheme: CardTheme(
-    elevation: 0,
+    elevation: cardElevation,
     color: Colors.grey[800],
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20.0),

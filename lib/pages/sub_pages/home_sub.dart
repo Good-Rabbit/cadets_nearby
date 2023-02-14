@@ -98,21 +98,6 @@ class HomeSubPageState extends State<HomeSubPage>
               ),
             ),
           ),
-          // FutureBuilder(
-          //     future: FirebaseFirestore.instance.collection('users').get(),
-          //     builder: (context,
-          //         AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-          //       if (snapshot.hasData) {
-          //         for (var doc in snapshot.data!.docs) {
-          //           int sector =
-          //               (doc.data()['lat'] / (0.0181)).ceil();
-          //           doc.reference.update({'latsector': sector});
-          //         }
-          //         return const Text('Done');
-          //       } else {
-          //         return Container();
-          //       }
-          //     }),
           const Expanded(child: NearbyListHolder()),
         ],
       ),

@@ -16,21 +16,21 @@ class FeedDetailsPageState extends State<FeedDetailsPage> {
   String timeAgo = '';
 
   void updateTime() {
-    final Duration lastOnline =
+    final Duration postTime =
         DateTime.now().difference(DateTime.parse(e!.data()['timestamp']));
-    if (lastOnline.inSeconds <= 20) {
+    if (postTime.inSeconds <= 20) {
       timeAgo = 'Just now';
-    } else if (lastOnline.inMinutes < 60) {
-      timeAgo = '${lastOnline.inMinutes} mins ago';
-    } else if (lastOnline.inHours < 24) {
-      timeAgo = '${lastOnline.inHours} hrs ago';
-    } else if (lastOnline.inHours < 47) {
+    } else if (postTime.inMinutes < 60) {
+      timeAgo = '${postTime.inMinutes} mins ago';
+    } else if (postTime.inHours < 24) {
+      timeAgo = '${postTime.inHours} hrs ago';
+    } else if (postTime.inHours < 47) {
       timeAgo = 'Yesterday';
-    } else if (lastOnline.inDays < 30) {
-      timeAgo = '${lastOnline.inDays} days ago';
-    } else if (lastOnline.inDays > 30) {
+    } else if (postTime.inDays < 30) {
+      timeAgo = '${postTime.inDays} days ago';
+    } else if (postTime.inDays > 30) {
       timeAgo =
-          '${(lastOnline.inDays / 30).floor()} ${(lastOnline.inDays / 30).floor() == 1 ? 'month' : 'months'}ago';
+          '${(postTime.inDays / 30).floor()} ${(postTime.inDays / 30).floor() == 1 ? 'month' : 'months'} ago';
     }
   }
 

@@ -28,12 +28,15 @@ class NearbyListHolder extends StatelessWidget {
       getLocation(context);
     }
 
-    if (context.read<MainUser>().user!.verified == 'no' &&
-        !context.read<AppSettings>().warningGiven) {
-      context.read<AppSettings>().giveWarning();
-      Future.delayed(const Duration(seconds: 5)).then((value) {
-        Navigator.of(context).pushNamed('/verification');
-      });
+    if (context.read<MainUser>().user!.verified != 'yes') {
+      if (context.read<MainUser>().user!.verified == 'no') {
+        if (!context.read<AppSettings>().warningGiven) {
+          context.read<AppSettings>().giveWarning();
+          Future.delayed(const Duration(seconds: 5)).then((value) {
+            Navigator.of(context).pushNamed('/verification');
+          });
+        }
+      }
     }
 
     List<Object?>? whereInLat;

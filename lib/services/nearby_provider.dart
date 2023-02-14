@@ -6,7 +6,7 @@ class Nearby with ChangeNotifier {
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? users;
   TextEditingController intakeTextController = TextEditingController();
   int intakeYear = 0;
-  int daysRange = 10000;
+  int daysRange = 1095;
   String collegeName = 'All Colleges';
   String _range = '2000 m';
 
