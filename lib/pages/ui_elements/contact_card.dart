@@ -1,8 +1,10 @@
+import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/user_profile.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/data/user.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class ContactCard extends StatelessWidget {
@@ -70,17 +72,44 @@ class ContactCard extends StatelessWidget {
                         Text(
                           e.cName,
                         ),
+                        const SizedBox(
+                          width: 3,
+                        ),
                         if (e.celeb)
                           const Icon(
                             Icons.verified,
                             size: 15,
                             color: Colors.green,
                           ),
+                        if (e.celeb)
+                          const SizedBox(
+                            width: 3,
+                          ),
                         if (e.verified != 'yes')
                           const Icon(
                             Icons.info_rounded,
                             size: 15,
                             color: Colors.redAccent,
+                          ),
+                        if (e.verified != 'yes')
+                          const SizedBox(
+                            width: 3,
+                          ),
+                        if (e.cName == 'Saim' &&
+                            e.cNumber == 2129 &&
+                            e.college == 'SCC')
+                          const Icon(
+                            Icons.code,
+                            size: 20,
+                            color: Colors.blue,
+                          ),
+                        if (e.cName == 'Muaz' &&
+                            e.cNumber == 1999 &&
+                            e.college == 'SCC')
+                          const Icon(
+                            Icons.support,
+                            size: 15,
+                            color: Colors.blue,
                           ),
                       ],
                     ),
