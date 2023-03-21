@@ -838,7 +838,6 @@ class AccountPageState extends State<AccountPage>
                                 'profession': profession,
                                 'address': addressTextController.text,
                               });
-
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   backgroundColor:

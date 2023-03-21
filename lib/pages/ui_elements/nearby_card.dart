@@ -103,11 +103,12 @@ class NearbyCardState extends State<NearbyCard> {
               });
         }
       },
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(10),
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.all(10.0),

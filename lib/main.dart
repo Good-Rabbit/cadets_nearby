@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/pages/find_page.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/global_offers_provider.dart';
@@ -11,6 +10,7 @@ import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/nearby_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/settings_provider.dart';
+import 'package:cadets_nearby/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';

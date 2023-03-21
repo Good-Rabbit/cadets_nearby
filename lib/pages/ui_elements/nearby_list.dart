@@ -182,8 +182,8 @@ class NearbyListState extends State<NearbyList> {
                     elevation: MaterialStateProperty.all(0),
                     backgroundColor:
                         MaterialStateProperty.all(Colors.transparent),
-                    foregroundColor:
-                        MaterialStateProperty.all(Colors.deepOrange),
+                    foregroundColor: MaterialStateProperty.all(
+                        Theme.of(context).colorScheme.primary),
                   ),
                   label: const Text('Filter'),
                 ),

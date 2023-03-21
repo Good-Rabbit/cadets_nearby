@@ -20,42 +20,44 @@ class OfferSubPageState extends State<OfferSubPage> {
             const SizedBox(
               height: 10,
             ),
-            TabBar(
-              indicatorColor: Theme.of(context).colorScheme.primary,
-              tabs: [
-                Tab(
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.all_inclusive_rounded,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      Text(
-                        'Regional Offers',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    ],
-                  ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: TabBar(
+                labelColor: Colors.white,
+                unselectedLabelColor: Theme.of(context).colorScheme.primary,
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicatorColor: Theme.of(context).colorScheme.primary,
+                indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Theme.of(context).colorScheme.primary,
                 ),
-                Tab(
-                  child: Column(
-                    children: [
-                      Icon(
-                        Icons.backpack_rounded,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      Text(
-                        'All Offers',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
+                tabs: [
+                  Tab(
+                    child: Column(
+                      children: const [
+                        Icon(
+                          Icons.all_inclusive_rounded,
                         ),
-                      ),
-                    ],
+                        Text(
+                          'Regional Offers',
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  Tab(
+                    child: Column(
+                      children: const [
+                        Icon(
+                          Icons.backpack_rounded,
+                        ),
+                        Text(
+                          'All Offers',
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             const Expanded(
               child: TabBarView(

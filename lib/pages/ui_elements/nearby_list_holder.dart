@@ -13,6 +13,10 @@ class NearbyListHolder extends StatelessWidget {
   const NearbyListHolder({Key? key}) : super(key: key);
 
   void getLocation(BuildContext context) async {
+    if (!context.read<LocationStatus>().permissionGranted ||
+        context.read<LocationStatus>().serviceEnabled) {
+      context.read<LocationStatus>().checkPermissions();
+    }
     if (context.read<LocationStatus>().locationData != null) {
       return;
     }
@@ -106,8 +110,8 @@ class NearbyListHolder extends StatelessWidget {
     return Column(
       children: [
         if (context.watch<LocationStatus>().locationData != null &&
-            !(!context.read<LocationStatus>().serviceEnabled ||
-                !context.read<LocationStatus>().permissionGranted))
+            !(!context.watch<LocationStatus>().serviceEnabled ||
+                !context.watch<LocationStatus>().permissionGranted))
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: HomeSetterPage.store
                 .collection('users')
