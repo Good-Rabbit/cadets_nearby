@@ -7,6 +7,8 @@ import 'package:cadets_nearby/data/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'intake_chip.dart';
+
 class NearbyCard extends StatefulWidget {
   const NearbyCard({
     Key? key,
@@ -166,16 +168,7 @@ class NearbyCardState extends State<NearbyCard> {
                   ],
                 ),
               ),
-              Transform(
-                transform: Matrix4.identity()..scale(0.8),
-                child: Chip(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  label: Text(
-                    widget.e.intake.toString(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
+              IntakeChip(year: widget.e.intake.toString()),
             ],
           ),
         ),

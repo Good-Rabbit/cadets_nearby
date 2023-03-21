@@ -15,10 +15,6 @@ class GlobalOfferList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        OffersTopRow(context: context),
-        const SizedBox(
-          height: 20,
-        ),
         if (context.watch<GlobalOffers>().offers.isNotEmpty)
           SingleChildScrollView(
             child: Column(

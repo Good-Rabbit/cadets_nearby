@@ -142,7 +142,9 @@ class RealHomeState extends State<RealHome> {
             children: pages,
           ),
           bottomNavigationBar: BottomNavyBar(
+            itemCornerRadius: 10,
             selectedIndex: selectedIndex,
+            showElevation: false,
             backgroundColor: Theme.of(context).bottomAppBarTheme.color,
             onItemSelected: (index) => setState(() {
               setSelectedIndex(index);

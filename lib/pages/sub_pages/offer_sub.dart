@@ -1,5 +1,7 @@
 import 'package:cadets_nearby/pages/sub_pages/offer_tabs/global_offer_list.dart';
 import 'package:cadets_nearby/pages/sub_pages/offer_tabs/offer_list.dart';
+import 'package:cadets_nearby/pages/sub_pages/offer_tabs/ui_elements/offers_top_row.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class OfferSubPage extends StatefulWidget {
@@ -17,11 +19,8 @@ class OfferSubPageState extends State<OfferSubPage> {
         length: 2,
         child: Column(
           children: [
-            const SizedBox(
-              height: 10,
-            ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: TabBar(
                 labelColor: Colors.white,
                 unselectedLabelColor: Theme.of(context).colorScheme.primary,
@@ -59,8 +58,10 @@ class OfferSubPageState extends State<OfferSubPage> {
                 ],
               ),
             ),
+            OffersTopRow(context: context),
             const Expanded(
               child: TabBarView(
+                physics: NeverScrollableScrollPhysics(),
                 children: [
                   OfferList(),
                   GlobalOfferList(),

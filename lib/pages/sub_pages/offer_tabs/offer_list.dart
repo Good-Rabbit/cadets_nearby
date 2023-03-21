@@ -26,10 +26,6 @@ class OfferList extends StatelessWidget {
 
     return Column(
       children: [
-        OffersTopRow(context: context),
-        const SizedBox(
-          height: 20,
-        ),
         StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
             stream: HomeSetterPage.store
                 .collection('offers')

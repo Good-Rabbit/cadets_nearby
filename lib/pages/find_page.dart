@@ -27,8 +27,6 @@ class FindPageState extends State<FindPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        titleTextStyle: Theme.of(context).textTheme.titleLarge,
-        iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         title: const Text('Find someone'),
         elevation: 0,

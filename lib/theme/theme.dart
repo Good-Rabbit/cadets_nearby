@@ -9,41 +9,11 @@ const TextStyle textStyleDark = TextStyle(
   color: Colors.white,
 );
 
-const ColorScheme lightScheme = ColorScheme(
-    brightness: Brightness.light,
-    primary: Colors.orange,
-    onPrimary: Colors.white,
-    secondary: Colors.orangeAccent,
-    onSecondary: Colors.white,
-    error: Colors.red,
-    onError: Colors.redAccent,
-    background: Colors.white,
-    onBackground: Color.fromARGB(255, 255, 225, 180),
-    surface: Colors.transparent,
-    onSurface: Colors.transparent);
-
-const BottomAppBarTheme lightAppBarTheme =
+const BottomAppBarTheme lightBottomAppBarTheme =
     BottomAppBarTheme(color: Colors.white);
 
-const ColorScheme darkScheme = ColorScheme(
-    brightness: Brightness.dark,
-    primary: Colors.orange,
-    onPrimary: Colors.white,
-    secondary: Colors.orangeAccent,
-    onSecondary: Colors.white,
-    error: Colors.red,
-    onError: Colors.redAccent,
-    background: Color.fromARGB(255, 25, 25, 25),
-    onBackground: Color.fromARGB(255, 45, 45, 45),
-    surface: Colors.transparent,
-    onSurface: Colors.transparent);
-
-const BottomAppBarTheme darkAppBarTheme =
+const BottomAppBarTheme darkBottomAppBarTheme =
     BottomAppBarTheme(color: Color.fromARGB(255, 25, 25, 25));
-
-const MaterialColor primarySwatchColor = Colors.orange;
-const MaterialColor secondarySwatchColor = Colors.orange;
-const MaterialColor popupColor = Colors.orange;
 
 TextTheme textTheme = const TextTheme(
   bodyLarge: textStyle,
@@ -58,23 +28,63 @@ TextTheme textTheme = const TextTheme(
   headlineSmall: textStyle,
 );
 
+const MaterialColor primarySwatchColor = Colors.orange;
+const MaterialColor secondarySwatchColor = Colors.orange;
+const MaterialColor popupColor = Colors.orange;
+
 const double cardElevation = 0.001;
 const double buttonElevation = 0;
 
+PopupMenuThemeData popupMenuThemeData = PopupMenuThemeData(
+  color: popupColor,
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10),
+  ),
+);
+
+const AppBarTheme appBarTheme = AppBarTheme(
+  foregroundColor: primarySwatchColor,
+  iconTheme: IconThemeData(color: primarySwatchColor),
+  actionsIconTheme: IconThemeData(color: primarySwatchColor),
+  color: primarySwatchColor,
+);
+
+const ColorScheme lightScheme = ColorScheme(
+    brightness: Brightness.light,
+    primary: Colors.orange,
+    onPrimary: Colors.white,
+    secondary: Colors.orangeAccent,
+    onSecondary: Colors.white,
+    error: Colors.red,
+    onError: Colors.redAccent,
+    background: Colors.white,
+    onBackground: Color.fromARGB(255, 255, 225, 180),
+    surface: Colors.transparent,
+    onSurface: Colors.transparent);
+
+const ColorScheme darkScheme = ColorScheme(
+    brightness: Brightness.dark,
+    primary: Colors.orange,
+    onPrimary: Colors.white,
+    secondary: Colors.orangeAccent,
+    onSecondary: Colors.white,
+    error: Colors.red,
+    onError: Colors.redAccent,
+    background: Color.fromARGB(255, 25, 25, 25),
+    onBackground: Color.fromARGB(255, 45, 45, 45),
+    surface: Colors.transparent,
+    onSurface: Colors.transparent);
+
 final ThemeData lightTheme = ThemeData(
+  appBarTheme: appBarTheme,
   buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
   fontFamily: 'DMSans',
   colorScheme: lightScheme,
-  popupMenuTheme: PopupMenuThemeData(
-    color: popupColor,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
-  ),
+  popupMenuTheme: popupMenuThemeData,
   primarySwatch: primarySwatchColor,
   primaryColor: primarySwatchColor,
   secondaryHeaderColor: secondarySwatchColor,
-  bottomAppBarTheme: lightAppBarTheme,
+  bottomAppBarTheme: lightBottomAppBarTheme,
   textTheme: textTheme,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
@@ -111,7 +121,7 @@ final ThemeData lightTheme = ThemeData(
     selectedColor: Colors.orange[100]!,
   ),
   inputDecorationTheme: InputDecorationTheme(
-    fillColor: Colors.white,
+    fillColor: const Color.fromARGB(220, 255, 255, 255),
     filled: true,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
@@ -133,15 +143,11 @@ final ThemeData lightTheme = ThemeData(
 );
 
 final ThemeData darkTheme = ThemeData(
+  appBarTheme: appBarTheme,
   buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary),
   colorScheme: darkScheme,
   fontFamily: 'DMSans',
-  popupMenuTheme: PopupMenuThemeData(
-    color: popupColor,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
-  ),
+  popupMenuTheme: popupMenuThemeData,
   primarySwatch: primarySwatchColor,
   primaryColor: primarySwatchColor,
   disabledColor: Colors.grey[800],
@@ -150,7 +156,7 @@ final ThemeData darkTheme = ThemeData(
     checkColor: MaterialStateProperty.all(Colors.black),
     fillColor: MaterialStateProperty.all(Colors.white),
   ),
-  bottomAppBarTheme: darkAppBarTheme,
+  bottomAppBarTheme: darkBottomAppBarTheme,
   textTheme: const TextTheme(
     bodyLarge: textStyleDark,
     bodyMedium: textStyleDark,

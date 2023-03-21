@@ -23,18 +23,22 @@ class AvailedOffersPageState extends State<AvailedOffersPage>
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,
+        foregroundColor: Theme.of(context).colorScheme.primary,
         title: Row(
           children: const [
-            Icon(Icons.backpack_rounded),
+            Icon(
+              Icons.backpack_rounded,
+            ),
             SizedBox(
               width: 10,
             ),
             Text(
               'Availed Offers',
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(
+                fontSize: 20,
+              ),
             ),
           ],
         ),

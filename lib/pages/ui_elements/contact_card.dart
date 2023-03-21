@@ -1,10 +1,10 @@
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
+import 'package:cadets_nearby/pages/ui_elements/intake_chip.dart';
 import 'package:cadets_nearby/pages/ui_elements/user_profile.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/data/user.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class ContactCard extends StatelessWidget {
@@ -119,16 +119,7 @@ class ContactCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Transform(
-                transform: Matrix4.identity()..scale(0.8),
-                child: Chip(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  label: Text(
-                    e.intake.toString(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
+              IntakeChip(year: e.intake.toString()),
             ],
           ),
         ),
