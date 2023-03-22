@@ -4,7 +4,7 @@
 [![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 # Cadets Nearby
 
-A flutter project for finding nearby cadets in Bangladesh.
+A flutter project for finding nearby ex/cadets in Bangladesh.
 
 ## Platforms
 [![](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)]()
@@ -12,11 +12,10 @@ A flutter project for finding nearby cadets in Bangladesh.
 
 ## Target
 
-To create a free platform for finding cadets(and ex-cadets) around you.
-This is to try to reduce the distance among us and build a cooperative community.
-There might be times when we need help for various reasons. The project's goal is to create scope for getting support easily.
-And for various other reasons too.
-Hope this project will help us lead a better life.
+To create a free platform for finding ex/cadets who are nearby.
+This is to try to reduce the distance between us and build a cooperative community.
+A platform open to implement anything we might require.
+Hope this project will help us reap the benefits of technology.
 
 ## For those who want to help
 
@@ -37,4 +36,4 @@ Don't let those 6 years be the last of our brotherhood.
 
 ## License
 
-This project is licensed under GNU GPLv3.
+This project is licensed under GNU GPLv3. Go wild; Copy all the code you want!
