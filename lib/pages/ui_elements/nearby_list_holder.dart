@@ -15,7 +15,7 @@ class NearbyListHolder extends StatelessWidget {
   void getLocation(BuildContext context) async {
     if (!context.read<LocationStatus>().permissionGranted ||
         context.read<LocationStatus>().serviceEnabled) {
-      context.read<LocationStatus>().checkPermissions();
+      await context.read<LocationStatus>().checkPermissions();
     }
     if (context.read<LocationStatus>().locationData != null) {
       return;
