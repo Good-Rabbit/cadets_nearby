@@ -219,7 +219,7 @@ class DpPageState extends State<DpPage> {
                               },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
-                              Theme.of(context).secondaryHeaderColor),
+                              Theme.of(context).colorScheme.error),
                         ),
                         label: const Text('Delete picture'),
                       ),

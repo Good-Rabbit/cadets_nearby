@@ -223,7 +223,7 @@ class SignupMainPageState extends State<SignupMainPage> {
                             ),
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
-                                  Theme.of(context).secondaryHeaderColor),
+                                  Theme.of(context).colorScheme.secondary),
                             ),
                           ),
                           const SizedBox(

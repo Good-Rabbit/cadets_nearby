@@ -191,8 +191,8 @@ class LoginPageState extends State<LoginPage> {
                               size: 20,
                             ),
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  Theme.of(context).secondaryHeaderColor),
+                              backgroundColor: MaterialStatePropertyAll(
+                                  Theme.of(context).colorScheme.secondary),
                             ),
                           ),
                           const SizedBox(

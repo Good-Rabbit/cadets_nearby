@@ -48,7 +48,6 @@ class FeedDetailsPageState extends State<FeedDetailsPage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
-        iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,
         systemOverlayStyle: systemUiOverlayStyle,
@@ -76,7 +75,10 @@ class FeedDetailsPageState extends State<FeedDetailsPage> {
                   e!.data()['title'],
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 20),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,

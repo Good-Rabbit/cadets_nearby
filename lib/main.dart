@@ -73,10 +73,6 @@ Future<void> main() async {
   }
 
   // Building notification base
-  LocalNotificationService.notificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()!
-      .requestPermission();
   await LocalNotificationService.notificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()!

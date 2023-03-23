@@ -1,4 +1,3 @@
-import 'package:cadets_nearby/pages/sub_pages/offer_tabs/ui_elements/offers_top_row.dart';
 import 'package:cadets_nearby/services/calculations.dart';
 import 'package:cadets_nearby/services/global_offers_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';

@@ -29,7 +29,7 @@ TextTheme textTheme = const TextTheme(
 );
 
 const MaterialColor primarySwatchColor = Colors.orange;
-const MaterialColor secondarySwatchColor = Colors.orange;
+const MaterialColor secondarySwatchColor = Colors.blueGrey;
 const MaterialColor popupColor = Colors.orange;
 
 const double cardElevation = 0.001;
@@ -51,9 +51,9 @@ const AppBarTheme appBarTheme = AppBarTheme(
 
 const ColorScheme lightScheme = ColorScheme(
     brightness: Brightness.light,
-    primary: Colors.orange,
+    primary: primarySwatchColor,
     onPrimary: Colors.white,
-    secondary: Colors.orangeAccent,
+    secondary: secondarySwatchColor,
     onSecondary: Colors.white,
     error: Colors.red,
     onError: Colors.redAccent,
@@ -62,11 +62,12 @@ const ColorScheme lightScheme = ColorScheme(
     surface: Colors.transparent,
     onSurface: Colors.transparent);
 
+
 const ColorScheme darkScheme = ColorScheme(
     brightness: Brightness.dark,
-    primary: Colors.orange,
+    primary: primarySwatchColor,
     onPrimary: Colors.white,
-    secondary: Colors.orangeAccent,
+    secondary: secondarySwatchColor,
     onSecondary: Colors.white,
     error: Colors.red,
     onError: Colors.redAccent,
@@ -74,6 +75,7 @@ const ColorScheme darkScheme = ColorScheme(
     onBackground: Color.fromARGB(255, 45, 45, 45),
     surface: Colors.transparent,
     onSurface: Colors.transparent);
+
 
 final ThemeData lightTheme = ThemeData(
   appBarTheme: appBarTheme,

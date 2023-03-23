@@ -106,7 +106,7 @@ class ResetPageState extends State<ResetPage> {
                       ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            Theme.of(context).secondaryHeaderColor),
+                            Theme.of(context).colorScheme.error),
                       ),
                     ),
                     ElevatedButton.icon(

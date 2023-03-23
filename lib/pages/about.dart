@@ -13,8 +13,6 @@ class AboutPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        titleTextStyle: Theme.of(context).textTheme.titleLarge,
-        iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Row(
@@ -25,7 +23,6 @@ class AboutPage extends StatelessWidget {
             ),
             Text(
               'About Us',
-              style: TextStyle(fontSize: 20),
             ),
           ],
         ),

@@ -57,7 +57,6 @@ class LocationStatus with ChangeNotifier {
 
   checkPermissions() async {
     if (!alreadyRequested) {
-      alreadyRequested = true;
       bool sTemp = serviceEnabled;
       bool pTemp = permissionGranted;
 

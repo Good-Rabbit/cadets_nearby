@@ -146,7 +146,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: cNameTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Cadet Name* e.g. Rashid',
+                              hintText: 'Cadet Name* - Sadman',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.perm_identity_rounded),
@@ -171,7 +171,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: cNumberTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Cadet Number* e.g. 2129',
+                              hintText: 'Cadet Number* - 2103',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.book),
@@ -242,7 +242,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: intakeTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Joining Year* e.g. 2016',
+                              hintText: 'Joining Year* - 2016',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.date_range),
@@ -437,7 +437,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: fbTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'username e.g. "cadetsnearby.bd"',
+                              hintText: 'cadetsnearby.bd',
                               prefixIcon: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -472,7 +472,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: instaTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'username e.g. "cadetsnearby.bd"',
+                              hintText: 'cadetsnearby.bd',
                               prefixIcon: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -712,7 +712,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                               builder: (context) {
                                                 return AlertDialog(
                                                   title: const Text(
-                                                      'Select your default range in meters (you can change it later)'),
+                                                      'Select your default lookup range in meters (you can change it later)'),
                                                   content: Padding(
                                                     padding: const EdgeInsets
                                                             .fromLTRB(
@@ -724,7 +724,8 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                                             .copyWith(
                                                           canvasColor: Theme.of(
                                                                   context)
-                                                              .bottomAppBarTheme.color,
+                                                              .bottomAppBarTheme
+                                                              .color,
                                                         ),
                                                         child:
                                                             DropdownButtonFormField(
@@ -842,7 +843,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
           return AlertDialog(
             title: const Text('Is the information correct?'),
             content: const Text(
-                'Some of your information cannot be changed later. e.g. Cadet name/number, college, joining year.'),
+                'Some of your information cannot be changed later, like Cadet name/number, college, joining year.'),
             actions: [
               TextButton(
                   onPressed: () {

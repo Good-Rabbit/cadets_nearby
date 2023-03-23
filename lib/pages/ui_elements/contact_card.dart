@@ -1,4 +1,3 @@
-import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/intake_chip.dart';
 import 'package:cadets_nearby/pages/ui_elements/user_profile.dart';

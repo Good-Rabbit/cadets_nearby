@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../../home_setter.dart';
 import '../../ui_elements/no_offers.dart';
 import '../../ui_elements/offer_card.dart';
-import 'ui_elements/offers_top_row.dart';
 
 class OfferList extends StatelessWidget {
   const OfferList({Key? key}) : super(key: key);

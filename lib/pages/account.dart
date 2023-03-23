@@ -84,7 +84,6 @@ class AccountPageState extends State<AccountPage>
       child: Scaffold(
         appBar: AppBar(
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
-          iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Colors.transparent,
           elevation: 0,
           systemOverlayStyle: systemUiOverlayStyle,

@@ -1,7 +1,6 @@
 import 'package:cadets_nearby/pages/sub_pages/offer_tabs/global_offer_list.dart';
 import 'package:cadets_nearby/pages/sub_pages/offer_tabs/offer_list.dart';
 import 'package:cadets_nearby/pages/sub_pages/offer_tabs/ui_elements/offers_top_row.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class OfferSubPage extends StatefulWidget {
