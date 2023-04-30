@@ -1,7 +1,7 @@
 import 'package:cadets_nearby/data/user.dart';
-import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({
@@ -239,7 +239,18 @@ class UserProfile extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     // launchWithCheck('https://fb.com/${e.fbUrl}', context);
-                    launchURL('https://fb.com/${e.fbUrl}');
+                    if (e.fbUrl.contains(' ')) {
+                      final String url = e.fbUrl.replaceAll(' ', '%20');
+                      launchUrl(
+                        Uri.parse('https://facebook.com/search/top/?q=$url'),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    } else {
+                      launchUrl(
+                        Uri.parse('https://fb.com/${e.fbUrl}'),
+                        mode: LaunchMode.externalApplication,
+                      );
+                    }
                   },
                   icon: const Icon(
                     Icons.facebook,
@@ -269,7 +280,10 @@ class UserProfile extends StatelessWidget {
                   onPressed: () {
                     // launchWithCheck(
                     // 'https://instagr.am/${e.instaUrl}', context);
-                    launchURL('https://instagr.am/${e.instaUrl}');
+                    launchUrl(
+                      Uri.parse('https://instagr.am/${e.instaUrl}'),
+                      mode: LaunchMode.externalApplication,
+                    );
                   },
                   icon: const Icon(
                     FontAwesomeIcons.instagram,
@@ -301,7 +315,10 @@ class UserProfile extends StatelessWidget {
                   child: ElevatedButton.icon(
                     onPressed: () {
                       // launchWithCheck(phoneNumber, context);
-                      launchURL(phoneNumber);
+                      launchUrl(
+                        Uri.parse(phoneNumber),
+                        // mode: LaunchMode.externalApplication,
+                      );
                     },
                     icon: const Icon(
                       Icons.phone,
@@ -329,7 +346,10 @@ class UserProfile extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     // launchWithCheck(emailAddress, context);
-                    launchURL(emailAddress);
+                    launchUrl(
+                      Uri.parse(emailAddress),
+                      // mode: LaunchMode.externalApplication,
+                    );
                   },
                   icon: const Icon(
                     Icons.alternate_email,
@@ -358,7 +378,7 @@ class UserProfile extends StatelessWidget {
   // void launchWithCheck(String url, BuildContext context) async {
   //   if (context.read<MainUser>().user!.premium ||
   //       context.read<Settings>().reward) {
-  //     launchURL(url);
+  //     launchUrl(url);
   //   } else {
   //     final bool ready = AdService.isRewardedAdReady;
   //     showDialog(
@@ -401,12 +421,11 @@ class UserProfile extends StatelessWidget {
 
   // onReward(url, context) {
   //   Future.delayed(const Duration(seconds: 3)).then((e) {
-  //     launchURL(url);
+  //     launchUrl(url);
   //     context.read<Settings>().reward(true);
   //     Future.delayed(const Duration(minutes: 10)).then((e) {
   //       context.read<Settings>().reward(false);
   //     });
   //   });
   // }
-
 }

@@ -1,4 +1,3 @@
-import 'package:cadets_nearby/services/calculations.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -46,9 +45,8 @@ class OfferList extends StatelessWidget {
                     child: Column(
                       children: snapshot.data!.docs.map((e) {
                         // * Distance in meter rounded to tens
-                        int distanceM = (calculateDistance(
-                                    context.read<MainUser>().user!.lat,
-                                    context.read<MainUser>().user!.long,
+                        int distanceM = (
+                          context.read<MainUser>().user!.distance(
                                     double.parse(e.data()['lat']),
                                     double.parse(e.data()['long'])) *
                                 1000)

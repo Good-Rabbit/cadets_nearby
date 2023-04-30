@@ -41,9 +41,10 @@ class AccountPageState extends State<AccountPage>
 
   bool locationAccess = true;
   bool phoneAccess = false;
-  bool useRegularEmail = false;
+  bool useLoginEmail = false;
 
   bool inProgress = false;
+  bool hasChanged = false;
 
   String? college;
   String profession = 'Doctor';
@@ -74,7 +75,6 @@ class AccountPageState extends State<AccountPage>
   }
 
   bool editingEnabled = false;
-  bool hasChanged = false;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +86,33 @@ class AccountPageState extends State<AccountPage>
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          actions: [
+            if ((editingEnabled && hasChanged && !inProgress))
+              showSaveButton(context),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    if (editingEnabled) {
+                      resetEdits();
+                    }
+                    editingEnabled = !editingEnabled;
+                  });
+                },
+                icon: editingEnabled
+                    ? const Icon(Icons.cancel)
+                    : const Icon(Icons.edit),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () {
+                Navigator.of(context).pop();
+                signOut();
+              },
+            ),
+          ],
           systemOverlayStyle: systemUiOverlayStyle,
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -93,79 +120,44 @@ class AccountPageState extends State<AccountPage>
           key: formKey,
           child: ListView(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const SizedBox(
-                    width: 40,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: CircleAvatar(
-                      radius: 40.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Stack(
-                          children: [
-                            if (context.watch<MainUser>().user!.photoUrl == '')
-                              Image.asset(
-                                'assets/images/user.png',
-                                fit: BoxFit.cover,
-                              )
-                            else
-                              Image.network(
-                                context.watch<MainUser>().user!.photoUrl,
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: CircleAvatar(
+                  radius: 40.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Stack(
+                      children: [
+                        if (context.watch<MainUser>().user!.photoUrl == '')
+                          Image.asset(
+                            'assets/images/user.png',
+                            fit: BoxFit.cover,
+                          )
+                        else
+                          Image.network(
+                            context.watch<MainUser>().user!.photoUrl,
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                          ),
+                        if (editingEnabled)
+                          Container(
+                            color: Colors.black.withOpacity(0.65),
+                            width: 80,
+                            height: 80,
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.of(context).pushNamed('/dpchange');
+                              },
+                              icon: const Icon(
+                                Icons.edit,
                               ),
-                            if (editingEnabled)
-                              Container(
-                                color: Colors.black.withOpacity(0.65),
-                                width: 80,
-                                height: 80,
-                                child: IconButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pushNamed('/dpchange');
-                                  },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  CircleAvatar(
-                    radius: 20.0,
-                    child: AnimateIcons(
-                      startIcon: Icons.edit,
-                      endIcon: Icons.cancel,
-                      startIconColor: Colors.white,
-                      endIconColor: Colors.white,
-                      controller: controller,
-                      onStartIconPress: () {
-                        controller.animateToEnd();
-                        setState(() {
-                          editingEnabled = true;
-                        });
-                        return true;
-                      },
-                      onEndIconPress: () {
-                        controller.animateToStart();
-                        setState(() {
-                          editingEnabled = false;
-                          resetEdits();
-                        });
-                        return true;
-                      },
-                    ),
-                    // Icon(editingEnabled ? Icons.cancel : Icons.edit),
-                  ),
-                ],
+                ),
               ),
               Center(
                 child: Row(
@@ -239,6 +231,50 @@ class AccountPageState extends State<AccountPage>
                     ),
                   ),
                   Padding(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    child: SizedBox(
+                      width: 500,
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                          canvasColor:
+                              Theme.of(context).bottomAppBarTheme.color,
+                        ),
+                        child: DropdownButtonFormField(
+                          hint: const Text('Distance Control'),
+                          decoration: InputDecoration(
+                            suffixIcon: const Padding(
+                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+                              child: Icon(
+                                Icons.location_pin,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.primary)),
+                          ),
+                          value: context.read<Nearby>().range,
+                          isDense: true,
+                          onChanged: (value) {
+                            setState(() {
+                              String val = value.toString();
+                              if (context.read<Nearby>().range != val) {
+                                context.read<Nearby>().range = val;
+                                prefs!.setString('range', val);
+                              }
+                            });
+                          },
+                          items: nearbyRange.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value.toString()),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
                     child: SizedBox(
                       width: 500,
@@ -248,7 +284,7 @@ class AccountPageState extends State<AccountPage>
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
                           hintText: 'Full Name*',
-                          prefixIcon: Padding(
+                          suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.account_box_rounded),
                           ),
@@ -261,10 +297,7 @@ class AccountPageState extends State<AccountPage>
                         keyboardType: TextInputType.name,
                         onChanged: (value) {
                           setState(() {
-                            if (fullNameTextController.text !=
-                                context.read<MainUser>().user!.fullName) {
-                              hasChanged = true;
-                            }
+                            checkChanged();
                           });
                         },
                         validator: (val) {
@@ -284,7 +317,7 @@ class AccountPageState extends State<AccountPage>
                         initialValue: cName,
                         enabled: false,
                         decoration: const InputDecoration(
-                          prefixIcon: Padding(
+                          suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.perm_identity_rounded),
                           ),
@@ -303,7 +336,7 @@ class AccountPageState extends State<AccountPage>
                         initialValue: cNumber,
                         enabled: false,
                         decoration: const InputDecoration(
-                          prefixIcon: Padding(
+                          suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.book),
                           ),
@@ -322,7 +355,7 @@ class AccountPageState extends State<AccountPage>
                         initialValue: college,
                         enabled: false,
                         decoration: const InputDecoration(
-                          prefixIcon: Padding(
+                          suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.house),
                           ),
@@ -343,7 +376,7 @@ class AccountPageState extends State<AccountPage>
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
                           hintText: 'Joining Year*',
-                          prefixIcon: Padding(
+                          suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.date_range),
                           ),
@@ -374,14 +407,10 @@ class AccountPageState extends State<AccountPage>
                               Theme.of(context).bottomAppBarTheme.color,
                         ),
                         child: DropdownButtonFormField(
+                          iconDisabledColor: Colors.grey[800],
                           hint: const Text('Profession'),
-                          decoration: const InputDecoration(
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                              child: Icon(
-                                Icons.work,
-                              ),
-                            ),
+                          icon: const Icon(
+                            Icons.work,
                           ),
                           value: profession,
                           isDense: true,
@@ -390,13 +419,7 @@ class AccountPageState extends State<AccountPage>
                               : (value) {
                                   setState(() {
                                     profession = value! as String;
-                                    if (profession !=
-                                        context
-                                            .read<MainUser>()
-                                            .user!
-                                            .profession) {
-                                      hasChanged = true;
-                                    }
+                                    checkChanged();
                                   });
                                 },
                           items: professions.map((String value) {
@@ -419,17 +442,14 @@ class AccountPageState extends State<AccountPage>
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
                           hintText: 'Designation at institute',
-                          prefixIcon: Padding(
+                          suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.location_city_rounded),
                           ),
                         ),
                         onChanged: (value) {
                           setState(() {
-                            if (designationTextController.text !=
-                                context.read<MainUser>().user!.designation) {
-                              hasChanged = true;
-                            }
+                            checkChanged();
                           });
                         },
                         style: TextStyle(
@@ -451,7 +471,7 @@ class AccountPageState extends State<AccountPage>
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
                           hintText: 'Address*',
-                          prefixIcon: Padding(
+                          suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.location_pin),
                           ),
@@ -463,10 +483,7 @@ class AccountPageState extends State<AccountPage>
                         ),
                         onChanged: (value) {
                           setState(() {
-                            if (addressTextController.text !=
-                                context.read<MainUser>().user!.address) {
-                              hasChanged = true;
-                            }
+                            checkChanged();
                           });
                         },
                         validator: (val) {
@@ -494,11 +511,11 @@ class AccountPageState extends State<AccountPage>
                       width: 500,
                       child: TextFormField(
                         controller: emailTextController,
-                        enabled: !useRegularEmail && editingEnabled,
+                        enabled: !useLoginEmail && editingEnabled,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
                           hintText: 'Contact E-mail*',
-                          prefixIcon: Padding(
+                          suffixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
                                 Icons.alternate_email,
@@ -512,10 +529,7 @@ class AccountPageState extends State<AccountPage>
                         keyboardType: TextInputType.emailAddress,
                         onChanged: (value) {
                           setState(() {
-                            if (emailTextController.text !=
-                                context.read<MainUser>().user!.email) {
-                              hasChanged = true;
-                            }
+                            checkChanged();
                           });
                         },
                         validator: (val) {
@@ -542,7 +556,7 @@ class AccountPageState extends State<AccountPage>
                     width: 500,
                     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                     child: CheckboxListTile(
-                        value: useRegularEmail,
+                        value: useLoginEmail,
                         title: const Text(
                           'Use login e-mail',
                           maxLines: 2,
@@ -556,14 +570,12 @@ class AccountPageState extends State<AccountPage>
                                   if (value!) {
                                     emailTextController.text =
                                         HomeSetterPage.auth.currentUser!.email!;
+                                    checkChanged();
                                   } else {
                                     emailTextController.text = '';
+                                    checkChanged();
                                   }
-                                  useRegularEmail = value;
-                                  if (emailTextController.text !=
-                                      context.read<MainUser>().user!.email) {
-                                    hasChanged = true;
-                                  }
+                                  useLoginEmail = value;
                                 });
                               }),
                   ),
@@ -576,8 +588,8 @@ class AccountPageState extends State<AccountPage>
                         enabled: editingEnabled,
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
-                          hintText: 'username e.g. "cadetsnearby.bd"',
-                          prefixIcon: Padding(
+                          hintText: 'cnearby',
+                          suffixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(
                               FontAwesomeIcons.facebook,
@@ -586,7 +598,7 @@ class AccountPageState extends State<AccountPage>
                             ),
                           ),
                           prefix: Text(
-                            '/',
+                            'fb.com/',
                             style: TextStyle(
                               fontSize: 20,
                               color:
@@ -596,10 +608,7 @@ class AccountPageState extends State<AccountPage>
                         ),
                         onChanged: (value) {
                           setState(() {
-                            if (fbTextController.text !=
-                                context.read<MainUser>().user!.fbUrl) {
-                              hasChanged = true;
-                            }
+                            checkChanged();
                           });
                         },
                         style: TextStyle(
@@ -620,8 +629,8 @@ class AccountPageState extends State<AccountPage>
                         enabled: editingEnabled,
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
-                          hintText: 'username e.g. "cadetsnearby.bd"',
-                          prefixIcon: Padding(
+                          hintText: 'cnearby',
+                          suffixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(
                               FontAwesomeIcons.instagram,
@@ -631,7 +640,7 @@ class AccountPageState extends State<AccountPage>
                             ),
                           ),
                           prefix: Text(
-                            '/',
+                            'instagr.am/',
                             style: TextStyle(
                               fontSize: 20,
                               color: !editingEnabled
@@ -642,10 +651,7 @@ class AccountPageState extends State<AccountPage>
                         ),
                         onChanged: (value) {
                           setState(() {
-                            if (instaTextController.text !=
-                                context.read<MainUser>().user!.instaUrl) {
-                              hasChanged = true;
-                            }
+                            checkChanged();
                           });
                         },
                         style: TextStyle(
@@ -667,7 +673,7 @@ class AccountPageState extends State<AccountPage>
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
                           hintText: 'Phone',
-                          prefixIcon: Padding(
+                          suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.phone),
                           ),
@@ -683,10 +689,7 @@ class AccountPageState extends State<AccountPage>
                             phoneAccess = false;
                           }
                           setState(() {
-                            if (phoneTextController.text !=
-                                context.read<MainUser>().user!.phone) {
-                              hasChanged = true;
-                            }
+                            checkChanged();
                           });
                         },
                         validator: (val) {
@@ -708,18 +711,15 @@ class AccountPageState extends State<AccountPage>
                         ),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40.0)),
-                        onChanged: (phoneTextController.text == '' ||
-                                !editingEnabled)
-                            ? null
-                            : (value) {
-                                setState(() {
-                                  phoneAccess = value!;
-                                  if (phoneAccess !=
-                                      context.read<MainUser>().user!.pPhone) {
-                                    hasChanged = true;
-                                  }
-                                });
-                              }),
+                        onChanged:
+                            (phoneTextController.text == '' || !editingEnabled)
+                                ? null
+                                : (value) {
+                                    setState(() {
+                                      phoneAccess = value!;
+                                      checkChanged();
+                                    });
+                                  }),
                   ),
                   Container(
                     width: 500,
@@ -741,139 +741,11 @@ class AccountPageState extends State<AccountPage>
                             : (value) {
                                 setState(() {
                                   locationAccess = !value!;
-                                  if (locationAccess !=
-                                      context
-                                          .read<MainUser>()
-                                          .user!
-                                          .pLocation) {
-                                    hasChanged = true;
-                                  }
+                                  checkChanged();
                                 });
                               }),
                   ),
                 ],
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
-                child: SizedBox(
-                  width: 500,
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                      canvasColor: Theme.of(context).bottomAppBarTheme.color,
-                    ),
-                    child: DropdownButtonFormField(
-                      hint: const Text('Distance Control'),
-                      decoration: const InputDecoration(
-                        prefixIcon: Padding(
-                          padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-                          child: Icon(
-                            Icons.location_pin,
-                          ),
-                        ),
-                      ),
-                      value: context.read<Nearby>().range,
-                      isDense: true,
-                      onChanged: !editingEnabled
-                          ? null
-                          : (value) {
-                              setState(() {
-                                context.read<Nearby>().range = value! as String;
-                                prefs!.setString('range', value as String);
-                                hasChanged = true;
-                              });
-                            },
-                      items: nearbyRange.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value.toString()),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 500,
-                margin: const EdgeInsets.fromLTRB(100, 20, 100, 0),
-                child: ElevatedButton.icon(
-                  onPressed: !(editingEnabled && hasChanged && !inProgress)
-                      ? null
-                      : () async {
-                          FocusScope.of(context).unfocus();
-                          setState(() {
-                            inProgress = true;
-                          });
-                          if (formKey.currentState!.validate()) {
-                            String cName = this.cName ?? '';
-                            String first = cName[0];
-                            first = first.toUpperCase();
-                            cName = first + cName.substring(1);
-
-                            String fullName = '';
-                            final parts =
-                                fullNameTextController.text.split(' ');
-                            final StringBuffer fname = StringBuffer();
-                            for (final each in parts) {
-                              first = each[0];
-                              first = first.toUpperCase();
-                              fname.write('$first${each.substring(1)} ');
-                            }
-                            fullName = fname.toString().trim();
-                            try {
-                              await HomeSetterPage.auth.currentUser!
-                                  .updateDisplayName('Saim Ul Islam');
-                              await HomeSetterPage.store
-                                  .collection('users')
-                                  .doc(HomeSetterPage.auth.currentUser!.uid)
-                                  .update({
-                                'fullname': fullName,
-                                'phone': phoneTextController.text,
-                                'email': emailTextController.text,
-                                'pphone': phoneAccess,
-                                'plocation': locationAccess,
-                                'fburl': fbTextController.text,
-                                'instaurl': instaTextController.text,
-                                'designation': designationTextController.text,
-                                'profession': profession,
-                                'address': addressTextController.text,
-                              });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                  content: const Text(
-                                    'Account settings updated',
-                                  ),
-                                ),
-                              );
-                            } catch (e) {
-                              log(e.toString());
-                            }
-                            setState(() {
-                              hasChanged = false;
-                              editingEnabled = false;
-                              inProgress = false;
-                            });
-                          } else {
-                            setState(() {
-                              inProgress = false;
-                            });
-                          }
-                        },
-                  icon: const Icon(Icons.save),
-                  label: const Text('Save Changes'),
-                ),
-              ),
-              Container(
-                width: 500,
-                margin: const EdgeInsets.fromLTRB(100, 15, 100, 15),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    signOut();
-                  },
-                  child: const Text('Sign Out'),
-                ),
               ),
               const SizedBox(
                 height: 20.0,
@@ -882,6 +754,73 @@ class AccountPageState extends State<AccountPage>
           ),
         ),
       ),
+    );
+  }
+
+  TextButton showSaveButton(BuildContext context) {
+    return TextButton.icon(
+      onPressed: () async {
+        FocusScope.of(context).unfocus();
+        setState(() {
+          inProgress = true;
+        });
+        if (formKey.currentState!.validate()) {
+          String cName = this.cName ?? '';
+          String first = cName[0];
+          first = first.toUpperCase();
+          cName = first + cName.substring(1);
+
+          String fullName = '';
+          final parts = fullNameTextController.text.split(' ');
+          final StringBuffer fname = StringBuffer();
+          for (final each in parts) {
+            first = each[0];
+            first = first.toUpperCase();
+            fname.write('$first${each.substring(1)} ');
+          }
+          fullName = fname.toString().trim();
+          try {
+            await HomeSetterPage.auth.currentUser!
+                .updateDisplayName('Saim Ul Islam');
+            await HomeSetterPage.store
+                .collection('users')
+                .doc(HomeSetterPage.auth.currentUser!.uid)
+                .update({
+              'fullname': fullName,
+              'phone': phoneTextController.text,
+              'email': emailTextController.text,
+              'pphone': phoneAccess,
+              'plocation': locationAccess,
+              'fburl': fbTextController.text,
+              'instaurl': instaTextController.text,
+              'designation': designationTextController.text,
+              'profession': profession,
+              'address': addressTextController.text,
+            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Theme.of(context).primaryColor,
+                content: const Text(
+                  'Account settings updated',
+                ),
+              ),
+            );
+          } catch (e) {
+            log(e.toString());
+          }
+          setState(() {
+            hasChanged = false;
+            editingEnabled = false;
+            inProgress = false;
+          });
+        } else {
+          setState(() {
+            inProgress = false;
+          });
+        }
+      },
+      icon: const Icon(Icons.save),
+      label: const Text('Save'),
     );
   }
 
@@ -908,11 +847,49 @@ class AccountPageState extends State<AccountPage>
     designationTextController.text = context.read<MainUser>().user!.designation;
     addressTextController.text = context.read<MainUser>().user!.address;
     college = context.read<MainUser>().user!.college;
-    useRegularEmail = context.read<MainUser>().user!.email ==
+    useLoginEmail = context.read<MainUser>().user!.email ==
         HomeSetterPage.auth.currentUser!.email;
     if (formKey.currentState != null) {
       formKey.currentState!.validate();
     }
+  }
+
+  bool checkChanged() {
+    hasChanged = false;
+    if (fullNameTextController.text !=
+        context.read<MainUser>().user!.fullName) {
+      hasChanged = true;
+    }
+    if (phoneTextController.text != context.read<MainUser>().user!.phone) {
+      hasChanged = true;
+    }
+    if (emailTextController.text != context.read<MainUser>().user!.email) {
+      hasChanged = true;
+    }
+    if (fbTextController.text != context.read<MainUser>().user!.fbUrl) {
+      hasChanged = true;
+    }
+    if (instaTextController.text != context.read<MainUser>().user!.instaUrl) {
+      hasChanged = true;
+    }
+    if (designationTextController.text !=
+        context.read<MainUser>().user!.designation) {
+      hasChanged = true;
+    }
+    if (addressTextController.text != context.read<MainUser>().user!.address) {
+      hasChanged = true;
+    }
+    if (locationAccess != context.read<MainUser>().user!.pLocation) {
+      hasChanged = true;
+    }
+    if (phoneAccess != context.read<MainUser>().user!.pPhone) {
+      hasChanged = true;
+    }
+    if (profession != context.read<MainUser>().user!.profession) {
+      hasChanged = true;
+    }
+
+    return hasChanged;
   }
 
   @override

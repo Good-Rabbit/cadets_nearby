@@ -1,6 +1,5 @@
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/data/user.dart';
-import 'package:cadets_nearby/services/calculations.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/nearby_provider.dart';
@@ -59,51 +58,10 @@ class NearbyListState extends State<NearbyList> {
         continue;
       }
 
-      final AppUser e = AppUser(
-        id: u.data()['id'] as String,
-        cName: u.data()['cname'] as String,
-        cNumber: int.parse(u.data()['cnumber'] as String),
-        fullName: u.data()['fullname'] as String,
-        college: u.data()['college'] as String,
-        email: u.data()['email'] as String,
-        intake: int.parse(u.data()['intake'] as String),
-        lat: u.data()['lat'] as double,
-        long: u.data()['long'] as double,
-        timeStamp: u.data()['lastonline'] == null
-            ? DateTime(2000)
-            : DateTime.parse(u.data()['lastonline']),
-        premiumTo: u.data()['premiumto'] == null
-            ? DateTime.now()
-            : DateTime.parse(u.data()['premiumto'] as String),
-        photoUrl: u.data()['photourl'] as String,
-        pAlways: u.data()['palways'] as bool,
-        pLocation: u.data()['plocation'] as bool,
-        pMaps: u.data()['pmaps'] as bool,
-        pPhone: u.data()['pphone'] as bool,
-        phone: u.data()['phone'] as String,
-        premium: u.data()['premium'] as bool,
-        verified: u.data()['verified'] as String,
-        fbUrl: u.data()['fburl'] as String,
-        instaUrl: u.data()['instaurl'] as String,
-        celeb: u.data()['celeb'] as bool,
-        treatHead: u.data()['treathead'] as bool,
-        treatHunter: u.data()['treathunter'] as bool,
-        designation: u.data()['designation'] as String,
-        profession: u.data()['profession'] as String,
-        manualDp: u.data()['manualdp'] as bool,
-        treatCount: u.data()['treatcount'] as int,
-        latSector: (u.data()['latsector'] ?? 0) as int,
-        address: u.data()['address'] as String,
-        contact: u.data()['contact'] as bool,
-        coupons: u.data()['coupons'] as int,
-      );
+      final AppUser e = AppUser.fromData(u.data());
 
       // * Distance in meters
-      var distanceD = calculateDistance(
-              context.read<LocationStatus>().locationData!.latitude!,
-              context.read<LocationStatus>().locationData!.longitude!,
-              e.lat,
-              e.long) *
+      var distanceD = context.read<MainUser>().user!.distanceFromUser(e) *
           1000;
 
       // * Range Filter Check
@@ -206,17 +164,7 @@ class NearbyListState extends State<NearbyList> {
               children: all.map(
                 (e) {
                   // * Distance in meters
-                  var distanceD = calculateDistance(
-                          context
-                              .read<LocationStatus>()
-                              .locationData!
-                              .latitude!,
-                          context
-                              .read<LocationStatus>()
-                              .locationData!
-                              .longitude!,
-                          e.lat,
-                          e.long) *
+                  var distanceD = context.read<MainUser>().user!.distanceFromUser(e) *
                       1000;
 
                   // * Distance in meter
@@ -266,11 +214,7 @@ class NearbyListState extends State<NearbyList> {
             children: tooOld.map(
               (e) {
                 // * Distance in meters
-                var distanceD = calculateDistance(
-                        context.read<LocationStatus>().locationData!.latitude!,
-                        context.read<LocationStatus>().locationData!.longitude!,
-                        e.lat,
-                        e.long) *
+                var distanceD = context.read<MainUser>().user!.distanceFromUser(e) *
                     1000;
 
                 // * Distance in meter

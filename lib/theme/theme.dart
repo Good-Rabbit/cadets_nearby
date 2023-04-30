@@ -127,15 +127,9 @@ final ThemeData lightTheme = ThemeData(
     filled: true,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
-      borderSide: const BorderSide(
-        color: Colors.white,
-      ),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
-      borderSide: const BorderSide(
-        color: Colors.white,
-      ),
     ),
   ),
   iconTheme: const IconThemeData(color: Colors.black),
@@ -236,15 +230,9 @@ final ThemeData darkTheme = ThemeData(
     filled: true,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
-      borderSide: const BorderSide(
-        color: Colors.white,
-      ),
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
-      borderSide: const BorderSide(
-        color: Colors.white,
-      ),
     ),
   ),
   snackBarTheme: const SnackBarThemeData(

@@ -23,43 +23,7 @@ class MainUser with ChangeNotifier {
         HomeSetterPage.store.collection('users').doc(user.uid).snapshots();
     userStreamSubscription = userStream!.listen((u) {
       if (u.data() != null) {
-        mainUser = AppUser(
-          id: HomeSetterPage.auth.currentUser!.uid,
-          cName: u.data()!['cname'] as String,
-          cNumber: int.parse(u.data()!['cnumber'] as String),
-          fullName: u.data()!['fullname'] as String,
-          college: u.data()!['college'] as String,
-          email: u.data()!['email'] as String,
-          intake: int.parse(u.data()!['intake'] as String),
-          lat: (u.data()!['lat']).toDouble(),
-          long: (u.data()!['long']).toDouble(),
-          pAlways: u.data()!['palways'] as bool,
-          pLocation: u.data()!['plocation'] as bool,
-          pMaps: u.data()!['pmaps'] as bool,
-          pPhone: u.data()!['pphone'] as bool,
-          photoUrl: u.data()!['photourl'] as String,
-          phone: u.data()!['phone'] as String,
-          timeStamp: DateTime.parse(
-              u.data()!['lastonline'] ?? DateTime.now().toString()),
-          premiumTo: u.data()!['premiumto'] == null
-              ? DateTime.now()
-              : DateTime.parse(u.data()!['premiumto'] as String),
-          premium: u.data()!['premium'] as bool,
-          fbUrl: u.data()!['fburl'] as String,
-          instaUrl: u.data()!['instaurl'] as String,
-          verified: u.data()!['verified'] as String,
-          celeb: u.data()!['celeb'] as bool,
-          treatHead: u.data()!['treathead'] as bool,
-          treatHunter: u.data()!['treathunter'] as bool,
-          designation: u.data()!['designation'] as String,
-          profession: u.data()!['profession'] as String,
-          manualDp: u.data()!['manualdp'] as bool,
-          treatCount: u.data()!['treatcount'] as int,
-          latSector: (u.data()!['latsector'] ?? 0) as int,
-          address: u.data()!['address'] as String,
-          contact: u.data()!['contact'] as bool,
-          coupons: u.data()!['coupons'] as int,
-        );
+        mainUser = AppUser.fromData(u.data()!);
         if (mainUser!.premiumTo.difference(DateTime.now()).inDays < 1 &&
             mainUser!.timeStamp.month != DateTime.now().month) {
           HomeSetterPage.store.collection('users').doc(user.uid).update({

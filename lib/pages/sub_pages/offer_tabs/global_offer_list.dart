@@ -1,4 +1,3 @@
-import 'package:cadets_nearby/services/calculations.dart';
 import 'package:cadets_nearby/services/global_offers_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +18,7 @@ class GlobalOfferList extends StatelessWidget {
             child: Column(
               children: context.read<GlobalOffers>().offers.map((e) {
                 // * Distance in meter rounded to tens
-                int distanceM = (calculateDistance(
-                            context.read<MainUser>().user!.lat,
-                            context.read<MainUser>().user!.long,
+                int distanceM = (context.read<MainUser>().user!.distance(
                             double.parse(e['lat']),
                             double.parse(e['long'])) *
                         1000)

@@ -14,7 +14,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -41,8 +40,6 @@ class HomeSetterPageState extends State<HomeSetterPage> {
   @override
   void initState() {
     getBuildNumber();
-
-    getAllPermissions(context);
 
     // Init Notifications
     LocalNotificationService.initialize(context);
@@ -203,12 +200,4 @@ class HomeSetterPageState extends State<HomeSetterPage> {
     Future.delayed(Duration.zero)
         .then((value) => Navigator.of(context).pushNamed('/verifyemail'));
   }
-}
-
-void getAllPermissions(BuildContext context) async {
-  await context.read<LocationStatus>().checkPermissions();
-  await LocalNotificationService.notificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()!
-      .requestPermission();
 }
