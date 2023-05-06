@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -238,24 +240,20 @@ class SignupMainPageState extends State<SignupMainPage> {
                                       setState(() {
                                         inProgress = true;
                                       });
-                                      try {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(const SnackBar(
-                                          content: SafeArea(
-                                            child: Text('Creating account'),
-                                          ),
-                                        ));
-                                        HomeSetterPage.auth
-                                            .createUserWithEmailAndPassword(
-                                          email: emailTextController.text,
-                                          password: passwordTextController.text,
-                                        )
-                                            .then((value) {
-                                          HomeSetterPage.auth.currentUser!
-                                              .sendEmailVerification();
-                                          Navigator.of(context).pop();
-                                        });
-                                      } on FirebaseAuthException catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                        content: SafeArea(
+                                          child: Text('Creating account'),
+                                        ),
+                                      ));
+                                      HomeSetterPage.auth
+                                          .createUserWithEmailAndPassword(
+                                        email: emailTextController.text,
+                                        password: passwordTextController.text,
+                                      )
+                                          .onError<FirebaseAuthException>(
+                                              (e, stackTrace) {
+                                        log(e.code);
                                         switch (e.code) {
                                           case 'email-already-in-use':
                                             emailInUse = true;
@@ -282,7 +280,12 @@ class SignupMainPageState extends State<SignupMainPage> {
                                           inProgress = false;
                                         });
                                         checkChanged();
-                                      }
+                                        throw FirebaseAuthException;
+                                      }).then((value) {
+                                        HomeSetterPage.auth.currentUser!
+                                            .sendEmailVerification();
+                                        Navigator.of(context).pop();
+                                      });
                                     }
                                   },
                             label: const Text('Register'),

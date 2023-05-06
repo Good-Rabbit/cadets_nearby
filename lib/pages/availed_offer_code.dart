@@ -1,3 +1,4 @@
+import 'package:cadets_nearby/data/snackbar_mixin.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,8 @@ class AvailedOfferDetailsPage extends StatefulWidget {
   AvailedOfferDetailsPageState createState() => AvailedOfferDetailsPageState();
 }
 
-class AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
+class AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage>
+    with AsyncSnackbar {
   QueryDocumentSnapshot<Map<String, dynamic>>? e;
   @override
   Widget build(BuildContext context) {
@@ -116,8 +118,6 @@ class AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage> {
 
   Future<void> copyToClipboard() async {
     await Clipboard.setData(ClipboardData(text: e!.data()['code']));
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Copied to clipboard'),
-    ));
+    showSnackbar('Copied to clipboard');
   }
 }

@@ -12,16 +12,12 @@ import 'package:provider/provider.dart';
 class NearbyListHolder extends StatelessWidget {
   const NearbyListHolder({Key? key}) : super(key: key);
 
-  void getLocation(BuildContext context) async {
-    if (!context.read<LocationStatus>().permissionGranted ||
-        context.read<LocationStatus>().serviceEnabled) {
-      await context.read<LocationStatus>().checkPermissions();
-    }
+  void getLocation(BuildContext context) {
     if (context.read<LocationStatus>().locationData != null) {
       return;
     }
 
-    await context.read<LocationStatus>().getLocation();
+    context.read<LocationStatus>().getLocation();
     return;
   }
 

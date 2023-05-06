@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../data/snackbar_mixin.dart';
+
 class DpPage extends StatefulWidget {
   const DpPage({Key? key}) : super(key: key);
 
@@ -16,11 +18,12 @@ class DpPage extends StatefulWidget {
   DpPageState createState() => DpPageState();
 }
 
-class DpPageState extends State<DpPage> {
+class DpPageState extends State<DpPage> with AsyncSnackbar {
   final ImagePicker picker = ImagePicker();
   XFile? image;
   String? stringImage;
   String? filename;
+  String? id;
 
   Future<void> getImage(ImageSource source) async {
     image = await picker
@@ -53,19 +56,11 @@ class DpPageState extends State<DpPage> {
       //!Update account
       final String url =
           await FirebaseStorage.instance.ref('DPs/$filename').getDownloadURL();
-      HomeSetterPage.store
-          .collection('users')
-          .doc(context.read<MainUser>().user!.id)
-          .update({
+      HomeSetterPage.store.collection('users').doc(id).update({
         'photourl': url,
         'manualdp': true,
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          content: const Text('Updated Successfully')));
-      // context.read<MainUser>().user!.manualDp = true;
-      // context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
-      Navigator.of(context).pop();
+      showSnackbar('Updated Successfully');
     }).catchError((e) {
       log(e.toString());
     });
@@ -79,20 +74,22 @@ class DpPageState extends State<DpPage> {
       //!Update account
       HomeSetterPage.store
           .collection('users')
-          .doc(context.read<MainUser>().user!.id)
+          .doc(id)
           .update({
         'photourl': '',
         'manualdp': false,
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          content: const Text('Deleted Successfully')));
-      // context.read<MainUser>().user!.manualDp = false;
-      // context.read<MainUser>().setPhotoUrl = '$siteAddress/DPs/${filename!}';
+      showSnackbar('Deleted Successfully');
       Navigator.of(context).pop();
     }).catchError((e) {
       log(e.toString());
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    id = context.read<MainUser>().user!.id;
   }
 
   @override
@@ -227,8 +224,9 @@ class DpPageState extends State<DpPage> {
                         icon: const Icon(Icons.upload),
                         onPressed: image == null
                             ? null
-                            : () async {
-                                uploadImage();
+                            : () {
+                                Future.delayed(Duration.zero, uploadImage).then(
+                                    (value) => Navigator.of(context).pop());
                               },
                         label: const Text('Upload picture'),
                       ),

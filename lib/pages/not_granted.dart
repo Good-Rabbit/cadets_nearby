@@ -31,7 +31,7 @@ class NotGrantedState extends State<NotGranted> {
                   ),
                   const SizedBox(height: 30),
                   Text(
-                    !context.read<LocationStatus>().serviceEnabled
+                    !context.watch<LocationStatus>().serviceEnabled
                         ? 'Location Disabled'
                         : 'Location permission not granted',
                     textAlign: TextAlign.center,
@@ -42,10 +42,10 @@ class NotGrantedState extends State<NotGranted> {
                   const SizedBox(height: 50),
                   ElevatedButton(
                       onPressed: () {
-                        context.read<LocationStatus>().getPermissions();
+                        context.read<LocationStatus>().checkPermissions();
                       },
                       child: Text(
-                        !context.read<LocationStatus>().serviceEnabled
+                        !context.watch<LocationStatus>().serviceEnabled
                             ? 'Enable Location'
                             : 'Grant permission',
                         textAlign: TextAlign.center,

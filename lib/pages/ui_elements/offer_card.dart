@@ -185,12 +185,12 @@ class _OfferCardState extends State<OfferCard> {
                   TextButton(
                       onPressed: inProgress
                           ? null
-                          : () async {
+                          : () {
                               setState(() {
                                 inProgress = true;
                               });
                               if (context.read<MainUser>().user!.coupons > 0) {
-                                await HomeSetterPage.store
+                                HomeSetterPage.store
                                     .collection('users')
                                     .doc(context.read<MainUser>().user!.id)
                                     .update({
@@ -199,7 +199,7 @@ class _OfferCardState extends State<OfferCard> {
                                           1),
                                 });
                               }
-                              await HomeSetterPage.store
+                              HomeSetterPage.store
                                   .collection('codes')
                                   .add({
                                 'id': context.read<MainUser>().user!.id,

@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../data/snackbar_mixin.dart';
+
 class CadetVerificationPage extends StatefulWidget {
   const CadetVerificationPage({Key? key}) : super(key: key);
 
@@ -16,12 +18,20 @@ class CadetVerificationPage extends StatefulWidget {
   CadetVerificationPageState createState() => CadetVerificationPageState();
 }
 
-class CadetVerificationPageState extends State<CadetVerificationPage> {
+class CadetVerificationPageState extends State<CadetVerificationPage>
+    with AsyncSnackbar {
   final ImagePicker picker = ImagePicker();
 
   XFile? image;
   String? stringImage;
   String? filename;
+  String? id;
+
+  @override
+  initState() {
+    super.initState();
+    id = context.read<MainUser>().user!.id;
+  }
 
   Future<void> getImage(ImageSource source) async {
     image =
@@ -33,7 +43,8 @@ class CadetVerificationPageState extends State<CadetVerificationPage> {
     setState(() {});
   }
 
-  Future<void> uploadImage() async {
+  uploadImage() {
+    showSnackbar('Uploading Image');
     FirebaseStorage.instance
         .ref('VPs/$filename')
         .putString(stringImage!, format: PutStringFormat.base64)
@@ -41,20 +52,15 @@ class CadetVerificationPageState extends State<CadetVerificationPage> {
       final String url =
           await FirebaseStorage.instance.ref('VPs/$filename').getDownloadURL();
       //Update verification requests
-      HomeSetterPage.store
-          .collection('users')
-          .doc(context.read<MainUser>().user!.id)
-          .update({
+      HomeSetterPage.store.collection('users').doc(id).update({
         'verifyurl': url,
         'verified': 'waiting',
       });
       // context.read<MainUser>().user!.verified = 'waiting';
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Uploaded Successfully')));
-      Navigator.of(context).pop();
+      showSnackbar('Uploaded Successfully');
     }).catchError((e) {
       log(e.toString());
-    });
+    }).then((value) => Navigator.of(context).pop());
   }
 
   @override

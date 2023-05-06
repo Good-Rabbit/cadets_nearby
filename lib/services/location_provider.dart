@@ -21,8 +21,6 @@ class LocationStatus with ChangeNotifier {
     try {
       final Location location = Location();
 
-      serviceEnabled = await location.serviceEnabled();
-
       checkPermissions();
 
       locationData = await location.getLocation();
@@ -77,18 +75,6 @@ class LocationStatus with ChangeNotifier {
       Future.delayed(const Duration(seconds: 10), () {
         alreadyRequested = false;
       });
-    }
-  }
-
-  getPermissions() async {
-    bool sTemp = serviceEnabled;
-    bool pTemp = permissionGranted;
-
-    serviceEnabled = await location.requestService();
-    permissionGranted =
-        (await location.requestPermission()) == PermissionStatus.granted;
-    if (sTemp != serviceEnabled || pTemp != permissionGranted) {
-      notifyListeners();
     }
   }
 }

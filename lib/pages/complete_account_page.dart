@@ -697,122 +697,133 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                               ElevatedButton.icon(
                                 onPressed: (inProgress || !(privacy && terms))
                                     ? null
-                                    : () async {
-                                        SharedPreferences prefs =
-                                            await SharedPreferences
-                                                .getInstance();
+                                    : () {
+                                        SharedPreferences? prefs;
+                                        Future.delayed(
+                                            Duration.zero,
+                                            () async => prefs =
+                                                await SharedPreferences
+                                                    .getInstance());
                                         FocusScope.of(context).unfocus();
                                         setState(() {
                                           inProgress = true;
                                         });
-                                        if (formKey.currentState!.validate()) {
-                                          prefs.setString('range', '2000 m');
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: const Text(
-                                                      'Select your default lookup range in meters (you can change it later)'),
-                                                  content: Padding(
-                                                    padding: const EdgeInsets
-                                                            .fromLTRB(
-                                                        0.0, 10.0, 0.0, 0.0),
-                                                    child: SizedBox(
-                                                      width: 500,
-                                                      child: Theme(
-                                                        data: Theme.of(context)
-                                                            .copyWith(
-                                                          canvasColor: Theme.of(
-                                                                  context)
-                                                              .bottomAppBarTheme
-                                                              .color,
-                                                        ),
-                                                        child:
-                                                            DropdownButtonFormField(
-                                                          hint: const Text(
-                                                              'Distance Control'),
-                                                          decoration:
-                                                              const InputDecoration(
-                                                            prefixIcon: Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .fromLTRB(
-                                                                          10.0,
-                                                                          0,
-                                                                          0,
-                                                                          0),
-                                                              child: Icon(
-                                                                Icons
-                                                                    .location_pin,
+                                        Future.delayed(const Duration(
+                                                milliseconds: 100))
+                                            .then((value) {
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            prefs!.setString('range', '2000 m');
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text(
+                                                        'Select your default lookup range in meters (you can change it later)'),
+                                                    content: Padding(
+                                                      padding: const EdgeInsets
+                                                              .fromLTRB(
+                                                          0.0, 10.0, 0.0, 0.0),
+                                                      child: SizedBox(
+                                                        width: 500,
+                                                        child: Theme(
+                                                          data:
+                                                              Theme.of(context)
+                                                                  .copyWith(
+                                                            canvasColor: Theme
+                                                                    .of(context)
+                                                                .bottomAppBarTheme
+                                                                .color,
+                                                          ),
+                                                          child:
+                                                              DropdownButtonFormField(
+                                                            hint: const Text(
+                                                                'Distance Control'),
+                                                            decoration:
+                                                                const InputDecoration(
+                                                              prefixIcon:
+                                                                  Padding(
+                                                                padding: EdgeInsets
+                                                                    .fromLTRB(
+                                                                        10.0,
+                                                                        0,
+                                                                        0,
+                                                                        0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .location_pin,
+                                                                ),
                                                               ),
                                                             ),
+                                                            value: context
+                                                                .read<Nearby>()
+                                                                .range,
+                                                            isDense: true,
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                context
+                                                                        .read<
+                                                                            Nearby>()
+                                                                        .range =
+                                                                    value!
+                                                                        as String;
+                                                                prefs!.setString(
+                                                                    'range',
+                                                                    value
+                                                                        as String);
+                                                              });
+                                                            },
+                                                            items: nearbyRange
+                                                                .map((String
+                                                                    value) {
+                                                              return DropdownMenuItem<
+                                                                  String>(
+                                                                value: value,
+                                                                child: Text(value
+                                                                    .toString()),
+                                                              );
+                                                            }).toList(),
                                                           ),
-                                                          value: context
-                                                              .read<Nearby>()
-                                                              .range,
-                                                          isDense: true,
-                                                          onChanged: (value) {
-                                                            setState(() {
-                                                              context
-                                                                      .read<
-                                                                          Nearby>()
-                                                                      .range =
-                                                                  value!
-                                                                      as String;
-                                                              prefs.setString(
-                                                                  'range',
-                                                                  value
-                                                                      as String);
-                                                            });
-                                                          },
-                                                          items: nearbyRange
-                                                              .map((String
-                                                                  value) {
-                                                            return DropdownMenuItem<
-                                                                String>(
-                                                              value: value,
-                                                              child: Text(value
-                                                                  .toString()),
-                                                            );
-                                                          }).toList(),
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                        onPressed: () async {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                          completionDialog();
-                                                        },
-                                                        child:
-                                                            const Text('Ok.')),
-                                                  ],
-                                                );
-                                              });
-                                        } else {
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: const Text('Error'),
-                                                  content: const Text(
-                                                      'Please fill up all the fields.'),
-                                                  actions: [
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                        child:
-                                                            const Text('Okay')),
-                                                  ],
-                                                );
-                                              });
-                                        }
-                                        setState(() {
-                                          inProgress = false;
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () async {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                            completionDialog();
+                                                          },
+                                                          child: const Text(
+                                                              'Ok.')),
+                                                    ],
+                                                  );
+                                                });
+                                          } else {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    title: const Text('Error'),
+                                                    content: const Text(
+                                                        'Please fill up all the fields.'),
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: const Text(
+                                                              'Okay')),
+                                                    ],
+                                                  );
+                                                });
+                                          }
+                                          setState(() {
+                                            inProgress = false;
+                                          });
                                         });
                                       },
                                 label: const Text('Continue'),
@@ -851,10 +862,14 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                   },
                   child: const Text('No, go back.')),
               TextButton(
-                  onPressed: () async {
-                    await context.read<LocationStatus>().checkPermissions();
-                    await completeAccount();
-                    Navigator.of(context).pop();
+                  onPressed: () {
+                    Future.delayed(Duration.zero, () {
+                      context.read<LocationStatus>().checkPermissions();
+                      context.read<LocationStatus>().getLocation();
+                    }).then((value) {
+                      completeAccount();
+                      Navigator.of(context).pop();
+                    });
                   },
                   child: const Text('Yes.')),
             ],
@@ -862,7 +877,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
         });
   }
 
-  Future<void> completeAccount() async {
+  completeAccount() {
     String cName = cNameTextController.text;
     String first = cName[0];
     first = first.toUpperCase();
@@ -879,8 +894,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
     fullName = fname.toString().trim();
 
     try {
-      await FirebaseAuth.instance.currentUser!.updateDisplayName(fullName);
-      await context.read<LocationStatus>().getLocation();
+      FirebaseAuth.instance.currentUser!.updateDisplayName(fullName);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const SafeArea(child: Text('Updating account info')),
         backgroundColor: Theme.of(context).primaryColor,
@@ -900,7 +914,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
           'id': HomeSetterPage.auth.currentUser!.uid,
           'address': addressTextController.text,
           'contact': false,
-          'coupons': (DateTime.now().day > 14 ? 2 : 3),
+          'coupons': 3,
           'college': college,
           'celeb': false,
           'cname': cName,

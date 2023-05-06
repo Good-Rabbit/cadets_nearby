@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:animate_icons/animate_icons.dart';
 import 'package:cadets_nearby/data/app_data.dart';
+import 'package:cadets_nearby/data/snackbar_mixin.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/pages/ui_elements/bottom_sheet.dart';
 import 'package:cadets_nearby/pages/ui_elements/verification_steps.dart';
@@ -23,7 +24,7 @@ class AccountPage extends StatefulWidget {
 }
 
 class AccountPageState extends State<AccountPage>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin,AsyncSnackbar {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController fullNameTextController = TextEditingController();
@@ -797,14 +798,7 @@ class AccountPageState extends State<AccountPage>
               'profession': profession,
               'address': addressTextController.text,
             });
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Theme.of(context).primaryColor,
-                content: const Text(
-                  'Account settings updated',
-                ),
-              ),
-            );
+            showSnackbar('Account settings updated');
           } catch (e) {
             log(e.toString());
           }

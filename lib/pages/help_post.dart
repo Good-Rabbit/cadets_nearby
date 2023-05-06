@@ -1,3 +1,4 @@
+import 'package:cadets_nearby/data/snackbar_mixin.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class PostHelpPage extends StatefulWidget {
   PostHelpPageState createState() => PostHelpPageState();
 }
 
-class PostHelpPageState extends State<PostHelpPage> {
+class PostHelpPageState extends State<PostHelpPage> with AsyncSnackbar {
   TextEditingController titleController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -222,7 +223,7 @@ class PostHelpPageState extends State<PostHelpPage> {
                                       },
                                       child: const Text('No, go back.')),
                                   TextButton(
-                                      onPressed: () async {
+                                      onPressed: () {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
@@ -230,18 +231,16 @@ class PostHelpPageState extends State<PostHelpPage> {
                                             duration: Duration(seconds: 1),
                                           ),
                                         );
-
-                                        if (await uploadPost(context)) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            const SnackBar(
-                                              content:
-                                                  Text('Successfully posted'),
-                                            ),
-                                          );
-                                          Navigator.of(context).pop();
-                                          Navigator.of(mainContext).pop();
-                                        }
+                                        bool uploaded = false;
+                                        Future.delayed(Duration.zero, () async {
+                                          uploaded = await uploadPost();
+                                        }).then((value) {
+                                          if (uploaded) {
+                                            showSnackbar('Successfully posted');
+                                            Navigator.of(context).pop();
+                                            Navigator.of(mainContext).pop();
+                                          }
+                                        });
                                       },
                                       child: const Text('Yes.')),
                                 ],
@@ -261,7 +260,7 @@ class PostHelpPageState extends State<PostHelpPage> {
     );
   }
 
-  Future<bool> uploadPost(BuildContext context) async {
+  Future<bool> uploadPost() async {
     try {
       await HomeSetterPage.store.collection('support').add({
         'id': context.read<MainUser>().user!.id,
