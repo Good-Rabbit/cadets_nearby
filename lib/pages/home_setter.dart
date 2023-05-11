@@ -9,13 +9,13 @@ import 'package:cadets_nearby/services/local_notification_service.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
-import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeSetterPage extends StatefulWidget {
   const HomeSetterPage({Key? key}) : super(key: key);
@@ -105,7 +105,7 @@ class HomeSetterPageState extends State<HomeSetterPage> {
                 if (message.data['url'] != '')
                   TextButton(
                       onPressed: () {
-                        launchURL(message.data['url'] as String);
+                        launchUrl(Uri.parse(message.data['url'] as String),mode: LaunchMode.externalApplication);
                       },
                       child: Text(message.data['url'] as String)),
               ],
@@ -134,7 +134,7 @@ class HomeSetterPageState extends State<HomeSetterPage> {
               ),
               ElevatedButton.icon(
                   onPressed: () {
-                    launchURL(context.read<Data>().rateLinkData!);
+                    launchUrl(Uri.parse(context.read<Data>().rateLinkData!),mode: LaunchMode.externalApplication);
                   },
                   icon: const Icon(Icons.upgrade_rounded),
                   label: const Text('Update Now'))

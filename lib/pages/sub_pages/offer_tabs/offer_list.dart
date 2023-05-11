@@ -43,12 +43,12 @@ class OfferList extends StatelessWidget {
 
                   return SingleChildScrollView(
                     child: Column(
-                      children: snapshot.data!.docs.map((e) {
+                      children: offers.map((e) {
                         // * Distance in meter rounded to tens
                         int distanceM = (
                           context.read<MainUser>().user!.distance(
-                                    double.parse(e.data()['lat']),
-                                    double.parse(e.data()['long'])) *
+                                    e.data()['lat'] as double,
+                                    e.data()['long'] as double) *
                                 1000)
                             .toInt();
                         double distanceKm = distanceM / 1000;

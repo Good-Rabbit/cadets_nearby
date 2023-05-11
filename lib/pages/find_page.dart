@@ -4,7 +4,6 @@ import 'package:cadets_nearby/pages/ui_elements/no_one_found.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../main.dart';
 import 'ui_elements/contact_card.dart';
 
 class FindPage extends StatefulWidget {
@@ -30,7 +29,6 @@ class FindPageState extends State<FindPage> {
         backgroundColor: Colors.transparent,
         title: const Text('Find someone'),
         elevation: 0,
-        systemOverlayStyle: systemUiOverlayStyle,
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(

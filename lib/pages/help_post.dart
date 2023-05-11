@@ -4,8 +4,6 @@ import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../main.dart';
-
 class PostHelpPage extends StatefulWidget {
   const PostHelpPage({Key? key}) : super(key: key);
 
@@ -69,7 +67,6 @@ class PostHelpPageState extends State<PostHelpPage> with AsyncSnackbar {
               ),
             ],
           ),
-          systemOverlayStyle: systemUiOverlayStyle,
         ),
         body: ListView(
           children: [

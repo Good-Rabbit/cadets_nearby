@@ -1,12 +1,11 @@
 name: cadets_nearby
 description: Stay in touch with cadets nearby you.
-version: 2.0.0+22
+version: 2.0.1+23
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  animate_icons: ^2.0.0
   auto_size_text: ^3.0.0-nullsafety.0
   bottom_navy_bar: ^6.0.0
   cached_network_image: ^3.1.0
@@ -18,7 +17,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_local_notifications: ^14.0.0+1
-  flutter_native_splash: ^2.1.5
+  flutter_map: ^4.0.0
   flutter_spinkit: ^5.0.0
   font_awesome_flutter: ^10.1.0
   #google_mobile_ads: ^1.0.1
@@ -26,6 +25,7 @@ dependencies:
   http: ^0.13.3
   image_picker: ^0.8.3+2
   #intl: ^0.17.0
+  latlong2: ^0.8.1
   location: ^4.3.0
   package_info_plus: ^3.0.2
   page_transition: ^2.0.2

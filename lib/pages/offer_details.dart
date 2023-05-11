@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../main.dart';
-
 class OfferDetailsPage extends StatefulWidget {
   const OfferDetailsPage({Key? key}) : super(key: key);
 
@@ -47,7 +45,6 @@ class OfferDetailsPageState extends State<OfferDetailsPage> {
             ),
           ],
         ),
-        systemOverlayStyle: systemUiOverlayStyle,
       ),
       body: ListView(
         children: [

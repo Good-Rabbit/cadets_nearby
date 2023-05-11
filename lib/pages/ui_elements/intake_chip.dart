@@ -10,13 +10,16 @@ class IntakeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Transform(
-      transform: Matrix4.identity()..scale(0.8),
-      child: Chip(
-        backgroundColor: Theme.of(context).primaryColor,
-        label: Text(
-          year,
-          style: const TextStyle(color: Colors.white),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+      child: Transform(
+        transform: Matrix4.identity()..scale(0.9),
+        child: Chip(
+          backgroundColor: Theme.of(context).primaryColor,
+          label: Text(
+            year,
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
       ),
     );

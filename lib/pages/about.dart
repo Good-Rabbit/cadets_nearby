@@ -1,9 +1,8 @@
-import 'package:cadets_nearby/main.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
-import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({Key? key}) : super(key: key);
@@ -26,7 +25,6 @@ class AboutPage extends StatelessWidget {
             ),
           ],
         ),
-        systemOverlayStyle: systemUiOverlayStyle,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -83,7 +81,8 @@ class AboutPage extends StatelessWidget {
               ),
               ElevatedButton.icon(
                 onPressed: () {
-                  launchURL(context.read<Data>().cnLink ?? '');
+                  launchUrl(Uri.parse(context.read<Data>().cnLink ?? ''),
+                      mode: LaunchMode.externalApplication);
                 },
                 icon: const Icon(
                   Icons.facebook_rounded,
@@ -100,7 +99,8 @@ class AboutPage extends StatelessWidget {
               ),
               ElevatedButton.icon(
                 onPressed: () {
-                  launchURL('mailto:info.cadetsnearby@gmail.com');
+                  launchUrl(Uri.parse('mailto:info.cadetsnearby@gmail.com'),
+                      mode: LaunchMode.externalApplication);
                 },
                 style: ButtonStyle(
                   backgroundColor:
@@ -118,7 +118,8 @@ class AboutPage extends StatelessWidget {
               ),
               ElevatedButton.icon(
                 onPressed: () {
-                  launchURL('https://discord.gg/RhhmecHEcj');
+                  launchUrl(Uri.parse('https://discord.gg/RhhmecHEcj'),
+                      mode: LaunchMode.externalApplication);
                 },
                 style: ButtonStyle(
                   backgroundColor:
@@ -148,7 +149,8 @@ class AboutPage extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 20),
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    launchURL(context.read<Data>().grLink ?? '');
+                    launchUrl(Uri.parse(context.read<Data>().grLink ?? ''),
+                        mode: LaunchMode.externalApplication);
                   },
                   style: ButtonStyle(
                     backgroundColor:

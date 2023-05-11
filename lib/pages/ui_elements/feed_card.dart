@@ -33,9 +33,12 @@ class _FeedCardState extends State<FeedCard> {
       timeAgo = 'Yesterday';
     } else if (postTime.inDays < 30) {
       timeAgo = '${postTime.inDays} days ago';
-    } else if (postTime.inDays > 30) {
+    } else if (postTime.inDays < 365) {
       timeAgo =
           '${(postTime.inDays / 30).floor()} ${(postTime.inDays / 30).floor() == 1 ? 'month' : 'months'} ago';
+    } else {
+      int years = (postTime.inDays ~/ 365);
+      timeAgo = '$years ${years == 1 ? 'year' : 'years'} ago';
     }
   }
 

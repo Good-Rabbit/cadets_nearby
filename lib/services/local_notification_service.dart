@@ -2,11 +2,11 @@ import 'dart:developer';
 
 import 'package:cadets_nearby/main.dart';
 import 'package:cadets_nearby/services/notification.dart';
-import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class LocalNotificationService {
@@ -50,7 +50,7 @@ class LocalNotificationService {
                   if (notification.url != '')
                     TextButton(
                         onPressed: () {
-                          launchURL(notification.url);
+                          launchUrl(Uri.parse(notification.url),mode: LaunchMode.externalApplication);
                         },
                         child: Text(notification.url)),
                 ],

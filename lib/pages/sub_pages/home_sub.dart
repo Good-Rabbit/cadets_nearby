@@ -4,9 +4,9 @@ import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cadets_nearby/services/notification_provider.dart';
 import 'package:cadets_nearby/services/sign_out.dart';
-import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeSubPage extends StatefulWidget {
   const HomeSubPage({
@@ -76,7 +76,7 @@ class HomeSubPageState extends State<HomeSubPage>
                             signOut();
                             break;
                           case MenuItems.itemRateUs:
-                            launchURL(context.read<Data>().rateLink);
+                            launchUrl(Uri.parse(context.read<Data>().rateLink),mode: LaunchMode.externalApplication);
                             break;
                           default:
                             break;

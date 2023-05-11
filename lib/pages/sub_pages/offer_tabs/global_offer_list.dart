@@ -19,8 +19,8 @@ class GlobalOfferList extends StatelessWidget {
               children: context.read<GlobalOffers>().offers.map((e) {
                 // * Distance in meter rounded to tens
                 int distanceM = (context.read<MainUser>().user!.distance(
-                            double.parse(e['lat']),
-                            double.parse(e['long'])) *
+                            e['lat'] as double,
+                            e['long'] as double) *
                         1000)
                     .toInt();
 

@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:animate_icons/animate_icons.dart';
 import 'package:cadets_nearby/data/app_data.dart';
 import 'package:cadets_nearby/data/snackbar_mixin.dart';
 import 'package:cadets_nearby/pages/home_setter.dart';
@@ -14,8 +13,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../main.dart';
-
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
 
@@ -24,7 +21,7 @@ class AccountPage extends StatefulWidget {
 }
 
 class AccountPageState extends State<AccountPage>
-    with AutomaticKeepAliveClientMixin,AsyncSnackbar {
+    with AutomaticKeepAliveClientMixin, AsyncSnackbar {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController fullNameTextController = TextEditingController();
@@ -37,8 +34,6 @@ class AccountPageState extends State<AccountPage>
   TextEditingController instaTextController = TextEditingController();
   TextEditingController designationTextController = TextEditingController();
   TextEditingController addressTextController = TextEditingController();
-
-  AnimateIconController controller = AnimateIconController();
 
   bool locationAccess = true;
   bool phoneAccess = false;
@@ -114,7 +109,6 @@ class AccountPageState extends State<AccountPage>
               },
             ),
           ],
-          systemOverlayStyle: systemUiOverlayStyle,
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Form(

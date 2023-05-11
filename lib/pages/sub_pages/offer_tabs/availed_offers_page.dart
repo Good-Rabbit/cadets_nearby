@@ -1,4 +1,3 @@
-import 'package:cadets_nearby/main.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +41,6 @@ class AvailedOffersPageState extends State<AvailedOffersPage>
             ),
           ],
         ),
-        systemOverlayStyle: systemUiOverlayStyle,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

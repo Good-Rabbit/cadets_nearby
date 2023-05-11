@@ -1,9 +1,7 @@
 import 'package:cadets_nearby/services/notification_provider.dart';
-import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({Key? key}) : super(key: key);
@@ -39,7 +37,6 @@ class NotificationPageState extends State<NotificationPage>
               ),
             ],
           ),
-          systemOverlayStyle: systemUiOverlayStyle,
         ),
         body: Center(
           child: SafeArea(
@@ -79,7 +76,9 @@ class NotificationPageState extends State<NotificationPage>
                                         if (e.url != '')
                                           TextButton(
                                               onPressed: () {
-                                                launchURL(e.url);
+                                                launchUrl(Uri.parse(e.url),
+                                                    mode: LaunchMode
+                                                        .externalApplication);
                                               },
                                               child: Text(e.url)),
                                       ],

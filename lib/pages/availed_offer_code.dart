@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../main.dart';
-
 class AvailedOfferDetailsPage extends StatefulWidget {
   const AvailedOfferDetailsPage({Key? key}) : super(key: key);
 
@@ -38,7 +36,6 @@ class AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage>
             ),
           ],
         ),
-        systemOverlayStyle: systemUiOverlayStyle,
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(

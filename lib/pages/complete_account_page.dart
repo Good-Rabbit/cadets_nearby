@@ -5,13 +5,13 @@ import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/nearby_provider.dart';
-import 'package:cadets_nearby/services/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CompleteAccountPage extends StatefulWidget {
   const CompleteAccountPage({
@@ -575,8 +575,9 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                       //   ),
                                       // ], context);
                                       // * Opening external link
-                                      launchURL(
-                                          context.read<Data>().termsConditions);
+                                      launchUrl(Uri.parse(context
+                                          .read<Data>()
+                                          .termsConditions));
                                     },
                                     child: Text(
                                       'terms and conditions',
@@ -623,8 +624,8 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                       //   ),
                                       // ], context);
                                       // * Opening to external link
-                                      launchURL(
-                                          context.read<Data>().termsConditions);
+                                      launchUrl(Uri.parse(
+                                          context.read<Data>().termsConditions));
                                     },
                                     child: Text(
                                       'privacy policy',

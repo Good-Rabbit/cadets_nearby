@@ -64,7 +64,7 @@ class NearbyCardState extends State<NearbyCard> {
   @override
   void initState() {
     updateTime();
-    Timer.periodic(const Duration(minutes: 2), (timer) {
+    Timer.periodic(const Duration(minutes: 1), (timer) {
       updateTime();
       if (mounted) {
         setState(() {});
@@ -168,7 +168,23 @@ class NearbyCardState extends State<NearbyCard> {
                   ],
                 ),
               ),
-              IntakeChip(year: widget.e.intake.toString()),
+              Row(
+                children: [
+                  if (widget.e.pLocation)
+                    Transform(
+                      transform: Matrix4.identity()..scale(0.9),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/map',
+                              arguments: widget.e);
+                        },
+                        icon: const Icon(Icons.location_pin),
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  IntakeChip(year: widget.e.intake.toString()),
+                ],
+              ),
             ],
           ),
         ),

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:cadets_nearby/pages/find_page.dart';
+import 'package:cadets_nearby/pages/map.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/global_offers_provider.dart';
 import 'package:cadets_nearby/services/local_notification_service.dart';
@@ -141,6 +142,7 @@ class MyAppState extends State<MyApp> {
       themeMode: ThemeMode.system,
       routes: {
         '/': (context) => const HomeSetterPage(),
+        '/map': (context) => UserOnMapPage(),
         '/find': (context) => const FindPage(),
         '/about': (context) => const AboutPage(),
         '/login': (context) => const LoginPage(),

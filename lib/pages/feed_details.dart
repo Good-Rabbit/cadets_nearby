@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../main.dart';
-
 class FeedDetailsPage extends StatefulWidget {
   const FeedDetailsPage({Key? key}) : super(key: key);
 
@@ -28,9 +26,12 @@ class FeedDetailsPageState extends State<FeedDetailsPage> {
       timeAgo = 'Yesterday';
     } else if (postTime.inDays < 30) {
       timeAgo = '${postTime.inDays} days ago';
-    } else if (postTime.inDays > 30) {
+    } else if (postTime.inDays < 365) {
       timeAgo =
           '${(postTime.inDays / 30).floor()} ${(postTime.inDays / 30).floor() == 1 ? 'month' : 'months'} ago';
+    } else {
+      int years = (postTime.inDays ~/ 365);
+      timeAgo = '$years ${years == 1 ? 'year' : 'years'} ago';
     }
   }
 
@@ -50,7 +51,6 @@ class FeedDetailsPageState extends State<FeedDetailsPage> {
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        systemOverlayStyle: systemUiOverlayStyle,
       ),
       body: ListView(
         children: [
