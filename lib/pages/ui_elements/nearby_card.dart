@@ -175,7 +175,7 @@ class NearbyCardState extends State<NearbyCard> {
                       transform: Matrix4.identity()..scale(0.9),
                       child: IconButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/map',
+                          Navigator.pushNamed(context, '/usermap',
                               arguments: widget.e);
                         },
                         icon: const Icon(Icons.location_pin),

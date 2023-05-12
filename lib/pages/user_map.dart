@@ -88,7 +88,7 @@ class UserOnMapPage extends StatelessWidget {
   }
 
   Marker markerWithUser(BuildContext context, AppUser user) {
-    Color pinBorderColor = Colors.green[600]!;
+    Color pinBorderColor = Colors.green[400]!;
 
     return Marker(
       width: 85,

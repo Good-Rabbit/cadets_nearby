@@ -5,7 +5,6 @@ import 'package:cadets_nearby/pages/home_setter.dart';
 class AppUser {
   int cNumber;
   int intake;
-  int treatCount;
   int latSector;
   int coupons;
   double lat;
@@ -29,8 +28,6 @@ class AppUser {
   bool premium;
   bool pPhone;
   bool celeb;
-  bool treatHead;
-  bool treatHunter;
   bool pMaps;
   bool manualDp;
   bool contact;
@@ -54,14 +51,11 @@ class AppUser {
     required this.designation,
     required this.profession,
     required this.manualDp,
-    required this.treatCount,
     required this.latSector,
     required this.address,
     required this.contact,
     required this.coupons,
     required this.premiumTo,
-    this.treatHead = false,
-    this.treatHunter = false,
     this.photoUrl = '',
     this.lat = 0,
     this.long = 0,
@@ -122,7 +116,6 @@ class AppUser {
       designation: e['designation'] as String,
       profession: e['profession'] as String,
       manualDp: e['manualdp'] as bool,
-      treatCount: e['treatcount'] as int,
       latSector: (e['latsector'] ?? 0) as int,
       address: e['address'] as String,
       contact: e['contact'] as bool,

@@ -5,6 +5,7 @@ import 'package:cadets_nearby/pages/home_setter.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/nearby_provider.dart';
+import 'package:cadets_nearby/services/report_stacktrace.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -624,8 +625,9 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                       //   ),
                                       // ], context);
                                       // * Opening to external link
-                                      launchUrl(Uri.parse(
-                                          context.read<Data>().termsConditions));
+                                      launchUrl(Uri.parse(context
+                                          .read<Data>()
+                                          .termsConditions));
                                     },
                                     child: Text(
                                       'privacy policy',
@@ -739,7 +741,8 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                                           child:
                                                               DropdownButtonFormField(
                                                             hint: const Text(
-                                                                'Distance Control'),
+                                                              'Distance Control',
+                                                            ),
                                                             decoration:
                                                                 const InputDecoration(
                                                               prefixIcon:
@@ -761,18 +764,20 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                                                 .range,
                                                             isDense: true,
                                                             onChanged: (value) {
-                                                              setState(() {
-                                                                context
-                                                                        .read<
-                                                                            Nearby>()
-                                                                        .range =
-                                                                    value!
-                                                                        as String;
-                                                                prefs!.setString(
-                                                                    'range',
-                                                                    value
-                                                                        as String);
-                                                              });
+                                                              setState(
+                                                                () {
+                                                                  context
+                                                                          .read<
+                                                                              Nearby>()
+                                                                          .range =
+                                                                      value!
+                                                                          as String;
+                                                                  prefs!.setString(
+                                                                      'range',
+                                                                      value
+                                                                          as String);
+                                                                },
+                                                              );
                                                             },
                                                             items: nearbyRange
                                                                 .map((String
@@ -790,14 +795,14 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                                     ),
                                                     actions: [
                                                       TextButton(
-                                                          onPressed: () async {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                            completionDialog();
-                                                          },
-                                                          child: const Text(
-                                                              'Ok.')),
+                                                        onPressed: () async {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                          completionDialog();
+                                                        },
+                                                        child:
+                                                            const Text('Ok.'),
+                                                      ),
                                                     ],
                                                   );
                                                 });
@@ -855,19 +860,35 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
           return AlertDialog(
             title: const Text('Is the information correct?'),
             content: const Text(
-                'Some of your information cannot be changed later, like Cadet name/number, college, joining year.'),
+              'Some of your information cannot be changed later, like Cadet name/number, college, joining year.',
+            ),
             actions: [
               TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('No, go back.')),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('No, go back.'),
+              ),
               TextButton(
                   onPressed: () {
-                    Future.delayed(Duration.zero, () {
+                    Future.delayed(Duration.zero, () async {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const SafeArea(
+                            child: Text(
+                          'Getting Location',
+                        )),
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ));
                       context.read<LocationStatus>().checkPermissions();
-                      context.read<LocationStatus>().getLocation();
+                      await context
+                          .read<LocationStatus>()
+                          .getLocation(upload: false);
                     }).then((value) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const SafeArea(
+                            child: Text('Updating account info')),
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ));
                       completeAccount();
                       Navigator.of(context).pop();
                     });
@@ -895,11 +916,12 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
     fullName = fname.toString().trim();
 
     try {
-      FirebaseAuth.instance.currentUser!.updateDisplayName(fullName);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const SafeArea(child: Text('Updating account info')),
-        backgroundColor: Theme.of(context).primaryColor,
-      ));
+      FirebaseAuth.instance.currentUser!.updateDisplayName(fullName).onError(
+            (error, stackTrace) => sendReportWithStackTrace(
+              stackTrace: stackTrace,
+              context: context,
+            ),
+          );
 
       //* Calculating sector
       int latSector = 0;
@@ -943,12 +965,10 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
           'premium': false,
           'photourl': HomeSetterPage.auth.currentUser!.photoURL ?? '',
           'latsector': latSector,
-          'treatcount': 0,
-          'treathead': true,
-          'treathunter': true,
           'verified': 'no',
         },
-      );
+      ).onError((error, stackTrace) => sendReportWithStackTrace(
+              stackTrace: stackTrace, context: context));
     } catch (e) {
       log(e.toString());
     }

@@ -90,9 +90,9 @@ class NearbyListState extends State<NearbyList> {
         if (timeDiff.inDays <= context.read<Nearby>().daysRange) {
           if (e.celeb) {
             celebs.add(e);
-          } else if (e.treatHead) {
+          } else if (e.intake == context.read<MainUser>().user!.intake) {
             batchMates.add(e);
-          } else if (e.treatHunter) {
+          } else if (e.college == context.read<MainUser>().user!.college) {
             collegeMates.add(e);
           } else {
             others.add(e);
@@ -101,9 +101,9 @@ class NearbyListState extends State<NearbyList> {
       } else {
         if (e.celeb) {
           oldCelebs.add(e);
-        } else if (e.treatHead) {
+        } else if (e.intake == context.read<MainUser>().user!.intake) {
           oldBatchMates.add(e);
-        } else if (e.treatHunter) {
+        } else if (e.college == context.read<MainUser>().user!.college) {
           oldCollegeMates.add(e);
         } else {
           oldOthers.add(e);

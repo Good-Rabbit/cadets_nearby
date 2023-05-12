@@ -17,7 +17,7 @@ class LocationStatus with ChangeNotifier {
     checkPermissions();
   }
 
-  Future<void> getLocation() async {
+  Future<void> getLocation({bool upload = true}) async {
     try {
       final Location location = Location();
 
@@ -25,9 +25,11 @@ class LocationStatus with ChangeNotifier {
 
       locationData = await location.getLocation();
       log('${locationData!.latitude}  ${locationData!.longitude}');
-      //Calculate minimum and maximum for other distances
+      // Calculate minimum and maximum for other distances
       // ignore: use_build_context_synchronously
-      uploadLocation(locationData!);
+      if (upload) {
+        uploadLocation(locationData!);
+      }
       notifyListeners();
     } catch (e) {
       log(e.toString());

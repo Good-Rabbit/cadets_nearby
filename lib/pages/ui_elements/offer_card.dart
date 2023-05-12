@@ -23,13 +23,12 @@ class _OfferCardState extends State<OfferCard> {
 
   @override
   Widget build(BuildContext context) {
-    
     bool isKm = false;
     double distanceKm = 0;
     int distanceM = widget.distanceM;
     if (widget.distanceM > 1000) {
       isKm = true;
-      distanceKm = (widget.distanceM - widget.distanceM % 10)/1000;
+      distanceKm = (widget.distanceM - widget.distanceM % 10) / 1000;
       distanceKm = double.parse(distanceKm.toStringAsFixed(2));
     } else if (widget.distanceM >= 10) {
       distanceM = widget.distanceM - widget.distanceM % 10;
@@ -100,10 +99,37 @@ class _OfferCardState extends State<OfferCard> {
               ],
             ),
           ),
-          ElevatedButton.icon(
-              onPressed: availOffer,
-              icon: const Icon(Icons.add),
-              label: const Text('Avail')),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/offermap',
+                      arguments: widget.e);
+                },
+                icon: const Icon(Icons.location_pin),
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              ElevatedButton.icon(
+                onPressed: availOffer,
+                icon: Icon(
+                  Icons.add,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                label: Text(
+                  'Avail',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.primary.withAlpha(60),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ], context);
         // Navigator.of(context).pushNamed(
         //   '/offerdetails',
@@ -156,10 +182,25 @@ class _OfferCardState extends State<OfferCard> {
                     ],
                   ),
                 ),
-                ElevatedButton.icon(
-                    onPressed: availOffer,
-                    icon: const Icon(Icons.add),
-                    label: const Text('Avail')),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/offermap',
+                            arguments: widget.e);
+                      },
+                      icon: const Icon(Icons.location_pin),
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    IconButton(
+                      onPressed: availOffer,
+                      icon: Icon(
+                        Icons.add,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             )),
       ),
@@ -199,9 +240,7 @@ class _OfferCardState extends State<OfferCard> {
                                           1),
                                 });
                               }
-                              HomeSetterPage.store
-                                  .collection('codes')
-                                  .add({
+                              HomeSetterPage.store.collection('codes').add({
                                 'id': context.read<MainUser>().user!.id,
                                 'title': widget.e['title'],
                                 'offerid': widget.e['code'],

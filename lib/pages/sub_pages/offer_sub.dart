@@ -34,10 +34,10 @@ class OfferSubPageState extends State<OfferSubPage> {
                     child: Column(
                       children: const [
                         Icon(
-                          Icons.all_inclusive_rounded,
+                          Icons.backpack_rounded,
                         ),
                         Text(
-                          'Regional Offers',
+                          'All Offers',
                         ),
                       ],
                     ),
@@ -46,10 +46,10 @@ class OfferSubPageState extends State<OfferSubPage> {
                     child: Column(
                       children: const [
                         Icon(
-                          Icons.backpack_rounded,
+                          Icons.all_inclusive_rounded,
                         ),
                         Text(
-                          'All Offers',
+                          'Nearby Offers',
                         ),
                       ],
                     ),
@@ -62,8 +62,8 @@ class OfferSubPageState extends State<OfferSubPage> {
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  OfferList(),
                   GlobalOfferList(),
+                  OfferList(),
                 ],
               ),
             )
