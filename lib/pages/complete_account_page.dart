@@ -900,13 +900,13 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
   }
 
   completeAccount() {
-    String cName = cNameTextController.text;
+    String cName = cNameTextController.text.trim();
     String first = cName[0];
     first = first.toUpperCase();
     cName = first + cName.substring(1);
 
     String fullName = '';
-    final parts = fullNameTextController.text.split(' ');
+    final parts = fullNameTextController.text.trim().split(' ');
     final StringBuffer fname = StringBuffer();
     for (final each in parts) {
       first = each[0];
