@@ -28,7 +28,6 @@ class FindPageState extends State<FindPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text('Find someone'),
-        elevation: 0,
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
@@ -46,7 +45,7 @@ class FindPageState extends State<FindPage> {
                   controller: fullNameTextController,
                   cursorColor: Colors.grey[800],
                   decoration: const InputDecoration(
-                    hintText: 'Cadet Name*',
+                    labelText: 'Cadet Name*',
                     prefixIcon: Padding(
                       padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                       child: Icon(Icons.account_box_rounded),
@@ -64,22 +63,22 @@ class FindPageState extends State<FindPage> {
             ),
           ),
           const SizedBox(height: 10.0),
-          ElevatedButton.icon(
+          FilledButton.icon(
             onPressed: () {
               search();
             },
             icon: Icon(Icons.search_rounded,
-                color: Theme.of(context).primaryColor),
+                color: Theme.of(context).colorScheme.primary),
             label: Text(
               'Find',
               style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
-                Theme.of(context).primaryColor.withAlpha(60),
+                Theme.of(context).colorScheme.primary.withAlpha(60),
               ),
             ),
           ),

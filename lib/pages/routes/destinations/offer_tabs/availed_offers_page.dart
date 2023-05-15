@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../home_setter.dart';
-import '../../ui_elements/availed_card.dart';
-import '../../ui_elements/loading.dart';
+import '../../../home_setter.dart';
+import '../../../ui_elements/availed_card.dart';
+import '../../../ui_elements/loading.dart';
 
 class AvailedOffersPage extends StatefulWidget {
   const AvailedOffersPage({Key? key}) : super(key: key);
@@ -23,10 +23,9 @@ class AvailedOffersPageState extends State<AvailedOffersPage>
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
         foregroundColor: Theme.of(context).colorScheme.primary,
-        title: Row(
-          children: const [
+        title: const Row(
+          children: [
             Icon(
               Icons.backpack_rounded,
             ),
@@ -88,13 +87,13 @@ class AvailedOffersPageState extends State<AvailedOffersPage>
           Icon(
             Icons.backpack,
             size: 70.0,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
           Text(
             'No offers availed',
             style: TextStyle(
               fontSize: 25,
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 showBottomSheetWith(List<Widget> child, BuildContext context) {
   return showModalBottomSheet(
       context: context,
+      showDragHandle: true,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (context) {
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -12,7 +12,7 @@ showBottomSheetWith(List<Widget> child, BuildContext context) {
           child: GestureDetector(
             onTap: () {},
             child: DraggableScrollableSheet(
-              initialChildSize: 0.7,
+              initialChildSize: 0.9,
               maxChildSize: 0.9,
               minChildSize: 0.5,
               builder: (_, controller) => Container(

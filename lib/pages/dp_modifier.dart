@@ -72,10 +72,7 @@ class DpPageState extends State<DpPage> with AsyncSnackbar {
         .delete()
         .then((value) {
       //!Update account
-      HomeSetterPage.store
-          .collection('users')
-          .doc(id)
-          .update({
+      HomeSetterPage.store.collection('users').doc(id).update({
         'photourl': '',
         'manualdp': false,
       });
@@ -154,7 +151,7 @@ class DpPageState extends State<DpPage> with AsyncSnackbar {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton.icon(
+                      FilledButton.icon(
                         icon: const Icon(Icons.camera),
                         onPressed: () {
                           getImage(ImageSource.camera);
@@ -165,7 +162,7 @@ class DpPageState extends State<DpPage> with AsyncSnackbar {
                         ),
                         label: const Text('Take picture'),
                       ),
-                      ElevatedButton.icon(
+                      FilledButton.icon(
                         icon: const Icon(Icons.photo),
                         onPressed: () {
                           getImage(ImageSource.gallery);
@@ -184,7 +181,7 @@ class DpPageState extends State<DpPage> with AsyncSnackbar {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton.icon(
+                      FilledButton.icon(
                         icon: const Icon(Icons.delete),
                         onPressed: !context.read<MainUser>().user!.manualDp
                             ? null
@@ -220,7 +217,7 @@ class DpPageState extends State<DpPage> with AsyncSnackbar {
                         ),
                         label: const Text('Delete picture'),
                       ),
-                      ElevatedButton.icon(
+                      FilledButton.icon(
                         icon: const Icon(Icons.upload),
                         onPressed: image == null
                             ? null
@@ -232,7 +229,7 @@ class DpPageState extends State<DpPage> with AsyncSnackbar {
                       ),
                     ],
                   ),
-                  ElevatedButton.icon(
+                  FilledButton.icon(
                     icon: const Icon(Icons.arrow_left_rounded),
                     onPressed: () {
                       Navigator.of(context).pop();

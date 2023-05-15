@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:cadets_nearby/pages/find_page.dart';
 import 'package:cadets_nearby/pages/offer_map.dart';
+import 'package:cadets_nearby/pages/routes/destinations/offer_tabs/availed_offers_page.dart';
 import 'package:cadets_nearby/pages/user_map.dart';
 import 'package:cadets_nearby/services/data_provider.dart';
 import 'package:cadets_nearby/services/global_offers_provider.dart';
@@ -16,7 +17,6 @@ import 'package:cadets_nearby/theme/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
@@ -34,7 +34,6 @@ import 'pages/login.dart';
 import 'pages/notifications.dart';
 import 'pages/reset.dart';
 import 'pages/signup.dart';
-import 'pages/sub_pages/offer_tabs/availed_offers_page.dart';
 import 'pages/verification.dart';
 import 'pages/verify_cadet.dart';
 import 'pages/verify_email.dart';
@@ -59,8 +58,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark);
+  statusBarColor: Colors.transparent,
+);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -128,11 +127,12 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    var brightness = SchedulerBinding.instance.window.platformBrightness;
+    var brightness = MediaQuery.of(context).platformBrightness;
     bool isDark = brightness == Brightness.dark;
     systemUiOverlayStyle = SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark);
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+    );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 
     return MaterialApp(

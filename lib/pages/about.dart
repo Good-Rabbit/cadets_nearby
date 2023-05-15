@@ -13,9 +13,8 @@ class AboutPage extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Row(
-          children: const [
+        title: const Row(
+          children: [
             Icon(Icons.info_rounded),
             SizedBox(
               width: 10,
@@ -64,7 +63,7 @@ class AboutPage extends StatelessWidget {
                       'EX-CADETS',
                       style: TextStyle(
                         fontSize: 15,
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ),
@@ -79,7 +78,7 @@ class AboutPage extends StatelessWidget {
                   ),
                 ),
               ),
-              ElevatedButton.icon(
+              FilledButton.icon(
                 onPressed: () {
                   launchUrl(Uri.parse(context.read<Data>().cnLink ?? ''),
                       mode: LaunchMode.externalApplication);
@@ -97,7 +96,7 @@ class AboutPage extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.all(
                         Colors.deepOrange.withAlpha(60))),
               ),
-              ElevatedButton.icon(
+              FilledButton.icon(
                 onPressed: () {
                   launchUrl(Uri.parse('mailto:info.cadetsnearby@gmail.com'),
                       mode: LaunchMode.externalApplication);
@@ -116,7 +115,7 @@ class AboutPage extends StatelessWidget {
                       color: Colors.green, fontWeight: FontWeight.bold),
                 ),
               ),
-              ElevatedButton.icon(
+              FilledButton.icon(
                 onPressed: () {
                   launchUrl(Uri.parse('https://discord.gg/RhhmecHEcj'),
                       mode: LaunchMode.externalApplication);
@@ -141,13 +140,13 @@ class AboutPage extends StatelessWidget {
                   'Developed and maintained by',
                   style: TextStyle(
                     fontSize: 15,
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
-                child: ElevatedButton.icon(
+                child: FilledButton.icon(
                   onPressed: () {
                     launchUrl(Uri.parse(context.read<Data>().grLink ?? ''),
                         mode: LaunchMode.externalApplication);

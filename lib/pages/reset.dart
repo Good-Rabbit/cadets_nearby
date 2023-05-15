@@ -56,7 +56,7 @@ class ResetPageState extends State<ResetPage> {
                     //   }
                     // },
                     decoration: const InputDecoration(
-                      hintText: 'E-mail',
+                      labelText: 'E-mail',
                       prefixIcon: Padding(
                         padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                         child: Icon(
@@ -95,7 +95,7 @@ class ResetPageState extends State<ResetPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton.icon(
+                    FilledButton.icon(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -109,7 +109,7 @@ class ResetPageState extends State<ResetPage> {
                             Theme.of(context).colorScheme.error),
                       ),
                     ),
-                    ElevatedButton.icon(
+                    FilledButton.icon(
                       onPressed: () {
                         HomeSetterPage.auth
                             .sendPasswordResetEmail(
@@ -127,7 +127,7 @@ class ResetPageState extends State<ResetPage> {
                       label: const Text('Send E-mail'),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
-                            Theme.of(context).primaryColor),
+                            Theme.of(context).colorScheme.primary),
                       ),
                     ),
                   ],

@@ -38,17 +38,15 @@ class FeedSubPageState extends State<FeedSubPage>
               if (snapshots.hasData) {
                 if (snapshots.data!.docs.isNotEmpty) {
                   return Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ...snapshots.data!.docs.map((e) {
-                            return Container(
-                              margin: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-                              child: FeedCard(e: e),
-                            );
-                          }).toList(),
-                        ],
-                      ),
+                    child: ListView(
+                      children: [
+                        ...snapshots.data!.docs.map((e) {
+                          return Container(
+                            margin: const EdgeInsets.fromLTRB(5, 5, 5, 0),
+                            child: FeedCard(e: e),
+                          );
+                        }).toList(),
+                      ],
                     ),
                   );
                 } else {
@@ -72,13 +70,13 @@ class FeedSubPageState extends State<FeedSubPage>
           Icon(
             Icons.feed_rounded,
             size: 70.0,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
           Text(
             'Nothing to show',
             style: TextStyle(
               fontSize: 25,
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],

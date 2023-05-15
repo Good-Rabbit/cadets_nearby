@@ -54,9 +54,8 @@ class PostHelpPageState extends State<PostHelpPage> with AsyncSnackbar {
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
           iconTheme: Theme.of(context).iconTheme,
           backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Row(
-            children: const [
+          title: const Row(
+            children: [
               Icon(Icons.support),
               SizedBox(
                 width: 10,
@@ -110,7 +109,7 @@ class PostHelpPageState extends State<PostHelpPage> with AsyncSnackbar {
                         controller: titleController,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Title*',
+                          labelText: 'Title*',
                           prefixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.title),
@@ -136,7 +135,7 @@ class PostHelpPageState extends State<PostHelpPage> with AsyncSnackbar {
                         controller: bodyController,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Description*',
+                          labelText: 'Description*',
                           prefixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.description),
@@ -161,7 +160,7 @@ class PostHelpPageState extends State<PostHelpPage> with AsyncSnackbar {
                         enabled: !fromAccount,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Phone*',
+                          labelText: 'Phone*',
                           prefixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.phone),
@@ -199,7 +198,7 @@ class PostHelpPageState extends State<PostHelpPage> with AsyncSnackbar {
                   const SizedBox(
                     height: 10,
                   ),
-                  ElevatedButton.icon(
+                  FilledButton.icon(
                     onPressed: () {
                       FocusScope.of(context).unfocus();
                       if (formKey.currentState!.validate()) {

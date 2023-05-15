@@ -8,13 +8,13 @@ Widget noOffersOngoing(BuildContext context) {
         Icon(
           Icons.backpack,
           size: 70.0,
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).colorScheme.primary,
         ),
         Text(
           'No offers ongoing',
           style: TextStyle(
             fontSize: 25,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ],

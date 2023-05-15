@@ -28,22 +28,22 @@ class ContactSubPageState extends State<ContactSubPage>
               'Contacts',
               style: TextStyle(fontSize: 25.0),
             ),
-            ElevatedButton.icon(
+            FilledButton.icon(
               onPressed: () {
                 Navigator.of(context).pushNamed('/find');
               },
               icon: Icon(Icons.search_rounded,
-                  color: Theme.of(context).primaryColor),
+                  color: Theme.of(context).colorScheme.primary),
               label: Text(
                 'Find someone',
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                  Theme.of(context).primaryColor.withAlpha(60),
+                  Theme.of(context).colorScheme.primary.withAlpha(60),
                 ),
               ),
             ),
@@ -87,13 +87,13 @@ class ContactSubPageState extends State<ContactSubPage>
         Icon(
           Icons.no_cell,
           size: 70.0,
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).colorScheme.primary,
         ),
         Text(
           'No contacts',
           style: TextStyle(
             fontSize: 25,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ],

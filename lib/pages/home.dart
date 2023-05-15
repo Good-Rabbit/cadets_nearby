@@ -1,12 +1,13 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:cadets_nearby/pages/sub_pages/contact_sub.dart';
-import 'package:cadets_nearby/pages/sub_pages/feed_sub.dart';
-import 'package:cadets_nearby/pages/sub_pages/home_sub.dart';
-import 'package:cadets_nearby/pages/sub_pages/offer_sub.dart';
+import 'package:cadets_nearby/pages/routes/routes.dart';
 import 'package:cadets_nearby/services/location_provider.dart';
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'routes/destinations/contact_destination.dart';
+import 'routes/destinations/feed_destination.dart';
+import 'routes/destinations/home_destination.dart';
+import 'routes/destinations/offer_destination.dart';
 
 //? Background Service
 // Future<void> onLogin() async {
@@ -55,21 +56,22 @@ class RealHomeState extends State<RealHome> {
     if (index == 1) {
       if (context.read<MainUser>().user!.verified != 'yes') {
         showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Get verified first'),
-                content: const Text(
-                    'You have to get verified first to be able to use this'),
-                actions: [
-                  TextButton(
-                      onPressed: () async {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Ok.')),
-                ],
-              );
-            });
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Get verified first'),
+              content: const Text(
+                  'You have to get verified first to be able to use this'),
+              actions: [
+                TextButton(
+                    onPressed: () async {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Ok.')),
+              ],
+            );
+          },
+        );
         return;
       }
     }
@@ -107,79 +109,49 @@ class RealHomeState extends State<RealHome> {
         return true;
       },
       child: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.background,
-          body: PageView(
-            controller: pageController,
-            onPageChanged: (index) {
-              if (index == 1) {
-                if (context.read<MainUser>().user!.verified != 'yes') {
-                  pageController.animateToPage(selectedIndex,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.decelerate);
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text('Get verified first'),
-                          content: const Text(
-                              'You have to get verified first to be able to use this'),
-                          actions: [
-                            TextButton(
-                                onPressed: () async {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('Ok.')),
-                          ],
-                        );
-                      });
-                  return;
-                }
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: PageView(
+          controller: pageController,
+          onPageChanged: (index) {
+            if (index == 1) {
+              if (context.read<MainUser>().user!.verified != 'yes') {
+                pageController.animateToPage(selectedIndex,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.decelerate);
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Get verified first'),
+                        content: const Text(
+                            'You have to get verified first to be able to use this'),
+                        actions: [
+                          TextButton(
+                              onPressed: () async {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Ok.')),
+                        ],
+                      );
+                    });
+                return;
               }
-              setState(() {
-                selectedIndex = index;
-              });
-            },
-            children: pages,
-          ),
-          bottomNavigationBar: BottomNavyBar(
-            itemCornerRadius: 10,
-            selectedIndex: selectedIndex,
-            showElevation: false,
-            backgroundColor: Theme.of(context).bottomAppBarTheme.color,
-            onItemSelected: (index) => setState(() {
-              setSelectedIndex(index);
-            }),
-            items: [
-              BottomNavyBarItem(
-                icon: const Icon(Icons.home_rounded),
-                title: const Text('Home'),
-                textAlign: TextAlign.center,
-                activeColor: Theme.of(context).colorScheme.primary,
-                inactiveColor: Theme.of(context).colorScheme.primary,
-              ),
-              BottomNavyBarItem(
-                icon: const Icon(Icons.backpack_rounded),
-                title: const Text('Offers'),
-                textAlign: TextAlign.center,
-                activeColor: Theme.of(context).colorScheme.primary,
-                inactiveColor: Theme.of(context).colorScheme.primary,
-              ),
-              BottomNavyBarItem(
-                icon: const Icon(Icons.feed_rounded),
-                title: const Text('Feed'),
-                textAlign: TextAlign.center,
-                activeColor: Theme.of(context).colorScheme.primary,
-                inactiveColor: Theme.of(context).colorScheme.primary,
-              ),
-              BottomNavyBarItem(
-                icon: const Icon(Icons.contacts_rounded),
-                title: const Text('Contacts'),
-                textAlign: TextAlign.center,
-                activeColor: Theme.of(context).colorScheme.primary,
-                inactiveColor: Theme.of(context).colorScheme.primary,
-              ),
-            ],
-          )),
+            }
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+          children: pages,
+        ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: selectedIndex,
+          onDestinationSelected: (value) => setSelectedIndex(value),
+          destinations: destinations
+              .map((e) =>
+                  NavigationDestination(icon: Icon(e.icon), label: e.title))
+              .toList(),
+        ),
+      ),
     );
   }
 }

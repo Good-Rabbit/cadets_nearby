@@ -1,4 +1,3 @@
-
 import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,7 +28,7 @@ class CouponCount extends StatelessWidget {
               children: [
                 Icon(
                   FontAwesomeIcons.ticketSimple,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 const SizedBox(
                   width: 10,
@@ -37,7 +36,7 @@ class CouponCount extends StatelessWidget {
                 Text(
                   context.watch<MainUser>().user!.coupons.toString(),
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).colorScheme.primary,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),

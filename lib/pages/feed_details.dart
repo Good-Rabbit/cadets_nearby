@@ -50,7 +50,6 @@ class FeedDetailsPageState extends State<FeedDetailsPage> {
       appBar: AppBar(
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
         backgroundColor: Colors.transparent,
-        elevation: 0,
       ),
       body: ListView(
         children: [
@@ -103,7 +102,8 @@ class FeedDetailsPageState extends State<FeedDetailsPage> {
                 ),
                 Text(
                   'Posted: $timeAgo',
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
                 ),
               ],
             ),

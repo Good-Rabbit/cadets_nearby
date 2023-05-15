@@ -79,7 +79,7 @@ class SignupMainPageState extends State<SignupMainPage> {
                               controller: emailTextController,
                               cursorColor: Colors.grey[800],
                               decoration: const InputDecoration(
-                                hintText: 'E-mail',
+                                labelText: 'E-mail',
                                 prefixIcon: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -133,7 +133,7 @@ class SignupMainPageState extends State<SignupMainPage> {
                                 }
                               },
                               decoration: InputDecoration(
-                                hintText: 'Password',
+                                labelText: 'Password',
                                 prefixIcon: const Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -176,7 +176,7 @@ class SignupMainPageState extends State<SignupMainPage> {
                               obscureText: !passwordVisibility,
                               cursorColor: Colors.grey[800],
                               decoration: InputDecoration(
-                                hintText: 'Confirm Password',
+                                labelText: 'Confirm Password',
                                 prefixIcon: const Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -214,7 +214,7 @@ class SignupMainPageState extends State<SignupMainPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ElevatedButton.icon(
+                          FilledButton.icon(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -231,7 +231,7 @@ class SignupMainPageState extends State<SignupMainPage> {
                           const SizedBox(
                             width: 20.0,
                           ),
-                          ElevatedButton.icon(
+                          FilledButton.icon(
                             onPressed: inProgress
                                 ? null
                                 : () async {
@@ -302,7 +302,7 @@ class SignupMainPageState extends State<SignupMainPage> {
                       child: SizedBox(
                         width: 220,
                         height: 40,
-                        child: ElevatedButton(
+                        child: FilledButton(
                           onPressed: () {
                             FocusScope.of(context).unfocus();
                             signInWithGoogle();

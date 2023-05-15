@@ -86,7 +86,7 @@ class LoginPageState extends State<LoginPage> {
                                 }
                               },
                               decoration: const InputDecoration(
-                                hintText: 'E-mail',
+                                labelText: 'E-mail',
                                 prefixIcon: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -136,7 +136,7 @@ class LoginPageState extends State<LoginPage> {
                                 }
                               },
                               decoration: InputDecoration(
-                                hintText: 'Password',
+                                labelText: 'Password',
                                 prefixIcon: const Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -181,7 +181,7 @@ class LoginPageState extends State<LoginPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ElevatedButton.icon(
+                          FilledButton.icon(
                             onPressed: () async {
                               await Navigator.pushNamed(context, '/signup');
                             },
@@ -198,7 +198,7 @@ class LoginPageState extends State<LoginPage> {
                           const SizedBox(
                             width: 20.0,
                           ),
-                          ElevatedButton.icon(
+                          FilledButton.icon(
                             onPressed: inProgress
                                 ? null
                                 : () async {
@@ -219,8 +219,9 @@ class LoginPageState extends State<LoginPage> {
                                             .showSnackBar(SnackBar(
                                           content: const SafeArea(
                                               child: Text('Login Failed')),
-                                          backgroundColor:
-                                              Theme.of(context).primaryColor,
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
                                         ));
                                         switch (e.code) {
                                           case 'invalid-email':
@@ -268,7 +269,7 @@ class LoginPageState extends State<LoginPage> {
                       child: SizedBox(
                         width: 220,
                         height: 40,
-                        child: ElevatedButton(
+                        child: FilledButton(
                           onPressed: () {
                             FocusScope.of(context).unfocus();
                             signInWithGoogle();

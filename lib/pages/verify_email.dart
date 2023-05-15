@@ -20,7 +20,7 @@ class EmailVerificationPageState extends State<EmailVerificationPage> {
         if (!exit) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: Theme.of(context).primaryColor,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               content: const Text('Press back again to exit'),
             ),
           );
@@ -61,7 +61,7 @@ class EmailVerificationPageState extends State<EmailVerificationPage> {
                     'A link has been sent to you by e-mail to this address. Click on the link to verify that this e-mail really belongs to you.',
                   ),
                 ),
-                ElevatedButton.icon(
+                FilledButton.icon(
                   onPressed: () {
                     if (!disabled) {
                       HomeSetterPage.auth.currentUser!
@@ -93,7 +93,7 @@ class EmailVerificationPageState extends State<EmailVerificationPage> {
                     'Resend e-mail',
                   ),
                 ),
-                ElevatedButton.icon(
+                FilledButton.icon(
                   onPressed: () {
                     final GoogleSignIn googleSignIn = GoogleSignIn();
                     googleSignIn.signOut();

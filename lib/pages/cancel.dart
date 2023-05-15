@@ -75,7 +75,7 @@ class CancelVerificationPageState extends State<CancelVerificationPage> {
                               }
                             },
                             decoration: InputDecoration(
-                              hintText: 'Password',
+                              labelText: 'Password',
                               prefixIcon: const Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(
@@ -120,7 +120,7 @@ class CancelVerificationPageState extends State<CancelVerificationPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ElevatedButton.icon(
+                        FilledButton.icon(
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -131,11 +131,11 @@ class CancelVerificationPageState extends State<CancelVerificationPage> {
                           ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Theme.of(context).colorScheme.error,
-                                ),
+                              Theme.of(context).colorScheme.error,
+                            ),
                           ),
                         ),
-                        ElevatedButton.icon(
+                        FilledButton.icon(
                           onPressed: inProgress
                               ? null
                               : () async {
@@ -196,7 +196,7 @@ class CancelVerificationPageState extends State<CancelVerificationPage> {
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
-                    child: ElevatedButton(
+                    child: FilledButton(
                       onPressed: () async {
                         // Trigger the authentication flow
                         final GoogleSignInAccount googleUser =

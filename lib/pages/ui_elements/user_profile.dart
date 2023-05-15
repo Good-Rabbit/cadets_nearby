@@ -1,6 +1,8 @@
 import 'package:cadets_nearby/data/user.dart';
+import 'package:cadets_nearby/services/mainuser_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UserProfile extends StatelessWidget {
@@ -233,42 +235,50 @@ class UserProfile extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (e.fbUrl != '')
-              SizedBox(
-                width: 140,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // launchWithCheck('https://fb.com/${e.fbUrl}', context);
-                    if (e.fbUrl.contains(' ')) {
-                      final String url = e.fbUrl.replaceAll(' ', '%20');
-                      launchUrl(
-                        Uri.parse('https://facebook.com/search/top/?q=$url'),
-                        mode: LaunchMode.externalApplication,
-                      );
+            SizedBox(
+              width: 140,
+              child: FilledButton.icon(
+                onPressed: () {
+                  // launchWithCheck('https://fb.com/${e.fbUrl}', context);
+                  if (e.fbUrl.contains(' ') || e.fbUrl == '') {
+                    String url = '';
+                    if (e.fbUrl == '') {
+                      url = context
+                          .read<MainUser>()
+                          .user!
+                          .fullName
+                          .replaceAll(' ', '%20');
                     } else {
-                      launchUrl(
-                        Uri.parse('https://fb.com/${e.fbUrl}'),
-                        mode: LaunchMode.externalApplication,
-                      );
+                      url = e.fbUrl.replaceAll(' ', '%20');
                     }
-                  },
-                  icon: const Icon(
-                    Icons.facebook,
+                    launchUrl(
+                      Uri.parse('https://facebook.com/search/top/?q=$url'),
+                      mode: LaunchMode.externalApplication,
+                    );
+                  } else {
+                    launchUrl(
+                      Uri.parse('https://fb.com/${e.fbUrl}'),
+                      mode: LaunchMode.externalApplication,
+                    );
+                  }
+                },
+                icon: const Icon(
+                  Icons.facebook,
+                  color: Colors.blue,
+                ),
+                label: const Text(
+                  'Facebook',
+                  style: TextStyle(
                     color: Colors.blue,
-                  ),
-                  label: const Text(
-                    'Facebook',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Colors.blue[600]!.withAlpha(60)),
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                      Colors.blue[600]!.withAlpha(60)),
+                ),
               ),
+            ),
             if (e.instaUrl != '' && e.fbUrl != '')
               const SizedBox(
                 width: 10,
@@ -276,7 +286,7 @@ class UserProfile extends StatelessWidget {
             if (e.instaUrl != '')
               SizedBox(
                 width: 140,
-                child: ElevatedButton.icon(
+                child: FilledButton.icon(
                   onPressed: () {
                     // launchWithCheck(
                     // 'https://instagr.am/${e.instaUrl}', context);
@@ -312,7 +322,7 @@ class UserProfile extends StatelessWidget {
               if (e.pPhone)
                 SizedBox(
                   width: 130,
-                  child: ElevatedButton.icon(
+                  child: FilledButton.icon(
                     onPressed: () {
                       // launchWithCheck(phoneNumber, context);
                       launchUrl(
@@ -343,7 +353,7 @@ class UserProfile extends StatelessWidget {
                 ),
               SizedBox(
                 width: 130,
-                child: ElevatedButton.icon(
+                child: FilledButton.icon(
                   onPressed: () {
                     // launchWithCheck(emailAddress, context);
                     launchUrl(

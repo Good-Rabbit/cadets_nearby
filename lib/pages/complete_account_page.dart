@@ -122,7 +122,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: fullNameTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Full Name*',
+                              labelText: 'Full Name*',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.account_box_rounded),
@@ -147,7 +147,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: cNameTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Cadet Name* - Sadman',
+                              labelText: 'Cadet Name* - Sadman',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.perm_identity_rounded),
@@ -172,7 +172,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: cNumberTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Cadet Number* - 2103',
+                              labelText: 'Cadet Number* - 2103',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.book),
@@ -243,7 +243,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: intakeTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Joining Year* - 2016',
+                              labelText: 'Joining Year* - 2016',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.date_range),
@@ -309,7 +309,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: designationTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Designation at institute',
+                              labelText: 'Designation at institute',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.location_city_rounded),
@@ -328,7 +328,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: addressTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Address*',
+                              labelText: 'Address*',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.location_pin),
@@ -388,7 +388,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             enabled: !useRegularEmail,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Contact E-mail*',
+                              labelText: 'Contact E-mail*',
                               prefixIcon: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -438,7 +438,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: fbTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'cadetsnearby.bd',
+                              labelText: 'cadetsnearby.bd',
                               prefixIcon: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -473,7 +473,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: instaTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'cadetsnearby.bd',
+                              labelText: 'cadetsnearby.bd',
                               prefixIcon: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                   child: Icon(
@@ -504,7 +504,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             controller: phoneTextController,
                             cursorColor: Colors.grey[800],
                             decoration: const InputDecoration(
-                              hintText: 'Phone e.g +8801*********',
+                              labelText: 'Phone e.g +8801*********',
                               prefixIcon: Padding(
                                 padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                                 child: Icon(Icons.phone),
@@ -584,7 +584,9 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                       'terms and conditions',
                                       maxLines: 2,
                                       style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
                                       ),
                                     ),
                                   ),
@@ -633,7 +635,9 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                       'privacy policy',
                                       maxLines: 2,
                                       style: TextStyle(
-                                        color: Theme.of(context).primaryColor,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
                                       ),
                                     ),
                                   ),
@@ -682,7 +686,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              ElevatedButton.icon(
+                              FilledButton.icon(
                                 onPressed: () {
                                   FocusScope.of(context).unfocus();
                                   delLogout(context);
@@ -697,7 +701,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                                       MaterialStateProperty.all(Colors.red),
                                 ),
                               ),
-                              ElevatedButton.icon(
+                              FilledButton.icon(
                                 onPressed: (inProgress || !(privacy && terms))
                                     ? null
                                     : () {
@@ -877,7 +881,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                             child: Text(
                           'Getting Location',
                         )),
-                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                       ));
                       context.read<LocationStatus>().checkPermissions();
                       await context
@@ -887,7 +891,7 @@ class CompleteAccountPageState extends State<CompleteAccountPage> {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: const SafeArea(
                             child: Text('Updating account info')),
-                        backgroundColor: Theme.of(context).primaryColor,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                       ));
                       completeAccount();
                       Navigator.of(context).pop();

@@ -40,7 +40,7 @@ class NotGrantedState extends State<NotGranted> {
                     ),
                   ),
                   const SizedBox(height: 50),
-                  ElevatedButton(
+                  FilledButton(
                       onPressed: () {
                         context.read<LocationStatus>().checkPermissions();
                       },

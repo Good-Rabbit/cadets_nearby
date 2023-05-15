@@ -172,7 +172,7 @@ class CadetVerificationPageState extends State<CadetVerificationPage>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton.icon(
+                    FilledButton.icon(
                       onPressed: () {
                         getImage(ImageSource.gallery);
                       },
@@ -182,7 +182,7 @@ class CadetVerificationPageState extends State<CadetVerificationPage>
                       icon: const Icon(Icons.photo),
                       label: const Text('Select photo'),
                     ),
-                    ElevatedButton.icon(
+                    FilledButton.icon(
                       onPressed: () {
                         getImage(ImageSource.camera);
                       },
@@ -194,7 +194,7 @@ class CadetVerificationPageState extends State<CadetVerificationPage>
                     ),
                   ],
                 ),
-                ElevatedButton.icon(
+                FilledButton.icon(
                   icon: const Icon(Icons.upload),
                   onPressed: image == null
                       ? null
@@ -203,7 +203,7 @@ class CadetVerificationPageState extends State<CadetVerificationPage>
                         },
                   label: const Text('Upload'),
                 ),
-                ElevatedButton.icon(
+                FilledButton.icon(
                   onPressed: () {
                     warnUnverified(context);
                   },

@@ -44,7 +44,7 @@ class _AvailedCardState extends State<AvailedCard> {
               ),
             ),
             if (expiry.isAfter(DateTime.now()))
-              ElevatedButton.icon(
+              FilledButton.icon(
                   onPressed: () {
                     Navigator.of(context)
                         .pushNamed('/availedofferdetails', arguments: widget.e);

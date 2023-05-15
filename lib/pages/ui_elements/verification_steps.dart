@@ -40,7 +40,7 @@ class VerificationStepsState extends State<VerificationSteps> {
             style: TextStyle(fontSize: 20),
           ),
           const SizedBox(height: 30),
-          ElevatedButton.icon(
+          FilledButton.icon(
             onPressed: () {},
             icon: Icon(
               emailV ? FontAwesomeIcons.check : FontAwesomeIcons.xmark,
@@ -51,7 +51,7 @@ class VerificationStepsState extends State<VerificationSteps> {
             ),
           ),
           const SizedBox(height: 10),
-          ElevatedButton.icon(
+          FilledButton.icon(
             onPressed: () {
               if (emailV) {
                 if (context.read<MainUser>().user!.verified != 'waiting') {
@@ -87,7 +87,7 @@ class VerificationStepsState extends State<VerificationSteps> {
               style: TextStyle(color: Colors.red),
             ),
           const SizedBox(height: 20),
-          ElevatedButton.icon(
+          FilledButton.icon(
             onPressed: () {
               Navigator.of(context).pop();
             },

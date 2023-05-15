@@ -142,8 +142,8 @@ class _FeedCardState extends State<FeedCard> {
                         ),
                         Text(
                           'Posted: $timeAgo',
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
                         ),
                       ],
                     ),

@@ -29,9 +29,8 @@ class OfferDetailsPageState extends State<OfferDetailsPage> {
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Row(
-          children: const [
+        title: const Row(
+          children: [
             Icon(Icons.backpack),
             SizedBox(
               width: 10,
@@ -91,7 +90,8 @@ class OfferDetailsPageState extends State<OfferDetailsPage> {
                 ),
                 Text(
                   'Distance: $distance',
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
                 ),
               ],
             ),

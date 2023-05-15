@@ -25,9 +25,8 @@ class NotificationPageState extends State<NotificationPage>
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Row(
-            children: const [
+          title: const Row(
+            children: [
               Icon(Icons.notifications),
               SizedBox(
                 width: 10,
@@ -101,7 +100,9 @@ class NotificationPageState extends State<NotificationPage>
                                           ? Icons.notifications_active
                                           : Icons.notifications,
                                       color: !e.isRead
-                                          ? Theme.of(context).primaryColor
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary
                                           : Colors.brown,
                                     ),
                                   ),
@@ -151,13 +152,13 @@ class NotificationPageState extends State<NotificationPage>
                       Icon(
                         Icons.notifications_off,
                         size: 70,
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                       Text(
                         'No Notification',
                         style: TextStyle(
                           fontSize: 25,
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     ],

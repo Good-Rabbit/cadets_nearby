@@ -51,7 +51,7 @@ class OfferOnMapPage extends StatelessWidget {
                       width: 50,
                       height: 50,
                     ),
-                    ElevatedButton.icon(
+                    FilledButton.icon(
                       label: const Text('Directions'),
                       onPressed: () {
                         launchUrl(
@@ -62,9 +62,6 @@ class OfferOnMapPage extends StatelessWidget {
                         );
                       },
                       icon: const Icon(Icons.directions),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.blue),
-                      ),
                     ),
                   ],
                 ),

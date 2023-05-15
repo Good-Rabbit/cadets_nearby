@@ -81,7 +81,6 @@ class AccountPageState extends State<AccountPage>
         appBar: AppBar(
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
           backgroundColor: Colors.transparent,
-          elevation: 0,
           actions: [
             if ((editingEnabled && hasChanged && !inProgress))
               showSaveButton(context),
@@ -200,7 +199,7 @@ class AccountPageState extends State<AccountPage>
                 children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
-                    child: ElevatedButton.icon(
+                    child: FilledButton.icon(
                       onPressed: !(!HomeSetterPage
                                   .auth.currentUser!.emailVerified ||
                               context.read<MainUser>().user!.verified != 'yes')
@@ -278,7 +277,7 @@ class AccountPageState extends State<AccountPage>
                         enabled: editingEnabled,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Full Name*',
+                          labelText: 'Full Name*',
                           suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.account_box_rounded),
@@ -370,7 +369,7 @@ class AccountPageState extends State<AccountPage>
                         enabled: false,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Joining Year*',
+                          labelText: 'Joining Year*',
                           suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.date_range),
@@ -436,7 +435,7 @@ class AccountPageState extends State<AccountPage>
                         controller: designationTextController,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Designation at institute',
+                          labelText: 'Designation at institute',
                           suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.location_city_rounded),
@@ -465,7 +464,7 @@ class AccountPageState extends State<AccountPage>
                         controller: addressTextController,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Address*',
+                          labelText: 'Address*',
                           suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.location_pin),
@@ -509,7 +508,7 @@ class AccountPageState extends State<AccountPage>
                         enabled: !useLoginEmail && editingEnabled,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Contact E-mail*',
+                          labelText: 'Contact E-mail*',
                           suffixIcon: Padding(
                               padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                               child: Icon(
@@ -583,7 +582,7 @@ class AccountPageState extends State<AccountPage>
                         enabled: editingEnabled,
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
-                          hintText: 'cnearby',
+                          labelText: 'fb_username',
                           suffixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(
@@ -624,7 +623,7 @@ class AccountPageState extends State<AccountPage>
                         enabled: editingEnabled,
                         cursorColor: Colors.grey[800],
                         decoration: InputDecoration(
-                          hintText: 'cnearby',
+                          labelText: 'insta_username',
                           suffixIcon: Padding(
                             padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(
@@ -667,7 +666,7 @@ class AccountPageState extends State<AccountPage>
                         enabled: editingEnabled,
                         cursorColor: Colors.grey[800],
                         decoration: const InputDecoration(
-                          hintText: 'Phone',
+                          labelText: 'Phone',
                           suffixIcon: Padding(
                             padding: EdgeInsets.fromLTRB(10.0, 0, 0, 0),
                             child: Icon(Icons.phone),

@@ -23,9 +23,8 @@ class AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage>
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Row(
-          children: const [
+        title: const Row(
+          children: [
             Icon(Icons.qr_code),
             SizedBox(
               width: 10,
@@ -88,22 +87,22 @@ class AvailedOfferDetailsPageState extends State<AvailedOfferDetailsPage>
             const SizedBox(
               height: 10,
             ),
-            ElevatedButton.icon(
+            FilledButton.icon(
               onPressed: () {
                 copyToClipboard();
               },
               icon: Icon(Icons.copy_rounded,
-                  color: Theme.of(context).primaryColor),
+                  color: Theme.of(context).colorScheme.primary),
               label: Text(
                 'Copy code',
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                  Theme.of(context).primaryColor.withAlpha(60),
+                  Theme.of(context).colorScheme.primary.withAlpha(60),
                 ),
               ),
             ),

@@ -15,10 +15,9 @@ class IntakeChip extends StatelessWidget {
       child: Transform(
         transform: Matrix4.identity()..scale(0.9),
         child: Chip(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.background,
           label: Text(
             year,
-            style: const TextStyle(color: Colors.white),
           ),
         ),
       ),

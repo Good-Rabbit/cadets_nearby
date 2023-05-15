@@ -144,13 +144,13 @@ class NearbyListHolder extends StatelessWidget {
   //         Icon(
   //           Icons.no_accounts,
   //           size: 70.0,
-  //           color: Theme.of(context).primaryColor,
+  //           color: Theme.of(context).colorScheme.primary,
   //         ),
   //         Text(
   //           'No one nearby',
   //           style: TextStyle(
   //             fontSize: 25,
-  //             color: Theme.of(context).primaryColor,
+  //             color: Theme.of(context).colorScheme.primary,
   //           ),
   //         ),
   //       ],
@@ -167,13 +167,13 @@ class NearbyListHolder extends StatelessWidget {
           Icon(
             Icons.location_disabled,
             size: 70.0,
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.primary,
           ),
           Text(
             'Location Disabled',
             style: TextStyle(
               fontSize: 25,
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],

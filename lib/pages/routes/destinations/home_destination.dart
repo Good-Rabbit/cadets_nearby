@@ -34,7 +34,6 @@ class HomeSubPageState extends State<HomeSubPage>
             },
             child: Card(
               elevation: 0,
-              color: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -42,10 +41,10 @@ class HomeSubPageState extends State<HomeSubPage>
                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: ProfilePicture(),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         UserNameRow(),
                         Quote(),
                       ],
@@ -58,7 +57,7 @@ class HomeSubPageState extends State<HomeSubPage>
                         Navigator.of(context).pushNamed('/notifications');
                       },
                       icon: const NotificationIndicator(),
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   Container(
@@ -76,7 +75,8 @@ class HomeSubPageState extends State<HomeSubPage>
                             signOut();
                             break;
                           case MenuItems.itemRateUs:
-                            launchUrl(Uri.parse(context.read<Data>().rateLink),mode: LaunchMode.externalApplication);
+                            launchUrl(Uri.parse(context.read<Data>().rateLink),
+                                mode: LaunchMode.externalApplication);
                             break;
                           default:
                             break;
@@ -90,7 +90,7 @@ class HomeSubPageState extends State<HomeSubPage>
                       color: Theme.of(context).chipTheme.backgroundColor,
                       icon: Icon(
                         Icons.more_vert_rounded,
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ),

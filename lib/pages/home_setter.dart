@@ -105,7 +105,8 @@ class HomeSetterPageState extends State<HomeSetterPage> {
                 if (message.data['url'] != '')
                   TextButton(
                       onPressed: () {
-                        launchUrl(Uri.parse(message.data['url'] as String),mode: LaunchMode.externalApplication);
+                        launchUrl(Uri.parse(message.data['url'] as String),
+                            mode: LaunchMode.externalApplication);
                       },
                       child: Text(message.data['url'] as String)),
               ],
@@ -130,11 +131,12 @@ class HomeSetterPageState extends State<HomeSetterPage> {
               Text(
                 'A new version of Cadets Nearby is available. Please update to the latest version.',
                 style: TextStyle(
-                    fontSize: 25, color: Theme.of(context).primaryColor),
+                    fontSize: 25, color: Theme.of(context).colorScheme.primary),
               ),
-              ElevatedButton.icon(
+              FilledButton.icon(
                   onPressed: () {
-                    launchUrl(Uri.parse(context.read<Data>().rateLinkData!),mode: LaunchMode.externalApplication);
+                    launchUrl(Uri.parse(context.read<Data>().rateLinkData!),
+                        mode: LaunchMode.externalApplication);
                   },
                   icon: const Icon(Icons.upgrade_rounded),
                   label: const Text('Update Now'))

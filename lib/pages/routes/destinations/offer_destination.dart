@@ -1,7 +1,8 @@
-import 'package:cadets_nearby/pages/sub_pages/offer_tabs/global_offer_list.dart';
-import 'package:cadets_nearby/pages/sub_pages/offer_tabs/offer_list.dart';
-import 'package:cadets_nearby/pages/sub_pages/offer_tabs/ui_elements/offers_top_row.dart';
+import 'package:cadets_nearby/pages/routes/destinations/offer_tabs/global_offer_list.dart';
+import 'package:cadets_nearby/pages/routes/destinations/offer_tabs/offer_list.dart';
 import 'package:flutter/material.dart';
+
+import 'offer_tabs/ui_elements/offers_top_row.dart';
 
 class OfferSubPage extends StatefulWidget {
   const OfferSubPage({Key? key}) : super(key: key);
@@ -29,10 +30,10 @@ class OfferSubPageState extends State<OfferSubPage> {
                   borderRadius: BorderRadius.circular(10),
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                tabs: [
+                tabs: const [
                   Tab(
                     child: Column(
-                      children: const [
+                      children: [
                         Icon(
                           Icons.backpack_rounded,
                         ),
@@ -44,7 +45,7 @@ class OfferSubPageState extends State<OfferSubPage> {
                   ),
                   Tab(
                     child: Column(
-                      children: const [
+                      children: [
                         Icon(
                           Icons.all_inclusive_rounded,
                         ),

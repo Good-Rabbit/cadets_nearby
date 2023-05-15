@@ -94,7 +94,8 @@ class _OfferCardState extends State<OfferCard> {
                 ),
                 Text(
                   'Distance: $distance',
-                  style: TextStyle(color: Theme.of(context).primaryColor),
+                  style:
+                      TextStyle(color: Theme.of(context).colorScheme.primary),
                 ),
               ],
             ),
@@ -110,7 +111,7 @@ class _OfferCardState extends State<OfferCard> {
                 icon: const Icon(Icons.location_pin),
                 color: Theme.of(context).colorScheme.primary,
               ),
-              ElevatedButton.icon(
+              FilledButton.icon(
                 onPressed: availOffer,
                 icon: Icon(
                   Icons.add,
@@ -176,7 +177,7 @@ class _OfferCardState extends State<OfferCard> {
                         'Distance: $distance',
                         style: TextStyle(
                           fontSize: 15,
-                          color: Theme.of(context).primaryColor,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                     ],
