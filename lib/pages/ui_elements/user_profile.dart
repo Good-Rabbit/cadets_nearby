@@ -252,12 +252,12 @@ class UserProfile extends StatelessWidget {
                       url = e.fbUrl.replaceAll(' ', '%20');
                     }
                     launchUrl(
-                      Uri.parse('https://facebook.com/search/top/?q=$url'),
+                      Uri.parse('https://m.facebook.com/search/top/?q=$url'),
                       mode: LaunchMode.externalApplication,
                     );
                   } else {
                     launchUrl(
-                      Uri.parse('https://fb.com/${e.fbUrl}'),
+                      Uri.parse('https://m.facebook.com/${e.fbUrl}'),
                       mode: LaunchMode.externalApplication,
                     );
                   }
@@ -291,7 +291,7 @@ class UserProfile extends StatelessWidget {
                     // launchWithCheck(
                     // 'https://instagr.am/${e.instaUrl}', context);
                     launchUrl(
-                      Uri.parse('https://instagr.am/${e.instaUrl}'),
+                      Uri.parse('https://www.instagram.com/${e.instaUrl}'),
                       mode: LaunchMode.externalApplication,
                     );
                   },
